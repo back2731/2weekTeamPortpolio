@@ -13,6 +13,5 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
-
 };
 

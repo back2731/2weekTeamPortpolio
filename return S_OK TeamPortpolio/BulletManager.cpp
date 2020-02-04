@@ -22,6 +22,7 @@ void BulletManager::Release()
 
 void BulletManager::Update()
 {
+
 }
 
 void BulletManager::Render(HDC hdc)
