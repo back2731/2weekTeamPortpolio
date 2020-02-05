@@ -17,6 +17,7 @@ HRESULT GameScene::init()
 	OBJECTPOOL->Init();
 	BULLETMANAGER->Init();
 
+	// 플레이어, 에네미 메니저 초기화.
 	PLAYERMANAGER->Init();
 	ENEMYMANAGER->Init();
 
