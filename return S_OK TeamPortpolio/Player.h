@@ -56,4 +56,9 @@ public:
 
 	void PlayerMove();
 	void PlayerSilde();
+
+	RECT GetRect() { return player.playerBodyRect; }
+	float GetRectX() { return (player.playerBodyRect.left + (player.playerBodyRect.right - player.playerBodyRect.left) / 2); }
+	float GetRectY() { return (player.playerBodyRect.top + (player.playerBodyRect.bottom - player.playerBodyRect.top) / 2); }
+
 };

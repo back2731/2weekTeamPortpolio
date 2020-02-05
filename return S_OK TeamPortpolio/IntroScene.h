@@ -1,8 +1,14 @@
 #pragma once
-class IntroScene
+#include "gameNode.h"
+class IntroScene : public gameNode
 {
 public:
 	IntroScene();
 	~IntroScene();
+
+	HRESULT Init();
+	void Release();
+	void Update();
+	void Render();
 };
 

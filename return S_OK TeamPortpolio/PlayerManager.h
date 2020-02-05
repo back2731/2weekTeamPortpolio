@@ -15,5 +15,10 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
+
+	RECT GetRect() { return m_Player->GetRect(); }
+	float GetRectX() { return m_Player->GetRectX(); }
+	float GetRectY() { return m_Player->GetRectY();	}
+
 };
 

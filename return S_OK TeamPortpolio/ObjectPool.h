@@ -7,11 +7,12 @@ struct BulletInfo
 {
 	image* bulletImage;
 	RECT rect;
-	float x, y;
-	float fireX, fireY;
+	float bulletX, bulletY;
+	float unitX, unitY;
 	float radius;
 	float angle;
 	float speed;
+	float range;
 	bool fire;
 	int count;
 };

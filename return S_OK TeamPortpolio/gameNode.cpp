@@ -67,7 +67,6 @@ void gameNode::release()
 		SOUNDMANAGER->release();
 		ANIMATIONMANAGER->release();
 		EFFECTMANAGER->release();
-
 	}
 	ReleaseDC(m_hWnd, _hdc);
 

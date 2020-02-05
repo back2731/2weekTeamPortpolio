@@ -22,6 +22,8 @@ void ObjectPool::Init()
 
 void ObjectPool::Render(HDC hdc)
 {
+	sprintf_s((str), "ÃÑ¾Ë ÀÜ¿© : %d", vBulletRepository.size());
+	TextOut(hdc, 100, 100, str, strlen(str));
 }
 
 void ObjectPool::SetBulletVector(BulletInfo vSpentBullet)

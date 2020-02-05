@@ -12,7 +12,12 @@ mainGame::~mainGame()
 HRESULT mainGame::init()
 {
 	gameNode::init(true);
-	PLAYERMANAGER->Init();
+
+	SCENEMANAGER->addScene("IntroScene", new IntroScene);
+	SCENEMANAGER->addScene("GameScene", new GameScene);
+
+	SCENEMANAGER->changeScene("GameScene");
+
 	return S_OK;
 }
 
@@ -24,7 +29,8 @@ void mainGame::release()
 void mainGame::update()
 {
 	gameNode::update();
-	PLAYERMANAGER->Update();
+
+	SCENEMANAGER->update();
 }
 
 void mainGame::render(/*HDC hdc*/)
@@ -32,10 +38,9 @@ void mainGame::render(/*HDC hdc*/)
 	//흰색 비트맵
 	PatBlt(getMemDC(), 0, 0, WINSIZEX, WINSIZEY, WHITENESS);
 	//===================================================
-
-	PLAYERMANAGER->Render(getMemDC());
 	TIMEMANAGER->render(getMemDC());
 
+	SCENEMANAGER->render();
 	//===================================================
 	//백버퍼의 내용을 HDC에 그린다.(건드리지말것.)
 	this->getBackBuffer()->render(getHDC(), 0, 0);
