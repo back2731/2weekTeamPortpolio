@@ -1,9 +1,11 @@
 #pragma once
 #include "singletonBase.h"
+#include "Player.h"
 
 class PlayerManager : public singletonBase<PlayerManager>
 {
 private:
+	Player* m_Player;
 
 public:
 	PlayerManager();

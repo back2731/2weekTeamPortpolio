@@ -171,6 +171,9 @@
     <ClInclude Include="EnemyManager.h">
       <Filter>Manager\수정중</Filter>
     </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>mainGame\Player</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -253,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="EnemyManager.cpp">
       <Filter>Manager\수정중</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>mainGame\Player</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

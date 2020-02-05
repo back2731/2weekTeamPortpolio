@@ -167,6 +167,7 @@
     <ClInclude Include="mainGame.h" />
     <ClInclude Include="MapTool.h" />
     <ClInclude Include="ObjectPool.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerManager.h" />
     <ClInclude Include="progressBar.h" />
     <ClInclude Include="randomFunction.h" />
@@ -199,6 +200,7 @@
     <ClCompile Include="mainGame.cpp" />
     <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
     <ClCompile Include="progressBar.cpp" />
     <ClCompile Include="sceneManager.cpp" />
