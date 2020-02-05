@@ -28,7 +28,7 @@ void TestMinion::Update()
 {
 	BULLETMANAGER->ShootBullet("enemyBullet", vEnemyBullet, enemy.left + (enemy.right - enemy.left) / 2, enemy.top + (enemy.bottom - enemy.top) / 2,
 		getAngle(enemy.left + (enemy.right - enemy.left) / 2, enemy.top + (enemy.bottom - enemy.top) / 2, PLAYERMANAGER->GetRectX(), PLAYERMANAGER->GetRectY()),
-		5.0f, 500, enemyBulletInterval++, 30);
+		5.0f, 500, enemyBulletInterval++, 50);
 	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
 }
 
