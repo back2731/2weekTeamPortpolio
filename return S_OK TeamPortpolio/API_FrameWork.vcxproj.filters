@@ -177,6 +177,9 @@
     <ClInclude Include="TestMinion.h">
       <Filter>mainGame\Enemy\Minion</Filter>
     </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>mainGame\Enemy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -265,6 +268,9 @@
     </ClCompile>
     <ClCompile Include="TestMinion.cpp">
       <Filter>mainGame\Enemy\Minion</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>mainGame\Enemy</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -135,10 +135,13 @@ void Player::PlayerSilde()
 	if (slideLeft)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
+
 		player.playerHeadRect.left -= player.playerSlideSpeed;
 		player.playerHeadRect.right -= player.playerSlideSpeed;
+
 		player.playerBodyRect.left -= player.playerSlideSpeed;
 		player.playerBodyRect.right -= player.playerSlideSpeed;
+
 		if (player.playerSlideSpeed < 1.2f)
 		{
 			player.playerSlideSpeed = 3.0f;
@@ -146,14 +149,18 @@ void Player::PlayerSilde()
 			slideLeft = false;
 		}
 	}
+
 	//오른쪽 슬라이딩
 	else if (slideRight)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
+
 		player.playerHeadRect.left += player.playerSlideSpeed;
 		player.playerHeadRect.right += player.playerSlideSpeed;
+
 		player.playerBodyRect.left += player.playerSlideSpeed;
 		player.playerBodyRect.right += player.playerSlideSpeed;
+
 		if (player.playerSlideSpeed < 1.2f)
 		{
 			player.playerSlideSpeed = 3.0f;
@@ -161,14 +168,18 @@ void Player::PlayerSilde()
 			slideRight = false;
 		}
 	}
+
 	//위쪽 슬라이딩
 	else if (slideUp)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
+
 		player.playerHeadRect.top -= player.playerSlideSpeed;
 		player.playerHeadRect.bottom -= player.playerSlideSpeed;
+
 		player.playerBodyRect.top -= player.playerSlideSpeed;
 		player.playerBodyRect.bottom -= player.playerSlideSpeed;
+
 		if (player.playerSlideSpeed < 1.2f)
 		{
 			player.playerSlideSpeed = 3.0f;
@@ -176,14 +187,17 @@ void Player::PlayerSilde()
 			slideUp = false;
 		}
 	}
+
 	//아래쪽 슬라이딩
 	else if (slideDown)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
 		player.playerHeadRect.top += player.playerSlideSpeed;
 		player.playerHeadRect.bottom += player.playerSlideSpeed;
+
 		player.playerBodyRect.top += player.playerSlideSpeed;
 		player.playerBodyRect.bottom += player.playerSlideSpeed;
+
 		if (player.playerSlideSpeed < 1.2f)
 		{
 			player.playerSlideSpeed = 3.0f;
@@ -191,18 +205,22 @@ void Player::PlayerSilde()
 			slideDown = false;
 		}
 	}
+
 	//왼쪽위 슬라이딩
 	else if (slideLeftUp)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
+
 		player.playerHeadRect.left -= player.playerSlideSpeed;
 		player.playerHeadRect.right -= player.playerSlideSpeed;
 		player.playerBodyRect.left -= player.playerSlideSpeed;
 		player.playerBodyRect.right -= player.playerSlideSpeed;
+
 		player.playerHeadRect.top -= player.playerSlideSpeed;
 		player.playerHeadRect.bottom -= player.playerSlideSpeed;
 		player.playerBodyRect.top -= player.playerSlideSpeed;
 		player.playerBodyRect.bottom -= player.playerSlideSpeed;
+
 		if (player.playerSlideSpeed < 1.2f)
 		{
 			player.playerSlideSpeed = 3.0f;
@@ -211,18 +229,22 @@ void Player::PlayerSilde()
 			slideLeftUp = false;
 		}
 	}
+
 	//왼쪽아래 슬라이딩
 	else if (slideLeftDown)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
+
 		player.playerHeadRect.left -= player.playerSlideSpeed;
 		player.playerHeadRect.right -= player.playerSlideSpeed;
 		player.playerBodyRect.left -= player.playerSlideSpeed;
 		player.playerBodyRect.right -= player.playerSlideSpeed;
+
 		player.playerHeadRect.top += player.playerSlideSpeed;
 		player.playerHeadRect.bottom += player.playerSlideSpeed;
 		player.playerBodyRect.top += player.playerSlideSpeed;
 		player.playerBodyRect.bottom += player.playerSlideSpeed;
+
 		if (player.playerSlideSpeed < 1.2f)
 		{
 			player.playerSlideSpeed = 3.0f;
@@ -231,6 +253,7 @@ void Player::PlayerSilde()
 			slideLeftDown = false;
 		}
 	}
+
 	//오른쪽위 슬라이딩
 	else if (slideRightUp)
 	{
@@ -239,10 +262,12 @@ void Player::PlayerSilde()
 		player.playerHeadRect.right += player.playerSlideSpeed;
 		player.playerBodyRect.left += player.playerSlideSpeed;
 		player.playerBodyRect.right += player.playerSlideSpeed;
+
 		player.playerHeadRect.top -= player.playerSlideSpeed;
 		player.playerHeadRect.bottom -= player.playerSlideSpeed;
 		player.playerBodyRect.top -= player.playerSlideSpeed;
 		player.playerBodyRect.bottom -= player.playerSlideSpeed;
+
 		if (player.playerSlideSpeed < 1.2f)
 		{
 			player.playerSlideSpeed = 3.0f;
@@ -251,6 +276,7 @@ void Player::PlayerSilde()
 			slideRightUp = false;
 		}
 	}
+
 	//오른쪽아래 슬라이딩
 	else if (slideRightDown)
 	{
@@ -259,10 +285,12 @@ void Player::PlayerSilde()
 		player.playerHeadRect.right += player.playerSlideSpeed;
 		player.playerBodyRect.left += player.playerSlideSpeed;
 		player.playerBodyRect.right += player.playerSlideSpeed;
+
 		player.playerHeadRect.top += player.playerSlideSpeed;
 		player.playerHeadRect.bottom += player.playerSlideSpeed;
 		player.playerBodyRect.top += player.playerSlideSpeed;
 		player.playerBodyRect.bottom += player.playerSlideSpeed;
+
 		if (player.playerSlideSpeed < 1.2f)
 		{
 			player.playerSlideSpeed = 3.0f;
@@ -284,6 +312,7 @@ void Player::PlayerShot()
 	{
 		playerLeftShot = false;
 	}	
+
 	//오른쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 	{
@@ -293,6 +322,7 @@ void Player::PlayerShot()
 	{
 		playerRightShot = false;
 	}
+
 	//위쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_UP))
 	{
@@ -302,6 +332,7 @@ void Player::PlayerShot()
 	{
 		playerUpShot = false;
 	}
+
 	//아래쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 	{
