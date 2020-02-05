@@ -9,12 +9,12 @@ Player::~Player()
 {
 }
 
-HRESULT Player::Init()
+HRESULT Player::Init(string imageName)
 {
-	//player.playerHeadImage = IMAGEMANAGER->findImage(imageName);								//머리 이미지
-	//player.playerBodyImage = IMAGEMANAGER->findImage(imageName);								//몸 이미지
-	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 64, 62);					//머리 상자
-	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 62, 64, 62);			//몸 상자
+	player.playerHeadImage = IMAGEMANAGER->findImage(imageName);								//머리 이미지
+	player.playerBodyImage = IMAGEMANAGER->findImage(imageName);								//몸 이미지
+	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 31 * 2);			//머리 상자
+	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 62, 32 * 2, 31 * 2);	//몸 상자
 	player.playerShotSpeed = 8.0f;																//공격속도
 	player.playerShotRange = 450.0f;															//공격사거리
 	player.playerShotDelay = 25;																//공격주기
@@ -69,8 +69,10 @@ void Player::PlayerMove()
 	if (KEYMANAGER->isStayKeyDown('A'))
 	{
 		isLeft = true;
+
 		player.playerHeadRect.left -= player.playerSpeed;
 		player.playerHeadRect.right -= player.playerSpeed;
+
 		player.playerBodyRect.left -= player.playerSpeed;
 		player.playerBodyRect.right -= player.playerSpeed;
 	}
@@ -84,8 +86,10 @@ void Player::PlayerMove()
 	if (KEYMANAGER->isStayKeyDown('D'))
 	{
 		isRight = true;
+
 		player.playerHeadRect.left += player.playerSpeed;
 		player.playerHeadRect.right += player.playerSpeed;
+
 		player.playerBodyRect.left += player.playerSpeed;
 		player.playerBodyRect.right += player.playerSpeed;
 	}
@@ -99,8 +103,10 @@ void Player::PlayerMove()
 	if (KEYMANAGER->isStayKeyDown('W'))
 	{
 		isUp = true;
+
 		player.playerHeadRect.top -= player.playerSpeed;
 		player.playerHeadRect.bottom -= player.playerSpeed;
+
 		player.playerBodyRect.top -= player.playerSpeed;
 		player.playerBodyRect.bottom -= player.playerSpeed;
 	}
@@ -114,8 +120,10 @@ void Player::PlayerMove()
 	if (KEYMANAGER->isStayKeyDown('S'))
 	{
 		isDown = true;
+
 		player.playerHeadRect.top += player.playerSpeed;
 		player.playerHeadRect.bottom += player.playerSpeed;
+
 		player.playerBodyRect.top += player.playerSpeed;
 		player.playerBodyRect.bottom += player.playerSpeed;
 	}
@@ -192,6 +200,7 @@ void Player::PlayerSilde()
 	else if (slideDown)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
+
 		player.playerHeadRect.top += player.playerSlideSpeed;
 		player.playerHeadRect.bottom += player.playerSlideSpeed;
 
@@ -213,11 +222,11 @@ void Player::PlayerSilde()
 
 		player.playerHeadRect.left -= player.playerSlideSpeed;
 		player.playerHeadRect.right -= player.playerSlideSpeed;
-		player.playerBodyRect.left -= player.playerSlideSpeed;
-		player.playerBodyRect.right -= player.playerSlideSpeed;
-
 		player.playerHeadRect.top -= player.playerSlideSpeed;
 		player.playerHeadRect.bottom -= player.playerSlideSpeed;
+
+		player.playerBodyRect.left -= player.playerSlideSpeed;
+		player.playerBodyRect.right -= player.playerSlideSpeed;
 		player.playerBodyRect.top -= player.playerSlideSpeed;
 		player.playerBodyRect.bottom -= player.playerSlideSpeed;
 
@@ -237,11 +246,11 @@ void Player::PlayerSilde()
 
 		player.playerHeadRect.left -= player.playerSlideSpeed;
 		player.playerHeadRect.right -= player.playerSlideSpeed;
-		player.playerBodyRect.left -= player.playerSlideSpeed;
-		player.playerBodyRect.right -= player.playerSlideSpeed;
-
 		player.playerHeadRect.top += player.playerSlideSpeed;
 		player.playerHeadRect.bottom += player.playerSlideSpeed;
+
+		player.playerBodyRect.left -= player.playerSlideSpeed;
+		player.playerBodyRect.right -= player.playerSlideSpeed;
 		player.playerBodyRect.top += player.playerSlideSpeed;
 		player.playerBodyRect.bottom += player.playerSlideSpeed;
 
@@ -258,13 +267,14 @@ void Player::PlayerSilde()
 	else if (slideRightUp)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
+
 		player.playerHeadRect.left += player.playerSlideSpeed;
 		player.playerHeadRect.right += player.playerSlideSpeed;
-		player.playerBodyRect.left += player.playerSlideSpeed;
-		player.playerBodyRect.right += player.playerSlideSpeed;
-
 		player.playerHeadRect.top -= player.playerSlideSpeed;
 		player.playerHeadRect.bottom -= player.playerSlideSpeed;
+
+		player.playerBodyRect.left += player.playerSlideSpeed;
+		player.playerBodyRect.right += player.playerSlideSpeed;
 		player.playerBodyRect.top -= player.playerSlideSpeed;
 		player.playerBodyRect.bottom -= player.playerSlideSpeed;
 
@@ -281,13 +291,14 @@ void Player::PlayerSilde()
 	else if (slideRightDown)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
+
 		player.playerHeadRect.left += player.playerSlideSpeed;
 		player.playerHeadRect.right += player.playerSlideSpeed;
-		player.playerBodyRect.left += player.playerSlideSpeed;
-		player.playerBodyRect.right += player.playerSlideSpeed;
-
 		player.playerHeadRect.top += player.playerSlideSpeed;
 		player.playerHeadRect.bottom += player.playerSlideSpeed;
+
+		player.playerBodyRect.left += player.playerSlideSpeed;
+		player.playerBodyRect.right += player.playerSlideSpeed;
 		player.playerBodyRect.top += player.playerSlideSpeed;
 		player.playerBodyRect.bottom += player.playerSlideSpeed;
 

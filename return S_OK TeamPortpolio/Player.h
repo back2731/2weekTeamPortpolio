@@ -59,7 +59,7 @@ public:
 	Player();
 	~Player();
 
-	HRESULT Init();
+	HRESULT Init(string imageName);
 	void Release();
 	void Update();
 	void Render(HDC hdc);

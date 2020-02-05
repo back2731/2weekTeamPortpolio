@@ -14,7 +14,7 @@ BulletManager::~BulletManager()
 HRESULT BulletManager::Init()
 {
 	// 총알 이미지 추가
-	IMAGEMANAGER->addImage("playerBullet", "images/playerBullet.bmp", 18, 22, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("playerBullet", "images/playerBullet.bmp", 18 * 2, 22 * 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("enemyBullet", "images/enemyBullet.bmp", 18, 18, true, RGB(255, 0, 255));
 	
 	return S_OK;
