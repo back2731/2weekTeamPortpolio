@@ -16,6 +16,9 @@ struct PlayerInfo
 	image* playerBodyImage;		//플레이어 몸 이미지
 	RECT playerHeadRect;		//플레이어 머리 상자
 	RECT playerBodyRect;		//플레이어 몸 상자
+	int playerShotDelay;		//공격주기
+	float playerShotRange;		//공격사거리
+	float playerShotSpeed;		//공격속도
 	float playerSpeed;			//이동속도
 	float playerSlideSpeed;		//슬라이딩 속도
 };
@@ -26,7 +29,9 @@ private:
 	Direction direction;
 	PlayerInfo player;
 
-	RECT rect;
+	vector<BulletInfo> vPlayerBullet;
+	vector<BulletInfo>::iterator viPlayerBullet;
+	int playerBulletInterval;
 
 private:
 	//플레이어 무브 변수
@@ -44,6 +49,11 @@ private:
 	bool slideLeftDown;
 	bool slideRightUp;
 	bool slideRightDown;
+	//플레이어 슈팅 변수
+	bool playerLeftShot;
+	bool playerRightShot;
+	bool playerUpShot;
+	bool playerDownShot;
 
 public:
 	Player();
@@ -56,9 +66,10 @@ public:
 
 	void PlayerMove();
 	void PlayerSilde();
+	void PlayerShot();
+	void PlayerShotMove();
 
-	RECT GetRect() { return player.playerBodyRect; }
-	float GetRectX() { return (player.playerBodyRect.left + (player.playerBodyRect.right - player.playerBodyRect.left) / 2); }
-	float GetRectY() { return (player.playerBodyRect.top + (player.playerBodyRect.bottom - player.playerBodyRect.top) / 2); }
-
+	RECT GetRect() { return player.playerHeadRect; }
+	float GetRectX() { return (player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2); }
+	float GetRectY() { return (player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2); }
 };

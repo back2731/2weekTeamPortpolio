@@ -14,9 +14,13 @@ HRESULT Player::Init()
 	//player.playerHeadImage = IMAGEMANAGER->findImage(imageName);								//머리 이미지
 	//player.playerBodyImage = IMAGEMANAGER->findImage(imageName);								//몸 이미지
 	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 64, 62);					//머리 상자
-	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 - 62, 64, 62);			//몸 상자
-	player.playerSpeed = 6.0f;																	//이동속도
+	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 62, 64, 62);			//몸 상자
+	player.playerShotSpeed = 8.0f;																//공격속도
+	player.playerShotRange = 450.0f;															//공격사거리
+	player.playerShotDelay = 25;																//공격주기
+	player.playerSpeed = 5.0f;																	//이동속도
 	player.playerSlideSpeed = 3.0f;																//슬라이딩 속도
+	playerBulletInterval = 0;
 
 	//플레이어 무브 변수 초기화
 	isLeft = false;
@@ -33,6 +37,11 @@ HRESULT Player::Init()
 	slideLeftDown = false;
 	slideRightUp = false;
 	slideRightDown = false;
+	//플레이어 슈팅 변수 초기화
+	playerLeftShot = false;
+	playerRightShot = false;
+	playerUpShot = false;
+	playerDownShot = false;
 
 	return S_OK;
 }
@@ -44,13 +53,14 @@ void Player::Release()
 void Player::Update()
 {
 	PlayerMove();
-	PlayerSilde();
+	PlayerShot();
 }
 
 void Player::Render(HDC hdc)
 {
 	Rectangle(hdc, player.playerHeadRect.left, player.playerHeadRect.top, player.playerHeadRect.right, player.playerHeadRect.bottom);
 	Rectangle(hdc, player.playerBodyRect.left, player.playerBodyRect.top, player.playerBodyRect.right, player.playerBodyRect.bottom);
+	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
 }
 
 void Player::PlayerMove()
@@ -70,7 +80,6 @@ void Player::PlayerMove()
 		else if (isDown) slideLeftDown = true;
 		else slideLeft = true;
 	}
-
 	//오른쪽
 	if (KEYMANAGER->isStayKeyDown('D'))
 	{
@@ -86,7 +95,6 @@ void Player::PlayerMove()
 		else if (isDown) slideRightDown = true;
 		else slideRight = true;
 	}
-
 	//위
 	if (KEYMANAGER->isStayKeyDown('W'))
 	{
@@ -102,7 +110,6 @@ void Player::PlayerMove()
 		else if (isRight) slideRightUp = true;
 		else slideUp = true;
 	}
-
 	//아래
 	if (KEYMANAGER->isStayKeyDown('S'))
 	{
@@ -118,6 +125,8 @@ void Player::PlayerMove()
 		else if (isRight) slideRightDown = true;
 		else slideDown = true;
 	}
+
+	PlayerSilde();
 }
 
 void Player::PlayerSilde()
@@ -138,7 +147,7 @@ void Player::PlayerSilde()
 		}
 	}
 	//오른쪽 슬라이딩
-	if (slideRight)
+	else if (slideRight)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
 		player.playerHeadRect.left += player.playerSlideSpeed;
@@ -153,7 +162,7 @@ void Player::PlayerSilde()
 		}
 	}
 	//위쪽 슬라이딩
-	if (slideUp)
+	else if (slideUp)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
 		player.playerHeadRect.top -= player.playerSlideSpeed;
@@ -168,7 +177,7 @@ void Player::PlayerSilde()
 		}
 	}
 	//아래쪽 슬라이딩
-	if (slideDown)
+	else if (slideDown)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
 		player.playerHeadRect.top += player.playerSlideSpeed;
@@ -182,9 +191,8 @@ void Player::PlayerSilde()
 			slideDown = false;
 		}
 	}
-
 	//왼쪽위 슬라이딩
-	if (slideLeftUp)
+	else if (slideLeftUp)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
 		player.playerHeadRect.left -= player.playerSlideSpeed;
@@ -204,7 +212,7 @@ void Player::PlayerSilde()
 		}
 	}
 	//왼쪽아래 슬라이딩
-	if (slideLeftDown)
+	else if (slideLeftDown)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
 		player.playerHeadRect.left -= player.playerSlideSpeed;
@@ -224,7 +232,7 @@ void Player::PlayerSilde()
 		}
 	}
 	//오른쪽위 슬라이딩
-	if (slideRightUp)
+	else if (slideRightUp)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
 		player.playerHeadRect.left += player.playerSlideSpeed;
@@ -244,7 +252,7 @@ void Player::PlayerSilde()
 		}
 	}
 	//오른쪽아래 슬라이딩
-	if (slideRightDown)
+	else if (slideRightDown)
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
 		player.playerHeadRect.left += player.playerSlideSpeed;
@@ -263,4 +271,81 @@ void Player::PlayerSilde()
 			slideRightDown = false;
 		}
 	}
+}
+
+void Player::PlayerShot()
+{
+	//왼쪽 총알 발사
+	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
+	{
+		playerLeftShot = true;
+	}
+	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
+	{
+		playerLeftShot = false;
+	}	
+	//오른쪽 총알 발사
+	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
+	{
+		playerRightShot = true;
+	}
+	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
+	{
+		playerRightShot = false;
+	}
+	//위쪽 총알 발사
+	if (KEYMANAGER->isStayKeyDown(VK_UP))
+	{
+		playerUpShot = true;
+	}	
+	if (KEYMANAGER->isOnceKeyUp(VK_UP))
+	{
+		playerUpShot = false;
+	}
+	//아래쪽 총알 발사
+	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
+	{
+		playerDownShot = true;
+	}
+	if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
+	{
+		playerDownShot = false;
+	}
+
+	PlayerShotMove();
+}
+
+void Player::PlayerShotMove()
+{
+	if (playerLeftShot)
+	{
+		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
+			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
+			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
+			ANGLE_180, player.playerShotSpeed, player.playerShotRange, playerBulletInterval++, player.playerShotDelay);
+	}
+	else if (playerRightShot)
+	{
+		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
+			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
+			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
+			ANGLE_0, player.playerShotSpeed, player.playerShotRange, playerBulletInterval++, player.playerShotDelay);
+	}
+	else if (playerUpShot)
+	{
+		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
+			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
+			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
+			ANGLE_90, player.playerShotSpeed, player.playerShotRange, playerBulletInterval++, player.playerShotDelay);
+	}
+	else if (playerDownShot)
+	{
+		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
+			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
+			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
+			ANGLE_270, player.playerShotSpeed, player.playerShotRange, playerBulletInterval++, player.playerShotDelay);
+	}
+
+	//불렛 무브
+	BULLETMANAGER->MoveBullet(vPlayerBullet, viPlayerBullet);
 }
