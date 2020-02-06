@@ -13,7 +13,7 @@ HRESULT mainGame::init()
 {
 	gameNode::init(true);
 
-	SCENEMANAGER->addScene("IntroScene", new IntroScene);
+	SCENEMANAGER->addScene("MainMenu", new MainMenu);
 	SCENEMANAGER->addScene("GameScene", new GameScene);
 
 	SCENEMANAGER->changeScene("GameScene");

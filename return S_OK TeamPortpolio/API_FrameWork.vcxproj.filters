@@ -150,9 +150,6 @@
     <ClInclude Include="GameScene.h">
       <Filter>mainGame\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="IntroScene.h">
-      <Filter>mainGame\Scene</Filter>
-    </ClInclude>
     <ClInclude Include="BulletManager.h">
       <Filter>Manager\수정중</Filter>
     </ClInclude>
@@ -179,6 +176,12 @@
     </ClInclude>
     <ClInclude Include="EnemyBase.h">
       <Filter>mainGame\Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="MainMenu.h">
+      <Filter>mainGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Shop.h">
+      <Filter>mainGame\Shop</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -242,9 +245,6 @@
     <ClCompile Include="GameScene.cpp">
       <Filter>mainGame\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="IntroScene.cpp">
-      <Filter>mainGame\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="BulletManager.cpp">
       <Filter>Manager\수정중</Filter>
     </ClCompile>
@@ -271,6 +271,12 @@
     </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
       <Filter>mainGame\Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMenu.cpp">
+      <Filter>mainGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Shop.cpp">
+      <Filter>mainGame\Shop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
