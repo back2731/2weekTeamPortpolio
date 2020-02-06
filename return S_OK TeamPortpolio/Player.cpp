@@ -60,6 +60,7 @@ void Player::Render(HDC hdc)
 {
 	Rectangle(hdc, player.playerHeadRect.left, player.playerHeadRect.top, player.playerHeadRect.right, player.playerHeadRect.bottom);
 	Rectangle(hdc, player.playerBodyRect.left, player.playerBodyRect.top, player.playerBodyRect.right, player.playerBodyRect.bottom);
+	Rectangle(hdc, player.playerHitRect.left, player.playerHitRect.top, player.playerHitRect.right, player.playerHitRect.bottom);
 	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
 }
 
@@ -135,6 +136,10 @@ void Player::PlayerMove()
 	}
 
 	PlayerSilde();
+
+	//플레이어 피격 상자
+	player.playerHitRect = RectMakeCenter(player.playerBodyRect.left + (player.playerBodyRect.right - player.playerBodyRect.left) / 2,
+		player.playerBodyRect.top, 60, 100);
 }
 
 void Player::PlayerSilde()
@@ -322,7 +327,7 @@ void Player::PlayerShot()
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
 	{
 		playerLeftShot = false;
-	}	
+	}
 
 	//오른쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
@@ -338,7 +343,7 @@ void Player::PlayerShot()
 	if (KEYMANAGER->isStayKeyDown(VK_UP))
 	{
 		playerUpShot = true;
-	}	
+	}
 	if (KEYMANAGER->isOnceKeyUp(VK_UP))
 	{
 		playerUpShot = false;

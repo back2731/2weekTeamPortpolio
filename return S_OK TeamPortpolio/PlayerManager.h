@@ -16,9 +16,12 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	RECT GetRect() { return m_Player->GetRect(); }
-	float GetRectX() { return m_Player->GetRectX(); }
-	float GetRectY() { return m_Player->GetRectY();	}
+	RECT GetPlayerHeadRect() { return m_Player->GetPlayerHeadRect(); }
+	float GetPlayerHeadRectX() { return m_Player->GetPlayerHeadRectX(); }
+	float GetPlayerHeadRectY() { return m_Player->GetPlayerHeadRectY(); }
 
+	RECT GetPlayerHitRect() { return m_Player->GetPlayerHitRect(); }
+	float GetPlayerHitRectX() { return m_Player->GetPlayerHitRectX(); }
+	float GetPlayerHitRectY() { return m_Player->GetPlayerHitRectY(); }
 };
 

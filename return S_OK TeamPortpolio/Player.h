@@ -16,6 +16,7 @@ struct PlayerInfo
 	image*	playerBodyImage;		//플레이어 몸 이미지
 	RECT	playerHeadRect;			//플레이어 머리 상자
 	RECT	playerBodyRect;			//플레이어 몸 상자
+	RECT	playerHitRect;			//플레이어 피격용 상자
 	int		playerShotDelay;		//공격주기
 	float	playerShotRange;		//공격사거리
 	float	playerShotSpeed;		//공격속도
@@ -69,7 +70,11 @@ public:
 	void PlayerShot();
 	void PlayerShotMove();
 
-	RECT GetRect() { return player.playerHeadRect; }
-	float GetRectX() { return (player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2); }
-	float GetRectY() { return (player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2); }
+	RECT GetPlayerHeadRect() { return player.playerHeadRect; }
+	float GetPlayerHeadRectX() { return (player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2); }
+	float GetPlayerHeadRectY() { return (player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2); }
+
+	RECT GetPlayerHitRect() { return player.playerHitRect; }
+	float GetPlayerHitRectX() { return (player.playerHitRect.left + (player.playerHitRect.right - player.playerHitRect.left) / 2); }
+	float GetPlayerHitRectY() { return (player.playerHitRect.top + (player.playerHitRect.bottom - player.playerHitRect.top) / 2); }
 };

@@ -13,7 +13,7 @@ EnemyBase::~EnemyBase()
 
 HRESULT EnemyBase::Init(POINT position)
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void EnemyBase::Release()
