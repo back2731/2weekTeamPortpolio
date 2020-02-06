@@ -36,6 +36,6 @@ void GameScene::update()
 
 void GameScene::render()
 {
-	PLAYERMANAGER->Render(getMemDC());
 	ENEMYMANAGER->Render(getMemDC());
+	PLAYERMANAGER->Render(getMemDC());
 }
