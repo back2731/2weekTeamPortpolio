@@ -135,7 +135,7 @@ void Player::PlayerMove()
 		else slideDown = true;
 	}
 
-	PlayerSilde();
+	PlayerSilde();	//플레이어 슬라이딩
 
 	//플레이어 피격 상자
 	player.playerHitRect = RectMakeCenter(player.playerBodyRect.left + (player.playerBodyRect.right - player.playerBodyRect.left) / 2,
@@ -359,11 +359,12 @@ void Player::PlayerShot()
 		playerDownShot = false;
 	}
 
-	PlayerShotMove();
+	PlayerShotMove();	//플레이어 공격 방향
 }
 
 void Player::PlayerShotMove()
 {
+	//불렛 방향
 	if (playerLeftShot)
 	{
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
