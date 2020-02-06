@@ -65,10 +65,10 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void PlayerMove();
-	void PlayerSilde();
-	void PlayerShot();
-	void PlayerShotMove();
+	void PlayerMove();				//플레이어 이동키 함수
+	void PlayerSilde();				//플레이어 이동시 슬라이딩 함수
+	void PlayerShot();				//플레이어 공격키 함수
+	void PlayerShotMove();			//플레이어 공격시 방향 함수
 
 	RECT GetPlayerHeadRect() { return player.playerHeadRect; }
 	float GetPlayerHeadRectX() { return (player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2); }
