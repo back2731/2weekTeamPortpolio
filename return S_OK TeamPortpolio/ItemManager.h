@@ -20,10 +20,18 @@ struct ItemInfo
 	image*		itemImage;				// 아이템 이미지
 	image*		itemInfoImage;			// 아이템 UI이미지
 	const char* itemName;				// 아이템 이름
-	int			addShotDelay;			// 샷 딜레이 증감
-	float		addShotRange;			// 샷 사정거리 증감
-	float		addShotSpeed;			// 샷 스피드(공격주기) 증감
+	float		addPower;				// 플레이어 공격력
 	float		addSpeed;				// 플레이어 속도 증감
+	float		addShotSpeed;			// 샷 스피드(공격주기) 증감
+	float		addShotRange;			// 샷 사정거리 증감
+	int			addShotDelay;			// 샷 딜레이 증감
+
+	float		addMaxHeart;
+	float		addHeart;
+	int			addGold;
+	int			addBomb;
+	int			addKey;
+
 	int			price;					// 아이템 가격
 };
 
@@ -51,6 +59,19 @@ public:
 	HRESULT Init();
 	void Release();
 	void Update();
-	void Render(HDC hdc);
+	void Render();
+
+	// 상점에서 판매하는 아이템 벡터 전송용 함수 
+	vector<ItemInfo> GetActiveItemInfo() { return vActiveItem; }
+	vector<ItemInfo> GetPassiveItemInfo() { return vPassiveItem; }
+	vector<ItemInfo> GetTrinketsInfo() { return vTrinkets; }
+	vector<ItemInfo> GetHeartInfo() { return vHeart; }
+	vector<ItemInfo> GetBombInfo() { return vBomb; }
+	vector<ItemInfo> GetKeyInfo() { return vKey; }
+	vector<ItemInfo> GetCardInfo() { return vCard; }
+	vector<ItemInfo> GetPillInfo() { return vPill; }
+
+
+	vector<ItemInfo> GetGoldInfo() { return vGold; }
 };
 
