@@ -1,9 +1,10 @@
 #pragma once
-class TestMinion
+#include "EnemyBase.h"
+class TestMinion : public EnemyBase
 {
 private:
 
-	RECT enemy;
+	RECT enemyRect;
 
 	vector<BulletInfo> vEnemyBullet;
 	vector<BulletInfo>::iterator viEnemyBullet;
@@ -18,9 +19,9 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	RECT GetRect() { return enemy; }
-	float GetRectX() { return (enemy.left + (enemy.right - enemy.left) / 2); }
-	float GetRectY() { return (enemy.top + (enemy.bottom - enemy.top) / 2); }
+	RECT GetRect() { return enemyRect; }
+	float GetRectX() { return (enemyRect.left + (enemyRect.right - enemyRect.left) / 2); }
+	float GetRectY() { return (enemyRect.top + (enemyRect.bottom - enemyRect.top) / 2); }
 
 };
 
