@@ -16,7 +16,7 @@ HRESULT mainGame::init()
 	SCENEMANAGER->addScene("MainMenu", new MainMenu);
 	SCENEMANAGER->addScene("GameScene", new GameScene);
 
-	SCENEMANAGER->changeScene("GameScene");
+	SCENEMANAGER->changeScene("MainMenu");
 
 	return S_OK;
 }

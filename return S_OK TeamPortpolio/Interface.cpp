@@ -31,10 +31,9 @@ void Interface::update()
 {
 	if (NewRunRect, PtInRect)
 	{
-		
 		if (WM_MBUTTONDOWN)
 		{
-		SCENEMANAGER->changeScene("GameScene");
+			SCENEMANAGER->changeScene("GameScene");
 		}
 	}
 }
