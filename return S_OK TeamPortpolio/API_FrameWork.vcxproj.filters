@@ -73,6 +73,15 @@
     <Filter Include="mainGame\Enemy\Minion">
       <UniqueIdentifier>{74e4824a-8e75-42af-beda-7b84298a8271}</UniqueIdentifier>
     </Filter>
+    <Filter Include="mainGame\Enemy\Minion\Ground">
+      <UniqueIdentifier>{e7cf8385-2ec2-470c-97cf-954e69f581bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mainGame\Enemy\Minion\Air">
+      <UniqueIdentifier>{a72fe953-a2a0-4e81-90ec-611bc24a6731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="mainGame\Enemy\EnemyBase">
+      <UniqueIdentifier>{3f0f5cff-7e98-4616-9630-76aee7f9b6f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -174,14 +183,44 @@
     <ClInclude Include="TestMinion.h">
       <Filter>mainGame\Enemy\Minion</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyBase.h">
-      <Filter>mainGame\Enemy</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>mainGame\Scene</Filter>
     </ClInclude>
     <ClInclude Include="Shop.h">
       <Filter>mainGame\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="MinionGaper.h">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="MinionHorf.h">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="MinionMulligan.h">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="MinionPacer.h">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="MinonClot.h">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="MinonClotty.h">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="MinionBlackFly.h">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClInclude>
+    <ClInclude Include="MinionTumor.h">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClInclude>
+    <ClInclude Include="MinonAttackFly.h">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClInclude>
+    <ClInclude Include="MinonMaw.h">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyBase.h">
+      <Filter>mainGame\Enemy\EnemyBase</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -269,14 +308,44 @@
     <ClCompile Include="TestMinion.cpp">
       <Filter>mainGame\Enemy\Minion</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyBase.cpp">
-      <Filter>mainGame\Enemy</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>mainGame\Scene</Filter>
     </ClCompile>
     <ClCompile Include="Shop.cpp">
       <Filter>mainGame\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionGaper.cpp">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionHorf.cpp">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionMulligan.cpp">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionPacer.cpp">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="MinonClot.cpp">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="MinonClotty.cpp">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionBlackFly.cpp">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionTumor.cpp">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClCompile>
+    <ClCompile Include="MinonAttackFly.cpp">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClCompile>
+    <ClCompile Include="MinonMaw.cpp">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyBase.cpp">
+      <Filter>mainGame\Enemy\EnemyBase</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
