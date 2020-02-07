@@ -201,26 +201,20 @@
     <ClInclude Include="MinionPacer.h">
       <Filter>mainGame\Enemy\Minion\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="MinonClot.h">
-      <Filter>mainGame\Enemy\Minion\Ground</Filter>
-    </ClInclude>
-    <ClInclude Include="MinonClotty.h">
-      <Filter>mainGame\Enemy\Minion\Ground</Filter>
-    </ClInclude>
     <ClInclude Include="MinionBlackFly.h">
       <Filter>mainGame\Enemy\Minion\Air</Filter>
     </ClInclude>
     <ClInclude Include="MinionTumor.h">
       <Filter>mainGame\Enemy\Minion\Air</Filter>
     </ClInclude>
-    <ClInclude Include="MinonAttackFly.h">
-      <Filter>mainGame\Enemy\Minion\Air</Filter>
-    </ClInclude>
-    <ClInclude Include="MinonMaw.h">
-      <Filter>mainGame\Enemy\Minion\Air</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyBase.h">
       <Filter>mainGame\Enemy\EnemyBase</Filter>
+    </ClInclude>
+    <ClInclude Include="MinonClotty.h">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="MinonClot.h">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -326,26 +320,20 @@
     <ClCompile Include="MinionPacer.cpp">
       <Filter>mainGame\Enemy\Minion\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="MinonClot.cpp">
-      <Filter>mainGame\Enemy\Minion\Ground</Filter>
-    </ClCompile>
-    <ClCompile Include="MinonClotty.cpp">
-      <Filter>mainGame\Enemy\Minion\Ground</Filter>
-    </ClCompile>
     <ClCompile Include="MinionBlackFly.cpp">
       <Filter>mainGame\Enemy\Minion\Air</Filter>
     </ClCompile>
     <ClCompile Include="MinionTumor.cpp">
       <Filter>mainGame\Enemy\Minion\Air</Filter>
     </ClCompile>
-    <ClCompile Include="MinonAttackFly.cpp">
-      <Filter>mainGame\Enemy\Minion\Air</Filter>
-    </ClCompile>
-    <ClCompile Include="MinonMaw.cpp">
-      <Filter>mainGame\Enemy\Minion\Air</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyBase.cpp">
       <Filter>mainGame\Enemy\EnemyBase</Filter>
+    </ClCompile>
+    <ClCompile Include="MinonClotty.cpp">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="MinonClot.cpp">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

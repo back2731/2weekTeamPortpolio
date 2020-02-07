@@ -13,7 +13,7 @@ MinionGaper::~MinionGaper()
 
 HRESULT MinionGaper::Init()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void MinionGaper::Release()

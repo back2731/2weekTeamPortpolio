@@ -13,7 +13,7 @@ MinionMulligan::~MinionMulligan()
 
 HRESULT MinionMulligan::Init()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void MinionMulligan::Release()

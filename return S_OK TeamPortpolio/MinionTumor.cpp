@@ -13,7 +13,7 @@ MinionTumor::~MinionTumor()
 
 HRESULT MinionTumor::Init()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void MinionTumor::Release()

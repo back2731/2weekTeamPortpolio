@@ -1,11 +1,13 @@
 #pragma once
 #include "singletonBase.h"
 #include "TestMinion.h"
+#include "MinionMaw.h"
 
 class EnemyManager : public singletonBase<EnemyManager>
 {
 private:
 	TestMinion* m_TestMinion;
+	MinionMaw* m_MinionMaw;
 
 public:
 	EnemyManager();

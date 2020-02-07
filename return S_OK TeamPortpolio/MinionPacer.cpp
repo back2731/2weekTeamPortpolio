@@ -13,7 +13,7 @@ MinionPacer::~MinionPacer()
 
 HRESULT MinionPacer::Init()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void MinionPacer::Release()

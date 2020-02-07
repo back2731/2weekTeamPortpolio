@@ -9,6 +9,7 @@ struct EnemyInfo
 	RECT	enemyHeadRect;		// 적 머리 상자
 	RECT	enemyBodyRect;		// 적 몸 상자
 	RECT	enemyRect;			// 적 전체 렉트
+	RECT	enemyFireRange;		// 적의 판정 범위 상자
 	int		enemyShotDelay;		// 공격주기
 	float	enemyShotRange;		// 공격사거리
 	float	enemyShotSpeed;		// 공격속도
@@ -21,8 +22,17 @@ class EnemyBase
 private:
 
 protected:
-
 	EnemyInfo enemy;
+
+	int enemyAiTime;	//행동시간
+	int enemyAiPattern;	//행동패턴
+	float enemyX;		//적의 x좌표
+	float enemyY;		//적의 y좌표
+	float distance;		//거리
+	float vx, vy;		//접근 속도 변수
+
+	bool areaCheck;		//적의 판정 범위와 플레이어의 충돌을 체크하는 변수
+	bool collision;		//적과 장애물의 충돌을 체크하는 변수
 
 public:
 	EnemyBase();
@@ -52,6 +62,4 @@ public:
 	// HP 가져오기, 설정하기
 	int GetHp() { return enemy.enemyHp; }
 	void SetHp(int num) { enemy.enemyHp = num; }
-
 };
-

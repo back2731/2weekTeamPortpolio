@@ -13,7 +13,7 @@ MinionBlackFly::~MinionBlackFly()
 
 HRESULT MinionBlackFly::Init()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void MinionBlackFly::Release()

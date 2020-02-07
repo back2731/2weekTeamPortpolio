@@ -13,7 +13,7 @@ CameraManager::~CameraManager()
 
 HRESULT CameraManager::Init()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void CameraManager::Release()

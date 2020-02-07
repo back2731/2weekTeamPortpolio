@@ -13,7 +13,7 @@ MinonClotty::~MinonClotty()
 
 HRESULT MinonClotty::Init()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void MinonClotty::Release()

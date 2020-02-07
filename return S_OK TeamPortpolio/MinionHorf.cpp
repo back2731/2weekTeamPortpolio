@@ -13,7 +13,7 @@ MinionHorf::~MinionHorf()
 
 HRESULT MinionHorf::Init()
 {
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void MinionHorf::Release()
