@@ -216,6 +216,12 @@
     <ClInclude Include="MinonClot.h">
       <Filter>mainGame\Enemy\Minion\Ground</Filter>
     </ClInclude>
+    <ClInclude Include="MinionMaw.h">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClInclude>
+    <ClInclude Include="MinionAttackFly.h">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -334,6 +340,12 @@
     </ClCompile>
     <ClCompile Include="MinonClot.cpp">
       <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionMaw.cpp">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionAttackFly.cpp">
+      <Filter>mainGame\Enemy\Minion\Air</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

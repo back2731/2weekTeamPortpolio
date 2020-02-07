@@ -17,7 +17,7 @@ HRESULT EnemyManager::Init()
 	m_TestMinion->Init();
 
 	m_MinionMaw = new MinionMaw;
-	m_MinionMaw->Init();
+	m_MinionMaw->Init(PointMake(50,50));
 
 	return S_OK;
 }
