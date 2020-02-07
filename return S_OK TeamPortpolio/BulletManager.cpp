@@ -38,6 +38,16 @@ void BulletManager::ShootBullet(string imageName, vector<BulletInfo>& bulletVect
 	// 카운트의 인터벌 모드 0이 될때마다 값을 조정해준다.
 	if (count % interval == 0)
 	{
+
+		/*
+			image* bulletImage;
+			float angle;
+			float speed;
+			float bulletX, bulletY;
+			float unitX, unitY;
+			float range;
+			RECT rect;
+		*/
 		BulletInfo bullet;
 		bullet = OBJECTPOOL->GetBullet();
 		bullet.bulletImage = IMAGEMANAGER->findImage(imageName);
@@ -46,10 +56,7 @@ void BulletManager::ShootBullet(string imageName, vector<BulletInfo>& bulletVect
 		bullet.bulletX = bullet.unitX = x;
 		bullet.bulletY = bullet.unitY = y;
 		bullet.range = range;
-		bullet.rect = RectMakeCenter(bullet.bulletX, bullet.bulletY,
-			bullet.bulletImage->getWidth(),
-			bullet.bulletImage->getHeight());
-
+		bullet.rect = RectMakeCenter(bullet.bulletX, bullet.bulletY, bullet.bulletImage->getWidth(), bullet.bulletImage->getHeight());
 		bulletVector.push_back(bullet);
 	}
 }
@@ -62,22 +69,20 @@ void BulletManager::MoveBullet(vector<BulletInfo>& bulletVector, vector<BulletIn
 		bulletIter->bulletX += cosf(bulletIter->angle) * bulletIter->speed;
 		bulletIter->bulletY += -sinf(bulletIter->angle) * bulletIter->speed;
 
-		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY,
-			bulletIter->bulletImage->getWidth(),
-			bulletIter->bulletImage->getHeight());
+		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth(), bulletIter->bulletImage->getHeight());
 		//if (400 < getDistance(bulletIter->x, bulletIter->y, bulletIter->fireX, bulletIter->fireY))
 		//{
 		//	bulletIter->y += 1;
 		//}
-		if (500 < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY))
+		RECT temp;
+		if (bulletIter->range < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY) ||
+			IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &bulletIter->rect))
 		{
 			OBJECTPOOL->SetBulletVector(bulletVector.front());
 			bulletIter = bulletVector.erase(bulletIter);
 		}
 		else ++bulletIter;
-
 	}
-
 }
 
 void BulletManager::RenderBullet(HDC hdc, vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator & bulletIter)

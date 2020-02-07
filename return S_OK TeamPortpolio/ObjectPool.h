@@ -6,15 +6,12 @@
 struct BulletInfo
 {
 	image* bulletImage;
-	RECT rect;
-	float bulletX, bulletY;
-	float unitX, unitY;
-	float radius;
 	float angle;
 	float speed;
+	float bulletX, bulletY;
+	float unitX, unitY;
 	float range;
-	bool fire;
-	int count;
+	RECT rect;
 };
 
 class ObjectPool : public singletonBase<ObjectPool>

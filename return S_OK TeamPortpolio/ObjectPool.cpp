@@ -29,7 +29,6 @@ void ObjectPool::Render(HDC hdc)
 void ObjectPool::SetBulletVector(BulletInfo vSpentBullet)
 {
 	vBulletRepository.push_back(vSpentBullet);
-
 }
 
 BulletInfo ObjectPool::GetBullet()
