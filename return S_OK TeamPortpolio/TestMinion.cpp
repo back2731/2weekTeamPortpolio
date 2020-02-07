@@ -11,21 +11,20 @@ TestMinion::~TestMinion()
 
 HRESULT TestMinion::Init()
 {
-	//테스트용 에네미 렉트
+	// 테스트용 에네미 렉트
 	enemyRect = RectMakeCenter(WINSIZEX / 2 + 300, WINSIZEY / 2, 50, 50);
-	enemyBulletInterval = 0;	//불렛 간격
-	//테스트용 장애물 렉트
+	// 테스트용 장애물 렉트
 	obstacle = RectMakeCenter(WINSIZEX / 2 + 150, WINSIZEY / 2, 50, 300);
 
-	time = 0;		//행동시간
-	rnd = 1;		//행동패턴 (기본 IDLE)
-	speed = 3.0f;	//이동속도
+	enemyAiTime = 0;		// 행동시간
+	enemyAiPattern = 1;		// 행동패턴 (기본 IDLE)
+	speed = 3.0f;			// 이동속도
 
-	obstacleX = obstacle.left + (obstacle.right - obstacle.left) / 2;	//장애물 x축 좌표
-	obstacleY = obstacle.top + (obstacle.bottom - obstacle.top) / 2;	//장애물 y축 좌표
+	obstacleX = obstacle.left + (obstacle.right - obstacle.left) / 2;	// 장애물 x축 좌표
+	obstacleY = obstacle.top + (obstacle.bottom - obstacle.top) / 2;	// 장애물 y축 좌표
 
-	areaCheck = false;
-	collision = false;
+	enemyAreaCheck = false;
+	enemyCollision = false;
 
 	return S_OK;
 }
@@ -36,14 +35,26 @@ void TestMinion::Release()
 
 void TestMinion::Update()
 {
-	//적 x축, y축 좌표
+	// 적 x축, y축 좌표
 	enemyX = enemyRect.left + (enemyRect.right - enemyRect.left) / 2;
 	enemyY = enemyRect.top + (enemyRect.bottom - enemyRect.top) / 2;
 
-	//만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
-	if (areaCheck)
+	// 플레이어와 판정 범위가 충돌시
+	if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &fireRange))
 	{
-		//getdistance(적의 위치 x, y, 플레이어의 위치 x, y)
+		// 적과 장애물이 충돌하지 않았다면
+		if (!enemyCollision)
+		{
+			// 플레이어를 쫓아가라.
+			enemyAreaCheck = true;
+			EnemyShot();
+		}
+	}
+
+	// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
+	if (enemyAreaCheck)
+	{
+		// getdistance(적의 위치 x, y, 플레이어의 위치 x, y)
 		distance = getDistance(enemyX, enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY());
 
 		if (distance)
@@ -63,17 +74,17 @@ void TestMinion::Update()
 		enemyY += vy;
 		enemyRect = RectMakeCenter(enemyX, enemyY, 50, 50);
 	}
-	//범위안에 플레이어가 없다면 자율행동(AI)
+	// 범위안에 플레이어가 없다면 자율행동(AI)
 	else
 	{
 		EnemyAiTime();
 
-		switch (rnd)
+		switch (enemyAiPattern)
 		{
-		case 1:		//IDLE
+		case 1:		// IDLE
 			motion = ENEMY_IDLE;
 			break;
-		case 2:		//LEFT
+		case 2:		// LEFT
 			motion = ENEMY_LEFT;
 			if (enemyRect.left > 0)
 			{
@@ -82,10 +93,10 @@ void TestMinion::Update()
 			}
 			if (enemyRect.left <= 10)
 			{
-				rnd = 3;
+				enemyAiPattern = 3;
 			}
 			break;
-		case 3:		//RIGHT
+		case 3:		// RIGHT
 			motion = ENEMY_RIGHT;
 			if (enemyRect.right < WINSIZEX)
 			{
@@ -94,10 +105,10 @@ void TestMinion::Update()
 			}
 			if (enemyRect.right >= 1000)
 			{
-				rnd = 2;
+				enemyAiPattern = 2;
 			}
 			break;
-		case 4:		//UP
+		case 4:		// UP
 			motion = ENEMY_UP;
 			if (enemyRect.top > 0)
 			{
@@ -106,10 +117,10 @@ void TestMinion::Update()
 			}
 			if (enemyRect.top <= 10)
 			{
-				rnd = 5;
+				enemyAiPattern = 5;
 			}
 			break;
-		case 5:		//DOWN
+		case 5:		// DOWN
 			motion = ENEMY_DOWN;
 			if (enemyRect.bottom < WINSIZEY)
 			{
@@ -118,34 +129,22 @@ void TestMinion::Update()
 			}
 			if (enemyRect.bottom >= 750)
 			{
-				rnd = 4;
+				enemyAiPattern = 4;
 			}
 			break;
 		}
 	}
 
-	//판정 범위가 항상 적의 좌표를 쫓아다님
-	fireRange = RectMakeCenter(enemyX, enemyY, 500, 500);
+	// 판정 범위가 항상 적의 좌표를 쫓아다님
+	fireRange = RectMakeCenter(enemyX, enemyY, 300, 300);
 
-	//적이 쏘는 불렛의 움직임
+	// 적이 쏘는 불렛의 움직임
 	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
 
-	//플레이어와 판정 범위가 충돌시
-	if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &fireRange))
-	{
-		//적과 장애물이 충돌하지 않았다면
-		if (!collision)
-		{
-			//플레이어를 쫓아가라.
-			areaCheck = true;
-			EnemyShot();
-		}
-	}
-
-	//적과 장애물이 충돌하면 true
+	// 적과 장애물이 충돌하면 true
 	if (IntersectRect(&temp, &obstacle, &enemyRect))
 	{
-		collision = true;
+		enemyCollision = true;
 
 		int tempW = temp.right - temp.left;
 		int tempH = temp.bottom - temp.top;
@@ -177,7 +176,7 @@ void TestMinion::Update()
 			}
 		}
 
-		//장애물과 충돌시 비껴서 움직인다.
+		// 장애물과 충돌시 비껴서 움직인다.
 		if (PLAYERMANAGER->GetPlayerHitRectX() < obstacleX)
 		{
 			enemyRect.left -= speed;
@@ -199,13 +198,13 @@ void TestMinion::Update()
 			enemyRect.bottom += speed;
 		}
 	}
-	//적과 장애물이 충돌하지 않으면 false
+	// 적과 장애물이 충돌하지 않으면 false
 	else
 	{
-		collision = false;
+		enemyCollision = false;
 	}
 
-	//플레이어와 적이 충돌하면 밀려난다.
+	// 플레이어와 적이 충돌하면 밀려난다.
 	if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &enemyRect))
 	{
 		int tempW = temp.right - temp.left;
@@ -242,7 +241,7 @@ void TestMinion::Update()
 
 void TestMinion::Render(HDC hdc)
 {
-	Rectangle(hdc, fireRange.left, fireRange.top, fireRange.right, fireRange.bottom);
+	//Rectangle(hdc, fireRange.left, fireRange.top, fireRange.right, fireRange.bottom);
 	Rectangle(hdc, enemyRect.left, enemyRect.top, enemyRect.right, enemyRect.bottom);
 	Rectangle(hdc, obstacle.left, obstacle.top, obstacle.right, obstacle.bottom);
 
@@ -251,19 +250,22 @@ void TestMinion::Render(HDC hdc)
 
 void TestMinion::EnemyShot()
 {
-	//적의 총알 발사
+	// 적의 총알 발사
 	BULLETMANAGER->ShootBullet("enemyBullet", vEnemyBullet, enemyX, enemyY,
 		getAngle(enemyX, enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY()),
-		5.0f, 500, enemyBulletInterval++, 50);
+		5.0f, 500, enemyBulletCount, 50);
+
+	// 적의 불렛 카운트를 한 번에 플러스
+	SetEnemyBulletCount();
 }
 
 void TestMinion::EnemyAiTime()
 {
-	//AI 패턴 시간
-	time++;
-	if (time / 60 == 2)
+	// AI 패턴 시간
+	enemyAiTime++;
+	if (enemyAiTime / 60 == 2)
 	{
-		rnd = RND->getFromIntTo(2, 5);
-		time = 0;
+		enemyAiPattern = RND->getFromIntTo(2, 5);
+		enemyAiTime = 0;
 	}
 }

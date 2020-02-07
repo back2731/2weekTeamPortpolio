@@ -48,7 +48,7 @@ void MainMenu::render()
 
 void MainMenu::CursorMove()
 {
-	// 
+	// 새 게임 선택시 게임 화면으로 전환한다.
 	if (IntersectRect(&temp, &newRunRect, &cursorRect))
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
@@ -60,7 +60,7 @@ void MainMenu::CursorMove()
 			SCENEMANAGER->changeScene("GameScene");
 		}
 	}
-	//
+	// 맵툴 선택시 맵툴 화면으로 전환한다.
 	if (IntersectRect(&temp, &mapToolRect, &cursorRect))
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
@@ -76,7 +76,7 @@ void MainMenu::CursorMove()
 			SCENEMANAGER->changeScene("GameScene");
 		}
 	}
-	//
+	// 옵션 선택시 옵션 화면으로 전환한다.
 	if (IntersectRect(&temp, &optionRect, &cursorRect))
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))

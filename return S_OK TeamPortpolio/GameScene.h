@@ -6,6 +6,7 @@ class GameScene : public gameNode
 {
 private:
 	Shop* m_shop;
+	image* testMapImage;
 
 public:
 	GameScene();

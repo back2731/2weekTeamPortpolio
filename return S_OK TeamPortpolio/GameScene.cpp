@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "GameScene.h"
 
-
 GameScene::GameScene()
 {
 }
-
 
 GameScene::~GameScene()
 {
@@ -13,6 +11,8 @@ GameScene::~GameScene()
 
 HRESULT GameScene::init()
 {
+	IMAGEMANAGER->addImage("TestMap", "images/TestMap.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+
 	// 게임씬에서 필요한 매니저들 초기화.
 	OBJECTPOOL->Init();
 	BULLETMANAGER->Init();
@@ -42,6 +42,7 @@ void GameScene::update()
 
 void GameScene::render()
 {
+	IMAGEMANAGER->render("TestMap", getMemDC());
 	ENEMYMANAGER->Render(getMemDC());
 	PLAYERMANAGER->Render(getMemDC());
 }

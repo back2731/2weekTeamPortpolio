@@ -1,7 +1,7 @@
 #pragma once
 
 //캐릭터 속성 구조체
-struct EnemyInfo 
+struct EnemyInfo
 {
 	image*	enemyHeadImage;		// 적 머리 이미지
 	image*	enemyBodyImage;		// 적 몸 이미지
@@ -10,11 +10,13 @@ struct EnemyInfo
 	RECT	enemyBodyRect;		// 적 몸 상자
 	RECT	enemyRect;			// 적 전체 렉트
 	RECT	enemyFireRange;		// 적의 판정 범위 상자
-	int		enemyShotDelay;		// 공격주기
-	float	enemyShotRange;		// 공격사거리
-	float	enemyShotSpeed;		// 공격속도
-	float	enemySpeed;			// 이동속도
+	int		enemyShotDelay;		// 공격 주기
 	float	enemyHp;			// 적 체력
+	float	enemyShotSpeed;		// 공격속도
+	float	enemyShotRange;		// 공격 사거리
+	float	enemySpeed;			// 이동속도
+	float	enemyX;				// 적 x좌표
+	float	enemyY;				// 적 y좌표
 };
 
 class EnemyBase
@@ -24,15 +26,15 @@ private:
 protected:
 	EnemyInfo enemy;
 
-	int enemyAiTime;	//행동시간
-	int enemyAiPattern;	//행동패턴
-	float enemyX;		//적의 x좌표
-	float enemyY;		//적의 y좌표
-	float distance;		//거리
-	float vx, vy;		//접근 속도 변수
+	int enemyAiTime;			// 적 AI 행동시간
+	int enemyAiPattern;			// 적 AI 행동패턴
+	int enemyBulletCount;		// 적 불렛 인터벌 카운트
 
-	bool areaCheck;		//적의 판정 범위와 플레이어의 충돌을 체크하는 변수
-	bool collision;		//적과 장애물의 충돌을 체크하는 변수
+	float distance;				// 적과 플레이어의 거리
+	float vx, vy;				// 접근 속도 변수
+
+	bool enemyAreaCheck;		// 적의 판정 범위와 플레이어의 충돌을 체크하는 변수
+	bool enemyCollision;		// 적과 장애물의 충돌을 체크하는 변수
 
 public:
 	EnemyBase();
@@ -42,7 +44,7 @@ public:
 	virtual HRESULT Init(POINT position);
 	virtual void Release();
 	virtual void Update();
-	virtual void Render(HDC hdc);	
+	virtual void Render(HDC hdc);
 
 	// 적 머리 부분 렉트 정보 가져오기
 	RECT GetEnemyHeadRect() { return enemy.enemyHeadRect; }
@@ -62,4 +64,7 @@ public:
 	// HP 가져오기, 설정하기
 	int GetHp() { return enemy.enemyHp; }
 	void SetHp(int num) { enemy.enemyHp = num; }
+
+	// 적의 불렛 카운트를 한 번에 플러스
+	int SetEnemyBulletCount() { enemyBulletCount++; return enemyBulletCount; }
 };

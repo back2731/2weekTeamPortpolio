@@ -162,7 +162,6 @@
     <ClInclude Include="GameScene.h" />
     <ClInclude Include="image.h" />
     <ClInclude Include="imageManager.h" />
-    <ClInclude Include="Interface.h" />
     <ClInclude Include="ItemManager.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="mainGame.h" />
@@ -209,7 +208,6 @@
     <ClCompile Include="GameScene.cpp" />
     <ClCompile Include="image.cpp" />
     <ClCompile Include="imageManager.cpp" />
-    <ClCompile Include="Interface.cpp" />
     <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="mainGame.cpp" />
