@@ -25,7 +25,7 @@ private:
 	float speed;		// ÀûÀÇ ÀÌµ¿¼Óµµ
 	float enemyX;		// ÀûÀÇ xÁÂÇ¥
 	float enemyY;		// ÀûÀÇ yÁÂÇ¥
-						   
+
 	float obstacleX;	// Àå¾Ö¹° xÁÂÇ¥
 	float obstacleY;	// Àå¾Ö¹° yÁÂÇ¥
 
@@ -33,7 +33,7 @@ public:
 	TestMinion();
 	~TestMinion();
 
-	HRESULT Init();
+	HRESULT Init(POINT position);
 	void Release();
 	void Update();
 	void Render(HDC hdc);

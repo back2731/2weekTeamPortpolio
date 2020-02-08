@@ -10,6 +10,7 @@ struct EnemyInfo
 	RECT	enemyBodyRect;		// 적 몸 상자
 	RECT	enemyRect;			// 적 전체 렉트
 	RECT	enemyFireRange;		// 적의 판정 범위 상자
+	int		enemyNumber;		// 몬스터 넘버
 	int		enemyShotDelay;		// 공격 주기
 	float	enemyHp;			// 적 체력
 	float	enemyShotSpeed;		// 공격속도
@@ -26,9 +27,16 @@ private:
 protected:
 	EnemyInfo enemy;
 
-	int enemyAiTime;			// 적 AI 행동시간
-	int enemyAiPattern;			// 적 AI 행동패턴
-	int enemyBulletCount;		// 적 불렛 인터벌 카운트
+	int firstEnemyAiTime;		// 첫번째 적 AI 행동시간
+	int firstEnemyAiPattern;	// 첫번째 적 AI 행동패턴
+	int firstEnemyBulletCount;	// 첫번째 적 불렛 인터벌 카운트
+	int secondEnemyAiTime;		// 두번째 적 AI 행동시간
+	int secondEnemyAiPattern;	// 두번째 적 AI 행동패턴
+	int secondEnemyBulletCount;	// 두번째 적 불렛 인터벌 카운트
+	int thirdEnemyAiTime;		// 세번째 적 AI 행동시간
+	int thirdEnemyAiPattern;	// 세번째 적 AI 행동패턴
+	int thirdEnemyBulletCount;	// 세번째 적 불렛 인터벌 카운트
+	int i;						// for문용 변수
 
 	float distance;				// 적과 플레이어의 거리
 	float vx, vy;				// 접근 속도 변수
@@ -66,5 +74,7 @@ public:
 	void SetHp(int num) { enemy.enemyHp = num; }
 
 	// 적의 불렛 카운트를 한 번에 플러스
-	int SetEnemyBulletCount() { enemyBulletCount++; return enemyBulletCount; }
+	int SetFirstEnemyBulletCount() { firstEnemyBulletCount++; return firstEnemyBulletCount; }
+	int SetSecondEnemyBulletCount() { secondEnemyBulletCount++; return secondEnemyBulletCount; }
+	int SetThirdEnemyBulletCount() { thirdEnemyBulletCount++; return thirdEnemyBulletCount; }
 };

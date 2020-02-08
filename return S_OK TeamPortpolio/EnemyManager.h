@@ -2,12 +2,14 @@
 #include "singletonBase.h"
 #include "TestMinion.h"
 #include "MinionMaw.h"
+#include "MinionMulligan.h"
 
 class EnemyManager : public singletonBase<EnemyManager>
 {
 private:
 	TestMinion* m_TestMinion;
 	MinionMaw* m_MinionMaw;
+	MinionMulligan* m_MinionMulligan;
 
 public:
 	EnemyManager();

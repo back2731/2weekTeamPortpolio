@@ -9,15 +9,15 @@ TestMinion::~TestMinion()
 {
 }
 
-HRESULT TestMinion::Init()
+HRESULT TestMinion::Init(POINT position)
 {
 	// 테스트용 에네미 렉트
-	enemyRect = RectMakeCenter(WINSIZEX / 2 + 300, WINSIZEY / 2, 50, 50);
+	enemyRect = RectMakeCenter(position.x, position.y, 50, 50);
 	// 테스트용 장애물 렉트
 	obstacle = RectMakeCenter(WINSIZEX / 2 + 150, WINSIZEY / 2, 50, 300);
 
-	enemyAiTime = 0;		// 행동시간
-	enemyAiPattern = 1;		// 행동패턴 (기본 IDLE)
+	firstEnemyAiTime = 0;		// 행동시간
+	firstEnemyAiPattern = 1;		// 행동패턴 (기본 IDLE)
 	speed = 3.0f;			// 이동속도
 
 	obstacleX = obstacle.left + (obstacle.right - obstacle.left) / 2;	// 장애물 x축 좌표
@@ -79,7 +79,7 @@ void TestMinion::Update()
 	{
 		EnemyAiTime();
 
-		switch (enemyAiPattern)
+		switch (firstEnemyAiPattern)
 		{
 		case 1:		// IDLE
 			motion = ENEMY_IDLE;
@@ -93,7 +93,7 @@ void TestMinion::Update()
 			}
 			if (enemyRect.left <= 10)
 			{
-				enemyAiPattern = 3;
+				firstEnemyAiPattern = 3;
 			}
 			break;
 		case 3:		// RIGHT
@@ -105,7 +105,7 @@ void TestMinion::Update()
 			}
 			if (enemyRect.right >= 1000)
 			{
-				enemyAiPattern = 2;
+				firstEnemyAiPattern = 2;
 			}
 			break;
 		case 4:		// UP
@@ -117,7 +117,7 @@ void TestMinion::Update()
 			}
 			if (enemyRect.top <= 10)
 			{
-				enemyAiPattern = 5;
+				firstEnemyAiPattern = 5;
 			}
 			break;
 		case 5:		// DOWN
@@ -129,7 +129,7 @@ void TestMinion::Update()
 			}
 			if (enemyRect.bottom >= 750)
 			{
-				enemyAiPattern = 4;
+				firstEnemyAiPattern = 4;
 			}
 			break;
 		}
@@ -253,19 +253,19 @@ void TestMinion::EnemyShot()
 	// 적의 총알 발사
 	BULLETMANAGER->ShootBullet("enemyBullet", vEnemyBullet, enemyX, enemyY,
 		getAngle(enemyX, enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY()),
-		5.0f, 500, enemyBulletCount, 50);
+		5.0f, 500, firstEnemyBulletCount, 50);
 
 	// 적의 불렛 카운트를 한 번에 플러스
-	SetEnemyBulletCount();
+	SetFirstEnemyBulletCount();
 }
 
 void TestMinion::EnemyAiTime()
 {
 	// AI 패턴 시간
-	enemyAiTime++;
-	if (enemyAiTime / 60 == 2)
+	firstEnemyAiTime++;
+	if (firstEnemyAiTime / 60 == 2)
 	{
-		enemyAiPattern = RND->getFromIntTo(2, 5);
-		enemyAiTime = 0;
+		firstEnemyAiPattern = RND->getFromIntTo(2, 5);
+		firstEnemyAiTime = 0;
 	}
 }
