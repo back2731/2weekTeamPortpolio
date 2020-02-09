@@ -175,8 +175,8 @@
     <ClInclude Include="MinionMulligan.h" />
     <ClInclude Include="MinionPacer.h" />
     <ClInclude Include="MinionTumor.h" />
-    <ClInclude Include="MinonClot.h" />
-    <ClInclude Include="MinonClotty.h" />
+    <ClInclude Include="MinionClot.h" />
+    <ClInclude Include="MinionClotty.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerManager.h" />
@@ -221,8 +221,8 @@
     <ClCompile Include="MinionMulligan.cpp" />
     <ClCompile Include="MinionPacer.cpp" />
     <ClCompile Include="MinionTumor.cpp" />
-    <ClCompile Include="MinonClot.cpp" />
-    <ClCompile Include="MinonClotty.cpp" />
+    <ClCompile Include="MinionClot.cpp" />
+    <ClCompile Include="MinionClotty.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerManager.cpp" />

@@ -15,15 +15,16 @@ HRESULT MinionMulligan::Init(POINT position, int EnemyNumber)
 	EnemyInfo MinionMulligan;
 	MinionMulligan.enemyNumber = EnemyNumber;
 	MinionMulligan.enemyRect = RectMakeCenter(position.x, position.y, 50, 50);
-	MinionMulligan.enemyHp = 25;
+	MinionMulligan.enemyHp = 13;
 	MinionMulligan.enemyShotSpeed = 5.0f;
 	MinionMulligan.enemyShotRange = 500.0f;
 	MinionMulligan.enemyShotDelay = 50;
-	MinionMulligan.enemySpeed = 2.0f;
+	MinionMulligan.enemySpeed = 3.0f;
 	vMinionMulligan.push_back(MinionMulligan);
 
 	enemyAreaCheck = false;
 	enemyCollision = false;
+
 	return S_OK;
 }
 
@@ -41,7 +42,7 @@ void MinionMulligan::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionMulligan.size(); i++)
 	{
-		Rectangle(hdc, vMinionMulligan[i].enemyFireRange.left, vMinionMulligan[i].enemyFireRange.top, vMinionMulligan[i].enemyFireRange.right, vMinionMulligan[i].enemyFireRange.bottom);
+		//Rectangle(hdc, vMinionMulligan[i].enemyFireRange.left, vMinionMulligan[i].enemyFireRange.top, vMinionMulligan[i].enemyFireRange.right, vMinionMulligan[i].enemyFireRange.bottom);
 		Rectangle(hdc, vMinionMulligan[i].enemyRect.left, vMinionMulligan[i].enemyRect.top, vMinionMulligan[i].enemyRect.right, vMinionMulligan[i].enemyRect.bottom);
 	}
 
