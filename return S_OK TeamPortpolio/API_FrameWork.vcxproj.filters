@@ -210,17 +210,17 @@
     <ClInclude Include="EnemyBase.h">
       <Filter>mainGame\Enemy\EnemyBase</Filter>
     </ClInclude>
-    <ClInclude Include="MinonClotty.h">
-      <Filter>mainGame\Enemy\Minion\Ground</Filter>
-    </ClInclude>
-    <ClInclude Include="MinonClot.h">
-      <Filter>mainGame\Enemy\Minion\Ground</Filter>
-    </ClInclude>
     <ClInclude Include="MinionMaw.h">
       <Filter>mainGame\Enemy\Minion\Air</Filter>
     </ClInclude>
     <ClInclude Include="MinionAttackFly.h">
       <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClInclude>
+    <ClInclude Include="MinionClotty.h">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="MinionClot.h">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -335,17 +335,17 @@
     <ClCompile Include="EnemyBase.cpp">
       <Filter>mainGame\Enemy\EnemyBase</Filter>
     </ClCompile>
-    <ClCompile Include="MinonClotty.cpp">
-      <Filter>mainGame\Enemy\Minion\Ground</Filter>
-    </ClCompile>
-    <ClCompile Include="MinonClot.cpp">
-      <Filter>mainGame\Enemy\Minion\Ground</Filter>
-    </ClCompile>
     <ClCompile Include="MinionMaw.cpp">
       <Filter>mainGame\Enemy\Minion\Air</Filter>
     </ClCompile>
     <ClCompile Include="MinionAttackFly.cpp">
       <Filter>mainGame\Enemy\Minion\Air</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionClotty.cpp">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="MinionClot.cpp">
+      <Filter>mainGame\Enemy\Minion\Ground</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,17 +1,19 @@
 #pragma once
 #include "EnemyBase.h"
 
-class MinionPacer : public EnemyBase
+class MinionClot : public EnemyBase
 {
 private:
-	vector<EnemyInfo> vMinionPacer;
+	vector<EnemyInfo> vMinionClot;
 
 	vector<BulletInfo> vEnemyBullet;
 	vector<BulletInfo>::iterator viEnemyBullet;
 
+	bool check;
+
 public:
-	MinionPacer();
-	~MinionPacer();
+	MinionClot();
+	~MinionClot();
 
 	HRESULT Init(POINT position, int EnemyNumber);
 	void Release();
@@ -20,4 +22,5 @@ public:
 
 	void EnemyAiTime();
 	void EnemyAi();
+	void EnemyShot();
 };
