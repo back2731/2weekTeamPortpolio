@@ -153,9 +153,6 @@
     <ClInclude Include="effectManager.h">
       <Filter>Manager</Filter>
     </ClInclude>
-    <ClInclude Include="MapTool.h">
-      <Filter>mainGame\MapTool</Filter>
-    </ClInclude>
     <ClInclude Include="GameScene.h">
       <Filter>mainGame\Scene</Filter>
     </ClInclude>
@@ -277,9 +274,6 @@
     </ClCompile>
     <ClCompile Include="effectManager.cpp">
       <Filter>Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="MapTool.cpp">
-      <Filter>mainGame\MapTool</Filter>
     </ClCompile>
     <ClCompile Include="GameScene.cpp">
       <Filter>mainGame\Scene</Filter>

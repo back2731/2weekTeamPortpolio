@@ -23,7 +23,7 @@
     <ProjectGuid>{8FF13C43-33AC-4F4E-825D-B864A3A51362}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>APIFrameWork</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>return S_OK TeamPortpolio</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -166,7 +166,6 @@
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="mainGame.h" />
     <ClInclude Include="MainMenu.h" />
-    <ClInclude Include="MapTool.h" />
     <ClInclude Include="MinionAttackFly.h" />
     <ClInclude Include="MinionBlackFly.h" />
     <ClInclude Include="MinionGaper.h" />
@@ -212,7 +211,6 @@
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="mainGame.cpp" />
     <ClCompile Include="MainMenu.cpp" />
-    <ClCompile Include="MapTool.cpp" />
     <ClCompile Include="MinionAttackFly.cpp" />
     <ClCompile Include="MinionBlackFly.cpp" />
     <ClCompile Include="MinionGaper.cpp" />
