@@ -9,8 +9,6 @@ private:
 	vector<BulletInfo> vEnemyBullet;
 	vector<BulletInfo>::iterator viEnemyBullet;
 
-	bool check;
-
 public:
 	MinionTumor();
 	~MinionTumor();

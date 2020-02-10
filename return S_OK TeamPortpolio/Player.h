@@ -32,7 +32,7 @@ private:
 
 	vector<BulletInfo> vPlayerBullet;
 	vector<BulletInfo>::iterator viPlayerBullet;
-	int playerBulletInterval;
+	int playerBulletCount;
 
 private:
 	//플레이어 무브 변수
