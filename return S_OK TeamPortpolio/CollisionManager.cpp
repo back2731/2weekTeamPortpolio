@@ -13,20 +13,23 @@ CollisionManager::~CollisionManager()
 
 void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVector, vector<BulletInfo>::iterator& playerBulletIter)
 {
-	
 	RECT temp;
-	if (playerBulletVector.size() > 0)
+
+	for (int j = 0; j < ENEMYMANAGER->GetMinionTumor()->GetMinionVector().size(); j++)
 	{
-		for (playerBulletIter = playerBulletVector.begin(); playerBulletIter < playerBulletVector.end();)
+		if (!playerBulletVector.empty())
 		{
-			for (int i = 0; i < ENEMYMANAGER->getMinionTumor()->GetMinionVector().size(); i++)
+			for (playerBulletIter = playerBulletVector.begin(); playerBulletIter != playerBulletVector.end(); )
 			{
-				if (IntersectRect(&temp, &playerBulletVector[i].rect, &ENEMYMANAGER->getMinionTumor()->GetMinionVector()[i].enemyRect))
+				if (IntersectRect(&temp, &playerBulletIter->rect, &ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect))
 				{
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 				}
-				else ++playerBulletIter;
+				else
+				{
+					++playerBulletIter;
+				}
 			}
 		}
 	}

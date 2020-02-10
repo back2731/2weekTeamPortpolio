@@ -100,7 +100,7 @@ void MinionClot::EnemyAi()
 			case 1:		// IDLE
 				break;
 			case 2:		// LEFT
-				if (vMinionClot[i].enemyRect.left > 0)
+				if (vMinionClot[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right -= vMinionClot[i].enemySpeed;
@@ -111,7 +111,7 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 3:		// RIGHT
-				if (vMinionClot[i].enemyRect.right < WINSIZEX)
+				if (vMinionClot[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right += vMinionClot[i].enemySpeed;
@@ -122,7 +122,7 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 4:		// UP
-				if (vMinionClot[i].enemyRect.top > 0)
+				if (vMinionClot[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom -= vMinionClot[i].enemySpeed;
@@ -133,7 +133,7 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 5:		// DOWN
-				if (vMinionClot[i].enemyRect.bottom < WINSIZEY)
+				if (vMinionClot[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom += vMinionClot[i].enemySpeed;
@@ -151,7 +151,7 @@ void MinionClot::EnemyAi()
 			case 1:		// IDLE
 				break;
 			case 2:		// LEFT
-				if (vMinionClot[i].enemyRect.left > 0)
+				if (vMinionClot[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right -= vMinionClot[i].enemySpeed;
@@ -162,7 +162,7 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 3:		// RIGHT
-				if (vMinionClot[i].enemyRect.right < WINSIZEX)
+				if (vMinionClot[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right += vMinionClot[i].enemySpeed;
@@ -173,7 +173,7 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 4:		// UP
-				if (vMinionClot[i].enemyRect.top > 0)
+				if (vMinionClot[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom -= vMinionClot[i].enemySpeed;
@@ -184,7 +184,7 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 5:		// DOWN
-				if (vMinionClot[i].enemyRect.bottom < WINSIZEY)
+				if (vMinionClot[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom += vMinionClot[i].enemySpeed;
@@ -202,7 +202,7 @@ void MinionClot::EnemyAi()
 			case 1:		// IDLE
 				break;
 			case 2:		// LEFT
-				if (vMinionClot[i].enemyRect.left > 0)
+				if (vMinionClot[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right -= vMinionClot[i].enemySpeed;
@@ -213,7 +213,7 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 3:		// RIGHT
-				if (vMinionClot[i].enemyRect.right < WINSIZEX)
+				if (vMinionClot[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right += vMinionClot[i].enemySpeed;
@@ -224,7 +224,7 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 4:		// UP
-				if (vMinionClot[i].enemyRect.top > 0)
+				if (vMinionClot[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom -= vMinionClot[i].enemySpeed;
@@ -235,7 +235,7 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 5:		// DOWN
-				if (vMinionClot[i].enemyRect.bottom < WINSIZEY)
+				if (vMinionClot[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom += vMinionClot[i].enemySpeed;

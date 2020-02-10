@@ -1,6 +1,7 @@
 #pragma once
 #include "singletonBase.h"
 #include "MinionAttackFly.h"
+#include "MinionBlackFly.h"
 #include "MinionMaw.h"
 #include "MinionTumor.h"
 #include "MinionGaper.h"
@@ -13,15 +14,16 @@
 class EnemyManager : public singletonBase<EnemyManager>
 {
 private:
-	MinionAttackFly* m_MinionAttackFly;
-	MinionMaw* m_MinionMaw;
-	MinionTumor* m_MinionTumor;
-	MinionGaper* m_MinionGaper;
-	MinionHorf* m_MinionHorf;
-	MinionMulligan* m_MinionMulligan;
-	MinionPacer* m_MinionPacer;
-	MinionClot* m_MinionClot;
-	MinionClotty* m_MinionClotty;
+	MinionAttackFly*	m_MinionAttackFly;
+	MinionBlackFly*		m_MinionBlackFly;
+	MinionMaw*			m_MinionMaw;
+	MinionTumor*		m_MinionTumor;
+	MinionGaper*		m_MinionGaper;
+	MinionHorf*			m_MinionHorf;
+	MinionMulligan*		m_MinionMulligan;
+	MinionPacer*		m_MinionPacer;
+	MinionClot*			m_MinionClot;
+	MinionClotty*		m_MinionClotty;
 
 public:
 	EnemyManager();
@@ -37,5 +39,5 @@ public:
 	//float GetRectX() { return m_TestMinion->GetRectX(); }
 	//float GetRectY() { return m_TestMinion->GetRectY(); }
 
-	MinionTumor* getMinionTumor() { return m_MinionTumor; }
+	MinionTumor* GetMinionTumor() { return m_MinionTumor; }
 };
