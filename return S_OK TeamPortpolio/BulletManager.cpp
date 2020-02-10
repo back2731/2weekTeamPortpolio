@@ -33,30 +33,6 @@ void BulletManager::Render(HDC hdc)
 {
 }
 
-void BulletManager::MoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator& bulletIter)
-{
-	// 넣어둔 벡터의 이터레이터를 돌면서 값을 증가시켜 총알을 움직여준다.
-	for (bulletIter = bulletVector.begin(); bulletIter != bulletVector.end();)
-	{
-		bulletIter->bulletX += cosf(bulletIter->angle) * bulletIter->speed;
-		bulletIter->bulletY += -sinf(bulletIter->angle) * bulletIter->speed;
-
-		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth(), bulletIter->bulletImage->getHeight());
-		//if (400 < getDistance(bulletIter->x, bulletIter->y, bulletIter->fireX, bulletIter->fireY))
-		//{
-		//	bulletIter->y += 1;
-		//}
-		RECT temp;
-		if (bulletIter->range < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY) ||
-			IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &bulletIter->rect))
-		{
-			OBJECTPOOL->SetBulletVector(bulletVector.front());
-			bulletIter = bulletVector.erase(bulletIter);
-		}
-		else ++bulletIter;
-	}
-}
-
 void BulletManager::ShootBullet(string imageName, vector<BulletInfo>& bulletVector, float x, float y, float angle, float speed, float range, int count, int interval)
 {
 	// 카운트의 인터벌 모드 0이 될때마다 값을 조정해준다.
@@ -81,6 +57,30 @@ void BulletManager::ShootBullet(string imageName, vector<BulletInfo>& bulletVect
 		bullet.range = range;
 		bullet.rect = RectMakeCenter(bullet.bulletX, bullet.bulletY, bullet.bulletImage->getWidth(), bullet.bulletImage->getHeight());
 		bulletVector.push_back(bullet);
+	}
+}
+
+void BulletManager::MoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator & bulletIter)
+{
+	// 넣어둔 벡터의 이터레이터를 돌면서 값을 증가시켜 총알을 움직여준다.
+	for (bulletIter = bulletVector.begin(); bulletIter != bulletVector.end();)
+	{
+		bulletIter->bulletX += cosf(bulletIter->angle) * bulletIter->speed;
+		bulletIter->bulletY += -sinf(bulletIter->angle) * bulletIter->speed;
+
+		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth(), bulletIter->bulletImage->getHeight());
+		//if (400 < getDistance(bulletIter->x, bulletIter->y, bulletIter->fireX, bulletIter->fireY))
+		//{
+		//	bulletIter->y += 1;
+		//}
+		RECT temp;
+		if (bulletIter->range < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY) ||
+			IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &bulletIter->rect))
+		{
+			OBJECTPOOL->SetBulletVector(bulletVector.front());
+			bulletIter = bulletVector.erase(bulletIter);
+		}
+		else ++bulletIter;
 	}
 }
 

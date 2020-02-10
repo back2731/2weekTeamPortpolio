@@ -32,9 +32,6 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	vector<EnemyInfo>& GetTumorVector() { return m_MinionTumor->GetEnemyVector(); }
-	vector<EnemyInfo>::iterator& GetTumorIter() { return m_MinionTumor->GetEnemyIter(); }
-
 	//테스트 에네미 렉트값 가져오기
 	//RECT GetRect() { return m_TestMinion->GetRect(); }
 	//float GetRectX() { return m_TestMinion->GetRectX(); }

@@ -19,7 +19,6 @@ public:
 
 	// 총알을 담은 벡터와 이터레이터를 넣어준다.
 	void MoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator& bulletIter);
-
 	void RenderBullet(HDC hdc, vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator& bulletIter);
 };
 

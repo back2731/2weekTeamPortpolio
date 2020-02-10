@@ -34,11 +34,6 @@ inline void RectangleMake(HDC hdc, int x, int y, int width, int height)
 {
 	Rectangle(hdc, x, y, x + width, y + height);
 }
-//새로생긴 사각형 그리기.
-inline void RectangleMake(HDC hdc, RECT rect)
-{
-	Rectangle(hdc, rect.left, rect.top, rect.right, rect.bottom);
-}
 //사각형 그리기(중심점)
 inline void RectangleMakeCenter(HDC hdc, int x, int y, int width, int height)
 {

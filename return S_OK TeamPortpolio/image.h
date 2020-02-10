@@ -91,14 +91,13 @@ public:
 	//렌더(내가 지정한 위치에 이미지 출력)
 	void render(HDC hdc);
 	void render(HDC hdc, int destX, int destY);
-	void render(HDC hdc, int destX, int destY, int width, int height);
 	void render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight);
 
 
 	//프레임렌더
 	void frameRender(HDC hdc, int destX, int destY);
 	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY);
-	void frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int width, int height);
+
 	//루프렌더(hdc, 루프시킬영역, x오프셋, y오프셋)
 	void loopRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY);
 	void loopAlphaRender(HDC hdc, const LPRECT drawArea, int offSetX, int offSetY, BYTE alpha);
@@ -171,3 +170,4 @@ public:
 
 
 };
+

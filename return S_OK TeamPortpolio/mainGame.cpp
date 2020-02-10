@@ -16,28 +16,6 @@ HRESULT mainGame::init()
 	SCENEMANAGER->addScene("MainMenu", new MainMenu);
 	SCENEMANAGER->addScene("GameScene", new GameScene);
 
-
-	IMAGEMANAGER->addFrameImage("tile", "images/blocks.bmp",
-		0, 0, 52 * 8, 52 * 9, 8, 9, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("tile2", "images/SampleMap.bmp",
-		0, 0, 52 * 17 * 4, 52 * 11 * 4, 4, 4, true, RGB(255, 0, 255));
-
-	SubMap* sub = new SubMap;
-	SCENEMANAGER->addScene("SubMap", sub);
-
-	MapToolScene* map = new MapToolScene;
-	SCENEMANAGER->addScene("MapTool", map);
-	SUBWIN->SetIsoMap(map);
-
-#ifdef SUBWINOPEN
-	SUBWIN->init();
-#endif // SUBWINOPEN
-
-#ifdef SUBWINOPEN
-	SUBWIN->SetScene(sub);
-#endif // SUBWINOPEN
-
-
 	SCENEMANAGER->changeScene("MainMenu");
 
 	return S_OK;
@@ -53,12 +31,6 @@ void mainGame::update()
 	gameNode::update();
 
 	SCENEMANAGER->update();
-
-#ifdef SUBWINOPEN
-
-	SUBWIN->update();
-#endif // SUBWINOPEN
-
 }
 
 void mainGame::render(/*HDC hdc*/)
@@ -68,9 +40,6 @@ void mainGame::render(/*HDC hdc*/)
 	//===================================================
 
 	SCENEMANAGER->render();
-#ifdef SUBWINOPEN
-	SUBWIN->render();
-#endif // SUBWINOPEN
 	TIMEMANAGER->render(getMemDC());
 
 	//===================================================
