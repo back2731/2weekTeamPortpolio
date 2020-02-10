@@ -92,7 +92,7 @@ void MinionPacer::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionPacer[i].enemyRect.left > 0)
+					if (vMinionPacer[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.left -= vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.right -= vMinionPacer[i].enemySpeed;
@@ -103,7 +103,7 @@ void MinionPacer::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionPacer[i].enemyRect.right < WINSIZEX)
+					if (vMinionPacer[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.left += vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.right += vMinionPacer[i].enemySpeed;
@@ -114,7 +114,7 @@ void MinionPacer::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionPacer[i].enemyRect.top > 0)
+					if (vMinionPacer[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.top -= vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.bottom -= vMinionPacer[i].enemySpeed;
@@ -125,7 +125,7 @@ void MinionPacer::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionPacer[i].enemyRect.bottom < WINSIZEY)
+					if (vMinionPacer[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.top += vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.bottom += vMinionPacer[i].enemySpeed;
@@ -143,7 +143,7 @@ void MinionPacer::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionPacer[i].enemyRect.left > 0)
+					if (vMinionPacer[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.left -= vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.right -= vMinionPacer[i].enemySpeed;
@@ -154,7 +154,7 @@ void MinionPacer::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionPacer[i].enemyRect.right < WINSIZEX)
+					if (vMinionPacer[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.left += vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.right += vMinionPacer[i].enemySpeed;
@@ -165,7 +165,7 @@ void MinionPacer::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionPacer[i].enemyRect.top > 0)
+					if (vMinionPacer[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.top -= vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.bottom -= vMinionPacer[i].enemySpeed;
@@ -176,7 +176,7 @@ void MinionPacer::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionPacer[i].enemyRect.bottom < WINSIZEY)
+					if (vMinionPacer[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.top += vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.bottom += vMinionPacer[i].enemySpeed;
@@ -194,7 +194,7 @@ void MinionPacer::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionPacer[i].enemyRect.left > 0)
+					if (vMinionPacer[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.left -= vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.right -= vMinionPacer[i].enemySpeed;
@@ -205,7 +205,7 @@ void MinionPacer::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionPacer[i].enemyRect.right < WINSIZEX)
+					if (vMinionPacer[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.left += vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.right += vMinionPacer[i].enemySpeed;
@@ -216,7 +216,7 @@ void MinionPacer::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionPacer[i].enemyRect.top > 0)
+					if (vMinionPacer[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.top -= vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.bottom -= vMinionPacer[i].enemySpeed;
@@ -227,7 +227,7 @@ void MinionPacer::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionPacer[i].enemyRect.bottom < WINSIZEY)
+					if (vMinionPacer[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
 					{
 						vMinionPacer[i].enemyRect.top += vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.bottom += vMinionPacer[i].enemySpeed;
