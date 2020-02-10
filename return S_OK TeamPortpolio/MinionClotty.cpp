@@ -251,7 +251,10 @@ void MinionClotty::EnemyAi()
 	}
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ÀÇ ¿òÁ÷ÀÓ
-	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
+	BULLETMANAGER->EnemyMoveBullet(vEnemyBullet, viEnemyBullet);
+
+	// ÀûÀÌ ½î´Â ºÒ·¿ Ãæµ¹
+	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);
 }
 
 void MinionClotty::EnemyShot()
@@ -298,4 +301,9 @@ void MinionClotty::EnemyShot()
 		SetThirdEnemyBulletCount();
 		break;
 	}
+}
+
+void MinionClotty::DeleteEnemy(int num)
+{
+	vMinionClotty.erase(vMinionClotty.begin() + num);
 }

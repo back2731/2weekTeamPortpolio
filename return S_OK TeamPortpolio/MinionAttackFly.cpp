@@ -291,5 +291,13 @@ void MinionAttackFly::EnemyAi()
 	}
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ÀÇ ¿òÁ÷ÀÓ
-	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
+	BULLETMANAGER->EnemyMoveBullet(vEnemyBullet, viEnemyBullet);
+
+	// ÀûÀÌ ½î´Â ºÒ·¿ Ãæµ¹
+	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);
+}
+
+void MinionAttackFly::DeleteEnemy(int num)
+{
+	vMinionAttackFly.erase(vMinionAttackFly.begin() + num);
 }

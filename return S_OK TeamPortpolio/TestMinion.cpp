@@ -139,7 +139,10 @@ void TestMinion::Update()
 	fireRange = RectMakeCenter(enemyX, enemyY, 300, 300);
 
 	// 적이 쏘는 불렛의 움직임
-	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
+	BULLETMANAGER->EnemyMoveBullet(vEnemyBullet, viEnemyBullet);
+
+	// 적이 쏘는 불렛 충돌
+	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);
 
 	// 적과 장애물이 충돌하면 true
 	if (IntersectRect(&temp, &obstacle, &enemyRect))

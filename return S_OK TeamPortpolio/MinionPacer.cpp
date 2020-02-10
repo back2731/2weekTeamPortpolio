@@ -245,3 +245,8 @@ void MinionPacer::EnemyAi()
 		vMinionPacer[i].enemyFireRange = RectMakeCenter(vMinionPacer[i].enemyX, vMinionPacer[i].enemyY, 200, 200);
 	}
 }
+
+void MinionPacer::DeleteEnemy(int num)
+{
+	vMinionPacer.erase(vMinionPacer.begin() + num);
+}

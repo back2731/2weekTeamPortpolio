@@ -14,18 +14,22 @@
 class EnemyManager : public singletonBase<EnemyManager>
 {
 private:
+
+	// 공중미니언
 	MinionAttackFly*	m_MinionAttackFly;
 	MinionBlackFly*		m_MinionBlackFly;
 	MinionMaw*			m_MinionMaw;
 	MinionTumor*		m_MinionTumor;
+
+	// 지상미니언
+	MinionClot*			m_MinionClot;
+	MinionClotty*		m_MinionClotty;
 	MinionGaper*		m_MinionGaper;
 	MinionHorf*			m_MinionHorf;
 	MinionMulligan*		m_MinionMulligan;
 	MinionPacer*		m_MinionPacer;
-	MinionClot*			m_MinionClot;
-	MinionClotty*		m_MinionClotty;
 
-public:
+public:	
 	EnemyManager();
 	~EnemyManager();
 
@@ -39,5 +43,17 @@ public:
 	//float GetRectX() { return m_TestMinion->GetRectX(); }
 	//float GetRectY() { return m_TestMinion->GetRectY(); }
 
-	MinionTumor* GetMinionTumor() { return m_MinionTumor; }
+	// 총알 충돌용 함수
+	MinionAttackFly*	GetMinionAttackFly()	{ return m_MinionAttackFly; }
+	MinionBlackFly*		GetMinionBlackFly()		{ return m_MinionBlackFly; }
+	MinionMaw*			GetMinionMaw()			{ return m_MinionMaw; }
+	MinionTumor*		GetMinionTumor()		{ return m_MinionTumor; }
+
+	MinionClot*			GetMinionClot()			{ return  m_MinionClot;	}
+	MinionClotty*		GetMinionClotty()		{ return m_MinionClotty; }
+	MinionGaper*		GetMinionGaper()		{ return m_MinionGaper; }
+	MinionHorf*			GetMinionHorf()			{ return m_MinionHorf; }
+	MinionMulligan*		GetMinionMulligan()		{ return  m_MinionMulligan; }
+	MinionPacer*		GetMinionPacer()		{ return  m_MinionPacer; }
+
 };

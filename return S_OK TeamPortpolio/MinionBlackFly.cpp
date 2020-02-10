@@ -376,3 +376,8 @@ void MinionBlackFly::EnemyAi()
 		vMinionBlackFly[i].enemyFireRange = RectMakeCenter(vMinionBlackFly[i].enemyX, vMinionBlackFly[i].enemyY, 300, 300);
 	}
 }
+
+void MinionBlackFly::DeleteEnemy(int num)
+{
+	vMinionBlackFly.erase(vMinionBlackFly.begin() + num);
+}

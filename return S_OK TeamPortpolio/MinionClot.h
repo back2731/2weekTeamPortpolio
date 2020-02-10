@@ -20,5 +20,11 @@ public:
 
 	void EnemyAiTime();
 	void EnemyAi();
-	void EnemyShot();
+	void EnemyShot();	
+	
+	// 에너미 벡터를 반환하는 함수
+	vector<EnemyInfo> GetMinionVector() { return vMinionClot; }
+
+	// 에너미 벡터를 지우는 함수
+	void DeleteEnemy(int num);
 };
