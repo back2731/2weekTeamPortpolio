@@ -36,4 +36,6 @@ public:
 	//RECT GetRect() { return m_TestMinion->GetRect(); }
 	//float GetRectX() { return m_TestMinion->GetRectX(); }
 	//float GetRectY() { return m_TestMinion->GetRectY(); }
+
+	MinionTumor* getMinionTumor() { return m_MinionTumor; }
 };

@@ -23,4 +23,6 @@ public:
 	void EnemyAiTime();
 	void EnemyAi();
 	void EnemyShot();
+
+	vector<EnemyInfo>& GetMinionVector() { return vMinionTumor; }
 };

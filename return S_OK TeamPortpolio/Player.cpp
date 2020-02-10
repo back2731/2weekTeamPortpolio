@@ -54,6 +54,8 @@ void Player::Update()
 {
 	PlayerMove();
 	PlayerShot();
+	COLLISIONMANAGER->PlayerBulletCollision(vPlayerBullet, viPlayerBullet);
+
 }
 
 void Player::Render(HDC hdc)
@@ -371,6 +373,7 @@ void Player::PlayerShotMove()
 			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
 			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
 			ANGLE_180, player.playerShotSpeed, player.playerShotRange, playerBulletInterval++, player.playerShotDelay);
+
 	}
 	else if (playerRightShot)
 	{
@@ -396,4 +399,6 @@ void Player::PlayerShotMove()
 
 	//ºÒ·¿ ¹«ºê
 	BULLETMANAGER->MoveBullet(vPlayerBullet, viPlayerBullet);
+
+
 }

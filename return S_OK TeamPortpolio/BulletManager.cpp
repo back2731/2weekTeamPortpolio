@@ -74,8 +74,7 @@ void BulletManager::MoveBullet(vector<BulletInfo>& bulletVector, vector<BulletIn
 		//	bulletIter->y += 1;
 		//}
 		RECT temp;
-		if (bulletIter->range < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY) ||
-			IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &bulletIter->rect))
+		if (bulletIter->range < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY))
 		{
 			OBJECTPOOL->SetBulletVector(bulletVector.front());
 			bulletIter = bulletVector.erase(bulletIter);

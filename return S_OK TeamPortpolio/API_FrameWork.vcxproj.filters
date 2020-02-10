@@ -231,6 +231,9 @@
     <ClInclude Include="SubMap.h">
       <Filter>mainGame\Scene\MapTool</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionManager.h">
+      <Filter>Manager\수정중</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -361,6 +364,9 @@
     </ClCompile>
     <ClCompile Include="SubMap.cpp">
       <Filter>mainGame\Scene\MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionManager.cpp">
+      <Filter>Manager\수정중</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
