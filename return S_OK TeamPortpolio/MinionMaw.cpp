@@ -140,7 +140,7 @@ void MinionMaw::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionMaw[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.left > 0)
 					{
 						vMinionMaw[i].enemyRect.left -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right -= vMinionMaw[i].enemySpeed;
@@ -151,7 +151,7 @@ void MinionMaw::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionMaw[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.right < WINSIZEX)
 					{
 						vMinionMaw[i].enemyRect.left += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right += vMinionMaw[i].enemySpeed;
@@ -162,7 +162,7 @@ void MinionMaw::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionMaw[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.top > 0)
 					{
 						vMinionMaw[i].enemyRect.top -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom -= vMinionMaw[i].enemySpeed;
@@ -173,7 +173,7 @@ void MinionMaw::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionMaw[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.bottom < WINSIZEY)
 					{
 						vMinionMaw[i].enemyRect.top += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom += vMinionMaw[i].enemySpeed;
@@ -191,7 +191,7 @@ void MinionMaw::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionMaw[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.left > 0)
 					{
 						vMinionMaw[i].enemyRect.left -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right -= vMinionMaw[i].enemySpeed;
@@ -202,7 +202,7 @@ void MinionMaw::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionMaw[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.right < WINSIZEX)
 					{
 						vMinionMaw[i].enemyRect.left += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right += vMinionMaw[i].enemySpeed;
@@ -213,7 +213,7 @@ void MinionMaw::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionMaw[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.top > 0)
 					{
 						vMinionMaw[i].enemyRect.top -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom -= vMinionMaw[i].enemySpeed;
@@ -224,7 +224,7 @@ void MinionMaw::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionMaw[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.bottom < WINSIZEY)
 					{
 						vMinionMaw[i].enemyRect.top += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom += vMinionMaw[i].enemySpeed;
@@ -242,7 +242,7 @@ void MinionMaw::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionMaw[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.left > 0)
 					{
 						vMinionMaw[i].enemyRect.left -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right -= vMinionMaw[i].enemySpeed;
@@ -253,7 +253,7 @@ void MinionMaw::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionMaw[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.right < WINSIZEX)
 					{
 						vMinionMaw[i].enemyRect.left += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right += vMinionMaw[i].enemySpeed;
@@ -264,7 +264,7 @@ void MinionMaw::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionMaw[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.top > 0)
 					{
 						vMinionMaw[i].enemyRect.top -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom -= vMinionMaw[i].enemySpeed;
@@ -275,7 +275,7 @@ void MinionMaw::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionMaw[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.bottom < WINSIZEY)
 					{
 						vMinionMaw[i].enemyRect.top += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom += vMinionMaw[i].enemySpeed;

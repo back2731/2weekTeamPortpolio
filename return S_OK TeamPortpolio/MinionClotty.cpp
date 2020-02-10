@@ -100,7 +100,7 @@ void MinionClotty::EnemyAi()
 			case 1:		// IDLE
 				break;
 			case 2:		// LEFT
-				if (vMinionClotty[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.left > 0)
 				{
 					vMinionClotty[i].enemyRect.left -= vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.right -= vMinionClotty[i].enemySpeed;
@@ -111,7 +111,7 @@ void MinionClotty::EnemyAi()
 				}
 				break;
 			case 3:		// RIGHT
-				if (vMinionClotty[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.right < WINSIZEX)
 				{
 					vMinionClotty[i].enemyRect.left += vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.right += vMinionClotty[i].enemySpeed;
@@ -122,7 +122,7 @@ void MinionClotty::EnemyAi()
 				}
 				break;
 			case 4:		// UP
-				if (vMinionClotty[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.top > 0)
 				{
 					vMinionClotty[i].enemyRect.top -= vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.bottom -= vMinionClotty[i].enemySpeed;
@@ -133,7 +133,7 @@ void MinionClotty::EnemyAi()
 				}
 				break;
 			case 5:		// DOWN
-				if (vMinionClotty[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.bottom < WINSIZEY)
 				{
 					vMinionClotty[i].enemyRect.top += vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.bottom += vMinionClotty[i].enemySpeed;
@@ -151,7 +151,7 @@ void MinionClotty::EnemyAi()
 			case 1:		// IDLE
 				break;
 			case 2:		// LEFT
-				if (vMinionClotty[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.left > 0)
 				{
 					vMinionClotty[i].enemyRect.left -= vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.right -= vMinionClotty[i].enemySpeed;
@@ -162,7 +162,7 @@ void MinionClotty::EnemyAi()
 				}
 				break;
 			case 3:		// RIGHT
-				if (vMinionClotty[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.right < WINSIZEX)
 				{
 					vMinionClotty[i].enemyRect.left += vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.right += vMinionClotty[i].enemySpeed;
@@ -173,7 +173,7 @@ void MinionClotty::EnemyAi()
 				}
 				break;
 			case 4:		// UP
-				if (vMinionClotty[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.top > 0)
 				{
 					vMinionClotty[i].enemyRect.top -= vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.bottom -= vMinionClotty[i].enemySpeed;
@@ -184,7 +184,7 @@ void MinionClotty::EnemyAi()
 				}
 				break;
 			case 5:		// DOWN
-				if (vMinionClotty[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.bottom < WINSIZEY)
 				{
 					vMinionClotty[i].enemyRect.top += vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.bottom += vMinionClotty[i].enemySpeed;
@@ -202,7 +202,7 @@ void MinionClotty::EnemyAi()
 			case 1:		// IDLE
 				break;
 			case 2:		// LEFT
-				if (vMinionClotty[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.left > 0)
 				{
 					vMinionClotty[i].enemyRect.left -= vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.right -= vMinionClotty[i].enemySpeed;
@@ -213,7 +213,7 @@ void MinionClotty::EnemyAi()
 				}
 				break;
 			case 3:		// RIGHT
-				if (vMinionClotty[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.right < WINSIZEX)
 				{
 					vMinionClotty[i].enemyRect.left += vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.right += vMinionClotty[i].enemySpeed;
@@ -224,7 +224,7 @@ void MinionClotty::EnemyAi()
 				}
 				break;
 			case 4:		// UP
-				if (vMinionClotty[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.top > 0)
 				{
 					vMinionClotty[i].enemyRect.top -= vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.bottom -= vMinionClotty[i].enemySpeed;
@@ -235,7 +235,7 @@ void MinionClotty::EnemyAi()
 				}
 				break;
 			case 5:		// DOWN
-				if (vMinionClotty[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+				if (vMinionClotty[i].enemyRect.bottom < WINSIZEY)
 				{
 					vMinionClotty[i].enemyRect.top += vMinionClotty[i].enemySpeed;
 					vMinionClotty[i].enemyRect.bottom += vMinionClotty[i].enemySpeed;

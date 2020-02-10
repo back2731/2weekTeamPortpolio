@@ -16,7 +16,7 @@ HRESULT MinionTumor::Init(POINT position, int EnemyNumber)
 	MinionTumor.enemyNumber = EnemyNumber;
 	MinionTumor.enemyRect = RectMakeCenter(position.x, position.y, 50, 50);
 	MinionTumor.enemyHp = 20;
-	MinionTumor.enemyShotSpeed = 4.0f;
+	MinionTumor.enemyShotSpeed = 5.0f;
 	MinionTumor.enemyShotRange = 500.0f;
 	MinionTumor.enemyShotDelay = 200;
 	MinionTumor.enemySpeed = 1.5f;
@@ -24,7 +24,6 @@ HRESULT MinionTumor::Init(POINT position, int EnemyNumber)
 
 	enemyAreaCheck = false;
 	enemyCollision = false;
-
 	return S_OK;
 }
 
@@ -41,7 +40,7 @@ void MinionTumor::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionTumor.size(); i++)
 	{
-		Rectangle(hdc, vMinionTumor[i].enemyFireRange.left, vMinionTumor[i].enemyFireRange.top, vMinionTumor[i].enemyFireRange.right, vMinionTumor[i].enemyFireRange.bottom);
+		//Rectangle(hdc, vMinionTumor[i].enemyFireRange.left, vMinionTumor[i].enemyFireRange.top, vMinionTumor[i].enemyFireRange.right, vMinionTumor[i].enemyFireRange.bottom);
 		Rectangle(hdc, vMinionTumor[i].enemyRect.left, vMinionTumor[i].enemyRect.top, vMinionTumor[i].enemyRect.right, vMinionTumor[i].enemyRect.bottom);
 	}
 
@@ -86,223 +85,193 @@ void MinionTumor::EnemyAi()
 {
 	for (i = 0; i < vMinionTumor.size(); i++)
 	{
-		RECT temp;
-
 		// 적 x축, y축 좌표
 		vMinionTumor[i].enemyX = vMinionTumor[i].enemyRect.left + (vMinionTumor[i].enemyRect.right - vMinionTumor[i].enemyRect.left) / 2;
 		vMinionTumor[i].enemyY = vMinionTumor[i].enemyRect.top + (vMinionTumor[i].enemyRect.bottom - vMinionTumor[i].enemyRect.top) / 2;
 
-		// 플레이어와 판정 범위가 충돌시
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionTumor[i].enemyFireRange))
-		{
-			// 적과 장애물이 충돌하지 않았다면
-			if (!enemyCollision)
-			{
-				// 플레이어를 쫓아가라.
-				enemyAreaCheck = true;
-			}
-		}
-
 		EnemyShot();
+		EnemyAiTime();
 
-		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
-		if (enemyAreaCheck)
+		switch (vMinionTumor[i].enemyNumber)
 		{
-			// getdistance(적의 위치 x, y, 플레이어의 위치 x, y)
-			distance = getDistance(vMinionTumor[i].enemyX, vMinionTumor[i].enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY());
-
-			if (distance)
+		case 0:
+			switch (firstEnemyAiPattern)
 			{
-				// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
-				vx = ((PLAYERMANAGER->GetPlayerHitRectX()) - vMinionTumor[i].enemyX) / distance * vMinionTumor[i].enemySpeed;
-				vy = ((PLAYERMANAGER->GetPlayerHitRectY()) - vMinionTumor[i].enemyY) / distance * vMinionTumor[i].enemySpeed;
-			}
-			else
-			{
-				vx = 0;
-				vy = vMinionTumor[i].enemySpeed;
-			}
-
-			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
-			vMinionTumor[i].enemyX += vx;
-			vMinionTumor[i].enemyY += vy;
-			vMinionTumor[i].enemyRect = RectMakeCenter(vMinionTumor[i].enemyX, vMinionTumor[i].enemyY, 50, 50);
-
-			if (vMinionTumor[i].enemyX < PLAYERMANAGER->GetPlayerHitRectX())
-			{
-				if ((vMinionTumor[i].enemyRect.top + 10) < PLAYERMANAGER->GetPlayerHitRectY() &&
-					(vMinionTumor[i].enemyRect.bottom - 10) > PLAYERMANAGER->GetPlayerHitRectY())
+			case 1:		// IDLE
+				break;
+			case 2:	
+				if (vMinionTumor[i].enemyRect.left > 0 || vMinionTumor[i].enemyRect.top > 0)
 				{
-					vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed * 2;
-					vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed * 2;
+					vMinionTumor[i].enemyRect.left -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom -= vMinionTumor[i].enemySpeed;
 				}
-			}
-		}
-		// 범위안에 플레이어가 없다면 자율행동(AI)
-		else if (!enemyAreaCheck)
-		{
-			EnemyAiTime();
-
-			switch (vMinionTumor[i].enemyNumber)
-			{
-			case 0:
-				switch (firstEnemyAiPattern)
+				if (vMinionTumor[i].enemyRect.left <= 30 || vMinionTumor[i].enemyRect.top <= 30)
 				{
-				case 1:		// IDLE
-					break;
-				case 2:		// LEFT
-					if (vMinionTumor[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.left -= vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.right -= vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.left <= 10)
-					{
-						firstEnemyAiPattern = 3;
-					}
-					break;
-				case 3:		// RIGHT
-					if (vMinionTumor[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.right >= 950)
-					{
-						firstEnemyAiPattern = 2;
-					}
-					break;
-				case 4:		// UP
-					if (vMinionTumor[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.top -= vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.bottom -= vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.top <= 10)
-					{
-						firstEnemyAiPattern = 5;
-					}
-					break;
-				case 5:		// DOWN
-					if (vMinionTumor[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.top += vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.bottom += vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.bottom >= 530)
-					{
-						firstEnemyAiPattern = 4;
-					}
-					break;
+					firstEnemyAiPattern = 5;
 				}
 				break;
-			case 1:
-				switch (secondEnemyAiPattern)
+			case 3:	
+				if (vMinionTumor[i].enemyRect.left > 0 || vMinionTumor[i].enemyRect.bottom > WINSIZEY)
 				{
-				case 1:		// IDLE
-					break;
-				case 2:		// LEFT
-					if (vMinionTumor[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.left -= vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.right -= vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.left <= 10)
-					{
-						secondEnemyAiPattern = 3;
-					}
-					break;
-				case 3:		// RIGHT
-					if (vMinionTumor[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.right >= 950)
-					{
-						secondEnemyAiPattern = 2;
-					}
-					break;
-				case 4:		// UP
-					if (vMinionTumor[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.top -= vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.bottom -= vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.top <= 10)
-					{
-						secondEnemyAiPattern = 5;
-					}
-					break;
-				case 5:		// DOWN
-					if (vMinionTumor[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.top += vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.bottom += vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.bottom >= 530)
-					{
-						secondEnemyAiPattern = 4;
-					}
-					break;
+					vMinionTumor[i].enemyRect.left -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom += vMinionTumor[i].enemySpeed;
 				}
+				if (vMinionTumor[i].enemyRect.left <= 30 || vMinionTumor[i].enemyRect.bottom >= 510)
+				{
+					firstEnemyAiPattern = 4;
+				}
+				break;
+			case 4:	
+				if (vMinionTumor[i].enemyRect.right < WINSIZEX || vMinionTumor[i].enemyRect.top > 0)
+				{
+					vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom -= vMinionTumor[i].enemySpeed;
+				}
+				if (vMinionTumor[i].enemyRect.right >= 510 || vMinionTumor[i].enemyRect.top <= 30)
+				{
+					firstEnemyAiPattern = 3;
+				}
+				break;
+			case 5:	
+				if (vMinionTumor[i].enemyRect.right < WINSIZEX || vMinionTumor[i].enemyRect.bottom < WINSIZEY)
+				{
+					vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom += vMinionTumor[i].enemySpeed;
+				}
+				if (vMinionTumor[i].enemyRect.right >= 510 || vMinionTumor[i].enemyRect.bottom >= 510)
+				{
+					firstEnemyAiPattern = 2;
+				}
+				break;
+			}
+			break;
+		case 1:
+			switch (secondEnemyAiPattern)
+			{
+			case 1:		// IDLE
+				break;
+			case 2:	
+				if (vMinionTumor[i].enemyRect.left > 0 || vMinionTumor[i].enemyRect.top > 0)
+				{
+					vMinionTumor[i].enemyRect.left -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom -= vMinionTumor[i].enemySpeed;
+				}
+				if (vMinionTumor[i].enemyRect.left <= 30 || vMinionTumor[i].enemyRect.top <= 30)
+				{
+					secondEnemyAiPattern = 5;
+				}
+				break;
+			case 3:	
+				if (vMinionTumor[i].enemyRect.left > 0 || vMinionTumor[i].enemyRect.bottom > WINSIZEY)
+				{
+					vMinionTumor[i].enemyRect.left -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom += vMinionTumor[i].enemySpeed;
+				}
+				if (vMinionTumor[i].enemyRect.left <= 30 || vMinionTumor[i].enemyRect.bottom >= 510)
+				{
+					secondEnemyAiPattern = 4;
+				}
+				break;
+			case 4:		
+				if (vMinionTumor[i].enemyRect.right < WINSIZEX || vMinionTumor[i].enemyRect.top > 0)
+				{
+					vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom -= vMinionTumor[i].enemySpeed;
+				}
+				if (vMinionTumor[i].enemyRect.right >= 510 || vMinionTumor[i].enemyRect.top <= 30)
+				{
+					secondEnemyAiPattern = 3;
+				}
+				break;
+			case 5:		
+				if (vMinionTumor[i].enemyRect.right < WINSIZEX || vMinionTumor[i].enemyRect.bottom < WINSIZEY)
+				{
+					vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom += vMinionTumor[i].enemySpeed;
+				}
+				if (vMinionTumor[i].enemyRect.right >= 510 || vMinionTumor[i].enemyRect.bottom >= 510)
+				{
+					secondEnemyAiPattern = 2;
+				}
+				break;
+			}
+			break;
+		case 2:
+			switch (thirdEnemyAiPattern)
+			{
+			case 1:		// IDLE
 				break;
 			case 2:
-				switch (thirdEnemyAiPattern)
+				if (vMinionTumor[i].enemyRect.left > 0 || vMinionTumor[i].enemyRect.top > 0)
 				{
-				case 1:		// IDLE
-					break;
-				case 2:		// LEFT
-					if (vMinionTumor[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.left -= vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.right -= vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.left <= 10)
-					{
-						thirdEnemyAiPattern = 3;
-					}
-					break;
-				case 3:		// RIGHT
-					if (vMinionTumor[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.right >= 950)
-					{
-						thirdEnemyAiPattern = 2;
-					}
-					break;
-				case 4:		// UP
-					if (vMinionTumor[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.top -= vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.bottom -= vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.top <= 10)
-					{
-						thirdEnemyAiPattern = 5;
-					}
-					break;
-				case 5:		// DOWN
-					if (vMinionTumor[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
-					{
-						vMinionTumor[i].enemyRect.top += vMinionTumor[i].enemySpeed;
-						vMinionTumor[i].enemyRect.bottom += vMinionTumor[i].enemySpeed;
-					}
-					if (vMinionTumor[i].enemyRect.bottom >= 530)
-					{
-						thirdEnemyAiPattern = 4;
-					}
-					break;
+					vMinionTumor[i].enemyRect.left -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom -= vMinionTumor[i].enemySpeed;
+				}
+				if (vMinionTumor[i].enemyRect.left <= 30 || vMinionTumor[i].enemyRect.top <= 30)
+				{
+					thirdEnemyAiPattern = 5;
+				}
+				break;
+			case 3:		
+				if (vMinionTumor[i].enemyRect.left > 0 || vMinionTumor[i].enemyRect.bottom > WINSIZEY)
+				{
+					vMinionTumor[i].enemyRect.left -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom += vMinionTumor[i].enemySpeed;
+				}
+				if (vMinionTumor[i].enemyRect.left <= 30 || vMinionTumor[i].enemyRect.bottom >= 510)
+				{
+					thirdEnemyAiPattern = 4;
+				}
+				break;
+			case 4:		
+				if (vMinionTumor[i].enemyRect.right < WINSIZEX || vMinionTumor[i].enemyRect.top > 0)
+				{
+					vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top -= vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom -= vMinionTumor[i].enemySpeed;
+				}
+				if (vMinionTumor[i].enemyRect.right >= 510 || vMinionTumor[i].enemyRect.top <= 30)
+				{
+					thirdEnemyAiPattern = 3;
+				}
+				break;
+			case 5:		
+				if (vMinionTumor[i].enemyRect.right < WINSIZEX || vMinionTumor[i].enemyRect.bottom < WINSIZEY)
+				{
+					vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.top += vMinionTumor[i].enemySpeed;
+					vMinionTumor[i].enemyRect.bottom += vMinionTumor[i].enemySpeed;
+				}
+				if (vMinionTumor[i].enemyRect.right >= 510 || vMinionTumor[i].enemyRect.bottom >= 510)
+				{
+					thirdEnemyAiPattern = 2;
 				}
 				break;
 			}
+			break;
 		}
-
-		// 판정 범위가 항상 적의 좌표를 쫓아다님
-		vMinionTumor[i].enemyFireRange = RectMakeCenter(vMinionTumor[i].enemyX, vMinionTumor[i].enemyY, 700, 50);
 	}
 
 	// 적이 쏘는 불렛의 움직임
