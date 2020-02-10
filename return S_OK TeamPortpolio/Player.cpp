@@ -13,14 +13,14 @@ HRESULT Player::Init(string imageName)
 {
 	player.playerHeadImage = IMAGEMANAGER->findImage(imageName);								//머리 이미지
 	player.playerBodyImage = IMAGEMANAGER->findImage(imageName);								//몸 이미지
-	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 25 * 2, 25 * 2);			//머리 상자
-	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 40, 25 * 2, 15 * 2);	//몸 상자
+	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 31 * 2);			//머리 상자
+	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 62, 32 * 2, 31 * 2);	//몸 상자
 	player.playerShotSpeed = 8.0f;																//공격속도
 	player.playerShotRange = 450.0f;															//공격사거리
 	player.playerShotDelay = 25;																//공격주기
 	player.playerSpeed = 5.0f;																	//이동속도
 	player.playerSlideSpeed = 3.0f;																//슬라이딩 속도
-	playerBulletCount = 0;
+	playerBulletInterval = 0;
 
 	//플레이어 무브 변수 초기화
 	isLeft = false;
@@ -139,7 +139,7 @@ void Player::PlayerMove()
 
 	//플레이어 피격 상자
 	player.playerHitRect = RectMakeCenter(player.playerBodyRect.left + (player.playerBodyRect.right - player.playerBodyRect.left) / 2,
-		player.playerBodyRect.top - 10, 50, 80);
+		player.playerBodyRect.top, 60, 100);
 }
 
 void Player::PlayerSilde()
@@ -370,28 +370,28 @@ void Player::PlayerShotMove()
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
 			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
 			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
-			ANGLE_180, player.playerShotSpeed, player.playerShotRange, playerBulletCount++, player.playerShotDelay);
+			ANGLE_180, player.playerShotSpeed, player.playerShotRange, playerBulletInterval++, player.playerShotDelay);
 	}
 	else if (playerRightShot)
 	{
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
 			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
 			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
-			ANGLE_0, player.playerShotSpeed, player.playerShotRange, playerBulletCount++, player.playerShotDelay);
+			ANGLE_0, player.playerShotSpeed, player.playerShotRange, playerBulletInterval++, player.playerShotDelay);
 	}
 	else if (playerUpShot)
 	{
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
 			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
 			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
-			ANGLE_90, player.playerShotSpeed, player.playerShotRange, playerBulletCount++, player.playerShotDelay);
+			ANGLE_90, player.playerShotSpeed, player.playerShotRange, playerBulletInterval++, player.playerShotDelay);
 	}
 	else if (playerDownShot)
 	{
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
 			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
 			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
-			ANGLE_270, player.playerShotSpeed, player.playerShotRange, playerBulletCount++, player.playerShotDelay);
+			ANGLE_270, player.playerShotSpeed, player.playerShotRange, playerBulletInterval++, player.playerShotDelay);
 	}
 
 	//불렛 무브

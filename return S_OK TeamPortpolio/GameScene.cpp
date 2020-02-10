@@ -23,8 +23,8 @@ HRESULT GameScene::init()
 	m_shop->Init();
 
 	// 플레이어, 에네미 메니저 초기화.
-	ENEMYMANAGER->Init();
 	PLAYERMANAGER->Init();
+	ENEMYMANAGER->Init();
 
 	return S_OK;
 }
@@ -36,8 +36,8 @@ void GameScene::release()
 
 void GameScene::update()
 {
-	ENEMYMANAGER->Update();
 	PLAYERMANAGER->Update();
+	ENEMYMANAGER->Update();
 }
 
 void GameScene::render()

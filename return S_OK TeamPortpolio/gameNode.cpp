@@ -1,21 +1,29 @@
 #include "stdafx.h"
 #include "gameNode.h"
-
 gameNode::gameNode()
 {
 }
-
-
 gameNode::~gameNode()
 {
 }
+image* gameNode::_backBuffer = NULL;
+image * gameNode::setBackBuffer()
+{
 
+	_backBuffer = new image;
+	_backBuffer->init(WINSIZEX, WINSIZEY);
+
+	return _backBuffer;
+}
 HRESULT gameNode::init()
 {
+
+
 	_hdc = GetDC(m_hWnd);
 	_managerInit = false;
 	return S_OK;
 }
+
 HRESULT gameNode::init(bool managerInit)
 {
 	_hdc = GetDC(m_hWnd);
@@ -23,8 +31,9 @@ HRESULT gameNode::init(bool managerInit)
 
 	if (managerInit)
 	{
-		SetTimer(m_hWnd, 1, 10, NULL);
-		//매니저 초기화
+
+		setBackBuffer();
+		//SetTimer(m_hWnd, 1, 10, NULL);
 		KEYMANAGER->init();
 		IMAGEMANAGER->init();
 		TIMEMANAGER->init();
@@ -33,25 +42,19 @@ HRESULT gameNode::init(bool managerInit)
 		ANIMATIONMANAGER->init();
 		EFFECTMANAGER->init();
 		TXTDATA->init();
+
 	}
-	
+
 	return S_OK;
 }
-//void gameNode::setBackBuffer()
-//{
-//	_backBuffer = new image;
-//	_backBuffer->init(WINSIZEX, WINSIZEY);
-//}
 
 void gameNode::release()
-{	//타이머 해제
 
+{
 	if (_managerInit)
 	{
-		//해제를 안하면 종료를 해도 메모리가 줄줄줄~
-
-		KillTimer(m_hWnd, 1);
-		//매니저 해제
+		//타이머 해제
+		//KillTimer(m_hWnd, 1);
 		KEYMANAGER->releaseSingleton();
 		IMAGEMANAGER->releaseSingleton();
 		TIMEMANAGER->releaseSingleton();
@@ -62,55 +65,48 @@ void gameNode::release()
 		RND->releaseSingleton();
 		TXTDATA->releaseSingleton();
 
+
+		KEYMANAGER->release();
 		IMAGEMANAGER->release();
+		TIMEMANAGER->release();
 		SCENEMANAGER->release();
-		SOUNDMANAGER->release();
 		ANIMATIONMANAGER->release();
 		EFFECTMANAGER->release();
+
 	}
+
 	ReleaseDC(m_hWnd, _hdc);
-
-	//SAFE_DELETE(_backBuffer);
-
 }
 
 void gameNode::update()
 {
-	//더블버퍼 이후 사용하지 않는다 true->false
-	InvalidateRect(m_hWnd, NULL, false);
+
+	//더블버퍼 이후 사용 하지 않는다.(true->false)
+	//InvalidateRect(m_hWnd, NULL, false);
 }
-void gameNode::render(/*HDC hdc*/)
+
+void gameNode::render(HDC hdc)
 {
 }
 
-void gameNode::save()
-{
-}
-
-void gameNode::load()
-{
-}
-
-void gameNode::SetMap()
+void gameNode::render()
 {
 }
 
 LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 {
-	PAINTSTRUCT ps;
-	HDC hdc;
+	//PAINTSTRUCT ps;
+	//HDC hdc;
 
 	switch (iMessage)
 	{
-	case WM_LBUTTONDOWN:
-		//this->SetMap();
-		break;
 	case WM_MOUSEMOVE:
+		SUBWIN->SetIsActive(false);
 		m_ptMouse.x = LOWORD(lParam);
 		m_ptMouse.y = HIWORD(lParam);
-		//if (KEYMANAGER->isStayKeyDown(VK_LBUTTON))this->SetMap();
 		break;
 	case WM_KEYDOWN:
+
 		switch (wParam)
 		{
 		case VK_ESCAPE:
@@ -118,26 +114,9 @@ LRESULT gameNode::MainProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lPara
 			break;
 		}
 		break;
-		//프로그램 실행중 사용자가 메뉴 항목을 선택하면 발생하는 메세지임.
-	case WM_COMMAND:
-		switch (LOWORD(wParam))
-		{
-		case CTRL_SAVE:
-			this->save();
-			break;
-		case CTRL_LOAD:
-			this->load();
-			InvalidateRect(hWnd, NULL, FALSE);
-			break;
-		default:
-			this->setCtrSelect(LOWORD(wParam));
-			break;
-		}
-		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
-		break;
-	}//end of switch
-
-	return (DefWindowProc(hWnd,iMessage,wParam,lParam));
+		return 0;
+	}
+	return (DefWindowProc(hWnd, iMessage, wParam, lParam));
 }

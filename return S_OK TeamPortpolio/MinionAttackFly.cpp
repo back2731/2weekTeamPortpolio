@@ -136,7 +136,7 @@ void MinionAttackFly::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionAttackFly[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.left > 0)
 					{
 						vMinionAttackFly[i].enemyRect.left -= vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.right -= vMinionAttackFly[i].enemySpeed;
@@ -147,7 +147,7 @@ void MinionAttackFly::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionAttackFly[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.right < WINSIZEX)
 					{
 						vMinionAttackFly[i].enemyRect.left += vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.right += vMinionAttackFly[i].enemySpeed;
@@ -158,7 +158,7 @@ void MinionAttackFly::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionAttackFly[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.top > 0)
 					{
 						vMinionAttackFly[i].enemyRect.top -= vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.bottom -= vMinionAttackFly[i].enemySpeed;
@@ -169,7 +169,7 @@ void MinionAttackFly::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionAttackFly[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.bottom < WINSIZEY)
 					{
 						vMinionAttackFly[i].enemyRect.top += vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.bottom += vMinionAttackFly[i].enemySpeed;
@@ -187,7 +187,7 @@ void MinionAttackFly::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionAttackFly[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.left > 0)
 					{
 						vMinionAttackFly[i].enemyRect.left -= vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.right -= vMinionAttackFly[i].enemySpeed;
@@ -198,7 +198,7 @@ void MinionAttackFly::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionAttackFly[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.right < WINSIZEX)
 					{
 						vMinionAttackFly[i].enemyRect.left += vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.right += vMinionAttackFly[i].enemySpeed;
@@ -209,7 +209,7 @@ void MinionAttackFly::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionAttackFly[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.top > 0)
 					{
 						vMinionAttackFly[i].enemyRect.top -= vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.bottom -= vMinionAttackFly[i].enemySpeed;
@@ -220,7 +220,7 @@ void MinionAttackFly::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionAttackFly[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.bottom < WINSIZEY)
 					{
 						vMinionAttackFly[i].enemyRect.top += vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.bottom += vMinionAttackFly[i].enemySpeed;
@@ -238,7 +238,7 @@ void MinionAttackFly::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionAttackFly[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.left > 0)
 					{
 						vMinionAttackFly[i].enemyRect.left -= vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.right -= vMinionAttackFly[i].enemySpeed;
@@ -249,7 +249,7 @@ void MinionAttackFly::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionAttackFly[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.right < WINSIZEX)
 					{
 						vMinionAttackFly[i].enemyRect.left += vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.right += vMinionAttackFly[i].enemySpeed;
@@ -260,7 +260,7 @@ void MinionAttackFly::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionAttackFly[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.top > 0)
 					{
 						vMinionAttackFly[i].enemyRect.top -= vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.bottom -= vMinionAttackFly[i].enemySpeed;
@@ -271,7 +271,7 @@ void MinionAttackFly::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionAttackFly[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionAttackFly[i].enemyRect.bottom < WINSIZEY)
 					{
 						vMinionAttackFly[i].enemyRect.top += vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.bottom += vMinionAttackFly[i].enemySpeed;
