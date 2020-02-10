@@ -27,3 +27,4 @@ void CameraManager::Update()
 void CameraManager::Render(HDC hdc)
 {
 }
+

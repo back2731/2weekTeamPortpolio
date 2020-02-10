@@ -5,6 +5,7 @@ class MinionTumor : public EnemyBase
 {
 private:
 	vector<EnemyInfo> vMinionTumor;
+	vector<EnemyInfo>::iterator viMinionTumor;
 
 	vector<BulletInfo> vEnemyBullet;
 	vector<BulletInfo>::iterator viEnemyBullet;
@@ -21,4 +22,7 @@ public:
 	void EnemyAiTime();
 	void EnemyAi();
 	void EnemyShot();
+
+	vector<EnemyInfo>& GetEnemyVector() { return vMinionTumor; }
+	vector<EnemyInfo>::iterator& GetEnemyIter() { return viMinionTumor; }
 };
