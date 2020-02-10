@@ -425,6 +425,31 @@ void image::render(HDC hdc, int destX, int destY)
 			_imageInfo->hMemDC, 0, 0, SRCCOPY);
 	}
 }
+void image::render(HDC hdc, int destX, int destY, int width, int height)
+{
+	if (_isTrans)
+	{
+		GdiTransparentBlt
+		(
+			hdc,
+			destX,
+			destY,
+			width,
+			height,
+			_imageInfo->hMemDC,
+			0,
+			0,
+			_imageInfo->width,
+			_imageInfo->height,
+			_transColor
+		);
+	}
+	else
+	{
+		StretchBlt(hdc, destX, destY, width, height,
+			_imageInfo->hMemDC, 0, 0, _imageInfo->width, _imageInfo->height, SRCCOPY);
+	}
+}
 //뿌릴 곳X, Y           뿌려올 곳 X, Y(left, top)  가로,        세로
 void image::render(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight)
 {
@@ -506,6 +531,45 @@ void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int cu
 			_imageInfo->hMemDC,
 			_imageInfo->currentFrameX * _imageInfo->frameWidth,
 			_imageInfo->currentFrameY * _imageInfo->frameHeight,
+			SRCCOPY);
+	}
+}
+
+void image::frameRender(HDC hdc, int destX, int destY, int currentFrameX, int currentFrameY, int width, int height)
+{
+	_imageInfo->currentFrameX = currentFrameX;
+	_imageInfo->currentFrameY = currentFrameY;
+
+	if (currentFrameX > _imageInfo->maxFrameX)
+	{
+		_imageInfo->currentFrameX = _imageInfo->maxFrameX;
+	}
+	if (currentFrameY > _imageInfo->maxFrameY)
+	{
+		_imageInfo->currentFrameY = _imageInfo->maxFrameY;
+	}
+	if (_isTrans)
+	{
+		GdiTransparentBlt(hdc,
+			destX,
+			destY,
+			width,
+			height,
+			_imageInfo->hMemDC,
+			_imageInfo->currentFrameX * _imageInfo->frameWidth,
+			_imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth,
+			_imageInfo->frameHeight,
+			_transColor);
+	}
+	else
+	{
+		StretchBlt(hdc, destX, destY, width, height,
+			_imageInfo->hMemDC,
+			_imageInfo->currentFrameX * _imageInfo->frameWidth,
+			_imageInfo->currentFrameY * _imageInfo->frameHeight,
+			_imageInfo->frameWidth,
+			_imageInfo->frameHeight,
 			SRCCOPY);
 	}
 }
