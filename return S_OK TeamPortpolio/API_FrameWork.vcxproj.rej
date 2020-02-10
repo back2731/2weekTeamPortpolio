@@ -1,0 +1,9 @@
+diff a/return S_OK TeamPortpolio/API_FrameWork.vcxproj b/return S_OK TeamPortpolio/API_FrameWork.vcxproj	(rejected hunks)
+@@ -174,6 +174,7 @@
+ =======
+     <ClInclude Include="MapToolScene.h" />
+     <ClInclude Include="MapToolTile.h" />
++>>>>>>> dev
+     <ClInclude Include="MinionAttackFly.h" />
+     <ClInclude Include="MinionBlackFly.h" />
+     <ClInclude Include="MinionGaper.h" />
