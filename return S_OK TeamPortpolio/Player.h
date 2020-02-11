@@ -77,6 +77,8 @@ public:
 	RECT GetPlayerHitRect() { return player.playerHitRect; }
 	float GetPlayerHitRectX() { return (player.playerHitRect.left + (player.playerHitRect.right - player.playerHitRect.left) / 2); }
 	float GetPlayerHitRectY() { return (player.playerHitRect.top + (player.playerHitRect.bottom - player.playerHitRect.top) / 2); }
-	
+
+	void SetPlayerRectX(int num);
+
 	vector<BulletInfo> GetPlayerBulletVector() { return vPlayerBullet; }
 };

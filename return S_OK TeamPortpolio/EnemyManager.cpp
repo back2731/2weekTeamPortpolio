@@ -12,9 +12,9 @@ EnemyManager::~EnemyManager()
 HRESULT EnemyManager::Init()
 {
 	m_MinionAttackFly = new MinionAttackFly;
-	//m_MinionAttackFly->Init(PointMake(100, 100), 0);
-	//m_MinionAttackFly->Init(PointMake(200, 100), 1);
-	//m_MinionAttackFly->Init(PointMake(300, 100), 2);
+	m_MinionAttackFly->Init(PointMake(100, 100), 0);
+	m_MinionAttackFly->Init(PointMake(200, 100), 1);
+	m_MinionAttackFly->Init(PointMake(300, 100), 2);
 
 	m_MinionBlackFly = new MinionBlackFly;
 	//m_MinionBlackFly->Init(PointMake(300, 100), 0);

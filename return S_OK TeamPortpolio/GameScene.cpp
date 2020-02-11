@@ -37,6 +37,7 @@ void GameScene::update()
 {
 	PLAYERMANAGER->Update();
 	ENEMYMANAGER->Update();
+	COLLISIONMANAGER->UpdateCollision();
 }
 
 void GameScene::render()

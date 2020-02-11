@@ -11,9 +11,15 @@ CollisionManager::~CollisionManager()
 {
 }
 
+void CollisionManager::UpdateCollision()
+{
+	PlayerToMinionCollision();
+}
+
 void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVector, vector<BulletInfo>::iterator& playerBulletIter)
 {
 	RECT temp;
+
 	if (!playerBulletVector.empty())
 	{
 		// MinionAttackFly 충돌
@@ -343,5 +349,25 @@ void CollisionManager::EnemyBulletCollision(vector<BulletInfo>& enemyBulletVecto
 			++enemyBulletIter;
 		}
 	}
+}
+
+void CollisionManager::PlayerToMinionCollision()
+{		
+	RECT temp;
+
+	// MinionAttackFly 충돌
+	for (int j = 0; j < ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector().size(); j++)
+	{
+		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect))
+		{
+			if (PLAYERMANAGER->GetPlayerHitRectX() > ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyX &&
+				PLAYERMANAGER->GetPlayerHitRectY() > ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyY)
+			{
+				PLAYERMANAGER->SetPlayerRectX(50);
+			}
+		
+		}
+	}
+
 }
 

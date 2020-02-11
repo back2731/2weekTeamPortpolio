@@ -402,3 +402,12 @@ void Player::PlayerShotMove()
 
 
 }
+
+void Player::SetPlayerRectX(int num)
+{
+	player.playerHeadRect.left += num;
+	player.playerHeadRect.right += num;
+
+	player.playerBodyRect.left += num;
+	player.playerBodyRect.right += num;
+}
