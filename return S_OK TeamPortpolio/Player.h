@@ -27,6 +27,10 @@ struct PlayerInfo
 class Player
 {
 private:
+	animation* aniHead;
+	animation* aniBody;
+
+private:
 	Direction direction;
 	PlayerInfo player;
 

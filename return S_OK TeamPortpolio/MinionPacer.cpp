@@ -19,8 +19,6 @@ HRESULT MinionPacer::Init(POINT position, int EnemyNumber)
 	MinionPacer.enemySpeed = 3.0f;
 	vMinionPacer.push_back(MinionPacer);
 
-	enemyCollision = false;
-
 	return S_OK;
 }
 

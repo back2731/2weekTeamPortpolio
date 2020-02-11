@@ -17,9 +17,9 @@ HRESULT EnemyManager::Init()
 	m_MinionAttackFly->Init(PointMake(300, 100), 2);
 
 	m_MinionBlackFly = new MinionBlackFly;
-	//m_MinionBlackFly->Init(PointMake(300, 100), 0);
-	//m_MinionBlackFly->Init(PointMake(400, 100), 1);
-	//m_MinionBlackFly->Init(PointMake(500, 100), 2);
+	m_MinionBlackFly->Init(PointMake(300, 100), 0);
+	m_MinionBlackFly->Init(PointMake(400, 100), 1);
+	m_MinionBlackFly->Init(PointMake(500, 100), 2);
 
 	m_MinionMaw = new MinionMaw;
 	//m_MinionMaw->Init(PointMake(500, 100), 0);	
@@ -42,8 +42,8 @@ HRESULT EnemyManager::Init()
 	//m_MinionClotty->Init(PointMake(300, 500), 2);
 
 	m_MinionGaper = new MinionGaper;
-	//m_MinionGaper->Init(PointMake(100, 300), 0);
 	//m_MinionGaper->Init(PointMake(200, 300), 1);
+	//m_MinionGaper->Init(PointMake(100, 300), 0);
 	//m_MinionGaper->Init(PointMake(300, 300), 2);
 
 	m_MinionHorf = new MinionHorf;

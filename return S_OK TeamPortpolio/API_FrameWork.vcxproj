@@ -193,7 +193,6 @@
     <ClInclude Include="SubMap.h" />
     <ClInclude Include="SubWindow.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TestMinion.h" />
     <ClInclude Include="timeManager.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="txtData.h" />
@@ -237,7 +236,6 @@
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="SubMap.cpp" />
     <ClCompile Include="SubWindow.cpp" />
-    <ClCompile Include="TestMinion.cpp" />
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="txtData.cpp" />

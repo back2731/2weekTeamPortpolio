@@ -1,6 +1,7 @@
 #pragma once
 #include"gameNode.h"
 #include"MapToolTile.h"
+
 class MapToolScene : public gameNode
 {
 private:
@@ -10,7 +11,6 @@ private:
 	int _isoX, _isoY;
 	int _center;
 	char str[128];
-
 
 	int _startX;
 	int _startY;
@@ -49,9 +49,7 @@ public:
 	void setMap(int isoX, int isoY, bool isAdd);
 	TILEKIND kindSelect(int frameX, int frameY);
 
-
 	void TlieInit();
 	void Load();
 	void Save();
 };
-

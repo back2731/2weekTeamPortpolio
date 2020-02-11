@@ -177,9 +177,6 @@
     <ClInclude Include="Player.h">
       <Filter>mainGame\Player</Filter>
     </ClInclude>
-    <ClInclude Include="TestMinion.h">
-      <Filter>mainGame\Enemy\Minion</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>mainGame\Scene</Filter>
     </ClInclude>
@@ -313,9 +310,6 @@
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>mainGame\Player</Filter>
-    </ClCompile>
-    <ClCompile Include="TestMinion.cpp">
-      <Filter>mainGame\Enemy\Minion</Filter>
     </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>mainGame\Scene</Filter>
