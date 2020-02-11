@@ -33,10 +33,47 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
-					// 피격이 된 적의 벡터를 지우는 함수
-					ENEMYMANAGER->GetMonstro()->DeleteEnemy(j);
+					// temp의 Width와 Height 선언
+					int tempW = temp.right - temp.left;
+					int tempH = temp.bottom - temp.top;
 
-					// j번째 미니언이 피격 시 j를 0으로 초기화
+					if (tempH > tempW)
+					{
+						// 왼쪽 충돌시 오른쪽으로 밀어줌
+						if (temp.left == ENEMYMANAGER->GetMonstro()->GetMinionVector()[j].enemyRect.left)
+						{
+							ENEMYMANAGER->GetMonstro()->SetEnemyRectX(j, tempW * 10);
+						}
+						// 오른쪽 충돌시 왼쪽으로 밀어줌
+						else if (temp.right == ENEMYMANAGER->GetMonstro()->GetMinionVector()[j].enemyRect.right)
+						{
+							ENEMYMANAGER->GetMonstro()->SetEnemyRectX(j, -tempW * 10);
+						}
+					}
+					else
+					{
+						// 위쪽 충돌시 아래쪽으로 밀어줌
+						if (temp.top == ENEMYMANAGER->GetMonstro()->GetMinionVector()[j].enemyRect.top)
+						{
+							ENEMYMANAGER->GetMonstro()->SetEnemyRectY(j, tempH * 10);
+						}
+						// 아래쪽 충돌시 위쪽으로 밀어줌
+						else if (temp.bottom == ENEMYMANAGER->GetMonstro()->GetMinionVector()[j].enemyRect.bottom)
+						{
+							ENEMYMANAGER->GetMonstro()->SetEnemyRectY(j, -tempH * 10);
+						}
+					}
+
+					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
+					ENEMYMANAGER->GetMonstro()->SetEnemyHp(j, ENEMYMANAGER->GetMonstro()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
+
+					if (ENEMYMANAGER->GetMonstro()->GetEnemyHp(j) <= 0)
+					{
+						// 피격이 된 적의 벡터를 지우는 함수
+						ENEMYMANAGER->GetMonstro()->DeleteEnemy(j);
+					}
+
+					// j번째 에너미 피격 시 j를 0으로 초기화
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
@@ -62,11 +99,48 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
+					
+					// temp의 Width와 Height 선언
+					int tempW = temp.right - temp.left;
+					int tempH = temp.bottom - temp.top;
 
-					// 피격이 된 적의 벡터를 지우는 함수
-					ENEMYMANAGER->GetMinionAttackFly()->DeleteEnemy(j);
+					if (tempH > tempW)
+					{
+						// 왼쪽 충돌시 오른쪽으로 밀어줌
+						if (temp.left == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.left)
+						{
+							ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectX(j, tempW * 10);
+						}
+						// 오른쪽 충돌시 왼쪽으로 밀어줌
+						else if (temp.right == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.right)
+						{
+							ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectX(j, -tempW * 10);
+						}
+					}
+					else
+					{
+						// 위쪽 충돌시 아래쪽으로 밀어줌
+						if (temp.top == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.top)
+						{
+							ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectY(j, tempH * 10);
+						}
+						// 아래쪽 충돌시 위쪽으로 밀어줌
+						else if (temp.bottom == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.bottom)
+						{
+							ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectY(j, -tempH * 10);
+						}
+					}
 
-					// j번째 미니언이 피격 시 j를 0으로 초기화
+					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
+					ENEMYMANAGER->GetMinionAttackFly()->SetEnemyHp(j, ENEMYMANAGER->GetMinionAttackFly()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
+
+					if (ENEMYMANAGER->GetMinionAttackFly()->GetEnemyHp(j) <= 0)
+					{
+						// 피격이 된 적의 벡터를 지우는 함수
+						ENEMYMANAGER->GetMinionAttackFly()->DeleteEnemy(j);
+					}
+
+					// j번째 에너미 피격 시 j를 0으로 초기화
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
@@ -94,10 +168,47 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
-					// 피격이 된 적의 벡터를 지우는 함수
-					ENEMYMANAGER->GetMinionBlackFly()->DeleteEnemy(j);
+					// temp의 Width와 Height 선언
+					int tempW = temp.right - temp.left;
+					int tempH = temp.bottom - temp.top;
 
-					// j번째 미니언이 피격 시 j를 0으로 초기화
+					if (tempH > tempW)
+					{
+						// 왼쪽 충돌시 오른쪽으로 밀어줌
+						if (temp.left == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.left)
+						{
+							ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectX(j, tempW * 10);
+						}
+						// 오른쪽 충돌시 왼쪽으로 밀어줌
+						else if (temp.right == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.right)
+						{
+							ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectX(j, -tempW * 10);
+						}
+					}
+					else
+					{
+						// 위쪽 충돌시 아래쪽으로 밀어줌
+						if (temp.top == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.top)
+						{
+							ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectY(j, tempH * 10);
+						}
+						// 아래쪽 충돌시 위쪽으로 밀어줌
+						else if (temp.bottom == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.bottom)
+						{
+							ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectY(j, -tempH * 10);
+						}
+					}
+
+					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
+					ENEMYMANAGER->GetMinionBlackFly()->SetEnemyHp(j, ENEMYMANAGER->GetMinionBlackFly()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
+
+					if (ENEMYMANAGER->GetMinionBlackFly()->GetEnemyHp(j) <= 0)
+					{
+						// 피격이 된 적의 벡터를 지우는 함수
+						ENEMYMANAGER->GetMinionBlackFly()->DeleteEnemy(j);
+					}
+
+					// j번째 에너미 피격 시 j를 0으로 초기화
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
@@ -125,10 +236,47 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
-					// 피격이 된 적의 벡터를 지우는 함수
-					ENEMYMANAGER->GetMinionMaw()->DeleteEnemy(j);
+					// temp의 Width와 Height 선언
+					int tempW = temp.right - temp.left;
+					int tempH = temp.bottom - temp.top;
 
-					// j번째 미니언이 피격 시 j를 0으로 초기화
+					if (tempH > tempW)
+					{
+						// 왼쪽 충돌시 오른쪽으로 밀어줌
+						if (temp.left == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.left)
+						{
+							ENEMYMANAGER->GetMinionMaw()->SetEnemyRectX(j, tempW * 10);
+						}
+						// 오른쪽 충돌시 왼쪽으로 밀어줌
+						else if (temp.right == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.right)
+						{
+							ENEMYMANAGER->GetMinionMaw()->SetEnemyRectX(j, -tempW * 10);
+						}
+					}
+					else
+					{
+						// 위쪽 충돌시 아래쪽으로 밀어줌
+						if (temp.top == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.top)
+						{
+							ENEMYMANAGER->GetMinionMaw()->SetEnemyRectY(j, tempH * 10);
+						}
+						// 아래쪽 충돌시 위쪽으로 밀어줌
+						else if (temp.bottom == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.bottom)
+						{
+							ENEMYMANAGER->GetMinionMaw()->SetEnemyRectY(j, -tempH * 10);
+						}
+					}
+
+					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
+					ENEMYMANAGER->GetMinionMaw()->SetEnemyHp(j, ENEMYMANAGER->GetMinionMaw()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
+
+					if (ENEMYMANAGER->GetMinionMaw()->GetEnemyHp(j) <= 0)
+					{
+						// 피격이 된 적의 벡터를 지우는 함수
+						ENEMYMANAGER->GetMinionMaw()->DeleteEnemy(j);
+					}
+
+					// j번째 에너미 피격 시 j를 0으로 초기화
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
@@ -155,10 +303,47 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
-					// 피격이 된 적의 벡터를 지우는 함수
-					ENEMYMANAGER->GetMinionTumor()->DeleteEnemy(j);
+					// temp의 Width와 Height 선언
+					int tempW = temp.right - temp.left;
+					int tempH = temp.bottom - temp.top;
 
-					// j번째 미니언이 피격 시 j를 0으로 초기화
+					if (tempH > tempW)
+					{
+						// 왼쪽 충돌시 오른쪽으로 밀어줌
+						if (temp.left == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.left)
+						{
+							ENEMYMANAGER->GetMinionTumor()->SetEnemyRectX(j, tempW * 10);
+						}
+						// 오른쪽 충돌시 왼쪽으로 밀어줌
+						else if (temp.right == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.right)
+						{
+							ENEMYMANAGER->GetMinionTumor()->SetEnemyRectX(j, -tempW * 10);
+						}
+					}
+					else
+					{
+						// 위쪽 충돌시 아래쪽으로 밀어줌
+						if (temp.top == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.top)
+						{
+							ENEMYMANAGER->GetMinionTumor()->SetEnemyRectY(j, tempH * 10);
+						}
+						// 아래쪽 충돌시 위쪽으로 밀어줌
+						else if (temp.bottom == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.bottom)
+						{
+							ENEMYMANAGER->GetMinionTumor()->SetEnemyRectY(j, -tempH * 10);
+						}
+					}
+
+					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
+					ENEMYMANAGER->GetMinionTumor()->SetEnemyHp(j, ENEMYMANAGER->GetMinionTumor()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
+
+					if (ENEMYMANAGER->GetMinionTumor()->GetEnemyHp(j) <= 0)
+					{
+						// 피격이 된 적의 벡터를 지우는 함수
+						ENEMYMANAGER->GetMinionTumor()->DeleteEnemy(j);
+					}
+
+					// j번째 에너미 피격 시 j를 0으로 초기화
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
@@ -186,10 +371,47 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
-					// 피격이 된 적의 벡터를 지우는 함수
-					ENEMYMANAGER->GetMinionClot()->DeleteEnemy(j);
+					// temp의 Width와 Height 선언
+					int tempW = temp.right - temp.left;
+					int tempH = temp.bottom - temp.top;
 
-					// j번째 미니언이 피격 시 j를 0으로 초기화
+					if (tempH > tempW)
+					{
+						// 왼쪽 충돌시 오른쪽으로 밀어줌
+						if (temp.left == ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect.left)
+						{
+							ENEMYMANAGER->GetMinionClot()->SetEnemyRectX(j, tempW * 10);
+						}
+						// 오른쪽 충돌시 왼쪽으로 밀어줌
+						else if (temp.right == ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect.right)
+						{
+							ENEMYMANAGER->GetMinionClot()->SetEnemyRectX(j, -tempW * 10);
+						}
+					}
+					else
+					{
+						// 위쪽 충돌시 아래쪽으로 밀어줌
+						if (temp.top == ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect.top)
+						{
+							ENEMYMANAGER->GetMinionClot()->SetEnemyRectY(j, tempH * 10);
+						}
+						// 아래쪽 충돌시 위쪽으로 밀어줌
+						else if (temp.bottom == ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect.bottom)
+						{
+							ENEMYMANAGER->GetMinionClot()->SetEnemyRectY(j, -tempH * 10);
+						}
+					}
+
+					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
+					ENEMYMANAGER->GetMinionClot()->SetEnemyHp(j, ENEMYMANAGER->GetMinionClot()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
+
+					if (ENEMYMANAGER->GetMinionClot()->GetEnemyHp(j) <= 0)
+					{
+						// 피격이 된 적의 벡터를 지우는 함수
+						ENEMYMANAGER->GetMinionClot()->DeleteEnemy(j);
+					}
+
+					// j번째 에너미 피격 시 j를 0으로 초기화
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
@@ -217,10 +439,47 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
-					// 피격이 된 적의 벡터를 지우는 함수
-					ENEMYMANAGER->GetMinionClotty()->DeleteEnemy(j);
+					// temp의 Width와 Height 선언
+					int tempW = temp.right - temp.left;
+					int tempH = temp.bottom - temp.top;
 
-					// j번째 미니언이 피격 시 j를 0으로 초기화
+					if (tempH > tempW)
+					{
+						// 왼쪽 충돌시 오른쪽으로 밀어줌
+						if (temp.left == ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect.left)
+						{
+							ENEMYMANAGER->GetMinionClotty()->SetEnemyRectX(j, tempW * 10);
+						}
+						// 오른쪽 충돌시 왼쪽으로 밀어줌
+						else if (temp.right == ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect.right)
+						{
+							ENEMYMANAGER->GetMinionClotty()->SetEnemyRectX(j, -tempW * 10);
+						}
+					}
+					else
+					{
+						// 위쪽 충돌시 아래쪽으로 밀어줌
+						if (temp.top == ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect.top)
+						{
+							ENEMYMANAGER->GetMinionClotty()->SetEnemyRectY(j, tempH * 10);
+						}
+						// 아래쪽 충돌시 위쪽으로 밀어줌
+						else if (temp.bottom == ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect.bottom)
+						{
+							ENEMYMANAGER->GetMinionClotty()->SetEnemyRectY(j, -tempH * 10);
+						}
+					}
+
+					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
+					ENEMYMANAGER->GetMinionClotty()->SetEnemyHp(j, ENEMYMANAGER->GetMinionClotty()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
+
+					if (ENEMYMANAGER->GetMinionClotty()->GetEnemyHp(j) <= 0)
+					{
+						// 피격이 된 적의 벡터를 지우는 함수
+						ENEMYMANAGER->GetMinionClotty()->DeleteEnemy(j);
+					}
+
+					// j번째 에너미 피격 시 j를 0으로 초기화
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
@@ -248,10 +507,47 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
-					// 피격이 된 적의 벡터를 지우는 함수
-					ENEMYMANAGER->GetMinionGaper()->DeleteEnemy(j);
+					// temp의 Width와 Height 선언
+					int tempW = temp.right - temp.left;
+					int tempH = temp.bottom - temp.top;
 
-					// j번째 미니언이 피격 시 j를 0으로 초기화
+					if (tempH > tempW)
+					{
+						// 왼쪽 충돌시 오른쪽으로 밀어줌
+						if (temp.left == ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect.left)
+						{
+							ENEMYMANAGER->GetMinionGaper()->SetEnemyRectX(j, tempW * 10);
+						}
+						// 오른쪽 충돌시 왼쪽으로 밀어줌
+						else if (temp.right == ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect.right)
+						{
+							ENEMYMANAGER->GetMinionGaper()->SetEnemyRectX(j, -tempW * 10);
+						}
+					}
+					else
+					{
+						// 위쪽 충돌시 아래쪽으로 밀어줌
+						if (temp.top == ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect.top)
+						{
+							ENEMYMANAGER->GetMinionGaper()->SetEnemyRectY(j, tempH * 10);
+						}
+						// 아래쪽 충돌시 위쪽으로 밀어줌
+						else if (temp.bottom == ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect.bottom)
+						{
+							ENEMYMANAGER->GetMinionGaper()->SetEnemyRectY(j, -tempH * 10);
+						}
+					}
+
+					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
+					ENEMYMANAGER->GetMinionGaper()->SetEnemyHp(j, ENEMYMANAGER->GetMinionGaper()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
+
+					if (ENEMYMANAGER->GetMinionGaper()->GetEnemyHp(j) <= 0)
+					{
+						// 피격이 된 적의 벡터를 지우는 함수
+						ENEMYMANAGER->GetMinionGaper()->DeleteEnemy(j);
+					}
+
+					// j번째 에너미 피격 시 j를 0으로 초기화
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
@@ -279,10 +575,47 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
-					// 피격이 된 적의 벡터를 지우는 함수
-					ENEMYMANAGER->GetMinionHorf()->DeleteEnemy(j);
+					// temp의 Width와 Height 선언
+					int tempW = temp.right - temp.left;
+					int tempH = temp.bottom - temp.top;
 
-					// j번째 미니언이 피격 시 j를 0으로 초기화
+					if (tempH > tempW)
+					{
+						// 왼쪽 충돌시 오른쪽으로 밀어줌
+						if (temp.left == ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect.left)
+						{
+							ENEMYMANAGER->GetMinionHorf()->SetEnemyRectX(j, tempW * 10);
+						}
+						// 오른쪽 충돌시 왼쪽으로 밀어줌
+						else if (temp.right == ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect.right)
+						{
+							ENEMYMANAGER->GetMinionHorf()->SetEnemyRectX(j, -tempW * 10);
+						}
+					}
+					else
+					{
+						// 위쪽 충돌시 아래쪽으로 밀어줌
+						if (temp.top == ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect.top)
+						{
+							ENEMYMANAGER->GetMinionHorf()->SetEnemyRectY(j, tempH * 10);
+						}
+						// 아래쪽 충돌시 위쪽으로 밀어줌
+						else if (temp.bottom == ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect.bottom)
+						{
+							ENEMYMANAGER->GetMinionHorf()->SetEnemyRectY(j, -tempH * 10);
+						}
+					}
+
+					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
+					ENEMYMANAGER->GetMinionHorf()->SetEnemyHp(j, ENEMYMANAGER->GetMinionHorf()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
+
+					if (ENEMYMANAGER->GetMinionHorf()->GetEnemyHp(j) <= 0)
+					{
+						// 피격이 된 적의 벡터를 지우는 함수
+						ENEMYMANAGER->GetMinionHorf()->DeleteEnemy(j);
+					}
+
+					// j번째 에너미 피격 시 j를 0으로 초기화
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
@@ -310,10 +643,47 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
-					// 피격이 된 적의 벡터를 지우는 함수
-					ENEMYMANAGER->GetMinionMulligan()->DeleteEnemy(j);
+					// temp의 Width와 Height 선언
+					int tempW = temp.right - temp.left;
+					int tempH = temp.bottom - temp.top;
 
-					// j번째 미니언이 피격 시 j를 0으로 초기화
+					if (tempH > tempW)
+					{
+						// 왼쪽 충돌시 오른쪽으로 밀어줌
+						if (temp.left == ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect.left)
+						{
+							ENEMYMANAGER->GetMinionMulligan()->SetEnemyRectX(j, tempW * 10);
+						}
+						// 오른쪽 충돌시 왼쪽으로 밀어줌
+						else if (temp.right == ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect.right)
+						{
+							ENEMYMANAGER->GetMinionMulligan()->SetEnemyRectX(j, -tempW * 10);
+						}
+					}
+					else
+					{
+						// 위쪽 충돌시 아래쪽으로 밀어줌
+						if (temp.top == ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect.top)
+						{
+							ENEMYMANAGER->GetMinionMulligan()->SetEnemyRectY(j, tempH * 10);
+						}
+						// 아래쪽 충돌시 위쪽으로 밀어줌
+						else if (temp.bottom == ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect.bottom)
+						{
+							ENEMYMANAGER->GetMinionMulligan()->SetEnemyRectY(j, -tempH * 10);
+						}
+					}
+
+					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
+					ENEMYMANAGER->GetMinionMulligan()->SetEnemyHp(j, ENEMYMANAGER->GetMinionMulligan()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
+
+					if (ENEMYMANAGER->GetMinionMulligan()->GetEnemyHp(j) <= 0)
+					{
+						// 피격이 된 적의 벡터를 지우는 함수
+						ENEMYMANAGER->GetMinionMulligan()->DeleteEnemy(j);
+					}
+
+					// j번째 에너미 피격 시 j를 0으로 초기화
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
@@ -341,10 +711,47 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
-					// 피격이 된 적의 벡터를 지우는 함수
-					ENEMYMANAGER->GetMinionPacer()->DeleteEnemy(j);
+					// temp의 Width와 Height 선언
+					int tempW = temp.right - temp.left;
+					int tempH = temp.bottom - temp.top;
 
-					// j번째 미니언이 피격 시 j를 0으로 초기화
+					if (tempH > tempW)
+					{
+						// 왼쪽 충돌시 오른쪽으로 밀어줌
+						if (temp.left == ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect.left)
+						{
+							ENEMYMANAGER->GetMinionPacer()->SetEnemyRectX(j, tempW * 10);
+						}
+						// 오른쪽 충돌시 왼쪽으로 밀어줌
+						else if (temp.right == ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect.right)
+						{
+							ENEMYMANAGER->GetMinionPacer()->SetEnemyRectX(j, -tempW * 10);
+						}
+					}
+					else
+					{
+						// 위쪽 충돌시 아래쪽으로 밀어줌
+						if (temp.top == ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect.top)
+						{
+							ENEMYMANAGER->GetMinionPacer()->SetEnemyRectY(j, tempH * 10);
+						}
+						// 아래쪽 충돌시 위쪽으로 밀어줌
+						else if (temp.bottom == ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect.bottom)
+						{
+							ENEMYMANAGER->GetMinionPacer()->SetEnemyRectY(j, -tempH * 10);
+						}
+					}
+
+					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
+					ENEMYMANAGER->GetMinionPacer()->SetEnemyHp(j, ENEMYMANAGER->GetMinionPacer()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
+
+					if (ENEMYMANAGER->GetMinionPacer()->GetEnemyHp(j) <= 0)
+					{
+						// 피격이 된 적의 벡터를 지우는 함수
+						ENEMYMANAGER->GetMinionPacer()->DeleteEnemy(j);
+					}
+
+					// j번째 에너미 피격 시 j를 0으로 초기화
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
@@ -1235,7 +1642,7 @@ void CollisionManager::MinionToMinionCollision()
 {	
 	RECT temp;
 
-	// MinionHorf을 기준으로 다른 미니언 충돌
+	// MinionHorf을 기준으로 다른 에너미 충돌
 	if (ENEMYMANAGER->GetMinionHorf()->GetMinionVector().size() > 0)
 	{
 		//MinionHorf To MinionAttackFly 충돌
@@ -1635,7 +2042,7 @@ void CollisionManager::MinionToMinionCollision()
 		}
 	}
 
-	// MinionAttackFly을 기준으로 다른 미니언 충돌
+	// MinionAttackFly을 기준으로 다른 에너미 충돌
 	if (ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector().size() > 0)
 	{
 		//MinionAttackFly To MinionBlackFly 충돌
@@ -1991,7 +2398,7 @@ void CollisionManager::MinionToMinionCollision()
 		}
 	}
 
-	// MinionBlackFly을 기준으로 다른 미니언 충돌
+	// MinionBlackFly을 기준으로 다른 에너미 충돌
 	if (ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector().size() > 0)
 	{
 		//MinionBlackFly To MinionMaw 충돌
@@ -2303,7 +2710,7 @@ void CollisionManager::MinionToMinionCollision()
 		}
 	}
 
-	// MinionMaw을 기준으로 다른 미니언 충돌
+	// MinionMaw을 기준으로 다른 에너미 충돌
 	if (ENEMYMANAGER->GetMinionMaw()->GetMinionVector().size() > 0)
 	{
 		//MinionMaw To MinionTumor 충돌
@@ -2571,7 +2978,7 @@ void CollisionManager::MinionToMinionCollision()
 		}
 	}
 
-	// MinionTumor을 기준으로 다른 미니언 충돌
+	// MinionTumor을 기준으로 다른 에너미 충돌
 	if (ENEMYMANAGER->GetMinionTumor()->GetMinionVector().size() > 0)
 	{
 		//MinionTumor To MinionClot 충돌
@@ -2795,7 +3202,7 @@ void CollisionManager::MinionToMinionCollision()
 		}
 	}
 
-	// MinionClot을 기준으로 다른 미니언 충돌
+	// MinionClot을 기준으로 다른 에너미 충돌
 	if (ENEMYMANAGER->GetMinionClot()->GetMinionVector().size() > 0)
 	{
 		//MinionClot To MinionClotty 충돌
@@ -2975,7 +3382,7 @@ void CollisionManager::MinionToMinionCollision()
 		}
 	}
 
-	// MinionClotty을 기준으로 다른 미니언 충돌
+	// MinionClotty을 기준으로 다른 에너미 충돌
 	if (ENEMYMANAGER->GetMinionClotty()->GetMinionVector().size() > 0)
 	{
 		//MinionClotty To MinionGaper 충돌
@@ -3112,7 +3519,7 @@ void CollisionManager::MinionToMinionCollision()
 
 	}
 
-	// MinionGaper을 기준으로 다른 미니언 충돌
+	// MinionGaper을 기준으로 다른 에너미 충돌
 	if (ENEMYMANAGER->GetMinionGaper()->GetMinionVector().size() > 0)
 	{
 		//MinionGaper To MinionMulligan 충돌
@@ -3204,7 +3611,7 @@ void CollisionManager::MinionToMinionCollision()
 		}
 	}
 
-	// MinionMulligan을 기준으로 다른 미니언 충돌
+	// MinionMulligan을 기준으로 다른 에너미 충돌
 	if (ENEMYMANAGER->GetMinionMulligan()->GetMinionVector().size() > 0)
 	{
 		//MinionMulligan To MinionPacer 충돌

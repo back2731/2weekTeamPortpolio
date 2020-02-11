@@ -31,4 +31,8 @@ public:
 	// 충돌시 위치 변경 시켜주는 함수
 	void SetEnemyRectX(int enemyNum, int move);
 	void SetEnemyRectY(int enemyNum, int move);
+
+	// 에너미 Hp를 세팅해주는 함수
+	int GetEnemyHp(int enemyNum) { return vMinionClot[enemyNum].enemyHp; }
+	void SetEnemyHp(int enemyNum, int hp) { vMinionClot[enemyNum].enemyHp = hp; }
 };

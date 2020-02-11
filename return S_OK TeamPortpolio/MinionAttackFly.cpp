@@ -37,8 +37,15 @@ void MinionAttackFly::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionAttackFly.size(); i++)
 	{
-		//Rectangle(hdc, vMinionAttackFly[i].enemyFireRange.left, vMinionAttackFly[i].enemyFireRange.top, vMinionAttackFly[i].enemyFireRange.right, vMinionAttackFly[i].enemyFireRange.bottom);
-		Rectangle(hdc, vMinionAttackFly[i].enemyRect.left, vMinionAttackFly[i].enemyRect.top, vMinionAttackFly[i].enemyRect.right, vMinionAttackFly[i].enemyRect.bottom);
+		if (KEYMANAGER->isToggleKey(VK_F1))
+		{
+			//Rectangle(hdc, vMinionAttackFly[i].enemyFireRange.left, vMinionAttackFly[i].enemyFireRange.top, vMinionAttackFly[i].enemyFireRange.right, vMinionAttackFly[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionAttackFly[i].enemyRect.left, vMinionAttackFly[i].enemyRect.top, vMinionAttackFly[i].enemyRect.right, vMinionAttackFly[i].enemyRect.bottom);
+
+			HBRUSH brush = CreateSolidBrush(RGB(163, 255, 0));
+			FillRect(hdc, &vMinionAttackFly[i].enemyRect, brush);
+			DeleteObject(brush);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -308,3 +315,5 @@ void MinionAttackFly::SetEnemyRectY(int enemyNum, int move)
 	vMinionAttackFly[enemyNum].enemyRect.top += move;
 	vMinionAttackFly[enemyNum].enemyRect.bottom += move;
 }
+
+

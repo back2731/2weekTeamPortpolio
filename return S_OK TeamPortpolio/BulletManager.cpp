@@ -111,6 +111,11 @@ void BulletManager::RenderBullet(HDC hdc, vector<BulletInfo>& bulletVector, vect
 
 	for (bulletIter; bulletIter != bulletVector.end(); ++bulletIter)
 	{
+		if (KEYMANAGER->isToggleKey(VK_F2))
+		{
+			Rectangle(hdc, bulletIter->rect.left, bulletIter->rect.top, bulletIter->rect.right, bulletIter->rect.bottom);
+		}
+
 		bulletIter->bulletImage->render(hdc, bulletIter->rect.left, bulletIter->rect.top);
 	}
 }

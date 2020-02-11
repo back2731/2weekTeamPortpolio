@@ -53,25 +53,6 @@ public:
 	virtual void Update();
 	virtual void Render(HDC hdc);
 
-	// 적 머리 부분 렉트 정보 가져오기
-	RECT GetEnemyHeadRect() { return enemy.enemyHeadRect; }
-	float GetEnemyHeadRectX() { return (enemy.enemyHeadRect.left + (enemy.enemyHeadRect.right - enemy.enemyHeadRect.left) / 2); }
-	float GetEnemyHeadRectY() { return (enemy.enemyHeadRect.top + (enemy.enemyHeadRect.bottom - enemy.enemyHeadRect.top) / 2); }
-
-	// 적 몸체 부분 렉트 정보 가져오기
-	RECT GetEnemyBodyRect() { return enemy.enemyBodyRect; }
-	float GetEnemyBodyRectX() { return (enemy.enemyBodyRect.left + (enemy.enemyBodyRect.right - enemy.enemyBodyRect.left) / 2); }
-	float GetEnemyBodyRectY() { return (enemy.enemyBodyRect.top + (enemy.enemyBodyRect.bottom - enemy.enemyBodyRect.top) / 2); }
-
-	// 통으로 된 적 렉트 정보 가져오기
-	RECT GetEnemyRect() { return enemy.enemyRect; }
-	float GetEnemyRectX() { return (enemy.enemyRect.left + (enemy.enemyRect.right - enemy.enemyRect.left) / 2); }
-	float GetEnemyRectY() { return (enemy.enemyRect.top + (enemy.enemyRect.bottom - enemy.enemyRect.top) / 2); }
-
-	// HP 가져오기, 설정하기
-	int GetHp() { return enemy.enemyHp; }
-	void SetHp(int num) { enemy.enemyHp = num; }
-
 	// 적의 불렛 카운트를 한 번에 플러스
 	int SetFirstEnemyBulletCount() { firstEnemyBulletCount++; return firstEnemyBulletCount; }
 	int SetSecondEnemyBulletCount() { secondEnemyBulletCount++; return secondEnemyBulletCount; }

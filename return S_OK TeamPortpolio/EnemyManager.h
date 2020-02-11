@@ -18,13 +18,13 @@ private:
 	//보스
 	Monstro*			m_Monstro;
 
-	// 공중미니언
+	// 공중에너미
 	MinionAttackFly*	m_MinionAttackFly;
 	MinionBlackFly*		m_MinionBlackFly;
 	MinionMaw*			m_MinionMaw;
 	MinionTumor*		m_MinionTumor;
 
-	// 지상미니언
+	// 지상에너미
 	MinionClot*			m_MinionClot;
 	MinionClotty*		m_MinionClotty;
 	MinionGaper*		m_MinionGaper;

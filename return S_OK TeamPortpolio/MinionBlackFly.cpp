@@ -42,9 +42,15 @@ void MinionBlackFly::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionBlackFly.size(); i++)
 	{
-		//Rectangle(hdc, vMinionBlackFly[i].enemyFireRange.left, vMinionBlackFly[i].enemyFireRange.top, vMinionBlackFly[i].enemyFireRange.right, vMinionBlackFly[i].enemyFireRange.bottom);
-		//Rectangle(hdc, vMinionBlackFly[i].enemyRect.left, vMinionBlackFly[i].enemyRect.top, vMinionBlackFly[i].enemyRect.right, vMinionBlackFly[i].enemyRect.bottom);
+		if (KEYMANAGER->isToggleKey(VK_F1))
+		{
+			//Rectangle(hdc, vMinionBlackFly[i].enemyFireRange.left, vMinionBlackFly[i].enemyFireRange.top, vMinionBlackFly[i].enemyFireRange.right, vMinionBlackFly[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionBlackFly[i].enemyRect.left, vMinionBlackFly[i].enemyRect.top, vMinionBlackFly[i].enemyRect.right, vMinionBlackFly[i].enemyRect.bottom);
 
+			HBRUSH brush = CreateSolidBrush(RGB(255, 153, 0));
+			FillRect(hdc, &vMinionBlackFly[i].enemyRect, brush);
+			DeleteObject(brush);
+		}
 		blackFly->aniRender(hdc, vMinionBlackFly[i].enemyRect.left - 20, vMinionBlackFly[i].enemyRect.top - 15, ani);
 	}
 }

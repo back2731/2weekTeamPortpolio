@@ -35,8 +35,15 @@ void MinionPacer::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionPacer.size(); i++)
 	{
-		//Rectangle(hdc, vMinionPacer[i].enemyFireRange.left, vMinionPacer[i].enemyFireRange.top, vMinionPacer[i].enemyFireRange.right, vMinionPacer[i].enemyFireRange.bottom);
-		Rectangle(hdc, vMinionPacer[i].enemyRect.left, vMinionPacer[i].enemyRect.top, vMinionPacer[i].enemyRect.right, vMinionPacer[i].enemyRect.bottom);
+		if (KEYMANAGER->isToggleKey(VK_F1))
+		{
+			//Rectangle(hdc, vMinionPacer[i].enemyFireRange.left, vMinionPacer[i].enemyFireRange.top, vMinionPacer[i].enemyFireRange.right, vMinionPacer[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionPacer[i].enemyRect.left, vMinionPacer[i].enemyRect.top, vMinionPacer[i].enemyRect.right, vMinionPacer[i].enemyRect.bottom);
+
+			HBRUSH brush = CreateSolidBrush(RGB(102, 255, 204));
+			FillRect(hdc, &vMinionPacer[i].enemyRect, brush);
+			DeleteObject(brush);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);

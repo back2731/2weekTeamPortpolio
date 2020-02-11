@@ -26,4 +26,7 @@ public:
 
 	void SetPlayerRectX(int num) { m_Player->SetPlayerRectX(num); }
 	void SetPlayerRectY(int num) { m_Player->SetPlayerRectY(num); }
+
+	int GetPlayerOffensePower() { return m_Player->GetPlayerOffensePower(); }
+	void SetPlayerOffensePower(int addPower) { m_Player->SetPlayerOffensePower(addPower); }
 };

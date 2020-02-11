@@ -21,13 +21,14 @@ HRESULT Player::Init(string imageName)
 	ANIMATIONMANAGER->addAnimation("body", "playerBody", arrlen2, 1, 10, true);
 	aniBody = ANIMATIONMANAGER->findAnimation("body");
 
-	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 100, 32 * 2, 23 * 2);		//머리 상자
-	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 70, 32 * 2, 11 * 2);		//몸 상자
-	player.playerShotSpeed = 8.0f;																//공격속도
-	player.playerShotRange = 450.0f;															//공격사거리
-	player.playerShotDelay = 25;																//공격주기
-	player.playerSpeed = 5.0f;																	//이동속도
-	player.playerSlideSpeed = 3.0f;																//슬라이딩 속도
+	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 100, 32 * 2, 23 * 2);		// 머리 상자
+	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 70, 32 * 2, 11 * 2);		// 몸 상자
+	player.playerOffensePower = 50;																// 공격력
+	player.playerShotDelay = 25;																// 공격주기
+	player.playerShotSpeed = 8.0f;																// 공격속도
+	player.playerShotRange = 450.0f;															// 공격사거리
+	player.playerSpeed = 5.0f;																	// 이동속도
+	player.playerSlideSpeed = 3.0f;																// 슬라이딩 속도
 	playerBulletInterval = 0;
 
 	//플레이어 무브 변수 초기화
@@ -73,9 +74,17 @@ void Player::Update()
 
 void Player::Render(HDC hdc)
 {
-	//Rectangle(hdc, player.playerHeadRect.left, player.playerHeadRect.top, player.playerHeadRect.right, player.playerHeadRect.bottom);
-	//Rectangle(hdc, player.playerBodyRect.left, player.playerBodyRect.top, player.playerBodyRect.right, player.playerBodyRect.bottom);
-	//Rectangle(hdc, player.playerHitRect.left, player.playerHitRect.top, player.playerHitRect.right, player.playerHitRect.bottom);
+	if (KEYMANAGER->isToggleKey(VK_F1))
+	{
+		//Rectangle(hdc, player.playerHeadRect.left, player.playerHeadRect.top, player.playerHeadRect.right, player.playerHeadRect.bottom);
+		//Rectangle(hdc, player.playerBodyRect.left, player.playerBodyRect.top, player.playerBodyRect.right, player.playerBodyRect.bottom);
+		Rectangle(hdc, player.playerHitRect.left, player.playerHitRect.top, player.playerHitRect.right, player.playerHitRect.bottom);
+
+		HBRUSH brush = CreateSolidBrush(RGB(255, 255, 153));
+		FillRect(hdc, &player.playerHitRect, brush);
+		DeleteObject(brush);
+	}
+
 	player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 25, aniBody);
 	player.playerBodyImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
 	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);

@@ -17,9 +17,10 @@ struct PlayerInfo
 	RECT	playerHeadRect;			//플레이어 머리 상자
 	RECT	playerBodyRect;			//플레이어 몸 상자
 	RECT	playerHitRect;			//플레이어 피격용 상자
+	int		playerOffensePower;		//플레이어 공격력
 	int		playerShotDelay;		//공격주기
-	float	playerShotRange;		//공격사거리
 	float	playerShotSpeed;		//공격속도
+	float	playerShotRange;		//공격사거리
 	float	playerSpeed;			//이동속도
 	float	playerSlideSpeed;		//슬라이딩 속도
 };
@@ -86,4 +87,7 @@ public:
 	void SetPlayerRectY(int num);
 
 	vector<BulletInfo> GetPlayerBulletVector() { return vPlayerBullet; }
+
+	int GetPlayerOffensePower() { return player.playerOffensePower; }
+	void SetPlayerOffensePower(int addPower) { player.playerOffensePower = addPower; }
 };

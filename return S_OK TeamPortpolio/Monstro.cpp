@@ -39,8 +39,14 @@ void Monstro::Render(HDC hdc)
 {
 	for (i = 0; i < vMonstro.size(); i++)
 	{
-		//Rectangle(hdc, vMonstro[i].enemyFireRange.left, vMonstro[i].enemyFireRange.top, vMonstro[i].enemyFireRange.right, vMonstro[i].enemyFireRange.bottom);
-		Rectangle(hdc, vMonstro[i].enemyRect.left, vMonstro[i].enemyRect.top, vMonstro[i].enemyRect.right, vMonstro[i].enemyRect.bottom);
+		if (KEYMANAGER->isToggleKey(VK_F1))
+		{
+			//Rectangle(hdc, vMonstro[i].enemyFireRange.left, vMonstro[i].enemyFireRange.top, vMonstro[i].enemyFireRange.right, vMonstro[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMonstro[i].enemyRect.left, vMonstro[i].enemyRect.top, vMonstro[i].enemyRect.right, vMonstro[i].enemyRect.bottom);
+			HBRUSH brush = CreateSolidBrush(RGB(51, 153, 0));
+			FillRect(hdc, &vMonstro[i].enemyRect, brush);
+			DeleteObject(brush);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -202,4 +208,16 @@ void Monstro::EnemyShot()
 void Monstro::DeleteEnemy(int num)
 {
 	vMonstro.erase(vMonstro.begin() + num);
+}
+
+void Monstro::SetEnemyRectX(int enemyNum, int move)
+{
+	vMonstro[enemyNum].enemyRect.left += move;
+	vMonstro[enemyNum].enemyRect.right += move;
+}
+
+void Monstro::SetEnemyRectY(int enemyNum, int move)
+{
+	vMonstro[enemyNum].enemyRect.top += move;
+	vMonstro[enemyNum].enemyRect.bottom += move;
 }

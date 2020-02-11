@@ -50,9 +50,9 @@ HRESULT EnemyManager::Init()
 	//m_MinionGaper->Init(PointMake(300, 300), 2);
 
 	m_MinionHorf = new MinionHorf;
-	m_MinionHorf->Init(PointMake(100, 300), 0);	
-	m_MinionHorf->Init(PointMake(200, 300), 1);	
-	m_MinionHorf->Init(PointMake(300, 300), 2);	
+	//m_MinionHorf->Init(PointMake(100, 300), 0);	
+	//m_MinionHorf->Init(PointMake(200, 300), 1);	
+	//m_MinionHorf->Init(PointMake(300, 300), 2);	
 
 	m_MinionMulligan = new MinionMulligan;
 	//m_MinionMulligan->Init(PointMake(100, 300), 0);

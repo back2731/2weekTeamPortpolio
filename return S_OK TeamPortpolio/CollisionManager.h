@@ -18,12 +18,12 @@ public:
 	// 에너미 총알 충돌
 	void EnemyBulletCollision(vector<BulletInfo>& enemyBulletVector, vector<BulletInfo>::iterator& enemyBulletIter);
 	
-	// 플레이어 -> 미니언 렉트 충돌
+	// 플레이어 -> 에너미 렉트 충돌
 	void PlayerToMinionCollision();
 
-	// 같은 벡터의 미니언 충돌
+	// 같은 벡터의 에너미 충돌
 	void SameVectorMinionCollision();
 
-	// 다른 벡터의 미니언 충돌
+	// 다른 벡터의 에너미 충돌
 	void MinionToMinionCollision();
 };
