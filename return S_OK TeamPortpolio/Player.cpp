@@ -414,9 +414,6 @@ void Player::PlayerShotMove()
 
 	//ºÒ·¿ ¹«ºê
 	BULLETMANAGER->PlayerMoveBullet(vPlayerBullet, viPlayerBullet);
-<<<<<<< HEAD
-
-
 }
 
 void Player::SetPlayerRectX(int num)
@@ -427,6 +424,12 @@ void Player::SetPlayerRectX(int num)
 	player.playerBodyRect.left += num;
 	player.playerBodyRect.right += num;
 }
-=======
+
+void Player::SetPlayerRectY(int num)
+{
+	player.playerHeadRect.top += num;
+	player.playerHeadRect.bottom += num;
+
+	player.playerBodyRect.top += num;
+	player.playerBodyRect.bottom += num;
 }
->>>>>>> dev

@@ -83,6 +83,7 @@ public:
 	float GetPlayerHitRectY() { return (player.playerHitRect.top + (player.playerHitRect.bottom - player.playerHitRect.top) / 2); }
 
 	void SetPlayerRectX(int num);
+	void SetPlayerRectY(int num);
 
 	vector<BulletInfo> GetPlayerBulletVector() { return vPlayerBullet; }
 };

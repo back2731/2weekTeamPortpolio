@@ -386,3 +386,15 @@ void MinionBlackFly::DeleteEnemy(int num)
 {
 	vMinionBlackFly.erase(vMinionBlackFly.begin() + num);
 }
+
+void MinionBlackFly::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionBlackFly[enemyNum].enemyRect.left += move;
+	vMinionBlackFly[enemyNum].enemyRect.right += move;
+}
+
+void MinionBlackFly::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionBlackFly[enemyNum].enemyRect.top += move;
+	vMinionBlackFly[enemyNum].enemyRect.bottom += move;
+}

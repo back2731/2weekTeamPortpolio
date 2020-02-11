@@ -25,5 +25,6 @@ public:
 	float GetPlayerHitRectY() { return m_Player->GetPlayerHitRectY(); }
 
 	void SetPlayerRectX(int num) { m_Player->SetPlayerRectX(num); }
+	void SetPlayerRectY(int num) { m_Player->SetPlayerRectY(num); }
 };
 

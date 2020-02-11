@@ -38,11 +38,8 @@ void GameScene::update()
 {
 	PLAYERMANAGER->Update();
 	ENEMYMANAGER->Update();
-<<<<<<< HEAD
 	COLLISIONMANAGER->UpdateCollision();
-=======
 	ANIMATIONMANAGER->update();
->>>>>>> dev
 }
 
 void GameScene::render()

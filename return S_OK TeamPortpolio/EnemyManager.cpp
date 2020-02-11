@@ -12,14 +12,14 @@ EnemyManager::~EnemyManager()
 HRESULT EnemyManager::Init()
 {
 	m_MinionAttackFly = new MinionAttackFly;
-	m_MinionAttackFly->Init(PointMake(100, 100), 0);
-	m_MinionAttackFly->Init(PointMake(200, 100), 1);
-	m_MinionAttackFly->Init(PointMake(300, 100), 2);
+	//m_MinionAttackFly->Init(PointMake(100, 100), 0);
+	//m_MinionAttackFly->Init(PointMake(200, 100), 1);
+	//m_MinionAttackFly->Init(PointMake(300, 100), 2);
 
 	m_MinionBlackFly = new MinionBlackFly;
-	m_MinionBlackFly->Init(PointMake(300, 100), 0);
-	m_MinionBlackFly->Init(PointMake(400, 100), 1);
-	m_MinionBlackFly->Init(PointMake(500, 100), 2);
+	m_MinionBlackFly->Init(PointMake(300, 400), 0);
+	m_MinionBlackFly->Init(PointMake(400, 400), 1);
+	m_MinionBlackFly->Init(PointMake(500, 400), 2);
 
 	m_MinionMaw = new MinionMaw;
 	//m_MinionMaw->Init(PointMake(500, 100), 0);	
