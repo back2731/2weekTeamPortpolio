@@ -111,3 +111,15 @@ void MinionHorf::DeleteEnemy(int num)
 {
 	vMinionHorf.erase(vMinionHorf.begin() + num);
 }
+
+void MinionHorf::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionHorf[enemyNum].enemyRect.left += move;
+	vMinionHorf[enemyNum].enemyRect.right += move;
+}
+
+void MinionHorf::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionHorf[enemyNum].enemyRect.top += move;
+	vMinionHorf[enemyNum].enemyRect.bottom += move;
+}

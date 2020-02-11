@@ -447,3 +447,15 @@ void MinionTumor::DeleteEnemy(int num)
 {
 	vMinionTumor.erase(vMinionTumor.begin() + num);
 }
+
+void MinionTumor::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionTumor[enemyNum].enemyRect.left += move;
+	vMinionTumor[enemyNum].enemyRect.right += move;
+}
+
+void MinionTumor::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionTumor[enemyNum].enemyRect.top += move;
+	vMinionTumor[enemyNum].enemyRect.bottom += move;
+}

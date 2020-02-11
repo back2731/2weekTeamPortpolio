@@ -334,3 +334,15 @@ void MinionMaw::DeleteEnemy(int num)
 {
 	vMinionMaw.erase(vMinionMaw.begin() + num);
 }
+
+void MinionMaw::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionMaw[enemyNum].enemyRect.left += move;
+	vMinionMaw[enemyNum].enemyRect.right += move;
+}
+
+void MinionMaw::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionMaw[enemyNum].enemyRect.top += move;
+	vMinionMaw[enemyNum].enemyRect.bottom += move;
+}

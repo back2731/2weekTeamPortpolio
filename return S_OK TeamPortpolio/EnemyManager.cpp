@@ -17,12 +17,12 @@ HRESULT EnemyManager::Init()
 	//m_MinionAttackFly->Init(PointMake(300, 100), 2);
 
 	m_MinionBlackFly = new MinionBlackFly;
-	m_MinionBlackFly->Init(PointMake(300, 400), 0);
-	m_MinionBlackFly->Init(PointMake(400, 400), 1);
-	m_MinionBlackFly->Init(PointMake(500, 400), 2);
+	//m_MinionBlackFly->Init(PointMake(300, 400), 0);
+	//m_MinionBlackFly->Init(PointMake(400, 400), 1);
+	//m_MinionBlackFly->Init(PointMake(500, 400), 2);
 
 	m_MinionMaw = new MinionMaw;
-	//m_MinionMaw->Init(PointMake(500, 100), 0);	
+	//m_MinionMaw->Init(PointMake(500, 100), 0);
 	//m_MinionMaw->Init(PointMake(550, 100), 1);
 	//m_MinionMaw->Init(PointMake(600, 100), 2);
 
@@ -37,19 +37,19 @@ HRESULT EnemyManager::Init()
 	//m_MinionClot->Init(PointMake(300, 500), 2);
 
 	m_MinionClotty = new MinionClotty;
-	//m_MinionClotty->Init(PointMake(100, 500), 0);	
-	//m_MinionClotty->Init(PointMake(200, 500), 1);	
+	//m_MinionClotty->Init(PointMake(100, 500), 0);
+	//m_MinionClotty->Init(PointMake(200, 500), 1);
 	//m_MinionClotty->Init(PointMake(300, 500), 2);
 
 	m_MinionGaper = new MinionGaper;
-	//m_MinionGaper->Init(PointMake(200, 300), 1);
 	//m_MinionGaper->Init(PointMake(100, 300), 0);
+	//m_MinionGaper->Init(PointMake(200, 300), 1);
 	//m_MinionGaper->Init(PointMake(300, 300), 2);
 
 	m_MinionHorf = new MinionHorf;
-	//m_MinionHorf->Init(PointMake(100, 300), 0);	
-	//m_MinionHorf->Init(PointMake(200, 300), 1);	
-	//m_MinionHorf->Init(PointMake(300, 300), 2);	
+	m_MinionHorf->Init(PointMake(100, 300), 0);	
+	m_MinionHorf->Init(PointMake(200, 300), 1);	
+	m_MinionHorf->Init(PointMake(300, 300), 2);	
 
 	m_MinionMulligan = new MinionMulligan;
 	//m_MinionMulligan->Init(PointMake(100, 300), 0);
@@ -57,9 +57,9 @@ HRESULT EnemyManager::Init()
 	//m_MinionMulligan->Init(PointMake(300, 300), 2);
 
 	m_MinionPacer = new MinionPacer;
-	//m_MinionPacer->Init(PointMake(100, 300), 0);	
-	//m_MinionPacer->Init(PointMake(200, 300), 1);	
-	//m_MinionPacer->Init(PointMake(300, 300), 2);	
+	//m_MinionPacer->Init(PointMake(100, 300), 0);
+	//m_MinionPacer->Init(PointMake(200, 300), 1);
+	//m_MinionPacer->Init(PointMake(300, 300), 2);
 
 	return S_OK;
 }

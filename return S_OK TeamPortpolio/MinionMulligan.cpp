@@ -353,6 +353,18 @@ void MinionMulligan::DeleteEnemy(int num)
 	vMinionMulligan.erase(vMinionMulligan.begin() + num);
 }
 
+void MinionMulligan::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionMulligan[enemyNum].enemyRect.left += move;
+	vMinionMulligan[enemyNum].enemyRect.right += move;
+}
+
+void MinionMulligan::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionMulligan[enemyNum].enemyRect.top += move;
+	vMinionMulligan[enemyNum].enemyRect.bottom += move;
+}
+
 void MinionMulligan::DeleteEnemy()
 {
 	for (i = 0; i < vMinionMulligan.size(); i++)

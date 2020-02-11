@@ -296,3 +296,15 @@ void MinionGaper::DeleteEnemy(int num)
 {
 	vMinionGaper.erase(vMinionGaper.begin() + num);
 }
+
+void MinionGaper::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionGaper[enemyNum].enemyRect.left += move;
+	vMinionGaper[enemyNum].enemyRect.right += move;
+}
+
+void MinionGaper::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionGaper[enemyNum].enemyRect.top += move;
+	vMinionGaper[enemyNum].enemyRect.bottom += move;
+}

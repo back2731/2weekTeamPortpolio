@@ -296,3 +296,15 @@ void MinionAttackFly::DeleteEnemy(int num)
 {
 	vMinionAttackFly.erase(vMinionAttackFly.begin() + num);
 }
+
+void MinionAttackFly::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionAttackFly[enemyNum].enemyRect.left += move;
+	vMinionAttackFly[enemyNum].enemyRect.right += move;
+}
+
+void MinionAttackFly::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionAttackFly[enemyNum].enemyRect.top += move;
+	vMinionAttackFly[enemyNum].enemyRect.bottom += move;
+}

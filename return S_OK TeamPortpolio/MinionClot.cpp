@@ -307,3 +307,15 @@ void MinionClot::DeleteEnemy(int num)
 {
 	vMinionClot.erase(vMinionClot.begin() + num);
 }
+
+void MinionClot::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionClot[enemyNum].enemyRect.left += move;
+	vMinionClot[enemyNum].enemyRect.right += move;
+}
+
+void MinionClot::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionClot[enemyNum].enemyRect.top += move;
+	vMinionClot[enemyNum].enemyRect.bottom += move;
+}

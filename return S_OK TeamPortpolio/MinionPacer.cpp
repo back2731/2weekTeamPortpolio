@@ -248,3 +248,15 @@ void MinionPacer::DeleteEnemy(int num)
 {
 	vMinionPacer.erase(vMinionPacer.begin() + num);
 }
+
+void MinionPacer::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionPacer[enemyNum].enemyRect.left += move;
+	vMinionPacer[enemyNum].enemyRect.right += move;
+}
+
+void MinionPacer::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionPacer[enemyNum].enemyRect.top += move;
+	vMinionPacer[enemyNum].enemyRect.bottom += move;
+}
