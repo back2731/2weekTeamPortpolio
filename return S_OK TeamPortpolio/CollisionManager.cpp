@@ -22,6 +22,36 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 
 	if (!playerBulletVector.empty())
 	{
+		// Monstro 충돌
+		for (int j = 0; j < ENEMYMANAGER->GetMonstro()->GetMinionVector().size(); j++)
+		{
+			for (playerBulletIter = playerBulletVector.begin(); playerBulletIter != playerBulletVector.end(); )
+			{
+				if (IntersectRect(&temp, &playerBulletIter->rect, &ENEMYMANAGER->GetMonstro()->GetMinionVector()[j].enemyRect))
+				{
+					// 오브젝트 풀로 총알을 돌려주는 함수
+					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+					playerBulletIter = playerBulletVector.erase(playerBulletIter);
+
+					// 피격이 된 적의 벡터를 지우는 함수
+					ENEMYMANAGER->GetMonstro()->DeleteEnemy(j);
+
+					// j번째 미니언이 피격 시 j를 0으로 초기화
+					j = 0;
+
+					// 벡터값이 비어있으면 for문을 빠져나간다.
+					if (ENEMYMANAGER->GetMonstro()->GetMinionVector().empty())
+					{
+						break;
+					}
+				}
+				else
+				{
+					++playerBulletIter;
+				}
+			}
+		}
+
 		// MinionAttackFly 충돌
 		for (int j = 0; j < ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector().size(); j++)
 		{

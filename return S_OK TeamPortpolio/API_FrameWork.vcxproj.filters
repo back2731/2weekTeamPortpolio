@@ -231,6 +231,9 @@
     <ClInclude Include="CollisionManager.h">
       <Filter>Manager\수정중</Filter>
     </ClInclude>
+    <ClInclude Include="Monstro.h">
+      <Filter>mainGame\Enemy\Boss</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -361,6 +364,9 @@
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Manager\수정중</Filter>
+    </ClCompile>
+    <ClCompile Include="Monstro.cpp">
+      <Filter>mainGame\Enemy\Boss</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

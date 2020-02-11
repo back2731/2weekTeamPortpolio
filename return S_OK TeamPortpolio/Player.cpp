@@ -21,8 +21,8 @@ HRESULT Player::Init(string imageName)
 	ANIMATIONMANAGER->addAnimation("body", "playerBody", arrlen2, 1, 10, true);
 	aniBody = ANIMATIONMANAGER->findAnimation("body");
 
-	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 23 * 2);			//머리 상자
-	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 30, 32 * 2, 11 * 2);	//몸 상자
+	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 100, 32 * 2, 23 * 2);		//머리 상자
+	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 70, 32 * 2, 11 * 2);		//몸 상자
 	player.playerShotSpeed = 8.0f;																//공격속도
 	player.playerShotRange = 450.0f;															//공격사거리
 	player.playerShotDelay = 25;																//공격주기
@@ -73,9 +73,9 @@ void Player::Update()
 
 void Player::Render(HDC hdc)
 {
-	Rectangle(hdc, player.playerHeadRect.left, player.playerHeadRect.top, player.playerHeadRect.right, player.playerHeadRect.bottom);
-	Rectangle(hdc, player.playerBodyRect.left, player.playerBodyRect.top, player.playerBodyRect.right, player.playerBodyRect.bottom);
-	Rectangle(hdc, player.playerHitRect.left, player.playerHitRect.top, player.playerHitRect.right, player.playerHitRect.bottom);
+	//Rectangle(hdc, player.playerHeadRect.left, player.playerHeadRect.top, player.playerHeadRect.right, player.playerHeadRect.bottom);
+	//Rectangle(hdc, player.playerBodyRect.left, player.playerBodyRect.top, player.playerBodyRect.right, player.playerBodyRect.bottom);
+	//Rectangle(hdc, player.playerHitRect.left, player.playerHitRect.top, player.playerHitRect.right, player.playerHitRect.bottom);
 	player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 25, aniBody);
 	player.playerBodyImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
 	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);

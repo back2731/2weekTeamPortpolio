@@ -1,5 +1,6 @@
 #pragma once
 #include "singletonBase.h"
+#include "Monstro.h"
 #include "MinionAttackFly.h"
 #include "MinionBlackFly.h"
 #include "MinionMaw.h"
@@ -14,6 +15,8 @@
 class EnemyManager : public singletonBase<EnemyManager>
 {
 private:
+	//보스
+	Monstro*			m_Monstro;
 
 	// 공중미니언
 	MinionAttackFly*	m_MinionAttackFly;
@@ -39,6 +42,8 @@ public:
 	void Render(HDC hdc);
 
 	// 총알 충돌용 함수
+	Monstro*			GetMonstro()			{ return m_Monstro; }
+
 	MinionAttackFly*	GetMinionAttackFly()	{ return m_MinionAttackFly; }
 	MinionBlackFly*		GetMinionBlackFly()		{ return m_MinionBlackFly; }
 	MinionMaw*			GetMinionMaw()			{ return m_MinionMaw; }
