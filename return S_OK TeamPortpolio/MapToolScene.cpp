@@ -298,10 +298,18 @@ void MapToolScene::TlieInit()
 
 void MapToolScene::Load()
 {
+	fileName = "map1.map";
+	file = CreateFile(fileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
+	ReadFile(file, _tileMap, sizeof(TagTile) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
+	CloseHandle(file);
 }
 
 void MapToolScene::Save()
 {
+	fileName = "map1.map";
+	file = CreateFile(fileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
+	WriteFile(file, _tileMap, sizeof(TagTile) * TILE_COUNT_X * TILE_COUNT_Y, &write, NULL);
+	CloseHandle(file);
 }

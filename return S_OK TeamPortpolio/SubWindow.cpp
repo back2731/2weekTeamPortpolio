@@ -17,6 +17,7 @@ SubWindow::~SubWindow()
 
 void SubWindow::init()
 {
+
 	CreateSubWindow();
 
 	isActive = false;
@@ -43,18 +44,22 @@ void SubWindow::init()
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		tempX + 115, 30, 100, 20, hWnd, HMENU(4), m_hInstance, NULL);
-	_btnN1 = CreateWindow("button", "N1",
+	_btnMain = CreateWindow("button", "MainMenu",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 35, 135, 35, 25, hWnd, HMENU(5), m_hInstance, NULL);
-	_btnN2 = CreateWindow("button", "N2",
+		tempX + 115, 60, 100, 20, hWnd, HMENU(8), m_hInstance, NULL);
+	_btnN1 = CreateWindow("button", "Blocks",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 35 + 60, 135, 35, 25, hWnd, HMENU(6), m_hInstance, NULL);
-	_btnN3 = CreateWindow("button", "N3",
+		tempX , 135, 70, 25, hWnd, HMENU(5), m_hInstance, NULL);
+	_btnN2 = CreateWindow("button", "MapTiles",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 35 + 120, 135, 35, 25, hWnd, HMENU(7), m_hInstance, NULL);
+		tempX + 75, 135, 70, 25, hWnd, HMENU(6), m_hInstance, NULL);
+	_btnN3 = CreateWindow("button", "Others",
+		//자식으로 생성하면 안쪽에 만들어짐
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		tempX + 150, 135, 70, 25, hWnd, HMENU(7), m_hInstance, NULL);
 
 	clickFrame = { 0,0 };
 	clickIndex = 0;
@@ -124,15 +129,18 @@ LRESULT SubWindow::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 				SUBWIN->GetIsoMap()->init();
 				break;
 			case CTRL_SAVE:
-
+				SUBWIN->GetIsoMap()->Save();
 				break;
 			case CTRL_LOAD:
-
+				SUBWIN->GetIsoMap()->Load();
 				break;
 			case CTRL_NUM1:
 			case CTRL_NUM2:
 			case CTRL_NUM3:
 				SUBWIN->SetFrameIndex(LOWORD(wParam) - 5);
+				break;
+			case CTRL_MAIN:
+				SCENEMANAGER->changeScene("MainMenu");
 				break;
 			}
 			break;

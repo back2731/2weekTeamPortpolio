@@ -14,6 +14,7 @@ enum CTRL
 	CTRL_NUM1,
 	CTRL_NUM2,
 	CTRL_NUM3,
+	CTRL_MAIN,
 	CTRL_END
 };
 
@@ -21,6 +22,7 @@ class MapToolScene;
 class SubWindow : public singletonBase<SubWindow>
 {
 private:
+
 
 	HWND hWnd;
 	static POINT ptMouse;
@@ -39,6 +41,8 @@ private:
 	HWND  _btnN1;
 	HWND  _btnN2;
 	HWND  _btnN3;
+
+	HWND  _btnMain;
 
 	static CTRL _currentCTRL;
 	POINT clickFrame;

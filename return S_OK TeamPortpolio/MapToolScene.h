@@ -20,6 +20,12 @@ private:
 
 	bool _isDebug;
 
+	//
+	const char* fileName;
+	HANDLE file;
+	DWORD write;
+	DWORD read;
+	
 public:
 	MapToolScene();
 	~MapToolScene();
