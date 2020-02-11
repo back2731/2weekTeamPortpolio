@@ -27,4 +27,3 @@ public:
 	void SetPlayerRectX(int num) { m_Player->SetPlayerRectX(num); }
 	void SetPlayerRectY(int num) { m_Player->SetPlayerRectY(num); }
 };
-

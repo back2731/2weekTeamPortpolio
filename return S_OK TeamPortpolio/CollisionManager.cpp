@@ -350,7 +350,7 @@ void CollisionManager::EnemyBulletCollision(vector<BulletInfo>& enemyBulletVecto
 }
 
 void CollisionManager::PlayerToMinionCollision()
-{		
+{
 	RECT temp;
 
 	// MinionAttackFly 충돌
@@ -358,50 +358,35 @@ void CollisionManager::PlayerToMinionCollision()
 	{
 		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect))
 		{
-			// 에너미가 플레이어의 좌상단에 있을때의 피격
-			if (PLAYERMANAGER->GetPlayerHitRectX() >= ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyX &&
-				PLAYERMANAGER->GetPlayerHitRectY() >= ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyY)
-			{
-				// 플레이어 우하단으로 이동
-				PLAYERMANAGER->SetPlayerRectX(PUSH);
-				PLAYERMANAGER->SetPlayerRectY(PUSH);
+			// temp의 Width와 Height 선언
+			int tempW = temp.right - temp.left;
+			int tempH = temp.bottom - temp.top;
 
-				// 에너미 좌상단으로 이동
-				ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectX(j, -PUSH);
-				ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectY(j, -PUSH);
+			if (tempH > tempW)
+			{
+				// 왼쪽 충돌시 오른쪽으로 밀어줌
+				if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+				{
+					PLAYERMANAGER->SetPlayerRectX(tempW);
+				}
+				// 오른쪽 충돌시 왼쪽으로 밀어줌
+				else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+				{
+					PLAYERMANAGER->SetPlayerRectX(-tempW);
+				}
 			}
-			else if(PLAYERMANAGER->GetPlayerHitRectX() <= ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyX &&
-					PLAYERMANAGER->GetPlayerHitRectY() >= ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyY)
+			else
 			{
-				// 플레이어 좌상단으로 이동
-				PLAYERMANAGER->SetPlayerRectX(-PUSH);
-				PLAYERMANAGER->SetPlayerRectY(-PUSH);
-
-				// 에너미 우하단으로 이동
-				ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectX(j, PUSH);
-				ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectY(j, PUSH);
-			}
-			else if (PLAYERMANAGER->GetPlayerHitRectX() >= ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyX &&
-				PLAYERMANAGER->GetPlayerHitRectY() <= ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyY)
-			{
-				// 플레이어 우하단으로 이동
-				PLAYERMANAGER->SetPlayerRectX(PUSH);
-				PLAYERMANAGER->SetPlayerRectY(PUSH);
-
-				// 에너미 좌상단으로 이동
-				ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectX(j, -PUSH);
-				ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectY(j, -PUSH);
-			}
-			else if (PLAYERMANAGER->GetPlayerHitRectX() <= ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyX &&
-				PLAYERMANAGER->GetPlayerHitRectY() <= ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyY)
-			{
-				// 플레이어 좌상단으로 이동
-				PLAYERMANAGER->SetPlayerRectX(-PUSH);
-				PLAYERMANAGER->SetPlayerRectY(-PUSH);
-
-				// 에너미 우하단으로 이동
-				ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectX(j, PUSH);
-				ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectY(j, PUSH);
+				// 위쪽 충돌시 아래쪽으로 밀어줌
+				if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+				{
+					PLAYERMANAGER->SetPlayerRectY(tempH);
+				}
+				// 아래쪽 충돌시 위쪽으로 밀어줌
+				else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+				{
+					PLAYERMANAGER->SetPlayerRectY(-tempH);
+				}
 			}
 		}
 	}

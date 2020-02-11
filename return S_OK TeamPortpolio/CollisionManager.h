@@ -1,6 +1,6 @@
 #pragma once
 #include"singletonBase.h"
-#define PUSH 1
+
 class CollisionManager : public singletonBase<CollisionManager>
 {
 private:
