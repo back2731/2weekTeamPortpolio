@@ -11,8 +11,8 @@ struct EnemyInfo
 	RECT	enemyRect;			// 적 전체 렉트
 	RECT	enemyFireRange;		// 적의 판정 범위 상자
 	int		enemyNumber;		// 몬스터 넘버
+	int		enemyHp;			// 적 체력
 	int		enemyShotDelay;		// 공격 주기
-	float	enemyHp;			// 적 체력
 	float	enemyShotSpeed;		// 공격속도
 	float	enemyShotRange;		// 공격 사거리
 	float	enemySpeed;			// 이동속도
@@ -42,7 +42,6 @@ protected:
 	float vx, vy;				// 접근 속도 변수
 
 	bool enemyAreaCheck;		// 적의 판정 범위와 플레이어의 충돌을 체크하는 변수
-	bool enemyCollision;		// 적과 장애물의 충돌을 체크하는 변수
 
 public:
 	EnemyBase();

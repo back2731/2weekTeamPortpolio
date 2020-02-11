@@ -24,7 +24,6 @@ HRESULT MinionTumor::Init(POINT position, int EnemyNumber)
 
 	enemyMove = true;
 	enemyAreaCheck = false;
-	enemyCollision = false;
 
 	return S_OK;
 }
@@ -96,11 +95,7 @@ void MinionTumor::EnemyAi()
 		// 플레이어와 판정 범위가 충돌시
 		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionTumor[i].enemyFireRange))
 		{
-			// 적과 장애물이 충돌하지 않았다면
-			if (!enemyCollision)
-			{
-				enemyAreaCheck = true;
-			}
+			enemyAreaCheck = true;
 		}
 		else
 		{

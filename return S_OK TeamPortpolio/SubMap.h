@@ -1,6 +1,7 @@
 #pragma once
 #include"gameNode.h"
 #include"MapToolTile.h"
+
 class SubMap : public gameNode
 {
 private:
@@ -12,16 +13,12 @@ private:
 
 	int frameX, frameY;
 
-
-
 public:
 	SubMap();
 	~SubMap();
-
 
 	HRESULT init();
 	void release();
 	void update();
 	void render(HDC hdc);
 };
-

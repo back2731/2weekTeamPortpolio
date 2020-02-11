@@ -23,7 +23,7 @@ HRESULT MinionClotty::Init(POINT position, int EnemyNumber)
 	vMinionClotty.push_back(MinionClotty);
 
 	enemyAreaCheck = false;
-	enemyCollision = false;
+
 	return S_OK;
 }
 

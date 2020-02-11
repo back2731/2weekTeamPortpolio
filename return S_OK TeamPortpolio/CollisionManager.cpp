@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "CollisionManager.h"
 
-
 CollisionManager::CollisionManager()
 {
 }
-
 
 CollisionManager::~CollisionManager()
 {
@@ -14,6 +12,7 @@ CollisionManager::~CollisionManager()
 void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVector, vector<BulletInfo>::iterator& playerBulletIter)
 {
 	RECT temp;
+
 	if (!playerBulletVector.empty())
 	{
 		// MinionAttackFly 충돌
@@ -126,7 +125,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					j = 0;
 
 					// 벡터값이 비어있으면 for문을 빠져나간다.
-					if(ENEMYMANAGER->GetMinionTumor()->GetMinionVector().empty())
+					if (ENEMYMANAGER->GetMinionTumor()->GetMinionVector().empty())
 					{
 						break;
 					}
@@ -344,4 +343,3 @@ void CollisionManager::EnemyBulletCollision(vector<BulletInfo>& enemyBulletVecto
 		}
 	}
 }
-

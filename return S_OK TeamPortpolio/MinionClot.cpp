@@ -23,7 +23,7 @@ HRESULT MinionClot::Init(POINT position, int EnemyNumber)
 	vMinionClot.push_back(MinionClot);
 
 	enemyAreaCheck = false;
-	enemyCollision = false;
+
 	return S_OK;
 }
 

@@ -22,7 +22,6 @@ HRESULT MinionHorf::Init(POINT position, int EnemyNumber)
 	vMinionHorf.push_back(MinionHorf);
 
 	enemyAreaCheck = false;
-	enemyCollision = false;
 
 	return S_OK;
 }

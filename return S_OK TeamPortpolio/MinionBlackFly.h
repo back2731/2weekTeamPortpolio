@@ -4,6 +4,10 @@
 class MinionBlackFly : public EnemyBase
 {
 private:
+	image* blackFly;
+	animation* ani;
+
+private:
 	vector<EnemyInfo> vMinionBlackFly;
 
 	bool enemyMove;			// ÀÚµ¿ AI

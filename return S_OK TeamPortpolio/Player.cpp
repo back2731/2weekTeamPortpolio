@@ -11,10 +11,18 @@ Player::~Player()
 
 HRESULT Player::Init(string imageName)
 {
-	player.playerHeadImage = IMAGEMANAGER->findImage(imageName);								//머리 이미지
-	player.playerBodyImage = IMAGEMANAGER->findImage(imageName);								//몸 이미지
-	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 31 * 2);			//머리 상자
-	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 62, 32 * 2, 31 * 2);	//몸 상자
+	player.playerHeadImage = IMAGEMANAGER->addFrameImage("playerHead", "images/player/issac.bmp", 512 * 2, 512 * 2, 16, 16, true, RGB(255, 0, 255));
+	int arrlen[] = { 0 };
+	ANIMATIONMANAGER->addAnimation("head", "playerHead", arrlen, 1, 10, true);
+	aniHead = ANIMATIONMANAGER->findAnimation("head");
+
+	player.playerBodyImage = IMAGEMANAGER->addFrameImage("playerBody", "images/player/issac.bmp", 512 * 2, 512 * 2, 16, 16, true, RGB(255, 0, 255));
+	int arrlen2[] = { 16 };
+	ANIMATIONMANAGER->addAnimation("body", "playerBody", arrlen2, 1, 10, true);
+	aniBody = ANIMATIONMANAGER->findAnimation("body");
+
+	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 23 * 2);			//머리 상자
+	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 30, 32 * 2, 11 * 2);	//몸 상자
 	player.playerShotSpeed = 8.0f;																//공격속도
 	player.playerShotRange = 450.0f;															//공격사거리
 	player.playerShotDelay = 25;																//공격주기
@@ -56,13 +64,20 @@ void Player::Update()
 	PlayerShot();
 	COLLISIONMANAGER->PlayerBulletCollision(vPlayerBullet, viPlayerBullet);
 
+	//애니메이션 프레임
+	aniHead = ANIMATIONMANAGER->findAnimation("head");
+	ANIMATIONMANAGER->start("head");
+	aniBody = ANIMATIONMANAGER->findAnimation("body");
+	ANIMATIONMANAGER->start("body");
 }
 
 void Player::Render(HDC hdc)
 {
-	Rectangle(hdc, player.playerHeadRect.left, player.playerHeadRect.top, player.playerHeadRect.right, player.playerHeadRect.bottom);
-	Rectangle(hdc, player.playerBodyRect.left, player.playerBodyRect.top, player.playerBodyRect.right, player.playerBodyRect.bottom);
-	Rectangle(hdc, player.playerHitRect.left, player.playerHitRect.top, player.playerHitRect.right, player.playerHitRect.bottom);
+	//Rectangle(hdc, player.playerHeadRect.left, player.playerHeadRect.top, player.playerHeadRect.right, player.playerHeadRect.bottom);
+	//Rectangle(hdc, player.playerBodyRect.left, player.playerBodyRect.top, player.playerBodyRect.right, player.playerBodyRect.bottom);
+	//Rectangle(hdc, player.playerHitRect.left, player.playerHitRect.top, player.playerHitRect.right, player.playerHitRect.bottom);
+	player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 25, aniBody);
+	player.playerBodyImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
 	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
 }
 
@@ -141,7 +156,7 @@ void Player::PlayerMove()
 
 	//플레이어 피격 상자
 	player.playerHitRect = RectMakeCenter(player.playerBodyRect.left + (player.playerBodyRect.right - player.playerBodyRect.left) / 2,
-		player.playerBodyRect.top, 60, 100);
+		player.playerBodyRect.top - 10, 60, 65);
 }
 
 void Player::PlayerSilde()
@@ -399,6 +414,4 @@ void Player::PlayerShotMove()
 
 	//불렛 무브
 	BULLETMANAGER->PlayerMoveBullet(vPlayerBullet, viPlayerBullet);
-
-
 }

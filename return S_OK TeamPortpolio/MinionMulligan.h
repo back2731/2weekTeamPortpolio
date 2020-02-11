@@ -9,7 +9,7 @@ private:
 	vector<BulletInfo> vEnemyBullet;
 	vector<BulletInfo>::iterator viEnemyBullet;
 
-	bool check;
+	bool collisionCheck;
 
 public:
 	MinionMulligan();
@@ -22,7 +22,7 @@ public:
 
 	void EnemyAiTime();
 	void EnemyAi();
-	void EnemyErase();
+	void DeleteEnemy();
 	void EnemyShot();
 
 	// 에너미 벡터를 반환하는 함수

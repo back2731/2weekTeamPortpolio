@@ -11,6 +11,10 @@ MinionBlackFly::~MinionBlackFly()
 
 HRESULT MinionBlackFly::Init(POINT position, int EnemyNumber)
 {
+	blackFly = IMAGEMANAGER->addFrameImage("blackfly", "images/monster/blackfly.bmp", 128 * 2, 128 * 2, 4, 4, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("ani1", "blackfly", 10, false, true);
+	ani = ANIMATIONMANAGER->findAnimation("ani1");
+
 	//구조체 정보 기입
 	EnemyInfo MinionBlackFly;
 	MinionBlackFly.enemyNumber = EnemyNumber;
@@ -21,7 +25,6 @@ HRESULT MinionBlackFly::Init(POINT position, int EnemyNumber)
 
 	enemyMove = true;
 	enemyAreaCheck = false;
-	enemyCollision = false;
 
 	return S_OK;
 }
@@ -40,7 +43,9 @@ void MinionBlackFly::Render(HDC hdc)
 	for (i = 0; i < vMinionBlackFly.size(); i++)
 	{
 		//Rectangle(hdc, vMinionBlackFly[i].enemyFireRange.left, vMinionBlackFly[i].enemyFireRange.top, vMinionBlackFly[i].enemyFireRange.right, vMinionBlackFly[i].enemyFireRange.bottom);
-		Rectangle(hdc, vMinionBlackFly[i].enemyRect.left, vMinionBlackFly[i].enemyRect.top, vMinionBlackFly[i].enemyRect.right, vMinionBlackFly[i].enemyRect.bottom);
+		//Rectangle(hdc, vMinionBlackFly[i].enemyRect.left, vMinionBlackFly[i].enemyRect.top, vMinionBlackFly[i].enemyRect.right, vMinionBlackFly[i].enemyRect.bottom);
+
+		blackFly->aniRender(hdc, vMinionBlackFly[i].enemyRect.left - 20, vMinionBlackFly[i].enemyRect.top - 15, ani);
 	}
 }
 
@@ -82,6 +87,10 @@ void MinionBlackFly::EnemyAi()
 {
 	for (i = 0; i < vMinionBlackFly.size(); i++)
 	{
+		//애니메이션 프레임
+		ani = ANIMATIONMANAGER->findAnimation("ani1");
+		ANIMATIONMANAGER->start("ani1");
+
 		RECT temp;
 
 		// 적 x축, y축 좌표
@@ -91,11 +100,7 @@ void MinionBlackFly::EnemyAi()
 		// 플레이어와 판정 범위가 충돌시
 		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionBlackFly[i].enemyFireRange))
 		{
-			// 적과 장애물이 충돌하지 않았다면
-			if (!enemyCollision)
-			{
-				enemyAreaCheck = true;
-			}
+			enemyAreaCheck = true;
 		}
 		else
 		{
@@ -373,7 +378,7 @@ void MinionBlackFly::EnemyAi()
 		}
 
 		// 판정 범위가 항상 적의 좌표를 쫓아다님
-		vMinionBlackFly[i].enemyFireRange = RectMakeCenter(vMinionBlackFly[i].enemyX, vMinionBlackFly[i].enemyY, 300, 300);
+		vMinionBlackFly[i].enemyFireRange = RectMakeCenter(vMinionBlackFly[i].enemyX, vMinionBlackFly[i].enemyY, 200, 200);
 	}
 }
 

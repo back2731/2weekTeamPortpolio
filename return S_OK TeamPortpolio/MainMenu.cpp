@@ -11,8 +11,8 @@ MainMenu::~MainMenu()
 
 HRESULT MainMenu::init()
 {
-	IMAGEMANAGER->addImage("MainMenu", "images/MainMenu.bmp", WINSIZEX / 2, WINSIZEY / 2, 960, 540, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("MainMenuArrow", "images/MainMenuArrow.bmp", WINSIZEY / 2, WINSIZEY / 2, 24, 30, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("MainMenu", "images/UI/menu/MainMenu.bmp", WINSIZEX / 2, WINSIZEY / 2, 960, 540, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("MainMenuArrow", "images/UI/menu/MainMenuArrow.bmp", WINSIZEY / 2, WINSIZEY / 2, 24, 30, true, RGB(255, 0, 255));
 
 	newRunRect = RectMake(320, 160, 24, 30);
 	mapToolRect = RectMake(340, 270, 24, 30);

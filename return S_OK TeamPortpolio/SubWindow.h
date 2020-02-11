@@ -23,13 +23,11 @@ class SubWindow : public singletonBase<SubWindow>
 {
 private:
 
-
 	HWND hWnd;
 	static POINT ptMouse;
 
 	image* m_backBuffer;
 	gameNode* currentScene;
-
 
 	HWND _btnDraw;
 	HWND _btnEraser;
@@ -51,6 +49,7 @@ private:
 	bool isActive;
 
 	MapToolScene * map;
+
 public:
 	SubWindow();
 	~SubWindow();
@@ -85,4 +84,3 @@ public:
 
 	void CreateSubWindow();
 };
-

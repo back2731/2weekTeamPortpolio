@@ -23,7 +23,7 @@
     <ProjectGuid>{8FF13C43-33AC-4F4E-825D-B864A3A51362}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>APIFrameWork</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>return S_OK TeamPortpolio</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -193,7 +193,6 @@
     <ClInclude Include="SubMap.h" />
     <ClInclude Include="SubWindow.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TestMinion.h" />
     <ClInclude Include="timeManager.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="txtData.h" />
@@ -237,7 +236,6 @@
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="SubMap.cpp" />
     <ClCompile Include="SubWindow.cpp" />
-    <ClCompile Include="TestMinion.cpp" />
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="txtData.cpp" />

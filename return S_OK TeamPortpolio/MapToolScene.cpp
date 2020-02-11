@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "MapToolScene.h"
 
-
 MapToolScene::MapToolScene()
 {
 }
-
 
 MapToolScene::~MapToolScene()
 {
@@ -35,10 +33,10 @@ void MapToolScene::release()
 
 void MapToolScene::update()
 {
-	if (KEYMANAGER->isStayKeyDown('W')) { _startY += 5; }
-	if (KEYMANAGER->isStayKeyDown('S')) { _startY -= 5; }
-	if (KEYMANAGER->isStayKeyDown('A')) { _startX += 5; }
-	if (KEYMANAGER->isStayKeyDown('D')) { _startX -= 5; }
+	if (KEYMANAGER->isStayKeyDown('W')) { _startY += 20; }
+	if (KEYMANAGER->isStayKeyDown('S')) { _startY -= 20; }
+	if (KEYMANAGER->isStayKeyDown('A')) { _startX += 20; }
+	if (KEYMANAGER->isStayKeyDown('D')) { _startX -= 20; }
 
 	if (KEYMANAGER->isOnceKeyDown(VK_TAB))
 	{
@@ -74,8 +72,6 @@ void MapToolScene::update()
 			_isoY = isoY;
 		}
 	}
-
-
 }
 
 void MapToolScene::render()
@@ -151,6 +147,7 @@ void MapToolScene::Draw_Line_X(int left, int top)
 
 	LineMake(getMemDC(), centerX, centerY, centerX + CELL_WIDTH, centerY);
 }
+
 void MapToolScene::Draw_Line_Y(int left, int top)
 {
 	int centerX = left;

@@ -20,7 +20,6 @@ HRESULT MinionAttackFly::Init(POINT position, int EnemyNumber)
 	vMinionAttackFly.push_back(MinionAttackFly);
 
 	enemyAreaCheck = false;
-	enemyCollision = false;
 
 	return S_OK;
 }
@@ -92,12 +91,8 @@ void MinionAttackFly::EnemyAi()
 		// 플레이어와 판정 범위가 충돌시
 		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionAttackFly[i].enemyFireRange))
 		{
-			// 적과 장애물이 충돌하지 않았다면
-			if (!enemyCollision)
-			{
-				// 플레이어를 쫓아가라.
-				enemyAreaCheck = true;
-			}
+			// 플레이어를 쫓아가라.
+			enemyAreaCheck = true;
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
