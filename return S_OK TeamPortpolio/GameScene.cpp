@@ -45,7 +45,7 @@ void GameScene::update()
 void GameScene::render()
 {
 	IMAGEMANAGER->render("TestMap", getMemDC());
-	PLAYERMANAGER->Render(getMemDC());
 	ENEMYMANAGER->Render(getMemDC());
+	PLAYERMANAGER->Render(getMemDC());
 	OBJECTPOOL->Render(getMemDC());
 }
