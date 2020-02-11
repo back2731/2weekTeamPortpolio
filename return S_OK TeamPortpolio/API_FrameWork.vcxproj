@@ -153,6 +153,7 @@
     <ClInclude Include="API_FrameWork.h" />
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="CameraManager.h" />
+    <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="commonMacroFunction.h" />
     <ClInclude Include="effect.h" />
     <ClInclude Include="effectManager.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="animationManager.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="CameraManager.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="effect.cpp" />
     <ClCompile Include="effectManager.cpp" />
     <ClCompile Include="EnemyBase.cpp" />

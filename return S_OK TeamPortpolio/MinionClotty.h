@@ -9,8 +9,6 @@ private:
 	vector<BulletInfo> vEnemyBullet;
 	vector<BulletInfo>::iterator viEnemyBullet;
 
-	bool check;
-
 public:
 	MinionClotty();
 	~MinionClotty();
@@ -23,4 +21,10 @@ public:
 	void EnemyAiTime();
 	void EnemyAi();
 	void EnemyShot();
+
+	// 에너미 벡터를 반환하는 함수
+	vector<EnemyInfo> GetMinionVector() { return vMinionClotty; }
+
+	// 에너미 벡터를 지우는 함수
+	void DeleteEnemy(int num);
 };

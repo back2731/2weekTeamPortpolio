@@ -146,7 +146,7 @@ void MinionMulligan::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionMulligan[i].enemyRect.left > 0)
+					if (vMinionMulligan[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left -= vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.right -= vMinionMulligan[i].enemySpeed;
@@ -157,7 +157,7 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionMulligan[i].enemyRect.right < WINSIZEX)
+					if (vMinionMulligan[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left += vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.right += vMinionMulligan[i].enemySpeed;
@@ -168,7 +168,7 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionMulligan[i].enemyRect.top > 0)
+					if (vMinionMulligan[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top -= vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.bottom -= vMinionMulligan[i].enemySpeed;
@@ -179,7 +179,7 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionMulligan[i].enemyRect.bottom < WINSIZEY)
+					if (vMinionMulligan[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top += vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.bottom += vMinionMulligan[i].enemySpeed;
@@ -197,7 +197,7 @@ void MinionMulligan::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionMulligan[i].enemyRect.left > 0)
+					if (vMinionMulligan[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left -= vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.right -= vMinionMulligan[i].enemySpeed;
@@ -208,7 +208,7 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionMulligan[i].enemyRect.right < WINSIZEX)
+					if (vMinionMulligan[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left += vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.right += vMinionMulligan[i].enemySpeed;
@@ -219,7 +219,7 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionMulligan[i].enemyRect.top > 0)
+					if (vMinionMulligan[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top -= vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.bottom -= vMinionMulligan[i].enemySpeed;
@@ -230,7 +230,7 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionMulligan[i].enemyRect.bottom < WINSIZEY)
+					if (vMinionMulligan[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top += vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.bottom += vMinionMulligan[i].enemySpeed;
@@ -248,7 +248,7 @@ void MinionMulligan::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionMulligan[i].enemyRect.left > 0)
+					if (vMinionMulligan[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left -= vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.right -= vMinionMulligan[i].enemySpeed;
@@ -259,7 +259,7 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionMulligan[i].enemyRect.right < WINSIZEX)
+					if (vMinionMulligan[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left += vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.right += vMinionMulligan[i].enemySpeed;
@@ -270,7 +270,7 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 4:		// UP
-					if (vMinionMulligan[i].enemyRect.top > 0)
+					if (vMinionMulligan[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top -= vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.bottom -= vMinionMulligan[i].enemySpeed;
@@ -281,7 +281,7 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionMulligan[i].enemyRect.bottom < WINSIZEY)
+					if (vMinionMulligan[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top += vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.bottom += vMinionMulligan[i].enemySpeed;
@@ -301,7 +301,10 @@ void MinionMulligan::EnemyAi()
 	}
 
 	// 적이 쏘는 불렛의 움직임
-	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
+	BULLETMANAGER->EnemyMoveBullet(vEnemyBullet, viEnemyBullet);
+
+	// 적이 쏘는 불렛 충돌
+	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);
 }
 
 void MinionMulligan::EnemyShot()
@@ -348,6 +351,11 @@ void MinionMulligan::EnemyShot()
 		SetThirdEnemyBulletCount();
 		break;
 	}
+}
+
+void MinionMulligan::DeleteEnemy(int num)
+{
+	vMinionMulligan.erase(vMinionMulligan.begin() + num);
 }
 
 void MinionMulligan::EnemyErase()
