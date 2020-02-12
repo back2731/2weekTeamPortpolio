@@ -50,13 +50,6 @@ public:
 	TILEKIND kindSelect(int frameX, int frameY);
 
 	void TlieInit();
-<<<<<<< HEAD
 	void Load(int loadCount);
 	void Save(int saveCount);
 };
-
-=======
-	void Load();
-	void Save();
-};
->>>>>>> 26d682031f7f8262091632daad5938751b9017f2
