@@ -34,6 +34,7 @@ void MinionClotty::Release()
 void MinionClotty::Update()
 {
 	EnemyAi();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionClotty);
 }
 
 void MinionClotty::Render(HDC hdc)

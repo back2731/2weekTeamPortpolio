@@ -13,7 +13,8 @@ HRESULT Monstro::Init(POINT position)
 {
 	//구조체 정보 기입
 	EnemyInfo Monstro;
-	Monstro.enemyRect = RectMakeCenter(position.x, position.y, 150, 150);
+	Monstro.enemyImage = IMAGEMANAGER->addImage("monstro", "images/monster/monstro.bmp", 192, 192, true, RGB(255, 0, 255));
+	Monstro.enemyRect = RectMakeCenter(position.x, position.y, 130, 110);
 	Monstro.enemyHp = 250;
 	Monstro.enemyShotSpeed = 5.0f;
 	Monstro.enemyShotRange = 500.0f;
@@ -21,7 +22,7 @@ HRESULT Monstro::Init(POINT position)
 	Monstro.enemySpeed = 2.5f;
 	vMonstro.push_back(Monstro);
 
-	enemyAreaCheck = false;
+	enemyAreaCheck = true;
 
 	return S_OK;
 }
@@ -47,6 +48,8 @@ void Monstro::Render(HDC hdc)
 			FillRect(hdc, &vMonstro[i].enemyRect, brush);
 			DeleteObject(brush);
 		}
+
+		IMAGEMANAGER->render("monstro", hdc, vMonstro[i].enemyRect.left - 33, vMonstro[i].enemyRect.top - 43);
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -56,9 +59,9 @@ void Monstro::EnemyAiTime()
 {
 	// AI 패턴 시간
 	firstEnemyAiTime++;
-	if (firstEnemyAiTime / 60 == 2)
+	if (firstEnemyAiTime / 30 == 1)
 	{
-		firstEnemyAiPattern = RND->getFromIntTo(2, 5);
+		firstEnemyAiPattern = RND->getFromIntTo(2, 2);
 		firstEnemyAiTime = 0;
 	}
 }
@@ -73,15 +76,6 @@ void Monstro::EnemyAi()
 		vMonstro[i].enemyX = vMonstro[i].enemyRect.left + (vMonstro[i].enemyRect.right - vMonstro[i].enemyRect.left) / 2;
 		vMonstro[i].enemyY = vMonstro[i].enemyRect.top + (vMonstro[i].enemyRect.bottom - vMonstro[i].enemyRect.top) / 2;
 
-		// 플레이어와 판정 범위가 충돌시
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMonstro[i].enemyFireRange))
-		{
-			// 플레이어를 쫓아가라.
-			enemyAreaCheck = false;
-		}
-
-		EnemyShot();
-
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
 		if (enemyAreaCheck)
 		{
@@ -91,78 +85,59 @@ void Monstro::EnemyAi()
 			if (distance)
 			{
 				// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
-				vx = ((PLAYERMANAGER->GetPlayerHitRectX()) - vMonstro[i].enemyX) / distance * vMonstro[i].enemySpeed;
-				vy = ((PLAYERMANAGER->GetPlayerHitRectY()) - vMonstro[i].enemyY) / distance * vMonstro[i].enemySpeed;
+				vx = ((PLAYERMANAGER->GetPlayerHitRectX() - 100.0f) - vMonstro[i].enemyX) / distance * vMonstro[i].enemySpeed * 3;
+				vy = ((PLAYERMANAGER->GetPlayerHitRectY()) - vMonstro[i].enemyY) / distance * vMonstro[i].enemySpeed * 3;
 			}
 			else
 			{
 				vx = 0;
 				vy = vMonstro[i].enemySpeed;
 			}
-
-			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
-			vMonstro[i].enemyX += vx;
-			vMonstro[i].enemyY += vy;
-			vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 150, 150);
 		}
-		// 범위안에 플레이어가 없다면 자율행동(AI)
-		else
-		{
-			EnemyAiTime();
 
-			switch (firstEnemyAiPattern)
+		EnemyAiTime();
+
+		switch (firstEnemyAiPattern)
+		{
+		case 1:		// 눈꽃 발사
+			shortJump = false;
+			longJump = false;
+			EnemySnowShot();
+			break;
+		case 2:		// 작은 점프
+			shortJump = true;
+			longJump = false;
+			enemyAreaCheck = true;
+			break;
+		case 3:		// 큰 점프
+			shortJump = false;
+			longJump = true;
+			enemyAreaCheck = true;
+			EnemyShot();
+			break;
+		}
+
+		if (shortJump)
+		{
+			jumpCount++;
+			if (jumpCount < 20)
 			{
-			case 1:		// IDLE
-				break;
-			case 2:		// LEFT
-				if (vMonstro[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
-				{
-					vMonstro[i].enemyRect.left -= vMonstro[i].enemySpeed;
-					vMonstro[i].enemyRect.right -= vMonstro[i].enemySpeed;
-				}
-				if (vMonstro[i].enemyRect.left <= 10)
-				{
-					firstEnemyAiPattern = 3;
-				}
-				break;
-			case 3:		// RIGHT
-				if (vMonstro[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
-				{
-					vMonstro[i].enemyRect.left += vMonstro[i].enemySpeed;
-					vMonstro[i].enemyRect.right += vMonstro[i].enemySpeed;
-				}
-				if (vMonstro[i].enemyRect.right >= 950)
-				{
-					firstEnemyAiPattern = 2;
-				}
-				break;
-			case 4:		// UP
-				if (vMonstro[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
-				{
-					vMonstro[i].enemyRect.top -= vMonstro[i].enemySpeed;
-					vMonstro[i].enemyRect.bottom -= vMonstro[i].enemySpeed;
-				}
-				if (vMonstro[i].enemyRect.top <= 10)
-				{
-					firstEnemyAiPattern = 5;
-				}
-				break;
-			case 5:		// DOWN
-				if (vMonstro[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
-				{
-					vMonstro[i].enemyRect.top += vMonstro[i].enemySpeed;
-					vMonstro[i].enemyRect.bottom += vMonstro[i].enemySpeed;
-				}
-				if (vMonstro[i].enemyRect.bottom >= 530)
-				{
-					firstEnemyAiPattern = 4;
-				}
-				break;
+				vMonstro[i].enemyRect.top -= 10.0f;
+				vMonstro[i].enemyRect.bottom -= 10.0f;
+			}
+			else if (jumpCount >= 20 && jumpCount < 70)
+			{
+				vMonstro[i].enemyX += vx;
+				vMonstro[i].enemyY += vy;
+				vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 130, 110);
 			}
 		}
+		else
+		{
+			jumpCount = 0;
+		}
 
-		// 판정 범위가 항상 적의 좌표를 쫓아다님
-		vMonstro[i].enemyFireRange = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, WINSIZEX, WINSIZEY);
+
 	}
 
 	// 적이 쏘는 불렛의 움직임
@@ -172,7 +147,7 @@ void Monstro::EnemyAi()
 	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);
 }
 
-void Monstro::EnemyShot()
+void Monstro::EnemySnowShot()
 {
 	// 캐릭터의 x축을 기준으로 눈꽃처럼 핏방울을 분출한다.
 	if (vMonstro[i].enemyX > PLAYERMANAGER->GetPlayerHitRectX())
@@ -192,14 +167,20 @@ void Monstro::EnemyShot()
 		}
 	}
 
-	// 주위에 핏방울을 흩뿌린다.
-	//for (int j = 1; j <= 15; j++)
-	//{
-	//	int rnd = RND->getInt(100);
+	// 적의 불렛 카운트를 한 번에 플러스
+	SetFirstEnemyBulletCount();
+}
 
-	//	BULLETMANAGER->ShootBullet("enemyBullet", vEnemyBullet, vMonstro[i].enemyX, vMonstro[i].enemyY,
-	//		ANGLE_0 + rnd, vMonstro[i].enemyShotSpeed, vMonstro[i].enemyShotRange, firstEnemyBulletCount, vMonstro[i].enemyShotDelay);
-	//}
+void Monstro::EnemyShot()
+{
+	// 주위에 핏방울을 흩뿌린다.
+	for (int j = 1; j <= 15; j++)
+	{
+		int rnd = RND->getInt(100);
+
+		BULLETMANAGER->ShootBullet("enemyBullet", vEnemyBullet, vMonstro[i].enemyX, vMonstro[i].enemyY,
+			ANGLE_0 + rnd, vMonstro[i].enemyShotSpeed, vMonstro[i].enemyShotRange, firstEnemyBulletCount, vMonstro[i].enemyShotDelay);
+	}
 
 	// 적의 불렛 카운트를 한 번에 플러스
 	SetFirstEnemyBulletCount();

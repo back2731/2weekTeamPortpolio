@@ -34,6 +34,7 @@ void MinionMaw::Release()
 void MinionMaw::Update()
 {
 	EnemyAi();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionMaw);
 }
 
 void MinionMaw::Render(HDC hdc)

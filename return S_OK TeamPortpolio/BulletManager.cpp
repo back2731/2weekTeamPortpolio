@@ -12,9 +12,9 @@ BulletManager::~BulletManager()
 HRESULT BulletManager::Init()
 {
 	// 총알 이미지 추가
-	IMAGEMANAGER->addImage("playerBullet", "images/bullet/playerBullet.bmp", 18 * 2, 22 * 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("playerBullet", "images/bullet/playerBullet.bmp", 18 * 2, 18 * 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("enemyBullet", "images/bullet/enemyBullet.bmp", 18 * 2, 18 * 2, true, RGB(255, 0, 255));
-	
+
 	return S_OK;
 }
 
@@ -37,13 +37,13 @@ void BulletManager::ShootBullet(string imageName, vector<BulletInfo>& bulletVect
 	if (count % interval == 0)
 	{
 		/*
-			image* bulletImage;
-			float angle;
-			float speed;
-			float bulletX, bulletY;
-			float unitX, unitY;
-			float range;
-			RECT rect;
+		   image* bulletImage;
+		   float angle;
+		   float speed;
+		   float bulletX, bulletY;
+		   float unitX, unitY;
+		   float range;
+		   RECT rect;
 		*/
 		BulletInfo bullet;
 		bullet = OBJECTPOOL->GetBullet();
@@ -66,10 +66,10 @@ void BulletManager::PlayerMoveBullet(vector<BulletInfo>& bulletVector, vector<Bu
 		bulletIter->bulletX += cosf(bulletIter->angle) * bulletIter->speed;
 		bulletIter->bulletY += -sinf(bulletIter->angle) * bulletIter->speed;
 
-		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth(), bulletIter->bulletImage->getHeight());
+		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth() - 13, bulletIter->bulletImage->getHeight() - 13);
 		//if (400 < getDistance(bulletIter->x, bulletIter->y, bulletIter->fireX, bulletIter->fireY))
 		//{
-		//	bulletIter->y += 1;
+		//   bulletIter->y += 1;
 		//}
 		RECT temp;
 		if (bulletIter->range < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY))
@@ -89,10 +89,10 @@ void BulletManager::EnemyMoveBullet(vector<BulletInfo>& bulletVector, vector<Bul
 		bulletIter->bulletX += cosf(bulletIter->angle) * bulletIter->speed;
 		bulletIter->bulletY += -sinf(bulletIter->angle) * bulletIter->speed;
 
-		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth(), bulletIter->bulletImage->getHeight());
+		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth() - 13, bulletIter->bulletImage->getHeight() - 13);
 		//if (400 < getDistance(bulletIter->x, bulletIter->y, bulletIter->fireX, bulletIter->fireY))
 		//{
-		//	bulletIter->y += 1;
+		//   bulletIter->y += 1;
 		//}
 		RECT temp;
 		if (bulletIter->range < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY))
@@ -116,6 +116,6 @@ void BulletManager::RenderBullet(HDC hdc, vector<BulletInfo>& bulletVector, vect
 			Rectangle(hdc, bulletIter->rect.left, bulletIter->rect.top, bulletIter->rect.right, bulletIter->rect.bottom);
 		}
 
-		bulletIter->bulletImage->render(hdc, bulletIter->rect.left, bulletIter->rect.top);
+		bulletIter->bulletImage->render(hdc, bulletIter->rect.left - 6, bulletIter->rect.top - 6);
 	}
 }

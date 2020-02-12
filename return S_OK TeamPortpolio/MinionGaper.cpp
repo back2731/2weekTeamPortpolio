@@ -31,6 +31,7 @@ void MinionGaper::Release()
 void MinionGaper::Update()
 {
 	EnemyAi();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionGaper);
 }
 
 void MinionGaper::Render(HDC hdc)

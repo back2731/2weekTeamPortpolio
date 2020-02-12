@@ -1,5 +1,6 @@
 #pragma once
 #include"singletonBase.h"
+#define KNOCKBACK 3
 
 class CollisionManager : public singletonBase<CollisionManager>
 {
@@ -22,7 +23,7 @@ public:
 	void PlayerToMinionCollision();
 
 	// 같은 벡터의 에너미 충돌
-	void SameVectorMinionCollision();
+	void SameVectorMinionCollision(vector<EnemyInfo>& enemyVector);
 
 	// 다른 벡터의 에너미 충돌
 	void MinionToMinionCollision();

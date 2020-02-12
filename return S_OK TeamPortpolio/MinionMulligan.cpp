@@ -34,6 +34,7 @@ void MinionMulligan::Release()
 void MinionMulligan::Update()
 {
 	EnemyAi();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionMulligan);
 	DeleteEnemy();
 }
 

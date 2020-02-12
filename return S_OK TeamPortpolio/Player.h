@@ -12,17 +12,17 @@ enum Direction
 //캐릭터 속성 구조체
 struct PlayerInfo
 {
-	image*	playerHeadImage;		//플레이어 머리 이미지
-	image*	playerBodyImage;		//플레이어 몸 이미지
-	RECT	playerHeadRect;			//플레이어 머리 상자
-	RECT	playerBodyRect;			//플레이어 몸 상자
-	RECT	playerHitRect;			//플레이어 피격용 상자
-	int		playerOffensePower;		//플레이어 공격력
-	int		playerShotDelay;		//공격주기
-	float	playerShotSpeed;		//공격속도
-	float	playerShotRange;		//공격사거리
-	float	playerSpeed;			//이동속도
-	float	playerSlideSpeed;		//슬라이딩 속도
+	image*	playerHeadImage;		// 플레이어 머리 이미지
+	image*	playerBodyImage;		// 플레이어 몸 이미지
+	RECT	playerHeadRect;			// 플레이어 머리 상자
+	RECT	playerBodyRect;			// 플레이어 몸 상자
+	RECT	playerHitRect;			// 플레이어 피격용 상자
+	int		playerOffensePower;		// 플레이어 공격력
+	int		playerShotDelay;		// 공격주기
+	float	playerShotSpeed;		// 공격속도
+	float	playerShotRange;		// 공격사거리
+	float	playerSpeed;			// 이동속도
+	float	playerSlideSpeed;		// 슬라이딩 속도
 };
 
 class Player
@@ -37,7 +37,7 @@ private:
 
 	vector<BulletInfo> vPlayerBullet;
 	vector<BulletInfo>::iterator viPlayerBullet;
-	int playerBulletInterval;
+	int playerBulletCount;			// 플레이어 불렛 카운트
 
 private:
 	//플레이어 무브 변수
