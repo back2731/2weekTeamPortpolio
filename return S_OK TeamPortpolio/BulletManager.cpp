@@ -12,7 +12,7 @@ BulletManager::~BulletManager()
 HRESULT BulletManager::Init()
 {
 	// 총알 이미지 추가
-	IMAGEMANAGER->addImage("playerBullet", "images/bullet/playerBullet.bmp", 18 * 2, 22 * 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("playerBullet", "images/bullet/playerBullet.bmp", 18 * 2, 18 * 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("enemyBullet", "images/bullet/enemyBullet.bmp", 18 * 2, 18 * 2, true, RGB(255, 0, 255));
 	
 	return S_OK;
@@ -66,7 +66,7 @@ void BulletManager::PlayerMoveBullet(vector<BulletInfo>& bulletVector, vector<Bu
 		bulletIter->bulletX += cosf(bulletIter->angle) * bulletIter->speed;
 		bulletIter->bulletY += -sinf(bulletIter->angle) * bulletIter->speed;
 
-		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth(), bulletIter->bulletImage->getHeight());
+		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth() - 13, bulletIter->bulletImage->getHeight() - 13);
 		//if (400 < getDistance(bulletIter->x, bulletIter->y, bulletIter->fireX, bulletIter->fireY))
 		//{
 		//	bulletIter->y += 1;
@@ -89,7 +89,7 @@ void BulletManager::EnemyMoveBullet(vector<BulletInfo>& bulletVector, vector<Bul
 		bulletIter->bulletX += cosf(bulletIter->angle) * bulletIter->speed;
 		bulletIter->bulletY += -sinf(bulletIter->angle) * bulletIter->speed;
 
-		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth(), bulletIter->bulletImage->getHeight());
+		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth() - 13, bulletIter->bulletImage->getHeight() - 13);
 		//if (400 < getDistance(bulletIter->x, bulletIter->y, bulletIter->fireX, bulletIter->fireY))
 		//{
 		//	bulletIter->y += 1;
@@ -116,6 +116,6 @@ void BulletManager::RenderBullet(HDC hdc, vector<BulletInfo>& bulletVector, vect
 			Rectangle(hdc, bulletIter->rect.left, bulletIter->rect.top, bulletIter->rect.right, bulletIter->rect.bottom);
 		}
 
-		bulletIter->bulletImage->render(hdc, bulletIter->rect.left, bulletIter->rect.top);
+		bulletIter->bulletImage->render(hdc, bulletIter->rect.left - 6, bulletIter->rect.top - 6);
 	}
 }

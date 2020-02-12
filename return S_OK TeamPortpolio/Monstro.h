@@ -9,6 +9,11 @@ private:
 	vector<BulletInfo> vEnemyBullet;
 	vector<BulletInfo>::iterator viEnemyBullet;
 
+	int jumpCount;
+
+	bool shortJump;
+	bool longJump;
+
 public:
 	Monstro();
 	~Monstro();
@@ -20,6 +25,7 @@ public:
 
 	void EnemyAiTime();
 	void EnemyAi();
+	void EnemySnowShot();
 	void EnemyShot();
 
 	// 에너미 벡터를 반환하는 함수
