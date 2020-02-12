@@ -28,7 +28,9 @@ enum TILEKIND
 
 struct TagTile
 {
-	int left, top; // x, y 값(rect의 left, top)
+	int left, top, right, bottom; // x, y 값(rect의 left, top)
+
+	RECT rect;
 
 	int index; // 색인값. tileNum, tileKind, tilePos 에서 사용.
 
