@@ -14,15 +14,18 @@ HRESULT Monstro::Init(POINT position)
 	//구조체 정보 기입
 	EnemyInfo Monstro;
 	Monstro.enemyImage = IMAGEMANAGER->addImage("monstro", "images/monster/monstro.bmp", 192, 192, true, RGB(255, 0, 255));
-	Monstro.enemyRect = RectMakeCenter(position.x, position.y, 130, 110);
+	Monstro.enemyRect = RectMakeCenter(position.x, position.y, 120, 60);
 	Monstro.enemyHp = 250;
 	Monstro.enemyShotSpeed = 5.0f;
 	Monstro.enemyShotRange = 500.0f;
-	Monstro.enemyShotDelay = 150;
-	Monstro.enemySpeed = 2.5f;
+	Monstro.enemyShotDelay = 30;
+	Monstro.enemySpeed = 2.0f;
 	vMonstro.push_back(Monstro);
 
-	enemyAreaCheck = true;
+	rndX = RND->getFromIntTo(-80, 80);
+	rndY = RND->getFromIntTo(-80, 80);
+
+	firstEnemyAiPattern = 1;
 
 	return S_OK;
 }
@@ -49,7 +52,24 @@ void Monstro::Render(HDC hdc)
 			DeleteObject(brush);
 		}
 
-		IMAGEMANAGER->render("monstro", hdc, vMonstro[i].enemyRect.left - 33, vMonstro[i].enemyRect.top - 43);
+		switch (firstEnemyAiPattern)
+		{
+		case 1:
+			IMAGEMANAGER->render("monstro", hdc, vMonstro[i].enemyRect.left - 38, vMonstro[i].enemyRect.top - 80);
+			break;
+		case 2:
+			IMAGEMANAGER->render("monstro", hdc, vMonstro[i].enemyRect.left - 38, vMonstro[i].enemyRect.top - 80);
+			break;
+		case 3:
+			IMAGEMANAGER->render("monstro", hdc, vMonstro[i].enemyRect.left - 38, vMonstro[i].enemyRect.top - 80);
+			break;
+		case 4:
+			if (teleportImage)
+			{
+				IMAGEMANAGER->render("monstro", hdc, vMonstro[i].enemyRect.left - 38, vMonstro[i].enemyRect.top - 80);
+			}
+			break;
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -59,9 +79,9 @@ void Monstro::EnemyAiTime()
 {
 	// AI 패턴 시간
 	firstEnemyAiTime++;
-	if (firstEnemyAiTime / 30 == 1)
+	if (firstEnemyAiTime / 60 == 3)
 	{
-		firstEnemyAiPattern = RND->getFromIntTo(2, 2);
+		firstEnemyAiPattern = RND->getFromIntTo(4, 4);
 		firstEnemyAiTime = 0;
 	}
 }
@@ -76,68 +96,129 @@ void Monstro::EnemyAi()
 		vMonstro[i].enemyX = vMonstro[i].enemyRect.left + (vMonstro[i].enemyRect.right - vMonstro[i].enemyRect.left) / 2;
 		vMonstro[i].enemyY = vMonstro[i].enemyRect.top + (vMonstro[i].enemyRect.bottom - vMonstro[i].enemyRect.top) / 2;
 
-		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
-		if (enemyAreaCheck)
+		switch (firstEnemyAiPattern)
 		{
-			// getdistance(적의 위치 x, y, 플레이어의 위치 x, y)
-			distance = getDistance(vMonstro[i].enemyX, vMonstro[i].enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY());
+		case 1:		// 플레이어의 근처로 순간이동
+			teleport = false;
+			jump = false;
+			snowPattern = false;
+			EnemyAiTime();	// AI패턴
+			break;
+		case 2:		// 점프 후 전방위 발사
+			teleport = false;
+			jump = true;
+			snowPattern = false;
+			jumpPower = 40.0f;
+			break;
+		case 3:		// 90도 눈꽃 공격
+			teleport = false;
+			jump = false;
+			snowPattern = true;
+			break;
+		case 4:
+			teleport = true;
+			jump = false;
+			snowPattern = false;
+			break;
+		}
+		// 패턴1 : 순간이동
+		if (teleport)
+		{
+			teleportImage = true;
+			teleportCount++;
 
-			if (distance)
+			if (teleportCount > 0 && teleportCount < 300)
 			{
-				// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
-				vx = ((PLAYERMANAGER->GetPlayerHitRectX() - 100.0f) - vMonstro[i].enemyX) / distance * vMonstro[i].enemySpeed * 3;
-				vy = ((PLAYERMANAGER->GetPlayerHitRectY()) - vMonstro[i].enemyY) / distance * vMonstro[i].enemySpeed * 3;
+				teleportImage = false;
+
+				// getdistance(적의 위치 x, y, 플레이어의 위치 x, y)
+				distance = getDistance(vMonstro[i].enemyX, vMonstro[i].enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY());
+				if (distance)
+				{
+					// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
+					vx = ((PLAYERMANAGER->GetPlayerHitRectX() + rndX) - vMonstro[i].enemyX) / distance * vMonstro[i].enemySpeed;
+					vy = ((PLAYERMANAGER->GetPlayerHitRectY() + rndY) - vMonstro[i].enemyY) / distance * vMonstro[i].enemySpeed;
+				}
+				else
+				{
+					vx = 0;
+					vy = vMonstro[i].enemySpeed;
+				}
+				vMonstro[i].enemyX += vx;
+				vMonstro[i].enemyY += vy;
+				vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 120, 60);
 			}
 			else
 			{
-				vx = 0;
-				vy = vMonstro[i].enemySpeed;
+				firstEnemyAiPattern = 1;
 			}
 		}
-
-		EnemyAiTime();
-
-		switch (firstEnemyAiPattern)
+		else
 		{
-		case 1:		// 눈꽃 발사
-			shortJump = false;
-			longJump = false;
-			EnemySnowShot();
-			break;
-		case 2:		// 작은 점프
-			shortJump = true;
-			longJump = false;
-			enemyAreaCheck = true;
-			break;
-		case 3:		// 큰 점프
-			shortJump = false;
-			longJump = true;
-			enemyAreaCheck = true;
-			EnemyShot();
-			break;
+			teleportCount = 0;
 		}
-
-		if (shortJump)
+		// 패턴2 : 점프
+		if (jump)
 		{
 			jumpCount++;
-			if (jumpCount < 20)
+
+			if (jumpCount < 21)
 			{
-				vMonstro[i].enemyRect.top -= 10.0f;
-				vMonstro[i].enemyRect.bottom -= 10.0f;
+				gravity = 5.0f;
+				vMonstro[i].enemyRect.top -= jumpPower;
+				vMonstro[i].enemyRect.bottom -= jumpPower;
+				jumpPower -= gravity;
 			}
-			else if (jumpCount >= 20 && jumpCount < 70)
+			else if (jumpCount > 20 && jumpCount < 71)
 			{
-				vMonstro[i].enemyX += vx;
-				vMonstro[i].enemyY += vy;
-				vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 130, 110);
+				// getdistance(적의 위치 x, y, 플레이어의 위치 x, y)
+				distance = getDistance(vMonstro[i].enemyX, vMonstro[i].enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY());
+				if (distance)
+				{
+					// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
+					vx = ((WINSIZEX / 2) - vMonstro[i].enemyX) / distance * vMonstro[i].enemySpeed * 5;
+					vy = ((WINSIZEY / 2) - vMonstro[i].enemyY) / distance * vMonstro[i].enemySpeed * 5;
+				}
+				else
+				{
+					vx = 0;
+					vy = vMonstro[i].enemySpeed;
+				}
+				vMonstro[i].enemyX += vx * 5;
+				vMonstro[i].enemyY += vy * 5;
+				vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 120, 60);
+			}
+			else if (jumpCount > 70 && jumpCount < 100)
+			{
+				EnemyAllShot();
+			}
+			else
+			{
+				firstEnemyAiPattern = 1;
 			}
 		}
 		else
 		{
 			jumpCount = 0;
 		}
+		// 패턴3 : 눈꽃
+		if (snowPattern)
+		{
+			shotCount++;
 
-
+			if (shotCount > 0 && shotCount < 31)
+			{
+				EnemySnowShot();
+			}
+			else
+			{
+				firstEnemyAiPattern = 1;
+			}
+		}
+		else
+		{
+			shotCount = 0;
+		}
 	}
 
 	// 적이 쏘는 불렛의 움직임
@@ -158,7 +239,7 @@ void Monstro::EnemySnowShot()
 				ANGLE_0 - j, vMonstro[i].enemyShotSpeed, vMonstro[i].enemyShotRange, firstEnemyBulletCount + j, vMonstro[i].enemyShotDelay);
 		}
 	}
-	else if (vMonstro[i].enemyX < PLAYERMANAGER->GetPlayerHitRectX())
+	else if (vMonstro[i].enemyX <= PLAYERMANAGER->GetPlayerHitRectX())
 	{
 		for (int j = 1; j <= 15; j++)
 		{
@@ -171,7 +252,7 @@ void Monstro::EnemySnowShot()
 	SetFirstEnemyBulletCount();
 }
 
-void Monstro::EnemyShot()
+void Monstro::EnemyAllShot()
 {
 	// 주위에 핏방울을 흩뿌린다.
 	for (int j = 1; j <= 15; j++)
@@ -179,11 +260,11 @@ void Monstro::EnemyShot()
 		int rnd = RND->getInt(100);
 
 		BULLETMANAGER->ShootBullet("enemyBullet", vEnemyBullet, vMonstro[i].enemyX, vMonstro[i].enemyY,
-			ANGLE_0 + rnd, vMonstro[i].enemyShotSpeed, vMonstro[i].enemyShotRange, firstEnemyBulletCount, vMonstro[i].enemyShotDelay);
+			ANGLE_0 + rnd, vMonstro[i].enemyShotSpeed, vMonstro[i].enemyShotRange, secondEnemyBulletCount, vMonstro[i].enemyShotDelay);
 	}
 
 	// 적의 불렛 카운트를 한 번에 플러스
-	SetFirstEnemyBulletCount();
+	SetSecondEnemyBulletCount();
 }
 
 void Monstro::DeleteEnemy(int num)
