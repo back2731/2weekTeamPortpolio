@@ -33,6 +33,7 @@ void MinionHorf::Release()
 void MinionHorf::Update()
 {
 	EnemyAi();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionHorf);
 }
 
 void MinionHorf::Render(HDC hdc)

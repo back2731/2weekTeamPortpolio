@@ -35,6 +35,7 @@ void MinionTumor::Release()
 void MinionTumor::Update()
 {
 	EnemyAi();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionTumor);
 }
 
 void MinionTumor::Render(HDC hdc)

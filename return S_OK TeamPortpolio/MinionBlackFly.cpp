@@ -36,6 +36,7 @@ void MinionBlackFly::Release()
 void MinionBlackFly::Update()
 {
 	EnemyAi();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionBlackFly);
 }
 
 void MinionBlackFly::Render(HDC hdc)

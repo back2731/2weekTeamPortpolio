@@ -29,6 +29,7 @@ void MinionPacer::Release()
 void MinionPacer::Update()
 {
 	EnemyAi();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionPacer);
 }
 
 void MinionPacer::Render(HDC hdc)
