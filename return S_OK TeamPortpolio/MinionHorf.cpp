@@ -22,7 +22,6 @@ HRESULT MinionHorf::Init(POINT position, int EnemyNumber)
 	vMinionHorf.push_back(MinionHorf);
 
 	enemyAreaCheck = false;
-	enemyCollision = false;
 
 	return S_OK;
 }
@@ -39,9 +38,16 @@ void MinionHorf::Update()
 void MinionHorf::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionHorf.size(); i++)
-	{
-		//Rectangle(hdc, vMinionHorf[i].enemyFireRange.left, vMinionHorf[i].enemyFireRange.top, vMinionHorf[i].enemyFireRange.right, vMinionHorf[i].enemyFireRange.bottom);
-		Rectangle(hdc, vMinionHorf[i].enemyRect.left, vMinionHorf[i].enemyRect.top, vMinionHorf[i].enemyRect.right, vMinionHorf[i].enemyRect.bottom);
+	{		
+		if (KEYMANAGER->isToggleKey(VK_F1))
+		{
+			//Rectangle(hdc, vMinionHorf[i].enemyFireRange.left, vMinionHorf[i].enemyFireRange.top, vMinionHorf[i].enemyFireRange.right, vMinionHorf[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionHorf[i].enemyRect.left, vMinionHorf[i].enemyRect.top, vMinionHorf[i].enemyRect.right, vMinionHorf[i].enemyRect.bottom);
+
+			HBRUSH brush = CreateSolidBrush(RGB(51, 102, 255));
+			FillRect(hdc, &vMinionHorf[i].enemyRect, brush);
+			DeleteObject(brush);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -111,4 +117,16 @@ void MinionHorf::EnemyShot()
 void MinionHorf::DeleteEnemy(int num)
 {
 	vMinionHorf.erase(vMinionHorf.begin() + num);
+}
+
+void MinionHorf::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionHorf[enemyNum].enemyRect.left += move;
+	vMinionHorf[enemyNum].enemyRect.right += move;
+}
+
+void MinionHorf::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionHorf[enemyNum].enemyRect.top += move;
+	vMinionHorf[enemyNum].enemyRect.bottom += move;
 }

@@ -36,6 +36,10 @@ struct TagTile
 	TILEKIND tileKind[TILE_MAX]; // 오브젝트, 타일 구분.
 	POINT tilePos[TILE_MAX]; // 샘플타일에서 골라진녀석(frameX, frameY)
 
+<<<<<<< HEAD
 
 	int height=100; // 쌓일수록 커지는 높이
+=======
+	int height;
+>>>>>>> 26d682031f7f8262091632daad5938751b9017f2
 };

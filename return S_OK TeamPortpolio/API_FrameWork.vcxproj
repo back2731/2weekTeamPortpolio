@@ -179,6 +179,7 @@
     <ClInclude Include="MinionTumor.h" />
     <ClInclude Include="MinionClot.h" />
     <ClInclude Include="MinionClotty.h" />
+    <ClInclude Include="Monstro.h" />
     <ClInclude Include="ObjectPool.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerManager.h" />
@@ -193,7 +194,6 @@
     <ClInclude Include="SubMap.h" />
     <ClInclude Include="SubWindow.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TestMinion.h" />
     <ClInclude Include="timeManager.h" />
     <ClInclude Include="timer.h" />
     <ClInclude Include="txtData.h" />
@@ -228,6 +228,7 @@
     <ClCompile Include="MinionTumor.cpp" />
     <ClCompile Include="MinionClot.cpp" />
     <ClCompile Include="MinionClotty.cpp" />
+    <ClCompile Include="Monstro.cpp" />
     <ClCompile Include="ObjectPool.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerManager.cpp" />
@@ -237,7 +238,6 @@
     <ClCompile Include="soundManager.cpp" />
     <ClCompile Include="SubMap.cpp" />
     <ClCompile Include="SubWindow.cpp" />
-    <ClCompile Include="TestMinion.cpp" />
     <ClCompile Include="timeManager.cpp" />
     <ClCompile Include="timer.cpp" />
     <ClCompile Include="txtData.cpp" />

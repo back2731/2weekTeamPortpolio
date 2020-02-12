@@ -23,5 +23,10 @@ public:
 	RECT GetPlayerHitRect() { return m_Player->GetPlayerHitRect(); }
 	float GetPlayerHitRectX() { return m_Player->GetPlayerHitRectX(); }
 	float GetPlayerHitRectY() { return m_Player->GetPlayerHitRectY(); }
-};
 
+	void SetPlayerRectX(int num) { m_Player->SetPlayerRectX(num); }
+	void SetPlayerRectY(int num) { m_Player->SetPlayerRectY(num); }
+
+	int GetPlayerOffensePower() { return m_Player->GetPlayerOffensePower(); }
+	void SetPlayerOffensePower(int addPower) { m_Player->SetPlayerOffensePower(addPower); }
+};

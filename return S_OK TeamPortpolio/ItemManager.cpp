@@ -17,7 +17,7 @@ HRESULT ItemManager::Init()
 	// 액티브 아이템 초기화 및 벡터 푸쉬백
 	ItemInfo activeItem_Dice;
 	activeItem_Dice.itemKind = ITEM_ACTIVE;
-	activeItem_Dice.itemImage = IMAGEMANAGER->addImage("ActiveItem_Dice", "images/ActiveItem_Dice.bmp", 32, 32, true, RGB(255, 0, 255));
+	activeItem_Dice.itemImage = IMAGEMANAGER->addImage("ActiveItem_Dice", "images/item/ActiveItem_Dice.bmp", 32, 32, true, RGB(255, 0, 255));
 	//activeItem_Dice.itemInfoImage = 
 	activeItem_Dice.itemName = "ActiveItem_Dice";
 	activeItem_Dice.addPower = 0.0f;
@@ -35,7 +35,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo activeItem_GuppysPaw;
 	activeItem_GuppysPaw.itemKind = ITEM_ACTIVE;
-	activeItem_GuppysPaw.itemImage = IMAGEMANAGER->addImage("ActiveItem_GuppysPaw", "images/ActiveItem_GuppysPaw.bmp", 32, 32, true, RGB(255, 0, 255));
+	activeItem_GuppysPaw.itemImage = IMAGEMANAGER->addImage("ActiveItem_GuppysPaw", "images/item/ActiveItem_GuppysPaw.bmp", 32, 32, true, RGB(255, 0, 255));
 	//activeItem_GuppysPaw.itemInfoImage = 
 	activeItem_GuppysPaw.itemName = "ActiveItem_GuppysPaw";
 	activeItem_GuppysPaw.addPower = 0.0f;
@@ -54,7 +54,7 @@ HRESULT ItemManager::Init()
 	// 패시브 아이템 초기화 및 벡터 푸쉬백
 	ItemInfo passiveItem_Dessert;
 	passiveItem_Dessert.itemKind = ITEM_PASSIVE;
-	passiveItem_Dessert.itemImage = IMAGEMANAGER->addImage("PassiveItem_Dessert", "images/PassiveItem_Dessert.bmp", 32, 32, true, RGB(255, 0, 255));
+	passiveItem_Dessert.itemImage = IMAGEMANAGER->addImage("PassiveItem_Dessert", "images/item/PassiveItem_Dessert.bmp", 32, 32, true, RGB(255, 0, 255));
 	//passiveItem_Dessert.itemInfoImage = 
 	passiveItem_Dessert.itemName = "PassiveItem_Dessert";
 	passiveItem_Dessert.addPower = 0.0f;
@@ -72,7 +72,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo passiveItem_Momslipstick;
 	passiveItem_Momslipstick.itemKind = ITEM_PASSIVE;
-	passiveItem_Momslipstick.itemImage = IMAGEMANAGER->addImage("PassiveItem_Momslipstick", "images/PassiveItem_Momslipstick.bmp", 32, 32, true, RGB(255, 0, 255));
+	passiveItem_Momslipstick.itemImage = IMAGEMANAGER->addImage("PassiveItem_Momslipstick", "images/item/PassiveItem_Momslipstick.bmp", 32, 32, true, RGB(255, 0, 255));
 	//passiveItem_Momslipstick.itemInfoImage = 
 	passiveItem_Momslipstick.itemName = "PassiveItem_Momslipstick";
 	passiveItem_Momslipstick.addPower = 0.0f;
@@ -90,7 +90,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo passiveItem_Dollar;
 	passiveItem_Dollar.itemKind = ITEM_PASSIVE;
-	passiveItem_Dollar.itemImage = IMAGEMANAGER->addImage("PassiveItem_Dollar", "images/PassiveItem_Dollar.bmp", 32, 32, true, RGB(255, 0, 255));
+	passiveItem_Dollar.itemImage = IMAGEMANAGER->addImage("PassiveItem_Dollar", "images/item/PassiveItem_Dollar.bmp", 32, 32, true, RGB(255, 0, 255));
 	//passiveItem_Dollar.itemInfoImage = 
 	passiveItem_Dollar.itemName = "PassiveItem_Dollar";
 	passiveItem_Dollar.addPower = 0.0f;
@@ -108,7 +108,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo passiveItem_Pyro;
 	passiveItem_Pyro.itemKind = ITEM_PASSIVE;
-	passiveItem_Pyro.itemImage = IMAGEMANAGER->addImage("PassiveItem_Pyro", "images/PassiveItem_Pyro.bmp", 32, 32, true, RGB(255, 0, 255));
+	passiveItem_Pyro.itemImage = IMAGEMANAGER->addImage("PassiveItem_Pyro", "images/item/PassiveItem_Pyro.bmp", 32, 32, true, RGB(255, 0, 255));
 	//passiveItem_Pyro.itemInfoImage = 
 	passiveItem_Pyro.itemName = "PassiveItem_Pyro";
 	passiveItem_Pyro.addPower = 0.0f;
@@ -127,7 +127,7 @@ HRESULT ItemManager::Init()
 	// 장신구 아이템 초기화 및 벡터 푸쉬백
 	ItemInfo trinkets_CurvedHorn;
 	trinkets_CurvedHorn.itemKind = ITEM_TRINKETS;
-	trinkets_CurvedHorn.itemImage = IMAGEMANAGER->addImage("Trinkets_CurvedHorn", "images/Trinkets_CurvedHorn.bmp", 32, 32, true, RGB(255, 0, 255));
+	trinkets_CurvedHorn.itemImage = IMAGEMANAGER->addImage("Trinkets_CurvedHorn", "images/item/Trinkets_CurvedHorn.bmp", 32, 32, true, RGB(255, 0, 255));
 	//trinkets_CurvedHorn.itemInfoImage = 
 	trinkets_CurvedHorn.itemName = "Trinkets_CurvedHorn";
 	trinkets_CurvedHorn.addPower = 0.0f;
@@ -145,7 +145,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo trinkets_GoatHoof;
 	trinkets_GoatHoof.itemKind = ITEM_TRINKETS;
-	trinkets_GoatHoof.itemImage = IMAGEMANAGER->addImage("Trinkets_GoatHoof", "images/Trinkets_GoatHoof.bmp", 32, 32, true, RGB(255, 0, 255));
+	trinkets_GoatHoof.itemImage = IMAGEMANAGER->addImage("Trinkets_GoatHoof", "images/item/Trinkets_GoatHoof.bmp", 32, 32, true, RGB(255, 0, 255));
 	//trinkets_GoatHoof.itemInfoImage = 
 	trinkets_GoatHoof.itemName = "Trinkets_GoatHoof";
 	trinkets_GoatHoof.addPower = 0.0f;
@@ -163,7 +163,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo trinkets_IsaacsFork;
 	trinkets_IsaacsFork.itemKind = ITEM_TRINKETS;
-	trinkets_IsaacsFork.itemImage = IMAGEMANAGER->addImage("Trinkets_IsaacsFork", "images/Trinkets_IsaacsFork.bmp", 32, 32, true, RGB(255, 0, 255));
+	trinkets_IsaacsFork.itemImage = IMAGEMANAGER->addImage("Trinkets_IsaacsFork", "images/item/Trinkets_IsaacsFork.bmp", 32, 32, true, RGB(255, 0, 255));
 	trinkets_IsaacsFork.itemName = "Trinkets_IsaacsFork";
 	//trinkets_IsaacsFork.itemInfoImage = 
 	trinkets_IsaacsFork.addPower = 0.0f;
@@ -181,7 +181,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo trinkets_MatchStick;
 	trinkets_MatchStick.itemKind = ITEM_TRINKETS;
-	trinkets_MatchStick.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
+	trinkets_MatchStick.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
 	//trinkets_MatchStick.itemInfoImage = 
 	trinkets_MatchStick.itemName = "Trinkets_MatchStick";
 	trinkets_MatchStick.addPower = 0.0f;
@@ -199,7 +199,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo heart;
 	heart.itemKind = ITEM_HEART;
-	//heart.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
+	//heart.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
 	//heart.itemName = "Trinkets_MatchStick";
 	//heart.itemInfoImage = 
 	heart.addPower = 0.0f;
@@ -217,7 +217,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo gold;
 	gold.itemKind = ITEM_GOLD;
-	//gold.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
+	//gold.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
 	//gold.itemName = "Trinkets_MatchStick";
 	//gold.itemInfoImage = 
 	gold.addPower = 0.0f;
@@ -235,7 +235,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo bomb;
 	bomb.itemKind = ITEM_BOMB;
-	//bomb.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
+	//bomb.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
 	//bomb.itemName = "Trinkets_MatchStick";
 	//bomb.itemInfoImage = 
 	bomb.addPower = 0.0f;
@@ -253,7 +253,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo key;
 	key.itemKind = ITEM_KEY;
-	//key.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
+	//key.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
 	//key.itemName = "Trinkets_MatchStick";
 	//key.itemInfoImage = 
 	key.addPower = 0.0f;
@@ -271,7 +271,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo card;
 	card.itemKind = ITEM_KEY;
-	//card.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
+	//card.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
 	//card.itemName = "Trinkets_MatchStick";
 	//card.itemInfoImage = 
 	card.addPower = 0.0f;
@@ -289,7 +289,7 @@ HRESULT ItemManager::Init()
 
 	ItemInfo pill;
 	pill.itemKind = ITEM_KEY;
-	//pill.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
+	//pill.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 32, 32, true, RGB(255, 0, 255));
 	//pill.itemName = "Trinkets_MatchStick";
 	//pill.itemInfoImage = 
 	pill.addPower = 0.0f;

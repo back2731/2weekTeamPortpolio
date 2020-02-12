@@ -20,7 +20,6 @@ HRESULT MinionAttackFly::Init(POINT position, int EnemyNumber)
 	vMinionAttackFly.push_back(MinionAttackFly);
 
 	enemyAreaCheck = false;
-	enemyCollision = false;
 
 	return S_OK;
 }
@@ -38,8 +37,15 @@ void MinionAttackFly::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionAttackFly.size(); i++)
 	{
-		//Rectangle(hdc, vMinionAttackFly[i].enemyFireRange.left, vMinionAttackFly[i].enemyFireRange.top, vMinionAttackFly[i].enemyFireRange.right, vMinionAttackFly[i].enemyFireRange.bottom);
-		Rectangle(hdc, vMinionAttackFly[i].enemyRect.left, vMinionAttackFly[i].enemyRect.top, vMinionAttackFly[i].enemyRect.right, vMinionAttackFly[i].enemyRect.bottom);
+		if (KEYMANAGER->isToggleKey(VK_F1))
+		{
+			//Rectangle(hdc, vMinionAttackFly[i].enemyFireRange.left, vMinionAttackFly[i].enemyFireRange.top, vMinionAttackFly[i].enemyFireRange.right, vMinionAttackFly[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionAttackFly[i].enemyRect.left, vMinionAttackFly[i].enemyRect.top, vMinionAttackFly[i].enemyRect.right, vMinionAttackFly[i].enemyRect.bottom);
+
+			HBRUSH brush = CreateSolidBrush(RGB(163, 255, 0));
+			FillRect(hdc, &vMinionAttackFly[i].enemyRect, brush);
+			DeleteObject(brush);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -92,12 +98,8 @@ void MinionAttackFly::EnemyAi()
 		// 플레이어와 판정 범위가 충돌시
 		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionAttackFly[i].enemyFireRange))
 		{
-			// 적과 장애물이 충돌하지 않았다면
-			if (!enemyCollision)
-			{
-				// 플레이어를 쫓아가라.
-				enemyAreaCheck = true;
-			}
+			// 플레이어를 쫓아가라.
+			enemyAreaCheck = true;
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
@@ -301,3 +303,17 @@ void MinionAttackFly::DeleteEnemy(int num)
 {
 	vMinionAttackFly.erase(vMinionAttackFly.begin() + num);
 }
+
+void MinionAttackFly::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionAttackFly[enemyNum].enemyRect.left += move;
+	vMinionAttackFly[enemyNum].enemyRect.right += move;
+}
+
+void MinionAttackFly::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionAttackFly[enemyNum].enemyRect.top += move;
+	vMinionAttackFly[enemyNum].enemyRect.bottom += move;
+}
+
+

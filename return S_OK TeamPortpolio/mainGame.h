@@ -19,4 +19,3 @@ public:
 	virtual void update();//연산하는곳
 	virtual void render(/*HDC hdc*/);//그리는곳
 };
-

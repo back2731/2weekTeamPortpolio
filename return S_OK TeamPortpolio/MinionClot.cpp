@@ -23,7 +23,7 @@ HRESULT MinionClot::Init(POINT position, int EnemyNumber)
 	vMinionClot.push_back(MinionClot);
 
 	enemyAreaCheck = false;
-	enemyCollision = false;
+
 	return S_OK;
 }
 
@@ -40,8 +40,15 @@ void MinionClot::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionClot.size(); i++)
 	{
-		//Rectangle(hdc, vMinionClot[i].enemyFireRange.left, vMinionClot[i].enemyFireRange.top, vMinionClot[i].enemyFireRange.right, vMinionClot[i].enemyFireRange.bottom);
-		Rectangle(hdc, vMinionClot[i].enemyRect.left, vMinionClot[i].enemyRect.top, vMinionClot[i].enemyRect.right, vMinionClot[i].enemyRect.bottom);
+		if (KEYMANAGER->isToggleKey(VK_F1))
+		{		
+			//Rectangle(hdc, vMinionClot[i].enemyFireRange.left, vMinionClot[i].enemyFireRange.top, vMinionClot[i].enemyFireRange.right, vMinionClot[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionClot[i].enemyRect.left, vMinionClot[i].enemyRect.top, vMinionClot[i].enemyRect.right, vMinionClot[i].enemyRect.bottom);
+			
+			HBRUSH brush = CreateSolidBrush(RGB(204, 0, 102));
+			FillRect(hdc, &vMinionClot[i].enemyRect, brush);
+			DeleteObject(brush);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -306,4 +313,16 @@ void MinionClot::EnemyShot()
 void MinionClot::DeleteEnemy(int num)
 {
 	vMinionClot.erase(vMinionClot.begin() + num);
+}
+
+void MinionClot::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionClot[enemyNum].enemyRect.left += move;
+	vMinionClot[enemyNum].enemyRect.right += move;
+}
+
+void MinionClot::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionClot[enemyNum].enemyRect.top += move;
+	vMinionClot[enemyNum].enemyRect.bottom += move;
 }

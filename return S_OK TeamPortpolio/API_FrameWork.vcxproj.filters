@@ -177,9 +177,6 @@
     <ClInclude Include="Player.h">
       <Filter>mainGame\Player</Filter>
     </ClInclude>
-    <ClInclude Include="TestMinion.h">
-      <Filter>mainGame\Enemy\Minion</Filter>
-    </ClInclude>
     <ClInclude Include="MainMenu.h">
       <Filter>mainGame\Scene</Filter>
     </ClInclude>
@@ -233,6 +230,9 @@
     </ClInclude>
     <ClInclude Include="CollisionManager.h">
       <Filter>Manager\수정중</Filter>
+    </ClInclude>
+    <ClInclude Include="Monstro.h">
+      <Filter>mainGame\Enemy\Boss</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -314,9 +314,6 @@
     <ClCompile Include="Player.cpp">
       <Filter>mainGame\Player</Filter>
     </ClCompile>
-    <ClCompile Include="TestMinion.cpp">
-      <Filter>mainGame\Enemy\Minion</Filter>
-    </ClCompile>
     <ClCompile Include="MainMenu.cpp">
       <Filter>mainGame\Scene</Filter>
     </ClCompile>
@@ -367,6 +364,9 @@
     </ClCompile>
     <ClCompile Include="CollisionManager.cpp">
       <Filter>Manager\수정중</Filter>
+    </ClCompile>
+    <ClCompile Include="Monstro.cpp">
+      <Filter>mainGame\Enemy\Boss</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

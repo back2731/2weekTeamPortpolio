@@ -5,11 +5,13 @@
 
 POINT SubWindow::ptMouse = POINT{ 0,0 };
 CTRL SubWindow::_currentCTRL = CTRL_DRAW;
+
 SubWindow::SubWindow()
 {
 	m_backBuffer = new image();
 	m_backBuffer->init(SUBWINSIZEX, SUBWINSIZEY);
 }
+
 SubWindow::~SubWindow()
 {
 	SAFE_DELETE(m_backBuffer);
@@ -17,7 +19,6 @@ SubWindow::~SubWindow()
 
 void SubWindow::init()
 {
-
 	CreateSubWindow();
 
 	isActive = false;

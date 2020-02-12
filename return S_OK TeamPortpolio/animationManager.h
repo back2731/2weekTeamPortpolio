@@ -1,17 +1,14 @@
 #pragma once
 #include"singletonBase.h"
+
 class animationManager :  public singletonBase<animationManager>
 {
-
 private:
 
 	typedef map<string, animation*> arrAnimation;
 	typedef map<string, animation*>::iterator iterArrAnimation;
 
-
 	arrAnimation _animation;
-
-
 
 public:
 	animationManager();

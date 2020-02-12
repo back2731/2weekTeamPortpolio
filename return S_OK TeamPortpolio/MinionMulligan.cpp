@@ -23,7 +23,6 @@ HRESULT MinionMulligan::Init(POINT position, int EnemyNumber)
 	vMinionMulligan.push_back(MinionMulligan);
 
 	enemyAreaCheck = false;
-	enemyCollision = false;
 
 	return S_OK;
 }
@@ -35,15 +34,22 @@ void MinionMulligan::Release()
 void MinionMulligan::Update()
 {
 	EnemyAi();
-	EnemyErase();
+	DeleteEnemy();
 }
 
 void MinionMulligan::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionMulligan.size(); i++)
 	{
-		//Rectangle(hdc, vMinionMulligan[i].enemyFireRange.left, vMinionMulligan[i].enemyFireRange.top, vMinionMulligan[i].enemyFireRange.right, vMinionMulligan[i].enemyFireRange.bottom);
-		Rectangle(hdc, vMinionMulligan[i].enemyRect.left, vMinionMulligan[i].enemyRect.top, vMinionMulligan[i].enemyRect.right, vMinionMulligan[i].enemyRect.bottom);
+		if (KEYMANAGER->isToggleKey(VK_F1))
+		{
+			//Rectangle(hdc, vMinionMulligan[i].enemyFireRange.left, vMinionMulligan[i].enemyFireRange.top, vMinionMulligan[i].enemyFireRange.right, vMinionMulligan[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionMulligan[i].enemyRect.left, vMinionMulligan[i].enemyRect.top, vMinionMulligan[i].enemyRect.right, vMinionMulligan[i].enemyRect.bottom);
+
+			HBRUSH brush = CreateSolidBrush(RGB(0, 102, 153));
+			FillRect(hdc, &vMinionMulligan[i].enemyRect, brush);
+			DeleteObject(brush);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -96,13 +102,9 @@ void MinionMulligan::EnemyAi()
 		// 플레이어와 판정 범위가 충돌시
 		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionMulligan[i].enemyFireRange))
 		{
-			// 적과 장애물이 충돌하지 않았다면
-			if (!enemyCollision)
-			{
-				// 플레이어를 쫓아가라.
-				enemyAreaCheck = true;
-				EnemyShot();
-			}
+			// 플레이어를 쫓아가라.
+			enemyAreaCheck = true;
+			EnemyShot();
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
@@ -127,7 +129,7 @@ void MinionMulligan::EnemyAi()
 			if (vMinionMulligan[i].enemyRect.left >= 10 && vMinionMulligan[i].enemyRect.right <= 950 &&
 				vMinionMulligan[i].enemyRect.top >= 10 && vMinionMulligan[i].enemyRect.bottom <= 530)
 			{
-				check = true;
+				collisionCheck = true;
 				vMinionMulligan[i].enemyX -= vx;
 				vMinionMulligan[i].enemyY -= vy;
 			}
@@ -358,14 +360,26 @@ void MinionMulligan::DeleteEnemy(int num)
 	vMinionMulligan.erase(vMinionMulligan.begin() + num);
 }
 
-void MinionMulligan::EnemyErase()
+void MinionMulligan::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionMulligan[enemyNum].enemyRect.left += move;
+	vMinionMulligan[enemyNum].enemyRect.right += move;
+}
+
+void MinionMulligan::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionMulligan[enemyNum].enemyRect.top += move;
+	vMinionMulligan[enemyNum].enemyRect.bottom += move;
+}
+
+void MinionMulligan::DeleteEnemy()
 {
 	for (i = 0; i < vMinionMulligan.size(); i++)
 	{
 		if (vMinionMulligan[i].enemyRect.left <= 10 || vMinionMulligan[i].enemyRect.right >= 950 ||
 			vMinionMulligan[i].enemyRect.top <= 10 || vMinionMulligan[i].enemyRect.bottom >= 530)
 		{
-			if (check)
+			if (collisionCheck)
 			{
 				vMinionMulligan.erase(vMinionMulligan.begin() + i);
 			}

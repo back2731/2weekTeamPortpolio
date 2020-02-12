@@ -24,7 +24,6 @@ HRESULT MinionTumor::Init(POINT position, int EnemyNumber)
 
 	enemyMove = true;
 	enemyAreaCheck = false;
-	enemyCollision = false;
 
 	return S_OK;
 }
@@ -42,8 +41,15 @@ void MinionTumor::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionTumor.size(); i++)
 	{
-		//Rectangle(hdc, vMinionTumor[i].enemyFireRange.left, vMinionTumor[i].enemyFireRange.top, vMinionTumor[i].enemyFireRange.right, vMinionTumor[i].enemyFireRange.bottom);
-		Rectangle(hdc, vMinionTumor[i].enemyRect.left, vMinionTumor[i].enemyRect.top, vMinionTumor[i].enemyRect.right, vMinionTumor[i].enemyRect.bottom);
+		if (KEYMANAGER->isToggleKey(VK_F1))
+		{
+			//Rectangle(hdc, vMinionTumor[i].enemyFireRange.left, vMinionTumor[i].enemyFireRange.top, vMinionTumor[i].enemyFireRange.right, vMinionTumor[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionTumor[i].enemyRect.left, vMinionTumor[i].enemyRect.top, vMinionTumor[i].enemyRect.right, vMinionTumor[i].enemyRect.bottom);
+
+			HBRUSH brush = CreateSolidBrush(RGB(255, 0, 51));
+			FillRect(hdc, &vMinionTumor[i].enemyRect, brush);
+			DeleteObject(brush);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -96,11 +102,7 @@ void MinionTumor::EnemyAi()
 		// 플레이어와 판정 범위가 충돌시
 		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionTumor[i].enemyFireRange))
 		{
-			// 적과 장애물이 충돌하지 않았다면
-			if (!enemyCollision)
-			{
-				enemyAreaCheck = true;
-			}
+			enemyAreaCheck = true;
 		}
 		else
 		{
@@ -451,4 +453,16 @@ void MinionTumor::EnemyShot()
 void MinionTumor::DeleteEnemy(int num)
 {
 	vMinionTumor.erase(vMinionTumor.begin() + num);
+}
+
+void MinionTumor::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionTumor[enemyNum].enemyRect.left += move;
+	vMinionTumor[enemyNum].enemyRect.right += move;
+}
+
+void MinionTumor::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionTumor[enemyNum].enemyRect.top += move;
+	vMinionTumor[enemyNum].enemyRect.bottom += move;
 }

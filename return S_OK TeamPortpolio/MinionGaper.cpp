@@ -20,7 +20,6 @@ HRESULT MinionGaper::Init(POINT position, int EnemyNumber)
 	vMinionGaper.push_back(MinionGaper);
 
 	enemyAreaCheck = false;
-	enemyCollision = false;
 
 	return S_OK;
 }
@@ -38,8 +37,15 @@ void MinionGaper::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionGaper.size(); i++)
 	{
-		//Rectangle(hdc, vMinionGaper[i].enemyFireRange.left, vMinionGaper[i].enemyFireRange.top, vMinionGaper[i].enemyFireRange.right, vMinionGaper[i].enemyFireRange.bottom);
-		Rectangle(hdc, vMinionGaper[i].enemyRect.left, vMinionGaper[i].enemyRect.top, vMinionGaper[i].enemyRect.right, vMinionGaper[i].enemyRect.bottom);
+		if (KEYMANAGER->isToggleKey(VK_F1))
+		{
+			//Rectangle(hdc, vMinionGaper[i].enemyFireRange.left, vMinionGaper[i].enemyFireRange.top, vMinionGaper[i].enemyFireRange.right, vMinionGaper[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionGaper[i].enemyRect.left, vMinionGaper[i].enemyRect.top, vMinionGaper[i].enemyRect.right, vMinionGaper[i].enemyRect.bottom);
+
+			HBRUSH brush = CreateSolidBrush(RGB(102, 0, 204));
+			FillRect(hdc, &vMinionGaper[i].enemyRect, brush);
+			DeleteObject(brush);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -92,12 +98,8 @@ void MinionGaper::EnemyAi()
 		// 플레이어와 판정 범위가 충돌시
 		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionGaper[i].enemyFireRange))
 		{
-			// 적과 장애물이 충돌하지 않았다면
-			if (!enemyCollision)
-			{
-				// 플레이어를 쫓아가라.
-				enemyAreaCheck = true;
-			}
+			// 플레이어를 쫓아가라.
+			enemyAreaCheck = true;
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
@@ -300,4 +302,16 @@ void MinionGaper::EnemyAi()
 void MinionGaper::DeleteEnemy(int num)
 {
 	vMinionGaper.erase(vMinionGaper.begin() + num);
+}
+
+void MinionGaper::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionGaper[enemyNum].enemyRect.left += move;
+	vMinionGaper[enemyNum].enemyRect.right += move;
+}
+
+void MinionGaper::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionGaper[enemyNum].enemyRect.top += move;
+	vMinionGaper[enemyNum].enemyRect.bottom += move;
 }

@@ -1,30 +1,29 @@
 #pragma once
 #include"singletonBase.h"
 
-#include "Player.h"
-
-#include "MinionAttackFly.h"
-#include "MinionAttackFly.h"
-#include "MinionMaw.h"
-#include "MinionTumor.h"
-
-#include "MinionClot.h"
-#include "MinionClotty.h"
-#include "MinionGaper.h"
-#include "MinionHorf.h"
-#include "MinionMulligan.h"
-#include "MinionPacer.h"
-
 class CollisionManager : public singletonBase<CollisionManager>
 {
 private:
-	MinionTumor* m_MinionTumor;
 
 public:
 	CollisionManager();
 	~CollisionManager();
 
-	void PlayerBulletCollision(vector<BulletInfo>& playerBulletVector, vector<BulletInfo>::iterator& playerBulletIter);
-	void EnemyBulletCollision(vector<BulletInfo>& enemyBulletVector, vector<BulletInfo>::iterator& enemyBulletIter);
-};
+	// 충돌 업데이트
+	void UpdateCollision();
 
+	// 플레이어 총알 충돌
+	void PlayerBulletCollision(vector<BulletInfo>& playerBulletVector, vector<BulletInfo>::iterator& playerBulletIter);
+	
+	// 에너미 총알 충돌
+	void EnemyBulletCollision(vector<BulletInfo>& enemyBulletVector, vector<BulletInfo>::iterator& enemyBulletIter);
+	
+	// 플레이어 -> 에너미 렉트 충돌
+	void PlayerToMinionCollision();
+
+	// 같은 벡터의 에너미 충돌
+	void SameVectorMinionCollision();
+
+	// 다른 벡터의 에너미 충돌
+	void MinionToMinionCollision();
+};

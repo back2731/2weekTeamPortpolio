@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "SubMap.h"
 
-
 SubMap::SubMap()
 {
 }
-
 
 SubMap::~SubMap()
 {
@@ -57,7 +55,6 @@ void SubMap::update()
 
 void SubMap::render(HDC hdc)
 {
-
 	switch (SUBWIN->GetFrameIndex())
 	{
 	case 0:

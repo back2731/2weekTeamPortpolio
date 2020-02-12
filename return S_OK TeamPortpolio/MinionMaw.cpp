@@ -23,7 +23,6 @@ HRESULT MinionMaw::Init(POINT position, int EnemyNumber)
 	vMinionMaw.push_back(minionMaw);
 
 	enemyAreaCheck = false;
-	enemyCollision = false;
 
 	return S_OK;
 }
@@ -41,8 +40,15 @@ void MinionMaw::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionMaw.size(); i++)
 	{
-		//Rectangle(hdc, vMinionMaw[i].enemyFireRange.left, vMinionMaw[i].enemyFireRange.top, vMinionMaw[i].enemyFireRange.right, vMinionMaw[i].enemyFireRange.bottom);
-		Rectangle(hdc, vMinionMaw[i].enemyRect.left, vMinionMaw[i].enemyRect.top, vMinionMaw[i].enemyRect.right, vMinionMaw[i].enemyRect.bottom);
+		if (KEYMANAGER->isToggleKey(VK_F1))
+		{
+			//Rectangle(hdc, vMinionMaw[i].enemyFireRange.left, vMinionMaw[i].enemyFireRange.top, vMinionMaw[i].enemyFireRange.right, vMinionMaw[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionMaw[i].enemyRect.left, vMinionMaw[i].enemyRect.top, vMinionMaw[i].enemyRect.right, vMinionMaw[i].enemyRect.bottom);
+
+			HBRUSH brush = CreateSolidBrush(RGB(255, 255, 0));
+			FillRect(hdc, &vMinionMaw[i].enemyRect, brush);
+			DeleteObject(brush);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -95,13 +101,9 @@ void MinionMaw::EnemyAi()
 		// 플레이어와 판정 범위가 충돌시
 		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionMaw[i].enemyFireRange))
 		{
-			// 적과 장애물이 충돌하지 않았다면
-			if (!enemyCollision)
-			{
-				// 플레이어를 쫓아가라.
-				enemyAreaCheck = true;
-				EnemyShot();
-			}
+			// 플레이어를 쫓아가라.
+			enemyAreaCheck = true;
+			EnemyShot();
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
@@ -338,4 +340,16 @@ void MinionMaw::EnemyShot()
 void MinionMaw::DeleteEnemy(int num)
 {
 	vMinionMaw.erase(vMinionMaw.begin() + num);
+}
+
+void MinionMaw::SetEnemyRectX(int enemyNum, int move)
+{
+	vMinionMaw[enemyNum].enemyRect.left += move;
+	vMinionMaw[enemyNum].enemyRect.right += move;
+}
+
+void MinionMaw::SetEnemyRectY(int enemyNum, int move)
+{
+	vMinionMaw[enemyNum].enemyRect.top += move;
+	vMinionMaw[enemyNum].enemyRect.bottom += move;
 }

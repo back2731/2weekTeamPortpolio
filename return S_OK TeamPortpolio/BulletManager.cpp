@@ -1,11 +1,9 @@
 #include "stdafx.h"
 #include "BulletManager.h"
 
-
 BulletManager::BulletManager()
 {
 }
-
 
 BulletManager::~BulletManager()
 {
@@ -14,8 +12,8 @@ BulletManager::~BulletManager()
 HRESULT BulletManager::Init()
 {
 	// 총알 이미지 추가
-	IMAGEMANAGER->addImage("playerBullet", "images/playerBullet.bmp", 18 * 2, 22 * 2, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addImage("enemyBullet", "images/enemyBullet.bmp", 18, 18, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("playerBullet", "images/bullet/playerBullet.bmp", 18 * 2, 22 * 2, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("enemyBullet", "images/bullet/enemyBullet.bmp", 18 * 2, 18 * 2, true, RGB(255, 0, 255));
 	
 	return S_OK;
 }
@@ -82,6 +80,7 @@ void BulletManager::PlayerMoveBullet(vector<BulletInfo>& bulletVector, vector<Bu
 		else ++bulletIter;
 	}
 }
+
 void BulletManager::EnemyMoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator & bulletIter)
 {
 	// 넣어둔 벡터의 이터레이터를 돌면서 값을 증가시켜 총알을 움직여준다.
@@ -112,6 +111,11 @@ void BulletManager::RenderBullet(HDC hdc, vector<BulletInfo>& bulletVector, vect
 
 	for (bulletIter; bulletIter != bulletVector.end(); ++bulletIter)
 	{
+		if (KEYMANAGER->isToggleKey(VK_F2))
+		{
+			Rectangle(hdc, bulletIter->rect.left, bulletIter->rect.top, bulletIter->rect.right, bulletIter->rect.bottom);
+		}
+
 		bulletIter->bulletImage->render(hdc, bulletIter->rect.left, bulletIter->rect.top);
 	}
 }
