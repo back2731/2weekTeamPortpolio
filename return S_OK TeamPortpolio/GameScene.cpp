@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "GameScene.h"
+#include"MapToolTile.h"
 
 GameScene::GameScene()
 {
@@ -11,7 +12,9 @@ GameScene::~GameScene()
 
 HRESULT GameScene::init()
 {
-	IMAGEMANAGER->addImage("TestMap", "images/TestMap.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addImage("TestMap", "images/TestMap.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	_mapToolScene = new MapToolScene;
+	_mapToolScene->init();
 
 	// 게임씬에서 필요한 매니저들 초기화.
 	OBJECTPOOL->Init();
@@ -32,10 +35,12 @@ HRESULT GameScene::init()
 void GameScene::release()
 {
 	SAFE_DELETE(m_shop);
+	SAFE_DELETE(_mapToolScene);
 }
 
 void GameScene::update()
 {
+	_mapToolScene->update();
 	PLAYERMANAGER->Update();
 	ENEMYMANAGER->Update();
 	COLLISIONMANAGER->UpdateCollision();
@@ -44,6 +49,7 @@ void GameScene::update()
 
 void GameScene::render()
 {
+	_mapToolScene->render();
 	IMAGEMANAGER->render("TestMap", getMemDC());
 	ENEMYMANAGER->Render(getMemDC());
 	PLAYERMANAGER->Render(getMemDC());

@@ -34,6 +34,7 @@ void MinionClot::Release()
 void MinionClot::Update()
 {
 	EnemyAi();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionClot);
 }
 
 void MinionClot::Render(HDC hdc)
@@ -258,7 +259,7 @@ void MinionClot::EnemyAi()
 	}
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ÀÇ ¿òÁ÷ÀÓ
-	BULLETMANAGER->EnemyMoveBullet(vEnemyBullet, viEnemyBullet);
+	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ Ãæµ¹
 	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);

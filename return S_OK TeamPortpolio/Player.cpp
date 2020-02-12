@@ -422,7 +422,7 @@ void Player::PlayerShotMove()
 	}
 
 	//ºÒ·¿ ¹«ºê
-	BULLETMANAGER->PlayerMoveBullet(vPlayerBullet, viPlayerBullet);
+	BULLETMANAGER->MoveBullet(vPlayerBullet, viPlayerBullet);
 }
 
 void Player::SetPlayerRectX(int num)
@@ -432,6 +432,9 @@ void Player::SetPlayerRectX(int num)
 
 	player.playerBodyRect.left += num;
 	player.playerBodyRect.right += num;
+
+	player.playerHitRect.left += num;
+	player.playerHitRect.right += num;
 }
 
 void Player::SetPlayerRectY(int num)
@@ -441,4 +444,7 @@ void Player::SetPlayerRectY(int num)
 
 	player.playerBodyRect.top += num;
 	player.playerBodyRect.bottom += num;
+
+	player.playerHitRect.top += num;
+	player.playerHitRect.bottom += num;
 }

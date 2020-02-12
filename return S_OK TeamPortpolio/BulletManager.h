@@ -18,8 +18,7 @@ public:
 	void ShootBullet(string imageName, vector<BulletInfo>& bulletVector, float x, float y, float angle, float speed, float range, int count, int interval);
 
 	// 총알을 담은 벡터와 이터레이터를 넣어준다.
-	void PlayerMoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator& bulletIter);
-	void EnemyMoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator& bulletIter);
+	void MoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator& bulletIter);
 	void RenderBullet(HDC hdc, vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator& bulletIter);
 };
 

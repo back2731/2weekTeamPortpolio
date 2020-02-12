@@ -14,7 +14,7 @@ HRESULT BulletManager::Init()
 	// 총알 이미지 추가
 	IMAGEMANAGER->addImage("playerBullet", "images/bullet/playerBullet.bmp", 18 * 2, 18 * 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("enemyBullet", "images/bullet/enemyBullet.bmp", 18 * 2, 18 * 2, true, RGB(255, 0, 255));
-	
+
 	return S_OK;
 }
 
@@ -37,13 +37,13 @@ void BulletManager::ShootBullet(string imageName, vector<BulletInfo>& bulletVect
 	if (count % interval == 0)
 	{
 		/*
-			image* bulletImage;
-			float angle;
-			float speed;
-			float bulletX, bulletY;
-			float unitX, unitY;
-			float range;
-			RECT rect;
+		   image* bulletImage;
+		   float angle;
+		   float speed;
+		   float bulletX, bulletY;
+		   float unitX, unitY;
+		   float range;
+		   RECT rect;
 		*/
 		BulletInfo bullet;
 		bullet = OBJECTPOOL->GetBullet();
@@ -58,7 +58,7 @@ void BulletManager::ShootBullet(string imageName, vector<BulletInfo>& bulletVect
 	}
 }
 
-void BulletManager::PlayerMoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator & bulletIter)
+void BulletManager::MoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator & bulletIter)
 {
 	// 넣어둔 벡터의 이터레이터를 돌면서 값을 증가시켜 총알을 움직여준다.
 	for (bulletIter = bulletVector.begin(); bulletIter != bulletVector.end();)
@@ -69,7 +69,7 @@ void BulletManager::PlayerMoveBullet(vector<BulletInfo>& bulletVector, vector<Bu
 		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth() - 13, bulletIter->bulletImage->getHeight() - 13);
 		//if (400 < getDistance(bulletIter->x, bulletIter->y, bulletIter->fireX, bulletIter->fireY))
 		//{
-		//	bulletIter->y += 1;
+		//   bulletIter->y += 1;
 		//}
 		RECT temp;
 		if (bulletIter->range < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY))
@@ -77,30 +77,10 @@ void BulletManager::PlayerMoveBullet(vector<BulletInfo>& bulletVector, vector<Bu
 			OBJECTPOOL->SetBulletVector(bulletVector.front());
 			bulletIter = bulletVector.erase(bulletIter);
 		}
-		else ++bulletIter;
-	}
-}
-
-void BulletManager::EnemyMoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator & bulletIter)
-{
-	// 넣어둔 벡터의 이터레이터를 돌면서 값을 증가시켜 총알을 움직여준다.
-	for (bulletIter = bulletVector.begin(); bulletIter != bulletVector.end();)
-	{
-		bulletIter->bulletX += cosf(bulletIter->angle) * bulletIter->speed;
-		bulletIter->bulletY += -sinf(bulletIter->angle) * bulletIter->speed;
-
-		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth() - 13, bulletIter->bulletImage->getHeight() - 13);
-		//if (400 < getDistance(bulletIter->x, bulletIter->y, bulletIter->fireX, bulletIter->fireY))
-		//{
-		//	bulletIter->y += 1;
-		//}
-		RECT temp;
-		if (bulletIter->range < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY))
+		else
 		{
-			OBJECTPOOL->SetBulletVector(bulletVector.front());
-			bulletIter = bulletVector.erase(bulletIter);
+			++bulletIter;
 		}
-		else ++bulletIter;
 	}
 }
 

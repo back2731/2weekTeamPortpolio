@@ -35,6 +35,7 @@ void MinionTumor::Release()
 void MinionTumor::Update()
 {
 	EnemyAi();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionTumor);
 }
 
 void MinionTumor::Render(HDC hdc)
@@ -386,7 +387,7 @@ void MinionTumor::EnemyAi()
 	}
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ÀÇ ¿òÁ÷ÀÓ
-	BULLETMANAGER->EnemyMoveBullet(vEnemyBullet, viEnemyBullet);
+	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ Ãæµ¹
 	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);

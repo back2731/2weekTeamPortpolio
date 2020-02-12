@@ -34,6 +34,7 @@ void MinionMaw::Release()
 void MinionMaw::Update()
 {
 	EnemyAi();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionMaw);
 }
 
 void MinionMaw::Render(HDC hdc)
@@ -297,7 +298,7 @@ void MinionMaw::EnemyAi()
 	}
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ÀÇ ¿òÁ÷ÀÓ
-	BULLETMANAGER->EnemyMoveBullet(vEnemyBullet, viEnemyBullet);
+	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ Ãæµ¹
 	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);

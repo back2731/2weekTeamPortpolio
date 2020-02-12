@@ -94,9 +94,16 @@ void MapToolScene::DrawTileMap() // render 해주는 부분
 		{
 			int left = _startX + (i * CELL_WIDTH);
 			int top = _startY + (j * CELL_HEIGHT);
+			int right = _startX + (i * CELL_WIDTH) + CELL_WIDTH;
+			int bottom = _startY + (j * CELL_HEIGHT) + CELL_HEIGHT;
 
 			_tileMap[i][j].left = left;
 			_tileMap[i][j].top = top;
+			_tileMap[i][j].right = right;
+			_tileMap[i][j].bottom = bottom;
+
+			_tileMap[i][j].rect = { _tileMap[i][j].left , _tileMap[i][j].top , _tileMap[i][j].right , _tileMap[i][j].bottom };
+
 
 			for (int z = 0; z <= _tileMap[i][j].index; z++)
 			{
@@ -129,21 +136,34 @@ void MapToolScene::DrawTileMap() // render 해주는 부분
 				}
 			}
 
-			if (_isDebug)
+			if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 			{
-				if (j % 11 == 0)
+
+				if (_isDebug)
 				{
-					Draw_Line_X(left, top);
+					if (j % 11 == 0)
+					{
+						Draw_Line_X(left, top);
+					}
+					if (i % 17 == 0)
+					{
+						Draw_Line_Y(left, top);
+					}
+
+					if (j % 1 == 0)
+					{
+						Draw_Line_X(left, top);
+					}
+					if (i % 1 == 0)
+					{
+						Draw_Line_Y(left, top);
+					}
+					SetTextColor(getMemDC(), RGB(255, 0, 0));
+					sprintf_s(str, "(%d,%d)", i + 1, j + 1);
+					TextOut(getMemDC(),
+						left + CELL_WIDTH / 2 - 20,
+						top + CELL_HEIGHT / 2 - 10, str, strlen(str));
 				}
-				if (i % 17 == 0)
-				{
-					Draw_Line_Y(left, top);
-				}
-				//SetTextColor(getMemDC(), RGB(0, 0, 0));
-				//sprintf_s(str, "(%d,%d)", i + 1, j + 1);
-				//TextOut(getMemDC(),
-				//	left + CELL_WIDTH / 2 - 14,
-				//	top + CELL_HEIGHT / 2 - 10, str, strlen(str));
 			}
 		}
 	}
@@ -267,7 +287,7 @@ TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 	}
 	if (SUBWIN->GetFrameIndex() == 2)
 	{
-		if (frameX >= 21)return TILEKIND_NONE;
+		return TILEKIND_DOOR;
 	}
 	return TILEKIND_TERRAIN;
 }
