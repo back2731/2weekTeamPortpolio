@@ -9,10 +9,18 @@ private:
 	vector<BulletInfo> vEnemyBullet;
 	vector<BulletInfo>::iterator viEnemyBullet;
 
-	int jumpCount;
+	int teleportCount;	// 텔레포트 카운트
+	int shotCount;		// 공격 카운트
+	int jumpCount;		// 점프 카운트
+	float rndX;			// 텔레포트 될 랜덤 x좌표
+	float rndY;			// 텔레포트 될 랜덤 y좌표
+	float jumpPower;	// 점프 파워
+	float gravity;		// 중력값
 
-	bool shortJump;
-	bool longJump;
+	bool teleport;		// 텔레포트
+	bool jump;			// 점프할지 안 할지 체크
+	bool snowPattern;	// 눈꽃 패턴
+	bool teleportImage; // 텔레포트 표시할 이미지
 
 public:
 	Monstro();
@@ -25,8 +33,8 @@ public:
 
 	void EnemyAiTime();
 	void EnemyAi();
-	void EnemySnowShot();
-	void EnemyShot();
+	void EnemySnowShot();	// 눈꽃 공격
+	void EnemyAllShot();	// 전방위 공격
 
 	// 에너미 벡터를 반환하는 함수
 	vector<EnemyInfo> GetMinionVector() { return vMonstro; }
