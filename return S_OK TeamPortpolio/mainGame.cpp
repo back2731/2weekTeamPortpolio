@@ -13,10 +13,13 @@ HRESULT mainGame::init()
 {
 	gameNode::init(true);
 
+	// 메뉴
 	SCENEMANAGER->addScene("MainMenu", new MainMenu);
+
+	// 실제 게임 Scene
 	SCENEMANAGER->addScene("GameScene", new GameScene);
-
-
+	
+	// 맵툴용 이미지들
 	IMAGEMANAGER->addFrameImage("blocks", "images/maptool/blocks.bmp",
 		0, 0, 52 * 8, 52 * 9, 8, 9, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("mapTile", "images/maptool/SampleMap.bmp",
