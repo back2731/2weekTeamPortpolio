@@ -105,82 +105,66 @@ void MapToolScene::DrawTileMap() // render 해주는 부분
 			_tileMap[i][j].rect = { _tileMap[i][j].left , _tileMap[i][j].top , _tileMap[i][j].right , _tileMap[i][j].bottom };
 
 
-				for (int z = 0; z <= _tileMap[i][j].index; z++)
+			for (int z = 0; z <= _tileMap[i][j].index; z++)
+			{
+				if (_tileMap[i][j].tileKind[z] != TILEKIND_NONE)
 				{
-					if (_tileMap[i][j].tileKind[z] != TILEKIND_NONE)
+					switch (_tileMap[i][j].tileNum[z])
 					{
-						switch (_tileMap[i][j].tileNum[z])
-						{
-						case 0:
-							IMAGEMANAGER->frameRender("blocks", getMemDC(),
-								_tileMap[i][j].left,
-								_tileMap[i][j].top - _tileMap[i][j].height*z,
-								_tileMap[i][j].tilePos[z].x,
-								_tileMap[i][j].tilePos[z].y);
-							break;
-						case 1:
-							IMAGEMANAGER->frameRender("mapTile", getMemDC(),
-								_tileMap[i][j].left,
-								_tileMap[i][j].top - _tileMap[i][j].height * z,
-								_tileMap[i][j].tilePos[z].x,
-								_tileMap[i][j].tilePos[z].y);
-							break;
-						case 2:
-							IMAGEMANAGER->frameRender("door", getMemDC(),
-								_tileMap[i][j].left,
-								_tileMap[i][j].top - _tileMap[i][j].height * z,
-								_tileMap[i][j].tilePos[z].x,
-								_tileMap[i][j].tilePos[z].y);
-							break;
-						}
+					case 0:
+						IMAGEMANAGER->frameRender("blocks", getMemDC(),
+							_tileMap[i][j].left,
+							_tileMap[i][j].top - _tileMap[i][j].height*z,
+							_tileMap[i][j].tilePos[z].x,
+							_tileMap[i][j].tilePos[z].y);
+						break;
+					case 1:
+						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
+							_tileMap[i][j].left,
+							_tileMap[i][j].top - _tileMap[i][j].height * z,
+							_tileMap[i][j].tilePos[z].x,
+							_tileMap[i][j].tilePos[z].y);
+						break;
+					case 2:
+						IMAGEMANAGER->frameRender("door", getMemDC(),
+							_tileMap[i][j].left,
+							_tileMap[i][j].top - _tileMap[i][j].height * z,
+							_tileMap[i][j].tilePos[z].x,
+							_tileMap[i][j].tilePos[z].y);
+						break;
 					}
 				}
-
-				if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
-				{
-
-					if (_isDebug)
-					{
-						if (j % 11 == 0)
-						{
-							Draw_Line_X(left, top);
-						}
-						if (i % 17 == 0)
-						{
-							Draw_Line_Y(left, top);
-						}
-
-						if (j % 1 == 0)
-						{
-							Draw_Line_X(left, top);
-						}
-						if (i % 1 == 0)
-						{
-							Draw_Line_Y(left, top);
-						}
-						SetTextColor(getMemDC(), RGB(255, 0, 0));
-						sprintf_s(str, "(%d,%d)", i + 1, j + 1);
-						TextOut(getMemDC(),
-							left + CELL_WIDTH / 2 - 20,
-							top + CELL_HEIGHT / 2 - 10, str, strlen(str));
-					}
-				}
-<<<<<<< HEAD
-
-				//if (j % 1 == 0)
-				//{
-				//	Draw_Line_X(left, top);
-				//}
-				//if (i % 1 == 0)
-				//{
-				//	Draw_Line_Y(left, top);
-				//}
-				//SetTextColor(getMemDC(), RGB(255, 0, 0));
-				//sprintf_s(str, "(%d,%d)", i + 1, j + 1);
-				//TextOut(getMemDC(), left + CELL_WIDTH / 2 - 20,	top + CELL_HEIGHT / 2 - 8, str, strlen(str));
 			}
-=======
->>>>>>> dev
+
+			if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+			{
+
+				if (_isDebug)
+				{
+					if (j % 11 == 0)
+					{
+						Draw_Line_X(left, top);
+					}
+					if (i % 17 == 0)
+					{
+						Draw_Line_Y(left, top);
+					}
+
+					if (j % 1 == 0)
+					{
+						Draw_Line_X(left, top);
+					}
+					if (i % 1 == 0)
+					{
+						Draw_Line_Y(left, top);
+					}
+					SetTextColor(getMemDC(), RGB(255, 0, 0));
+					sprintf_s(str, "(%d,%d)", i + 1, j + 1);
+					TextOut(getMemDC(),
+						left + CELL_WIDTH / 2 - 20,
+						top + CELL_HEIGHT / 2 - 10, str, strlen(str));
+				}
+			}
 		}
 	}
 }
