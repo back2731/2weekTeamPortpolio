@@ -45,7 +45,7 @@ void MapToolScene::update()
 		_isDebug = !_isDebug;
 	}
 
-	if (!SUBWIN->GetIsActive() && KEYMANAGER->isStayKeyDown(VK_LBUTTON))
+	if (!SUBWIN->GetIsActive() && KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
 		float cellX = (float)(m_ptMouse.x - _startX);
 
@@ -68,18 +68,16 @@ void MapToolScene::update()
 		*/
 		if (isoX >= 0 && isoX < TILE_COUNT_X && isoY >= 0 && isoY < TILE_COUNT_Y)
 		{
-
-			setMap(isoX, isoY, false);
+			setMap(isoX, isoY, true); // 거리계산이 된 isoX, isoY 만큼 
 			_isoX = isoX;
 			_isoY = isoY;
 		}
 	}
-
-
 }
 
 void MapToolScene::render()
 {
+	//좌표 출력.
 	sprintf_s(str, "isoX : %d, isoY : %d",
 		_isoX + 1, _isoY + 1);
 	TextOut(getMemDC(), WINSIZEX - 130, 0, str, strlen(str));
@@ -87,7 +85,8 @@ void MapToolScene::render()
 	DrawTileMap();
 }
 
-void MapToolScene::DrawTileMap()
+// render 해주는 부분
+void MapToolScene::DrawTileMap() // render 해주는 부분
 {
 	for (int i = 0; i < TILE_COUNT_X; i++)
 	{
@@ -106,15 +105,21 @@ void MapToolScene::DrawTileMap()
 					switch (_tileMap[i][j].tileNum[z])
 					{
 					case 0:
-						IMAGEMANAGER->frameRender("tile", getMemDC(),
+						IMAGEMANAGER->frameRender("blocks", getMemDC(),
 							_tileMap[i][j].left,
 							_tileMap[i][j].top - _tileMap[i][j].height*z,
 							_tileMap[i][j].tilePos[z].x,
 							_tileMap[i][j].tilePos[z].y);
 						break;
 					case 1:
+						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
+							_tileMap[i][j].left,
+							_tileMap[i][j].top - _tileMap[i][j].height * z,
+							_tileMap[i][j].tilePos[z].x,
+							_tileMap[i][j].tilePos[z].y);
+						break;
 					case 2:
-						IMAGEMANAGER->frameRender("tile2", getMemDC(),
+						IMAGEMANAGER->frameRender("door", getMemDC(),
 							_tileMap[i][j].left,
 							_tileMap[i][j].top - _tileMap[i][j].height * z,
 							_tileMap[i][j].tilePos[z].x,
@@ -161,30 +166,19 @@ void MapToolScene::Draw_Line_Y(int left, int top)
 
 bool MapToolScene::IsInRhombus(int isoX, int isoY)
 {
-	// lefttop
 	int left = _startX + (isoX * CELL_WIDTH - CELL_WIDTH);
 	int top = _startY + (isoY * CELL_HEIGHT - CELL_HEIGHT);
 
-	//left 에서 마우스값을 뺀값(left에서 이동거리)를
-	//left와 중점폭으로 top과 중점을 길이로 하는 작은 사각형으로 
-	//비례하기 위해 dx와 dy를 구한다.
 	float dx = (float)(m_ptMouse.x - left) / CELL_WIDTH;
 	float dy = (float)(m_ptMouse.y - top) / CELL_HEIGHT;
 
-	//만약 전체 비례즁에서 정삼각형 안에 들어가야 하기 때문에
-	//무조건 dy가 dx보다 같거나 작을 수 밖에 없다.
-	//정삼각형 안에 들어가 잇는 점은 무조건 y가 x보다 작거나 
-	//같을 수 밖에 없다.
-
-	//1뺴주는 이유는 top에서부터 차이를 계산 했기 떄무에
-	//바텀에서부터의 값을 구하기 위함
 	if (dx < CELL_WIDTH && dy < CELL_HEIGHT) return true;
-	//정삼각형 밖에 있다면 
+
 	else return false;
-	// righttop
 	return false;
 }
 
+//맵 초기화.
 void MapToolScene::MapToolSetup()
 {
 	for (int i = 0; i < TILE_COUNT_X; i++)
@@ -192,11 +186,12 @@ void MapToolScene::MapToolSetup()
 		for (int j = 0; j < TILE_COUNT_Y; j++)
 		{
 			_tileMap[i][j].index = -1;
-			_tileMap[i][j].height = 5;
+			_tileMap[i][j].height = 0;
 		}
 	}
 }
 
+//업데이트 해주는 부분.
 void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
 {
 	int index = SUBWIN->GetFrameIndex();
@@ -204,23 +199,9 @@ void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
 	switch (SUBWIN->GetFrameIndex())
 	{
 	case 0:
-		imageFrame = SUBWIN->GetFramePoint();
-		break;
 	case 1:
-		imageFrame.x = SUBWIN->GetFramePoint().y;
-		imageFrame.y = SUBWIN->GetFramePoint().x;
-		break;
 	case 2:
-		if (SUBWIN->GetFramePoint().y < 5)
-		{
-			imageFrame.x = SUBWIN->GetFramePoint().x + 10;
-			imageFrame.y = SUBWIN->GetFramePoint().y;
-		}
-		else
-		{
-			imageFrame.x = SUBWIN->GetFramePoint().x + 16;
-			imageFrame.y = SUBWIN->GetFramePoint().y - 5;
-		}
+		imageFrame = SUBWIN->GetFramePoint();
 		break;
 	}
 	_currentCTRL = SUBWIN->GetCTRL();
@@ -230,19 +211,23 @@ void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
 	case CTRL_DRAW:
 		if (isAdd)
 		{
-			if (kindSelect(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT
-				&& _tileMap[isoX][isoY].index == -1)
-				break;
+			//if (kindSelect(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT
+			//	&& _tileMap[isoX][isoY].index == -1)
+			//	break;
 
 			_tileMap[isoX][isoY].index++;
-			if (_tileMap[isoX][isoY].index >= TILE_MAX) _tileMap[isoX][isoY].index = TILE_MAX - 1;
+
+			if (_tileMap[isoX][isoY].index >= TILE_MAX)
+			{
+				_tileMap[isoX][isoY].index = TILE_MAX - 1;
+			}
 			_tileMap[isoX][isoY].tileNum[_tileMap[isoX][isoY].index] = index;
 			_tileMap[isoX][isoY].tileKind[_tileMap[isoX][isoY].index] = kindSelect(imageFrame.x, imageFrame.y);
 			_tileMap[isoX][isoY].tilePos[_tileMap[isoX][isoY].index] = imageFrame;
 		}
 		else
 		{
-			if (kindSelect(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT)break;
+			//if (kindSelect(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT)break;
 
 			if (_tileMap[isoX][isoY].index == -1)
 			{
@@ -267,16 +252,18 @@ void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
 	}
 }
 
-TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
+// 속성종류 정해줌
+TILEKIND MapToolScene::kindSelect(int frameX, int frameY) 
 {
 	if (frameX == -1 && frameY == -1)return TILEKIND_NONE;
 
-
 	if (SUBWIN->GetFrameIndex() == 0)
 	{
-		//if (frameY >= 7)return TILEKIND_NONE;
-		if (frameY <= 9)return TILEKIND_TERRAIN;
-		else return TILEKIND_OBJECT;
+		return TILEKIND_OBJECT;
+	}
+	if (SUBWIN->GetFrameIndex() == 1)
+	{
+		return TILEKIND_TERRAIN;
 	}
 	if (SUBWIN->GetFrameIndex() == 2)
 	{
@@ -285,7 +272,8 @@ TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 	return TILEKIND_TERRAIN;
 }
 
-void MapToolScene::TlieInit()
+//초기 인덱스 지정 // 사용되지 않음.
+void MapToolScene::TlieInit() // 모든 인덱스를 -1로 처리
 {
 	for (int i = 0; i < TILE_COUNT_X; i++)
 	{
@@ -295,21 +283,19 @@ void MapToolScene::TlieInit()
 		}
 	}
 }
-
-void MapToolScene::Load()
+//로드
+void MapToolScene::Load(int loadCount)
 {
-	fileName = "map1.map";
-	file = CreateFile(fileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile(fileName[loadCount], GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _tileMap, sizeof(TagTile) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
 	CloseHandle(file);
 }
-
-void MapToolScene::Save()
+//세이브
+void MapToolScene::Save(int saveCount)
 {
-	fileName = "map1.map";
-	file = CreateFile(fileName, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+		file = CreateFile(fileName[saveCount], GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	WriteFile(file, _tileMap, sizeof(TagTile) * TILE_COUNT_X * TILE_COUNT_Y, &write, NULL);
-	CloseHandle(file);
+		WriteFile(file, _tileMap, sizeof(TagTile) * TILE_COUNT_X * TILE_COUNT_Y, &write, NULL);
+		CloseHandle(file);
 }

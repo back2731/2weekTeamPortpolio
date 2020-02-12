@@ -37,7 +37,7 @@ void SubMap::release()
 
 void SubMap::update()
 {
-	if (SUBWIN->GetIsActive() && KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
+	if (SUBWIN->GetIsActive() && KEYMANAGER->isOnceKeyDown(VK_LBUTTON)) // 윈도우활성화 + 왼쪽 클릭 => framepoint 설정.
 	{
 		for (int i = 0; i < TILE_SIZE_Y; i++)
 		{
@@ -61,57 +61,27 @@ void SubMap::render(HDC hdc)
 	switch (SUBWIN->GetFrameIndex())
 	{
 	case 0:
-		IMAGEMANAGER->findImage("tile")->render(hdc, 0, 200, SUBWINSIZEX, 270);
+		IMAGEMANAGER->findImage("blocks")->render(hdc, 0, 200, SUBWINSIZEX, 270);
 		break;
 	case 1:
-		frameX = frameY = 0;
-
-		for (int i = 0; i < TILE_SIZE_Y; i++)
+		for (int i = 0; i < TILE_SIZE_X - 4; i++)
 		{
-			for (int j = 0; j < TILE_SIZE_X; j++)
+			for (int j = 0; j < TILE_SIZE_Y - 6; j++)
 			{
-				IMAGEMANAGER->findImage("tile2")->frameRender(hdc,
+				IMAGEMANAGER->findImage("mapTile")->frameRender(hdc,
 					0 + j * 30, 200 + i * 30,
-					frameX, frameY++, 30, 30);
-
-				if (frameY > 7)
-				{
-					frameY = 0;
-					frameX++;
-				}
+					j, i, 30, 30);
 			}
 		}//end of for
 		break;
 	case 2:
-		frameX = 10;
-		frameY = 0;
-
-		for (int i = 0; i < TILE_SIZE_Y; i++)
+		for (int i = 0; i < TILE_SIZE_X - 6; i++)
 		{
-			for (int j = 0; j < TILE_SIZE_X; j++)
+			for (int j = 0; j < TILE_SIZE_Y - 8; j++)
 			{
-				if (i < 5 && j>5)break;
-				else if (i >= 5 && j > 4)break;
-
-				IMAGEMANAGER->findImage("tile2")->frameRender(hdc,
+				IMAGEMANAGER->findImage("door")->frameRender(hdc,
 					0 + j * 30, 200 + i * 30,
-					frameX++, frameY, 30, 30);
-
-				if (i < 5 && frameX >15)
-				{
-					frameX = 10;
-					frameY++;
-				}
-				else if (i <= 5 && frameX > 20)
-				{
-					frameX = 16;
-					frameY++;
-				}
-				if (frameY >= 5)
-				{
-					frameY = 0;
-					frameX = 16;
-				}
+					j, i, 30, 30);
 			}
 		}//end of for
 		break;

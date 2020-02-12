@@ -49,6 +49,7 @@ private:
 	int clickIndex;
 
 	bool isActive;
+	int saveCount = 0;
 
 	MapToolScene * map;
 public:

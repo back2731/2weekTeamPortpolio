@@ -129,10 +129,15 @@ LRESULT SubWindow::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 				SUBWIN->GetIsoMap()->init();
 				break;
 			case CTRL_SAVE:
-				SUBWIN->GetIsoMap()->Save();
+				if (SUBWIN->saveCount == 10)
+				{
+					SUBWIN->saveCount = 0;
+				}
+				SUBWIN->GetIsoMap()->Save(SUBWIN->saveCount);
+				SUBWIN->saveCount += 1;
 				break;
 			case CTRL_LOAD:
-				SUBWIN->GetIsoMap()->Load();
+				SUBWIN->GetIsoMap()->Load(RND->getInt(10));
 				break;
 			case CTRL_NUM1:
 			case CTRL_NUM2:

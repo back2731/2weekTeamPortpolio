@@ -21,7 +21,7 @@ private:
 	bool _isDebug;
 
 	//
-	const char* fileName;
+	const char* fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };
 	HANDLE file;
 	DWORD write;
 	DWORD read;
@@ -51,7 +51,7 @@ public:
 
 
 	void TlieInit();
-	void Load();
-	void Save();
+	void Load(int loadCount);
+	void Save(int saveCount);
 };
 
