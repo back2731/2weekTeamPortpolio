@@ -139,11 +139,18 @@ void MapToolScene::DrawTileMap() // render 해주는 부분
 				{
 					Draw_Line_Y(left, top);
 				}
-				//SetTextColor(getMemDC(), RGB(0, 0, 0));
+
+				//if (j % 1 == 0)
+				//{
+				//	Draw_Line_X(left, top);
+				//}
+				//if (i % 1 == 0)
+				//{
+				//	Draw_Line_Y(left, top);
+				//}
+				//SetTextColor(getMemDC(), RGB(255, 0, 0));
 				//sprintf_s(str, "(%d,%d)", i + 1, j + 1);
-				//TextOut(getMemDC(),
-				//	left + CELL_WIDTH / 2 - 14,
-				//	top + CELL_HEIGHT / 2 - 10, str, strlen(str));
+				//TextOut(getMemDC(), left + CELL_WIDTH / 2 - 20,	top + CELL_HEIGHT / 2 - 8, str, strlen(str));
 			}
 		}
 	}

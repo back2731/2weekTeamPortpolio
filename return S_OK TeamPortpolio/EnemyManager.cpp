@@ -12,12 +12,12 @@ EnemyManager::~EnemyManager()
 HRESULT EnemyManager::Init()
 {
 	m_Monstro = new Monstro;
-	//m_Monstro->Init(PointMake(WINSIZEX / 2, WINSIZEY / 2 - 50));
+	m_Monstro->Init(PointMake(WINSIZEX / 2, WINSIZEY / 2 - 50));
 
 	m_MinionAttackFly = new MinionAttackFly;
-	m_MinionAttackFly->Init(PointMake(100, 100), 0);
-	m_MinionAttackFly->Init(PointMake(200, 100), 1);
-	m_MinionAttackFly->Init(PointMake(300, 100), 2);
+	m_MinionAttackFly->Init(PointMake(80, 100), 0);
+	m_MinionAttackFly->Init(PointMake(80, 150), 1);
+	m_MinionAttackFly->Init(PointMake(80, 200), 2);
 
 	m_MinionBlackFly = new MinionBlackFly;
 	m_MinionBlackFly->Init(PointMake(300, 400), 0);
@@ -53,15 +53,6 @@ HRESULT EnemyManager::Init()
 	m_MinionHorf->Init(PointMake(100, 300), 0);
 	m_MinionHorf->Init(PointMake(200, 300), 1);
 	m_MinionHorf->Init(PointMake(300, 300), 2);
-	m_MinionHorf->Init(PointMake(100, 300), 0);
-	m_MinionHorf->Init(PointMake(200, 300), 1);
-	m_MinionHorf->Init(PointMake(300, 300), 2);
-	m_MinionHorf->Init(PointMake(100, 300), 0);
-	m_MinionHorf->Init(PointMake(200, 300), 1);
-	m_MinionHorf->Init(PointMake(300, 300), 2);
-	m_MinionHorf->Init(PointMake(100, 300), 0);
-	m_MinionHorf->Init(PointMake(200, 300), 1);
-	m_MinionHorf->Init(PointMake(300, 300), 2);
 
 	m_MinionMulligan = new MinionMulligan;
 	m_MinionMulligan->Init(PointMake(100, 300), 0);
@@ -71,7 +62,7 @@ HRESULT EnemyManager::Init()
 	m_MinionPacer = new MinionPacer;
 	m_MinionPacer->Init(PointMake(100, 300), 0);
 	m_MinionPacer->Init(PointMake(200, 300), 1);
-	//m_MinionPacer->Init(PointMake(300, 300), 2);
+	m_MinionPacer->Init(PointMake(300, 300), 2);
 
 	return S_OK;
 }
