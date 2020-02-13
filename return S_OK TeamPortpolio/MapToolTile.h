@@ -4,8 +4,8 @@
 #define CELL_HEIGHT 52
 
 //초기좌표
-#define INIT_X 50
-#define INIT_Y 50
+#define INIT_X -1768
+#define INIT_Y -1144
 //타일 갯수
 #define TILE_COUNT_X 85
 #define TILE_COUNT_Y 55
@@ -15,14 +15,17 @@
 #define TILE_SIZE_Y 10
 
 
-#define TILE_MAX 50
+#define TILE_MAX 3
 
 enum TILEKIND
 {
+	TILEKIND_TERRAIN = 5,
 	TILEKIND_OBJECT,
-	TILEKIND_TERRAIN,
-	TILEKIND_DOOR,	
-	TILEKIND_MINION,	
+	TILEKIND_OBJECT_BUMB,
+	TILEKIND_OBJECT_BULLET,
+	TILEKIND_OPEN_DOOR,
+	TILEKIND_CLOSE_DOOR,
+	TILEKIND_ROOM_INFO,
 	TILEKIND_NONE
 };
 
@@ -39,5 +42,5 @@ struct TagTile
 	POINT tilePos[TILE_MAX]; // 샘플타일에서 골라진녀석(frameX, frameY)
 
 
-	int height=100; // 쌓일수록 커지는 높이
+	int height; // 쌓일수록 커지는 높이
 };

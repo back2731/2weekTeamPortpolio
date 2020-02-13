@@ -27,7 +27,7 @@ private:
 	HANDLE file;
 	DWORD write;
 	DWORD read;
-	
+
 public:
 	MapToolScene();
 	~MapToolScene();

@@ -51,7 +51,7 @@ void MapToolScene::update()
 
 		if (cellX < 0)
 		{
-			cellX = (cellX) / (float)CELL_WIDTH;
+			cellX = cellX / (float)CELL_WIDTH;
 		}
 		else
 		{
@@ -113,28 +113,28 @@ void MapToolScene::DrawTileMap() // render 해주는 부분
 					{
 
 
-					case 0:
+					case 5:
+						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
+							_tileMap[i][j].left,
+							_tileMap[i][j].top - _tileMap[i][j].height*z,
+							_tileMap[i][j].tilePos[z].x,
+							_tileMap[i][j].tilePos[z].y);
+						break;
+					case 6:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
 							IMAGEMANAGER->frameRender("blocks", getMemDC(),
 								_tileMap[i][j].left,
-								_tileMap[i][j].top - _tileMap[i][j].height*z,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
 								_tileMap[i][j].tilePos[z].x,
 								_tileMap[i][j].tilePos[z].y);
 							break;
 						}
 						break;
-					case 1:
-						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
-							_tileMap[i][j].left,
-							_tileMap[i][j].top - _tileMap[i][j].height * z,
-							_tileMap[i][j].tilePos[z].x,
-							_tileMap[i][j].tilePos[z].y);
-						break;
-					case 2:
+					case 7:
 						IMAGEMANAGER->frameRender("door", getMemDC(),
-							_tileMap[i][j].left,
-							_tileMap[i][j].top - _tileMap[i][j].height * z,
+							_tileMap[i][j].left - 52,
+							_tileMap[i][j].top - _tileMap[i][j].height * z - 52,
 							_tileMap[i][j].tilePos[z].x,
 							_tileMap[i][j].tilePos[z].y);
 						break;
@@ -224,9 +224,9 @@ void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
 
 	switch (SUBWIN->GetFrameIndex())
 	{
-	case 0:
-	case 1:
-	case 2:
+	case 5:
+	case 6:
+	case 7:
 		imageFrame = SUBWIN->GetFramePoint();
 		break;
 	}
@@ -281,22 +281,28 @@ void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
 // 속성종류 정해줌
 TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 {
-	if (frameX == -1 && frameY == -1)return TILEKIND_NONE;
+	if (SUBWIN->GetFrameIndex() == -1)return TILEKIND_NONE;
 
 	if (SUBWIN->GetFrameIndex() == 0)
 	{
-		if (frameY <= 9)
-			return TILEKIND_OBJECT;
+		if (frameY >= 0 && frameY <= 4)
+			return TILEKIND_TERRAIN;
 	}
 	if (SUBWIN->GetFrameIndex() == 1)
 	{
-		if (frameY <= 4)
-			return TILEKIND_TERRAIN;
+		if (frameY >= 0 && frameY <= 3)
+			return TILEKIND_OBJECT;
+		if (frameY >= 4 && frameY <= 6)
+			return TILEKIND_OBJECT_BUMB;
+		if (frameY >= 7 && frameY <= 9)
+			return TILEKIND_OBJECT_BULLET;
 	}
 	if (SUBWIN->GetFrameIndex() == 2)
 	{
-		if (frameY <= 10)
-			return TILEKIND_DOOR;
+		if ((frameX >= 0 && frameX < 2) || (frameX >= 4 && frameX < 6))
+			return TILEKIND_OPEN_DOOR;
+		if ((frameX >= 2 && frameX < 4) || (frameX >= 6 && frameX < 8))
+			return TILEKIND_CLOSE_DOOR;
 	}
 	return TILEKIND_TERRAIN;
 }

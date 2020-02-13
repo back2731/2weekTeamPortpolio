@@ -57,10 +57,7 @@ void SubMap::render(HDC hdc)
 {
 	switch (SUBWIN->GetFrameIndex())
 	{
-	case 0:
-		IMAGEMANAGER->findImage("blocks")->render(hdc, 0, 200, SUBWINSIZEX, 270);
-		break;
-	case 1:
+	case 5:
 		for (int i = 0; i < TILE_SIZE_X - 4; i++)
 		{
 			for (int j = 0; j < TILE_SIZE_Y - 6; j++)
@@ -71,7 +68,10 @@ void SubMap::render(HDC hdc)
 			}
 		}//end of for
 		break;
-	case 2:
+	case 6:
+		IMAGEMANAGER->findImage("blocks")->render(hdc, 0, 200, SUBWINSIZEX, 270);
+		break;
+	case 7:
 		for (int i = 0; i < TILE_SIZE_X; i++)
 		{
 			for (int j = 0; j < TILE_SIZE_Y; j++)
