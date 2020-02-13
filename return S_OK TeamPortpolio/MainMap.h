@@ -6,7 +6,7 @@ class MainMap : public gameNode
 private:
 	TagTile _tileMap[TILE_COUNT_X][TILE_COUNT_Y];
 
-	int _isoX, _isoY;
+	int _locationX, _locationY;
 	int _center;
 	char str[128];
 

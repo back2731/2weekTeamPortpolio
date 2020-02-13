@@ -15,10 +15,7 @@ HRESULT SubMap::init()
 	{
 		for (int j = 0; j < TILE_SIZE_Y; j++)
 		{
-			rc[i][j] = RectMake(
-				SUBWINSIZEX / TILE_SIZE_X * i,
-				300 / TILE_SIZE_Y * j + 200,
-				SUBWINSIZEX / TILE_SIZE_X, 300 / TILE_SIZE_Y);
+			rc[i][j] = RectMake(SUBWINSIZEX / TILE_SIZE_X * i, 300 / TILE_SIZE_Y * j + 200, SUBWINSIZEX / TILE_SIZE_X, 300 / TILE_SIZE_Y);
 		}
 	}
 
@@ -62,9 +59,7 @@ void SubMap::render(HDC hdc)
 		{
 			for (int j = 0; j < TILE_SIZE_Y - 6; j++)
 			{
-				IMAGEMANAGER->findImage("mapTile")->frameRender(hdc,
-					0 + j * 30, 200 + i * 30,
-					j, i, 30, 30);
+				IMAGEMANAGER->findImage("mapTile")->frameRender(hdc, 0 + j * 30, 200 + i * 30, j, i, 30, 30);
 			}
 		}//end of for
 		break;
@@ -76,9 +71,7 @@ void SubMap::render(HDC hdc)
 		{
 			for (int j = 0; j < TILE_SIZE_Y; j++)
 			{
-				IMAGEMANAGER->findImage("door")->frameRender(hdc,
-					0 + i * 30, 200 + j * 30,
-					i, j, 30, 30);
+				IMAGEMANAGER->findImage("door")->frameRender(hdc, 0 + i * 30, 200 + j * 30, i, j, 30, 30);
 			}
 		}//end of for
 		break;

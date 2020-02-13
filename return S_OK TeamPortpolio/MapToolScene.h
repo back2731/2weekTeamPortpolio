@@ -1,13 +1,17 @@
 #pragma once
 #include"gameNode.h"
 #include"MapToolTile.h"
+#include "SubMap.h"
+
+#define SUBWINOPEN 1
+
 class MapToolScene : public gameNode
 {
 private:
 
 	TagTile _tileMap[TILE_COUNT_X][TILE_COUNT_Y];
 
-	int _isoX, _isoY;
+	int _locationX, _locationY;
 	int _center;
 	char str[128];
 
@@ -44,11 +48,8 @@ public:
 	void Draw_Line_X(int left, int top);
 	void Draw_Line_Y(int left, int top);
 
-	//마름모 안에 있음?
-	bool IsInRhombus(int isoX, int isoY);
-
 	void MapToolSetup();
-	void setMap(int isoX, int isoY, bool isAdd);
+	void setMap(int locationX, int locationY, bool isAdd);
 	TILEKIND kindSelect(int frameX, int frameY);
 
 	void TlieInit();

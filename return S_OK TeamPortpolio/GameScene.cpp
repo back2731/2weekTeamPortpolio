@@ -16,6 +16,10 @@ HRESULT GameScene::init()
 	mainMap = new MainMap;
 	mainMap->init();
 
+	// 게임씬에서 필요한 매니저들 초기화.
+	BULLETMANAGER->Init();
+	ITEMMANAGER->Init();
+
 	// 인클루드한 것들 초기화
 	m_shop = new Shop;
 	m_shop->Init();

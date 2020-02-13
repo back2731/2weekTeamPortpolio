@@ -13,8 +13,22 @@ MapToolScene::~MapToolScene()
 
 HRESULT MapToolScene::init()
 {
-	_isoX = 0;
-	_isoY = 0;
+	// 서브윈도우 선언, 씬 추가
+	SubMap* sub = new SubMap;
+	SCENEMANAGER->addScene("SubMap", sub);
+
+	// 서브윈도우 초기화
+	#ifdef SUBWINOPEN
+		SUBWIN->init();
+	#endif // SUBWINOPEN
+
+	// 서브윈도우 세팅
+	#ifdef SUBWINOPEN
+		SUBWIN->SetScene(sub);
+	#endif // SUBWINOPEN
+
+	_locationX = 0;
+	_locationY = 0;
 	_center = 0;
 	memset(_tileMap, 0, sizeof(_tileMap));
 
@@ -35,6 +49,11 @@ void MapToolScene::release()
 
 void MapToolScene::update()
 {
+	// 서브윈도우 업데이트
+	#ifdef SUBWINOPEN
+		SUBWIN->update();
+	#endif // SUBWINOPEN
+
 	if (KEYMANAGER->isStayKeyDown('W')) { _startY += 5; }
 	if (KEYMANAGER->isStayKeyDown('S')) { _startY -= 5; }
 	if (KEYMANAGER->isStayKeyDown('A')) { _startX += 5; }
@@ -60,33 +79,38 @@ void MapToolScene::update()
 		}
 		int cellY = abs(m_ptMouse.y - _startY) / CELL_HEIGHT;
 		cellY = (m_ptMouse.y < _startY) ? cellY * -1 : cellY;
-		int isoX = (int)cellX;
-		int isoY = (int)cellY;
+		int locationX = (int)cellX;
+		int locationY = (int)cellY;
 		/*
 		//만약 x좌표가 0보다 크고 최대타일수 보다 작고
 		//Y좌표 0보다 크고, 최대타일수보다 작으면 검출대상에 집어넣자
 		*/
-		if (isoX >= 0 && isoX < TILE_COUNT_X && isoY >= 0 && isoY < TILE_COUNT_Y)
+		if (locationX >= 0 && locationX < TILE_COUNT_X && locationY >= 0 && locationY < TILE_COUNT_Y)
 		{
-			setMap(isoX, isoY, true); // 거리계산이 된 isoX, isoY 만큼 
-			_isoX = isoX;
-			_isoY = isoY;
+			setMap(locationX, locationY, true); // 거리계산이 된 locationX, locationY 만큼 
+			_locationX = locationX;
+			_locationY = locationY;
 		}
 	}
 }
 
 void MapToolScene::render()
 {
+	// 서브윈도우 랜더링
+	#ifdef SUBWINOPEN
+		SUBWIN->render();
+	#endif // SUBWINOPEN
+
 	//좌표 출력.
-	sprintf_s(str, "isoX : %d, isoY : %d",
-		_isoX + 1, _isoY + 1);
-	TextOut(getMemDC(), WINSIZEX - 130, 0, str, strlen(str));
+	sprintf_s(str, "X : %d, Y : %d",
+		_locationX + 1, _locationY + 1);
+	TextOut(getMemDC(), WINSIZEX - 100, 0, str, strlen(str));
 
 	DrawTileMap();
 }
 
 // render 해주는 부분
-void MapToolScene::DrawTileMap() // render 해주는 부분
+void MapToolScene::DrawTileMap() 
 {
 	for (int i = 0; i < TILE_COUNT_X; i++)
 	{
@@ -111,8 +135,6 @@ void MapToolScene::DrawTileMap() // render 해주는 부분
 				{
 					switch (_tileMap[i][j].tileNum[z])
 					{
-
-
 					case 5:
 						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
 							_tileMap[i][j].left,
@@ -199,20 +221,6 @@ void MapToolScene::Draw_Line_Y(int left, int top)
 	LineMake(getMemDC(), centerX, centerY, centerX, centerY + CELL_HEIGHT);
 }
 
-bool MapToolScene::IsInRhombus(int isoX, int isoY)
-{
-	int left = _startX + (isoX * CELL_WIDTH - CELL_WIDTH);
-	int top = _startY + (isoY * CELL_HEIGHT - CELL_HEIGHT);
-
-	float dx = (float)(m_ptMouse.x - left) / CELL_WIDTH;
-	float dy = (float)(m_ptMouse.y - top) / CELL_HEIGHT;
-
-	if (dx < CELL_WIDTH && dy < CELL_HEIGHT) return true;
-
-	else return false;
-	return false;
-}
-
 //맵 초기화.
 void MapToolScene::MapToolSetup()
 {
@@ -227,7 +235,7 @@ void MapToolScene::MapToolSetup()
 }
 
 //업데이트 해주는 부분.
-void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
+void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 {
 	int index = SUBWIN->GetFrameIndex();
 
@@ -247,44 +255,44 @@ void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
 		if (isAdd)
 		{
 			//if (kindSelect(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT
-			//	&& _tileMap[isoX][isoY].index == -1)
+			//	&& _tileMap[locationX][locationY].index == -1)
 			//	break;
 
-			_tileMap[isoX][isoY].index++;
+			_tileMap[locationX][locationY].index++;
 
-			if (_tileMap[isoX][isoY].index >= TILE_MAX)
+			if (_tileMap[locationX][locationY].index >= TILE_MAX)
 			{
-				_tileMap[isoX][isoY].index = TILE_MAX - 1;
+				_tileMap[locationX][locationY].index = TILE_MAX - 1;
 			}
-			_tileMap[isoX][isoY].tileNum[_tileMap[isoX][isoY].index] = index;
-			_tileMap[isoX][isoY].tileKind[_tileMap[isoX][isoY].index] = kindSelect(imageFrame.x, imageFrame.y);
-			_tileMap[isoX][isoY].tilePos[_tileMap[isoX][isoY].index] = imageFrame;
+			_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
+			_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = kindSelect(imageFrame.x, imageFrame.y);
+			_tileMap[locationX][locationY].tilePos[_tileMap[locationX][locationY].index] = imageFrame;
 		}
 		else
 		{
 			//if (kindSelect(imageFrame.x, imageFrame.y) == TILEKIND_OBJECT)break;
 
-			if (_tileMap[isoX][isoY].index == -1)
+			if (_tileMap[locationX][locationY].index == -1)
 			{
-				//_tileMap[isoX][isoY].index++;
+				//_tileMap[locationX][locationY].index++;
 
-				if (_tileMap[isoX][isoY].index >= TILE_MAX)
+				if (_tileMap[locationX][locationY].index >= TILE_MAX)
 				{
-					_tileMap[isoX][isoY].index = TILE_MAX - 1;
+					_tileMap[locationX][locationY].index = TILE_MAX - 1;
 				}
-				_tileMap[isoX][isoY].tileNum[_tileMap[isoX][isoY].index] = index;
-				_tileMap[isoX][isoY].tileKind[_tileMap[isoX][isoY].index] = kindSelect(imageFrame.x, imageFrame.y);
-				_tileMap[isoX][isoY].tilePos[_tileMap[isoX][isoY].index] = imageFrame;
+				_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
+				_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = kindSelect(imageFrame.x, imageFrame.y);
+				_tileMap[locationX][locationY].tilePos[_tileMap[locationX][locationY].index] = imageFrame;
 			}
 		}
 		break;
 	case CTRL_ERASER:
-		if (_tileMap[isoX][isoY].index > -1)
+		if (_tileMap[locationX][locationY].index > -1)
 		{
-			_tileMap[isoX][isoY].index--;
-			_tileMap[isoX][isoY].tileNum[_tileMap[isoX][isoY].index] = index;
-			_tileMap[isoX][isoY].tileKind[_tileMap[isoX][isoY].index] = kindSelect(-1, -1);
-			_tileMap[isoX][isoY].tilePos[_tileMap[isoX][isoY].index] = imageFrame;
+			_tileMap[locationX][locationY].index--;
+			_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
+			_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = kindSelect(-1, -1);
+			_tileMap[locationX][locationY].tilePos[_tileMap[locationX][locationY].index] = imageFrame;
 		}
 		break;
 	}

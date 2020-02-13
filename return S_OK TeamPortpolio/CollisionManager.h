@@ -32,4 +32,6 @@ public:
 	void PlayerToObstacleCollision(RECT obstacleRect);
 	
 	void EnemyToObstacleCollision(RECT obstacleRect);
+
+	void test(RECT obstacleRect, int _startX, int _startY);
 };

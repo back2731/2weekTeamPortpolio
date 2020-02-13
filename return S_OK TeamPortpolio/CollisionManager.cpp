@@ -3290,3 +3290,43 @@ void CollisionManager::PlayerToObstacleCollision(RECT obstacleRect)
 void CollisionManager::EnemyToObstacleCollision(RECT obstacleRect)
 {
 }
+
+void CollisionManager::test(RECT obstacleRect, int _startX, int _startY)
+{
+	RECT temp;
+
+	if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &obstacleRect))
+	{
+		// temp의 Width와 Height 선언
+		int tempW = temp.right - temp.left;
+		int tempH = temp.bottom - temp.top;
+
+		if (tempH > tempW)
+		{
+			// 왼쪽 충돌시 오른쪽으로 밀어줌
+			if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+			{
+				PLAYERMANAGER->SetPlayerRectX(tempW);
+			}
+			// 오른쪽 충돌시 왼쪽으로 밀어줌
+			else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+			{
+				PLAYERMANAGER->SetPlayerRectX(-tempW);
+			}
+		}
+		else
+		{
+			// 위쪽 충돌시 아래쪽으로 밀어줌
+			if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+			{
+				PLAYERMANAGER->SetPlayerRectY(tempH);
+			}
+			// 아래쪽 충돌시 위쪽으로 밀어줌
+			else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+			{
+				PLAYERMANAGER->SetPlayerRectY(-tempH);
+				_startY -= 500;
+			}
+		}
+	}
+}

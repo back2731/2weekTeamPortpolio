@@ -27,26 +27,30 @@ HRESULT mainGame::init()
 	IMAGEMANAGER->addFrameImage("door", "images/maptool/doorSprite.bmp",
 		0, 0, 52 * 2.5 * 8, 52 * 2 * 10, 8, 10, true, RGB(255, 0, 255));
 
-	SubMap* sub = new SubMap;
-	SCENEMANAGER->addScene("SubMap", sub);
-
 	MapToolScene* map = new MapToolScene;
 	SCENEMANAGER->addScene("MapTool", map);
+
 	SUBWIN->SetIsoMap(map);
 
-#ifdef SUBWINOPEN
-	SUBWIN->init();
-#endif // SUBWINOPEN
+	//MapToolScene* map = new MapToolScene;
+	//SCENEMANAGER->addScene("MapTool", map);
 
-#ifdef SUBWINOPEN
-	SUBWIN->SetScene(sub);
-#endif // SUBWINOPEN
+	//SubMap* sub = new SubMap;
+	//SCENEMANAGER->addScene("SubMap", sub);
 
+	//SUBWIN->SetIsoMap(map);
+//
+//#ifdef SUBWINOPEN
+//	SUBWIN->init();
+//#endif // SUBWINOPEN
+//
+//#ifdef SUBWINOPEN
+//	SUBWIN->SetScene(sub);
+//#endif // SUBWINOPEN
+//
 
 	// 게임씬에서 필요한 매니저들 초기화.
 	OBJECTPOOL->Init();
-	BULLETMANAGER->Init();
-	ITEMMANAGER->Init();
 
 	SCENEMANAGER->changeScene("MainMenu");
 
@@ -63,11 +67,11 @@ void mainGame::update()
 	gameNode::update();
 
 	SCENEMANAGER->update();
-
-#ifdef SUBWINOPEN
-
-	SUBWIN->update();
-#endif // SUBWINOPEN
+//
+//#ifdef SUBWINOPEN
+//
+//	SUBWIN->update();
+//#endif // SUBWINOPEN
 
 }
 
@@ -78,9 +82,9 @@ void mainGame::render(/*HDC hdc*/)
 	//===================================================
 
 	SCENEMANAGER->render();
-#ifdef SUBWINOPEN
-	SUBWIN->render();
-#endif // SUBWINOPEN
+//#ifdef SUBWINOPEN
+//	SUBWIN->render();
+//#endif // SUBWINOPEN
 	TIMEMANAGER->render(getMemDC());
 
 	//===================================================

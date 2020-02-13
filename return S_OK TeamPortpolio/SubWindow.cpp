@@ -108,12 +108,7 @@ LRESULT SubWindow::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 		ptMouse.x = LOWORD(lParam);
 		ptMouse.y = HIWORD(lParam);
 		break;
-		/*case WM_PAINT:
-		{
 
-
-		}
-		break;*/
 	case  WM_COMMAND:
 
 		switch (LOWORD(wParam))
@@ -147,6 +142,7 @@ LRESULT SubWindow::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 				break;
 			case CTRL_MAIN:
 				SCENEMANAGER->changeScene("MainMenu");
+				DestroyWindow(hWnd);
 				break;
 			}
 			break;
@@ -205,9 +201,7 @@ void SubWindow::CreateSubWindow()
 	hParenthWnd = m_hWnd;
 	hInst = GetModuleHandle(NULL);
 
-	hWnd = CreateWindow("sub", "sub",
-		WS_POPUP | WS_CAPTION | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
-		x, y, cx, cy, hParenthWnd, NULL, hInst, NULL);
+	hWnd = CreateWindow("sub", "sub", WS_POPUP | WS_CAPTION | WS_CLIPSIBLINGS | WS_CLIPCHILDREN, x, y, cx, cy, hParenthWnd, NULL, hInst, NULL);
 
 	AdjustWindowRect(&rc, WINSTYLE, FALSE);
 

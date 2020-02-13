@@ -18,15 +18,13 @@ HRESULT MainMap::init()
 	IMAGEMANAGER->addFrameImage("door", "images/maptool/doorSprite.bmp",
 		0, 0, 52 * 2.5 * 8, 52 * 3 * 10, 8, 10, true, RGB(255, 0, 255));
 
-
-	_isoX = 0;
-	_isoY = 0;
+	_locationX = 0;
+	_locationY = 0;
 	_center = 0;
 	memset(_tileMap, 0, sizeof(_tileMap));
 
 	_startX = INIT_X;
 	_startY = INIT_Y;
-
 
 	load(RND->getInt(10));
 
@@ -63,51 +61,47 @@ void MainMap::update()
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
 				{
 					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
-					//Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 				}
 
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
 				{
-					//Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
-					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+					//COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+					COLLISIONMANAGER->test(_tileMap[i][j].rect, _startX, _startY);
 				}
 			}
 		}
 	}
-
 }
 
 void MainMap::render()
 {
 	//ÁÂÇ¥ Ãâ·Â.
-	sprintf_s(str, "isoX : %d, isoY : %d",
-		_isoX + 1, _isoY + 1);
+	sprintf_s(str, "locationX : %d, locationY : %d", _locationX + 1, _locationY + 1);
 	TextOut(getMemDC(), WINSIZEX - 130, 0, str, strlen(str));
 
 	DrawTileMap();
+
 	for (int i = 0; i < TILE_COUNT_X; i++)
 	{
 		for (int j = 0; j < TILE_COUNT_Y; j++)
 		{
 			for (int z = 0; z < TILE_MAX; z++)
 			{
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
+				if (KEYMANAGER->isToggleKey(VK_TAB))
 				{
-					// Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
-				}
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
-				{
-					Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(204, 0, 102));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
 
-					HBRUSH brush = CreateSolidBrush(RGB(204, 0, 102));
-					FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
-					DeleteObject(brush);
-				}
-
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
-				{
-					//Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+					}
 				}
 			}
 		}
@@ -147,17 +141,17 @@ void MainMap::DrawTileMap()
 							_tileMap[i][j].tilePos[z].x,
 							_tileMap[i][j].tilePos[z].y);
 						break;
-					case 6:
-						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
-						{
-							IMAGEMANAGER->frameRender("blocks", getMemDC(),
-								_tileMap[i][j].left,
-								_tileMap[i][j].top - _tileMap[i][j].height * z,
-								_tileMap[i][j].tilePos[z].x,
-								_tileMap[i][j].tilePos[z].y);
-							break;
-						}
-						break;
+					//case 6:
+					//	if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+					//	{
+					//		IMAGEMANAGER->frameRender("blocks", getMemDC(),
+					//			_tileMap[i][j].left,
+					//			_tileMap[i][j].top - _tileMap[i][j].height * z,
+					//			_tileMap[i][j].tilePos[z].x,
+					//			_tileMap[i][j].tilePos[z].y);
+					//		break;
+					//	}
+					//	break;
 					case 7:
 						if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
 						{
