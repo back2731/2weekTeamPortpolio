@@ -11,9 +11,14 @@ Monstro::~Monstro()
 
 HRESULT Monstro::Init(POINT position)
 {
+	//monstro = IMAGEMANAGER->addFrameImage("monstro", "images/monster/monstroAppear.bmp", 2043, 729, 9, 3, true, RGB(255, 0, 255));
+	monstro = IMAGEMANAGER->addFrameImage("monstro", "images/monster/horf.bmp", 64, 38, 1,1 , true, RGB(255, 0, 255));
+	//ANIMATIONMANAGER->addAnimation("boss", "monstro", 0, 9, 20, false, true);
+	ANIMATIONMANAGER->addDefAnimation("boss", "monstro", 20, false, true);
+	bossAni = ANIMATIONMANAGER->findAnimation("boss");
+
 	//구조체 정보 기입
 	EnemyInfo Monstro;
-	Monstro.enemyImage = IMAGEMANAGER->addImage("monstro", "images/monster/monstro.bmp", 192, 192, true, RGB(255, 0, 255));
 	Monstro.enemyRect = RectMakeCenter(position.x, position.y, 120, 60);
 	Monstro.enemyHp = 250;
 	Monstro.enemyShotSpeed = 5.0f;
@@ -55,18 +60,18 @@ void Monstro::Render(HDC hdc)
 		switch (firstEnemyAiPattern)
 		{
 		case 1:
-			IMAGEMANAGER->render("monstro", hdc, vMonstro[i].enemyRect.left - 38, vMonstro[i].enemyRect.top - 80);
+			monstro->aniRender(hdc, vMonstro[i].enemyRect.left - 100, vMonstro[i].enemyRect.top - 100, bossAni);
 			break;
 		case 2:
-			IMAGEMANAGER->render("monstro", hdc, vMonstro[i].enemyRect.left - 38, vMonstro[i].enemyRect.top - 80);
+			monstro->aniRender(hdc, vMonstro[i].enemyRect.left - 100, vMonstro[i].enemyRect.top - 100, bossAni);
 			break;
 		case 3:
-			IMAGEMANAGER->render("monstro", hdc, vMonstro[i].enemyRect.left - 38, vMonstro[i].enemyRect.top - 80);
+			monstro->aniRender(hdc, vMonstro[i].enemyRect.left - 100, vMonstro[i].enemyRect.top - 100, bossAni);
 			break;
 		case 4:
 			if (teleportImage)
 			{
-				IMAGEMANAGER->render("monstro", hdc, vMonstro[i].enemyRect.left - 38, vMonstro[i].enemyRect.top - 80);
+				monstro->aniRender(hdc, vMonstro[i].enemyRect.left - 100, vMonstro[i].enemyRect.top - 100, bossAni);
 			}
 			break;
 		}
@@ -81,7 +86,7 @@ void Monstro::EnemyAiTime()
 	firstEnemyAiTime++;
 	if (firstEnemyAiTime / 60 == 2)
 	{
-		firstEnemyAiPattern = RND->getFromIntTo(2, 4);
+		firstEnemyAiPattern = RND->getFromIntTo(1, 1);
 		firstEnemyAiTime = 0;
 	}
 }
@@ -90,6 +95,10 @@ void Monstro::EnemyAi()
 {
 	for (i = 0; i < vMonstro.size(); i++)
 	{
+		//애니메이션 프레임
+		bossAni = ANIMATIONMANAGER->findAnimation("boss");
+		ANIMATIONMANAGER->start("boss");
+
 		RECT temp;
 
 		// 적 x축, y축 좌표

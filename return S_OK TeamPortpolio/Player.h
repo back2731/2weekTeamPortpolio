@@ -40,18 +40,25 @@ private:
 	vector<BulletInfo>::iterator viPlayerBullet;
 	int playerBulletCount;         // 플레이어 불렛 카운트
 
+	// 애니메이션을 돌리기 위한 배열
+	int arrHeadIdle[1] = { 0 };
+	int arrHeadRight[1] = { 2 };
+	int arrHeadUp[1] = { 4 };
+	int arrHeadLeft[1] = { 7 };
+	int arrBodyIdle[1] = { 22 };
+
 private:
-	//플레이어 무브 변수
+	// 플레이어 무브 변수
 	bool isLeft;
 	bool isRight;
 	bool isUp;
 	bool isDown;
-	//플레이어 슬라이딩 변수
+	// 플레이어 슬라이딩 변수
 	bool slideLeft;
 	bool slideRight;
 	bool slideUp;
 	bool slideDown;
-	//플레이어 슈팅 변수
+	// 플레이어 슈팅 변수
 	bool playerLeftShot;
 	bool playerRightShot;
 	bool playerUpShot;
@@ -66,11 +73,11 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void PlayerMove();            //플레이어 이동키 함수
-	void PlayerSilde();           //플레이어 이동시 슬라이딩 함수
-	void PlayerShot();            //플레이어 공격키 함수
-	void PlayerShotMove();        //플레이어 공격시 방향 함수
-	void PlayerAnimation();       //플레이어 애니메이션
+	void PlayerMove();            // 플레이어 이동키 함수
+	void PlayerSilde();           // 플레이어 이동시 슬라이딩 함수
+	void PlayerShot();            // 플레이어 공격키 함수
+	void PlayerShotMove();        // 플레이어 공격시 방향 함수
+	void PlayerAnimation();       // 플레이어 애니메이션
 
 	RECT GetPlayerHeadRect() { return player.playerHeadRect; }
 	float GetPlayerHeadRectX() { return (player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2); }

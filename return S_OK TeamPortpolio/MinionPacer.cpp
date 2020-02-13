@@ -16,7 +16,7 @@ HRESULT MinionPacer::Init(POINT position, int EnemyNumber)
 	MinionPacer.enemyNumber = EnemyNumber;
 	MinionPacer.enemyRect = RectMakeCenter(position.x, position.y, 30, 30);
 	MinionPacer.enemyHp = 10;
-	MinionPacer.enemySpeed = 3.0f;
+	MinionPacer.enemySpeed = 2.5f;
 	vMinionPacer.push_back(MinionPacer);
 
 	return S_OK;
