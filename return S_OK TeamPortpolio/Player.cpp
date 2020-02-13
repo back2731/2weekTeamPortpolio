@@ -11,48 +11,45 @@ Player::~Player()
 
 HRESULT Player::Init(string imageName)
 {
+	// 플레이어 IDLE
 	player.playerHeadImage = IMAGEMANAGER->addFrameImage("playerHead", "images/player/player.bmp", 320 * 2, 124 * 2, 10, 4, true, RGB(255, 0, 255));
-	//int arrlen[] = { 0 };
-	ANIMATIONMANAGER->addAnimation("head", "playerHead", 0, 1, 1, false, true);
-	aniHead = ANIMATIONMANAGER->findAnimation("head");
+	int arrlen[] = { 0 };
+	ANIMATIONMANAGER->addAnimation("headIdle", "playerHead", arrlen, 1, 15, true);
+	aniHead = ANIMATIONMANAGER->findAnimation("headIdle");
 
 	player.playerBodyImage = IMAGEMANAGER->addFrameImage("playerBody", "images/player/player.bmp", 320 * 2, 124 * 2, 10, 4, true, RGB(255, 0, 255));
-	//int arrlen2[] = { 22 };
-	ANIMATIONMANAGER->addAnimation("body", "playerBody", 20, 29, 15, false, true);
-	aniBody = ANIMATIONMANAGER->findAnimation("body");
+	int arrlen2[] = { 22 };
+	ANIMATIONMANAGER->addAnimation("bodyIdle", "playerBody", arrlen2, 1, 15, true);
+	aniBody = ANIMATIONMANAGER->findAnimation("bodyIdle");
 
-	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 100, 32 * 2, 23 * 2);      // 머리 상자
-	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 70, 32 * 2, 11 * 2);      // 몸 상자
-	player.playerOffensePower = 5;                                                // 공격력
-	player.playerShotSpeed = 8.0f;                                                // 공격속도
-	player.playerShotRange = 450.0f;                                             // 공격사거리
-	playerBulletCount = 0;                                                      // 불렛 카운트
-	player.playerShotDelay = 25;                                                // 공격주기
-	player.playerSpeed = 5.0f;                                                   // 이동속도
-	player.playerSlideSpeed = 3.0f;                                                // 슬라이딩 속도
+	// 플레이어 정보
+	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 100, 32 * 2, 23 * 2);		// 머리 상자
+	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 70, 32 * 2, 11 * 2);		// 몸 상자
+	player.playerOffensePower = 5;																// 공격력
+	player.playerShotSpeed = 8.0f;																// 공격속도
+	player.playerShotRange = 450.0f;															// 공격사거리
+	playerBulletCount = 0;																		// 불렛 카운트
+	player.playerShotDelay = 25;																// 공격주기
+	player.playerSpeed = 3.0f;																	// 이동속도
+	player.playerSlideSpeed = 2.0f;																// 슬라이딩 속도
 
-	//플레이어 무브 변수 초기화
+	// 플레이어 무브 변수 초기화
 	isLeft = false;
 	isRight = false;
 	isUp = false;
 	isDown = false;
-	//플레이어 슬라이딩 변수 초기화
+	// 플레이어 슬라이딩 변수 초기화
 	slideLeft = false;
 	slideRight = false;
 	slideUp = false;
 	slideDown = false;
-	//플레이어 대각 슬라이딩 변수 초기화
-	slideLeftUp = false;
-	slideLeftDown = false;
-	slideRightUp = false;
-	slideRightDown = false;
-	//플레이어 슈팅 변수 초기화
+	// 플레이어 슈팅 변수 초기화
 	playerLeftShot = false;
 	playerRightShot = false;
 	playerUpShot = false;
 	playerDownShot = false;
 
-	// 캐릭터 프레임
+	// 플레이어 프레임
 	direction = PLAYER_IDLE;
 
 	return S_OK;
@@ -88,28 +85,6 @@ void Player::Render(HDC hdc)
 	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
 }
 
-void Player::PlayerAnimation()
-{
-	switch (direction)
-	{
-	case PLAYER_IDLE:
-		break;
-	case PLAYER_LEFT:
-		break;
-	case PLAYER_RIGHT:
-		break;
-	case PLAYER_UP:
-		break;
-	case PLAYER_DOWN:
-		//애니메이션 프레임
-		aniHead = ANIMATIONMANAGER->findAnimation("head");
-		ANIMATIONMANAGER->start("head");
-		aniBody = ANIMATIONMANAGER->findAnimation("body");
-		ANIMATIONMANAGER->start("body");
-		break;
-	}
-}
-
 void Player::PlayerMove()
 {
 	//왼쪽
@@ -127,10 +102,8 @@ void Player::PlayerMove()
 	if (KEYMANAGER->isOnceKeyUp('A'))
 	{
 		direction = PLAYER_IDLE;
-		if (isUp) slideLeftUp = true;
-		else if (isDown) slideLeftDown = true;
-		else slideLeft = true;
 	}
+
 	//오른쪽
 	if (KEYMANAGER->isStayKeyDown('D'))
 	{
@@ -146,10 +119,8 @@ void Player::PlayerMove()
 	if (KEYMANAGER->isOnceKeyUp('D'))
 	{
 		direction = PLAYER_IDLE;
-		if (isUp) slideRightUp = true;
-		else if (isDown) slideRightDown = true;
-		else slideRight = true;
 	}
+
 	//위
 	if (KEYMANAGER->isStayKeyDown('W'))
 	{
@@ -165,10 +136,8 @@ void Player::PlayerMove()
 	if (KEYMANAGER->isOnceKeyUp('W'))
 	{
 		direction = PLAYER_IDLE;
-		if (isLeft) slideLeftUp = true;
-		else if (isRight) slideRightUp = true;
-		else slideUp = true;
 	}
+
 	//아래
 	if (KEYMANAGER->isStayKeyDown('S'))
 	{
@@ -184,12 +153,9 @@ void Player::PlayerMove()
 	if (KEYMANAGER->isOnceKeyUp('S'))
 	{
 		direction = PLAYER_IDLE;
-		if (isLeft) slideLeftDown = true;
-		else if (isRight) slideRightDown = true;
-		else slideDown = true;
 	}
 
-	PlayerSilde();   //플레이어 슬라이딩
+	PlayerSilde();	//플레이어 슬라이딩
 
 	//플레이어 피격 상자
 	player.playerHitRect = RectMakeCenter(player.playerBodyRect.left + (player.playerBodyRect.right - player.playerBodyRect.left) / 2,
@@ -209,9 +175,9 @@ void Player::PlayerSilde()
 		player.playerBodyRect.left -= player.playerSlideSpeed;
 		player.playerBodyRect.right -= player.playerSlideSpeed;
 
-		if (player.playerSlideSpeed < 1.2f)
+		if (player.playerSlideSpeed < 0.4f)
 		{
-			player.playerSlideSpeed = 3.0f;
+			player.playerSlideSpeed = 2.0f;
 			isLeft = false;
 			slideLeft = false;
 		}
@@ -222,15 +188,15 @@ void Player::PlayerSilde()
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
 
-		player.playerHeadRect.left += player.playerSlideSpeed;
-		player.playerHeadRect.right += player.playerSlideSpeed;
+		player.playerHeadRect.left += int(player.playerSlideSpeed + 1);
+		player.playerHeadRect.right += int(player.playerSlideSpeed + 1);
 
-		player.playerBodyRect.left += player.playerSlideSpeed;
-		player.playerBodyRect.right += player.playerSlideSpeed;
+		player.playerBodyRect.left += int(player.playerSlideSpeed + 1);
+		player.playerBodyRect.right += int(player.playerSlideSpeed + 1);
 
-		if (player.playerSlideSpeed < 1.2f)
+		if (player.playerSlideSpeed < 0.4f)
 		{
-			player.playerSlideSpeed = 3.0f;
+			player.playerSlideSpeed = 2.0f;
 			isRight = false;
 			slideRight = false;
 		}
@@ -247,9 +213,9 @@ void Player::PlayerSilde()
 		player.playerBodyRect.top -= player.playerSlideSpeed;
 		player.playerBodyRect.bottom -= player.playerSlideSpeed;
 
-		if (player.playerSlideSpeed < 1.2f)
+		if (player.playerSlideSpeed < 0.4f)
 		{
-			player.playerSlideSpeed = 3.0f;
+			player.playerSlideSpeed = 2.0f;
 			isUp = false;
 			slideUp = false;
 		}
@@ -260,113 +226,17 @@ void Player::PlayerSilde()
 	{
 		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
 
-		player.playerHeadRect.top += player.playerSlideSpeed;
-		player.playerHeadRect.bottom += player.playerSlideSpeed;
+		player.playerHeadRect.top += int(player.playerSlideSpeed + 1);
+		player.playerHeadRect.bottom += int(player.playerSlideSpeed + 1);
 
-		player.playerBodyRect.top += player.playerSlideSpeed;
-		player.playerBodyRect.bottom += player.playerSlideSpeed;
+		player.playerBodyRect.top += int(player.playerSlideSpeed + 1);
+		player.playerBodyRect.bottom += int(player.playerSlideSpeed + 1);
 
-		if (player.playerSlideSpeed < 1.2f)
+		if (player.playerSlideSpeed < 0.4f)
 		{
-			player.playerSlideSpeed = 3.0f;
+			player.playerSlideSpeed = 2.0f;
 			isDown = false;
 			slideDown = false;
-		}
-	}
-
-	//왼쪽위 슬라이딩
-	else if (slideLeftUp)
-	{
-		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
-
-		player.playerHeadRect.left -= player.playerSlideSpeed;
-		player.playerHeadRect.right -= player.playerSlideSpeed;
-		player.playerHeadRect.top -= player.playerSlideSpeed;
-		player.playerHeadRect.bottom -= player.playerSlideSpeed;
-
-		player.playerBodyRect.left -= player.playerSlideSpeed;
-		player.playerBodyRect.right -= player.playerSlideSpeed;
-		player.playerBodyRect.top -= player.playerSlideSpeed;
-		player.playerBodyRect.bottom -= player.playerSlideSpeed;
-
-		if (player.playerSlideSpeed < 1.2f)
-		{
-			player.playerSlideSpeed = 3.0f;
-			isLeft = false;
-			isUp = false;
-			slideLeftUp = false;
-		}
-	}
-
-	//왼쪽아래 슬라이딩
-	else if (slideLeftDown)
-	{
-		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
-
-		player.playerHeadRect.left -= player.playerSlideSpeed;
-		player.playerHeadRect.right -= player.playerSlideSpeed;
-		player.playerHeadRect.top += player.playerSlideSpeed;
-		player.playerHeadRect.bottom += player.playerSlideSpeed;
-
-		player.playerBodyRect.left -= player.playerSlideSpeed;
-		player.playerBodyRect.right -= player.playerSlideSpeed;
-		player.playerBodyRect.top += player.playerSlideSpeed;
-		player.playerBodyRect.bottom += player.playerSlideSpeed;
-
-		if (player.playerSlideSpeed < 1.2f)
-		{
-			player.playerSlideSpeed = 3.0f;
-			isLeft = false;
-			isDown = false;
-			slideLeftDown = false;
-		}
-	}
-
-	//오른쪽위 슬라이딩
-	else if (slideRightUp)
-	{
-		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
-
-		player.playerHeadRect.left += player.playerSlideSpeed;
-		player.playerHeadRect.right += player.playerSlideSpeed;
-		player.playerHeadRect.top -= player.playerSlideSpeed;
-		player.playerHeadRect.bottom -= player.playerSlideSpeed;
-
-		player.playerBodyRect.left += player.playerSlideSpeed;
-		player.playerBodyRect.right += player.playerSlideSpeed;
-		player.playerBodyRect.top -= player.playerSlideSpeed;
-		player.playerBodyRect.bottom -= player.playerSlideSpeed;
-
-		if (player.playerSlideSpeed < 1.2f)
-		{
-			player.playerSlideSpeed = 3.0f;
-			isRight = false;
-			isUp = false;
-			slideRightUp = false;
-		}
-	}
-
-	//오른쪽아래 슬라이딩
-	else if (slideRightDown)
-	{
-		player.playerSlideSpeed = player.playerSlideSpeed * 0.9f;
-
-		player.playerHeadRect.left += player.playerSlideSpeed;
-		player.playerHeadRect.right += player.playerSlideSpeed;
-		player.playerHeadRect.top += player.playerSlideSpeed;
-		player.playerHeadRect.bottom += player.playerSlideSpeed;
-
-		player.playerBodyRect.left += player.playerSlideSpeed;
-		player.playerBodyRect.right += player.playerSlideSpeed;
-		player.playerBodyRect.top += player.playerSlideSpeed;
-		player.playerBodyRect.bottom += player.playerSlideSpeed;
-
-		if (player.playerSlideSpeed < 1.2f)
-		{
-			player.playerSlideSpeed = 3.0f;
-			isRight = false;
-			isDown = false;
-			slideRightDown = false;
 		}
 	}
 }
@@ -376,44 +246,80 @@ void Player::PlayerShot()
 	//왼쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 	{
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("headLeft", "playerHead", 6, 7, 4, false, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("headLeft");
+		ANIMATIONMANAGER->resume("headLeft");
+
 		playerLeftShot = true;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
 	{
+		//애니메이션 프레임
+		aniHead = ANIMATIONMANAGER->findAnimation("headLeft");
+		ANIMATIONMANAGER->stop("headLeft");
+
 		playerLeftShot = false;
 	}
 
 	//오른쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 	{
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("headRight", "playerHead", 2, 3, 4, false, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("headRight");
+		ANIMATIONMANAGER->resume("headRight");
+
 		playerRightShot = true;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
 	{
+		//애니메이션 프레임
+		aniHead = ANIMATIONMANAGER->findAnimation("headRight");
+		ANIMATIONMANAGER->stop("headRight");
+
 		playerRightShot = false;
 	}
 
 	//위쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_UP))
 	{
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("headUp", "playerHead", 4, 5, 4, false, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("headUp");
+		ANIMATIONMANAGER->resume("headUp");
+
 		playerUpShot = true;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_UP))
 	{
+		//애니메이션 프레임
+		aniHead = ANIMATIONMANAGER->findAnimation("headUp");
+		ANIMATIONMANAGER->stop("headUp");
+
 		playerUpShot = false;
 	}
 
 	//아래쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 	{
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("headDown", "playerHead", 0, 1, 4, false, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("headDown");
+		ANIMATIONMANAGER->resume("headDown");
+
 		playerDownShot = true;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
 	{
+		//애니메이션 프레임
+		aniHead = ANIMATIONMANAGER->findAnimation("headDown");
+		ANIMATIONMANAGER->stop("headDown");
+
 		playerDownShot = false;
 	}
 
-	PlayerShotMove();   //플레이어 공격 방향
+	PlayerShotMove();	//플레이어 공격 방향
 }
 
 void Player::PlayerShotMove()
@@ -438,19 +344,57 @@ void Player::PlayerShotMove()
 	{
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
 			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
-			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
+			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2 - 20,
 			ANGLE_90, player.playerShotSpeed, player.playerShotRange, playerBulletCount++, player.playerShotDelay);
 	}
 	else if (playerDownShot)
 	{
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
 			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
-			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
+			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2 + 20,
 			ANGLE_270, player.playerShotSpeed, player.playerShotRange, playerBulletCount++, player.playerShotDelay);
 	}
 
 	//불렛 무브
 	BULLETMANAGER->MoveBullet(vPlayerBullet, viPlayerBullet);
+}
+
+void Player::PlayerAnimation()
+{
+	switch (direction)
+	{
+	case PLAYER_IDLE:
+		//애니메이션 프레임
+		aniHead = ANIMATIONMANAGER->findAnimation("headIdle");
+		ANIMATIONMANAGER->stop("headIdle");
+		aniBody = ANIMATIONMANAGER->findAnimation("bodyIdle");
+		ANIMATIONMANAGER->stop("bodyIdle");
+		break;
+	case PLAYER_LEFT:
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("bodyLeft", "playerBody", 10, 19, 15, false, true);
+		aniBody = ANIMATIONMANAGER->findAnimation("bodyLeft");
+		ANIMATIONMANAGER->resume("bodyLeft");
+		break;
+	case PLAYER_RIGHT:
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("bodyRight", "playerBody", 30, 39, 15, false, true);
+		aniBody = ANIMATIONMANAGER->findAnimation("bodyRight");
+		ANIMATIONMANAGER->resume("bodyRight");
+		break;
+	case PLAYER_UP:
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("bodyUp", "playerBody", 20, 29, 15, false, true);
+		aniBody = ANIMATIONMANAGER->findAnimation("bodyUp");
+		ANIMATIONMANAGER->resume("bodyUp");
+		break;
+	case PLAYER_DOWN:
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("bodyDown", "playerBody", 20, 29, 15, false, true);
+		aniBody = ANIMATIONMANAGER->findAnimation("bodyDown");
+		ANIMATIONMANAGER->resume("bodyDown");
+		break;
+	}
 }
 
 void Player::SetPlayerRectX(int num)
