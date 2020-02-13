@@ -39,7 +39,7 @@ void MainMap::release()
 
 void MainMap::update()
 {
-	if (KEYMANAGER->isStayKeyDown('R'))
+	if (KEYMANAGER->isStayKeyDown('U'))
 	{
 		count++;
 		if (count == 60)
@@ -49,6 +49,7 @@ void MainMap::update()
 		}
 	}
 
+<<<<<<< HEAD
 	if (KEYMANAGER->isStayKeyDown('T')) { _startY += 5; }
 	if (KEYMANAGER->isStayKeyDown('G')) { _startY -= 5; }
 	if (KEYMANAGER->isStayKeyDown('F')) { _startX += 5; }
@@ -74,6 +75,12 @@ void MainMap::update()
 			}
 		}
 	}
+=======
+	if (KEYMANAGER->isStayKeyDown('W')) { _startY += 5; }
+	if (KEYMANAGER->isStayKeyDown('S')) { _startY -= 5; }
+	if (KEYMANAGER->isStayKeyDown('A')) { _startX += 5; }
+	if (KEYMANAGER->isStayKeyDown('D')) { _startX -= 5; }
+>>>>>>> dev
 }
 
 void MainMap::render()

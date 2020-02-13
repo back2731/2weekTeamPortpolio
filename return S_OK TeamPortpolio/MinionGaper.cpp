@@ -16,7 +16,7 @@ HRESULT MinionGaper::Init(POINT position, int EnemyNumber)
 	MinionGaper.enemyNumber = EnemyNumber;
 	MinionGaper.enemyRect = RectMakeCenter(position.x, position.y, 30, 30);
 	MinionGaper.enemyHp = 10;
-	MinionGaper.enemySpeed = 3.0f;
+	MinionGaper.enemySpeed = 2.5f;
 	vMinionGaper.push_back(MinionGaper);
 
 	enemyAreaCheck = false;

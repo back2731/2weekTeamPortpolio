@@ -19,7 +19,7 @@ HRESULT MinionClotty::Init(POINT position, int EnemyNumber)
 	MinionClotty.enemyShotSpeed = 5.0f;
 	MinionClotty.enemyShotRange = 500.0f;
 	MinionClotty.enemyShotDelay = 200;
-	MinionClotty.enemySpeed = 3.0f;
+	MinionClotty.enemySpeed = 2.5f;
 	vMinionClotty.push_back(MinionClotty);
 
 	enemyAreaCheck = false;

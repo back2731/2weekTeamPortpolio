@@ -19,7 +19,7 @@ HRESULT MinionMulligan::Init(POINT position, int EnemyNumber)
 	MinionMulligan.enemyShotSpeed = 5.0f;
 	MinionMulligan.enemyShotRange = 500.0f;
 	MinionMulligan.enemyShotDelay = 50;
-	MinionMulligan.enemySpeed = 3.0f;
+	MinionMulligan.enemySpeed = 2.5f;
 	vMinionMulligan.push_back(MinionMulligan);
 
 	enemyAreaCheck = false;

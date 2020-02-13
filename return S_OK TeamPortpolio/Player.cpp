@@ -11,20 +11,23 @@ Player::~Player()
 
 HRESULT Player::Init(string imageName)
 {
-	// 플레이어 IDLE
+	// 플레이어 IDLE (머리)
 	player.playerHeadImage = IMAGEMANAGER->addFrameImage("playerHead", "images/player/player.bmp", 320 * 2, 124 * 2, 10, 4, true, RGB(255, 0, 255));
-	int arrlen[] = { 0 };
-	ANIMATIONMANAGER->addAnimation("headIdle", "playerHead", arrlen, 1, 15, true);
+	ANIMATIONMANAGER->addAnimation("headIdle", "playerHead", arrHeadIdle, 1, 1, true);
 	aniHead = ANIMATIONMANAGER->findAnimation("headIdle");
-
+	// 플레이어 IDLE (몸)
 	player.playerBodyImage = IMAGEMANAGER->addFrameImage("playerBody", "images/player/player.bmp", 320 * 2, 124 * 2, 10, 4, true, RGB(255, 0, 255));
-	int arrlen2[] = { 22 };
-	ANIMATIONMANAGER->addAnimation("bodyIdle", "playerBody", arrlen2, 1, 15, true);
+	ANIMATIONMANAGER->addAnimation("bodyIdle", "playerBody", arrBodyIdle, 1, 1, true);
 	aniBody = ANIMATIONMANAGER->findAnimation("bodyIdle");
 
 	// 플레이어 정보
+<<<<<<< HEAD
 	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 - 100, 32 * 2, 23 * 2);		// 머리 상자
 	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 - 70, 32 * 2, 11 * 2);		// 몸 상자
+=======
+	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 - 100, 32 * 2, 23 * 2);	// 머리 상자
+	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 - 70, 32 * 2, 11 * 2);	// 몸 상자
+>>>>>>> dev
 	player.playerOffensePower = 5;																// 공격력
 	player.playerShotSpeed = 8.0f;																// 공격속도
 	player.playerShotRange = 450.0f;															// 공격사거리
@@ -88,7 +91,7 @@ void Player::Render(HDC hdc)
 void Player::PlayerMove()
 {
 	//왼쪽
-	if (KEYMANAGER->isStayKeyDown('A'))
+	if (KEYMANAGER->isStayKeyDown('F'))
 	{
 		direction = PLAYER_LEFT;
 		isLeft = true;
@@ -99,13 +102,14 @@ void Player::PlayerMove()
 		player.playerBodyRect.left -= player.playerSpeed;
 		player.playerBodyRect.right -= player.playerSpeed;
 	}
-	if (KEYMANAGER->isOnceKeyUp('A'))
+	if (KEYMANAGER->isOnceKeyUp('F'))
 	{
 		direction = PLAYER_IDLE;
+		slideLeft = true;
 	}
 
 	//오른쪽
-	if (KEYMANAGER->isStayKeyDown('D'))
+	if (KEYMANAGER->isStayKeyDown('H'))
 	{
 		direction = PLAYER_RIGHT;
 		isRight = true;
@@ -116,13 +120,14 @@ void Player::PlayerMove()
 		player.playerBodyRect.left += player.playerSpeed;
 		player.playerBodyRect.right += player.playerSpeed;
 	}
-	if (KEYMANAGER->isOnceKeyUp('D'))
+	if (KEYMANAGER->isOnceKeyUp('H'))
 	{
 		direction = PLAYER_IDLE;
+		slideRight = true;
 	}
 
 	//위
-	if (KEYMANAGER->isStayKeyDown('W'))
+	if (KEYMANAGER->isStayKeyDown('T'))
 	{
 		direction = PLAYER_UP;
 		isUp = true;
@@ -133,13 +138,14 @@ void Player::PlayerMove()
 		player.playerBodyRect.top -= player.playerSpeed;
 		player.playerBodyRect.bottom -= player.playerSpeed;
 	}
-	if (KEYMANAGER->isOnceKeyUp('W'))
+	if (KEYMANAGER->isOnceKeyUp('T'))
 	{
 		direction = PLAYER_IDLE;
+		slideUp = true;
 	}
 
 	//아래
-	if (KEYMANAGER->isStayKeyDown('S'))
+	if (KEYMANAGER->isStayKeyDown('G'))
 	{
 		direction = PLAYER_DOWN;
 		isDown = true;
@@ -150,9 +156,10 @@ void Player::PlayerMove()
 		player.playerBodyRect.top += player.playerSpeed;
 		player.playerBodyRect.bottom += player.playerSpeed;
 	}
-	if (KEYMANAGER->isOnceKeyUp('S'))
+	if (KEYMANAGER->isOnceKeyUp('G'))
 	{
 		direction = PLAYER_IDLE;
+		slideDown = true;
 	}
 
 	PlayerSilde();	//플레이어 슬라이딩
@@ -246,77 +253,57 @@ void Player::PlayerShot()
 	//왼쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_LEFT))
 	{
-		//애니메이션 프레임
-		ANIMATIONMANAGER->addAnimation("headLeft", "playerHead", 6, 7, 4, false, true);
-		aniHead = ANIMATIONMANAGER->findAnimation("headLeft");
-		ANIMATIONMANAGER->resume("headLeft");
-
 		playerLeftShot = true;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_LEFT))
 	{
-		//애니메이션 프레임
-		aniHead = ANIMATIONMANAGER->findAnimation("headLeft");
-		ANIMATIONMANAGER->stop("headLeft");
-
 		playerLeftShot = false;
+		
+		//애니메이션 프레임
+		aniHead = ANIMATIONMANAGER->findAnimation("shotLeft");
+		ANIMATIONMANAGER->stop("shotLeft");
 	}
 
 	//오른쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_RIGHT))
 	{
-		//애니메이션 프레임
-		ANIMATIONMANAGER->addAnimation("headRight", "playerHead", 2, 3, 4, false, true);
-		aniHead = ANIMATIONMANAGER->findAnimation("headRight");
-		ANIMATIONMANAGER->resume("headRight");
-
 		playerRightShot = true;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_RIGHT))
 	{
-		//애니메이션 프레임
-		aniHead = ANIMATIONMANAGER->findAnimation("headRight");
-		ANIMATIONMANAGER->stop("headRight");
-
 		playerRightShot = false;
+	
+		//애니메이션 프레임
+		aniHead = ANIMATIONMANAGER->findAnimation("shotRight");
+		ANIMATIONMANAGER->stop("shotRight");
 	}
 
 	//위쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_UP))
 	{
-		//애니메이션 프레임
-		ANIMATIONMANAGER->addAnimation("headUp", "playerHead", 4, 5, 4, false, true);
-		aniHead = ANIMATIONMANAGER->findAnimation("headUp");
-		ANIMATIONMANAGER->resume("headUp");
-
 		playerUpShot = true;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_UP))
 	{
-		//애니메이션 프레임
-		aniHead = ANIMATIONMANAGER->findAnimation("headUp");
-		ANIMATIONMANAGER->stop("headUp");
-
 		playerUpShot = false;
+
+		//애니메이션 프레임
+		aniHead = ANIMATIONMANAGER->findAnimation("shotUp");
+		ANIMATIONMANAGER->stop("shotUp");
 	}
 
 	//아래쪽 총알 발사
 	if (KEYMANAGER->isStayKeyDown(VK_DOWN))
 	{
-		//애니메이션 프레임
-		ANIMATIONMANAGER->addAnimation("headDown", "playerHead", 0, 1, 4, false, true);
-		aniHead = ANIMATIONMANAGER->findAnimation("headDown");
-		ANIMATIONMANAGER->resume("headDown");
-
 		playerDownShot = true;
 	}
 	if (KEYMANAGER->isOnceKeyUp(VK_DOWN))
 	{
-		//애니메이션 프레임
-		aniHead = ANIMATIONMANAGER->findAnimation("headDown");
-		ANIMATIONMANAGER->stop("headDown");
-
 		playerDownShot = false;
+		
+		//애니메이션 프레임
+		aniHead = ANIMATIONMANAGER->findAnimation("shotDown");
+		ANIMATIONMANAGER->stop("shotDown");
 	}
 
 	PlayerShotMove();	//플레이어 공격 방향
@@ -327,6 +314,12 @@ void Player::PlayerShotMove()
 	//불렛 방향
 	if (playerLeftShot)
 	{
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("shotLeft", "playerHead", 6, 7, 4, false, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("shotLeft");
+		ANIMATIONMANAGER->resume("shotLeft");
+
+		//불렛 조준
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
 			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
 			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
@@ -335,6 +328,12 @@ void Player::PlayerShotMove()
 	}
 	else if (playerRightShot)
 	{
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("shotRight", "playerHead", 2, 3, 4, false, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("shotRight");
+		ANIMATIONMANAGER->resume("shotRight");
+
+		//불렛 조준
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
 			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
 			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
@@ -342,6 +341,12 @@ void Player::PlayerShotMove()
 	}
 	else if (playerUpShot)
 	{
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("shotUp", "playerHead", 4, 5, 4, false, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("shotUp");
+		ANIMATIONMANAGER->resume("shotUp");
+
+		//불렛 조준
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
 			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
 			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2 - 20,
@@ -349,6 +354,12 @@ void Player::PlayerShotMove()
 	}
 	else if (playerDownShot)
 	{
+		//애니메이션 프레임
+		ANIMATIONMANAGER->addAnimation("shotDown", "playerHead", 0, 1, 4, false, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("shotDown");
+		ANIMATIONMANAGER->resume("shotDown");
+
+		//불렛 조준
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
 			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
 			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2 + 20,
@@ -372,25 +383,37 @@ void Player::PlayerAnimation()
 		break;
 	case PLAYER_LEFT:
 		//애니메이션 프레임
-		ANIMATIONMANAGER->addAnimation("bodyLeft", "playerBody", 10, 19, 15, false, true);
+		ANIMATIONMANAGER->addAnimation("headLeft", "playerHead", arrHeadLeft, 1, 1, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("headLeft");
+		ANIMATIONMANAGER->stop("headLeft");
+		ANIMATIONMANAGER->addAnimation("bodyLeft", "playerBody", 10, 19, 12, false, true);
 		aniBody = ANIMATIONMANAGER->findAnimation("bodyLeft");
 		ANIMATIONMANAGER->resume("bodyLeft");
 		break;
 	case PLAYER_RIGHT:
 		//애니메이션 프레임
-		ANIMATIONMANAGER->addAnimation("bodyRight", "playerBody", 30, 39, 15, false, true);
+		ANIMATIONMANAGER->addAnimation("headRight", "playerHead", arrHeadRight, 1, 1, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("headRight");
+		ANIMATIONMANAGER->stop("headRight");
+		ANIMATIONMANAGER->addAnimation("bodyRight", "playerBody", 30, 39, 12, false, true);
 		aniBody = ANIMATIONMANAGER->findAnimation("bodyRight");
 		ANIMATIONMANAGER->resume("bodyRight");
 		break;
 	case PLAYER_UP:
 		//애니메이션 프레임
-		ANIMATIONMANAGER->addAnimation("bodyUp", "playerBody", 20, 29, 15, false, true);
+		ANIMATIONMANAGER->addAnimation("headUp", "playerHead", arrHeadUp, 1, 1, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("headUp");
+		ANIMATIONMANAGER->stop("headUp");
+		ANIMATIONMANAGER->addAnimation("bodyUp", "playerBody", 20, 29, 12, false, true);
 		aniBody = ANIMATIONMANAGER->findAnimation("bodyUp");
 		ANIMATIONMANAGER->resume("bodyUp");
 		break;
 	case PLAYER_DOWN:
 		//애니메이션 프레임
-		ANIMATIONMANAGER->addAnimation("bodyDown", "playerBody", 20, 29, 15, false, true);
+		ANIMATIONMANAGER->addAnimation("headIdle", "playerHead", arrHeadIdle, 1, 1, true);
+		aniHead = ANIMATIONMANAGER->findAnimation("headIdle");
+		ANIMATIONMANAGER->stop("headIdle");
+		ANIMATIONMANAGER->addAnimation("bodyDown", "playerBody", 20, 29, 12, false, true);
 		aniBody = ANIMATIONMANAGER->findAnimation("bodyDown");
 		ANIMATIONMANAGER->resume("bodyDown");
 		break;

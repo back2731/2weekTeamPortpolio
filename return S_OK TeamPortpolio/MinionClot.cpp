@@ -19,7 +19,7 @@ HRESULT MinionClot::Init(POINT position, int EnemyNumber)
 	MinionClot.enemyShotSpeed = 5.0f;
 	MinionClot.enemyShotRange = 500.0f;
 	MinionClot.enemyShotDelay = 200;
-	MinionClot.enemySpeed = 3.0f;
+	MinionClot.enemySpeed = 2.5f;
 	vMinionClot.push_back(MinionClot);
 
 	enemyAreaCheck = false;
