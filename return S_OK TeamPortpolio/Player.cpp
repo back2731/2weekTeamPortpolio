@@ -21,15 +21,15 @@ HRESULT Player::Init(string imageName)
 	ANIMATIONMANAGER->addAnimation("body", "playerBody", arrlen2, 1, 10, true);
 	aniBody = ANIMATIONMANAGER->findAnimation("body");
 
-	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 100, 32 * 2, 23 * 2);		// 머리 상자
-	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 70, 32 * 2, 11 * 2);		// 몸 상자
-	player.playerOffensePower = 5;																// 공격력
-	player.playerShotSpeed = 8.0f;																// 공격속도
-	player.playerShotRange = 450.0f;															// 공격사거리
-	playerBulletCount = 0;																		// 불렛 카운트
-	player.playerShotDelay = 25;																// 공격주기
-	player.playerSpeed = 5.0f;																	// 이동속도
-	player.playerSlideSpeed = 3.0f;																// 슬라이딩 속도
+	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 100, 32 * 2, 23 * 2);      // 머리 상자
+	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 70, 32 * 2, 11 * 2);      // 몸 상자
+	player.playerOffensePower = 5;                                                // 공격력
+	player.playerShotSpeed = 8.0f;                                                // 공격속도
+	player.playerShotRange = 450.0f;                                             // 공격사거리
+	playerBulletCount = 0;                                                      // 불렛 카운트
+	player.playerShotDelay = 25;                                                // 공격주기
+	player.playerSpeed = 5.0f;                                                   // 이동속도
+	player.playerSlideSpeed = 3.0f;                                                // 슬라이딩 속도
 
 	//플레이어 무브 변수 초기화
 	isLeft = false;
@@ -86,7 +86,7 @@ void Player::Render(HDC hdc)
 	}
 
 	player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 25, aniBody);
-	player.playerBodyImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
+	player.playerHeadImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
 	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
 }
 
@@ -161,11 +161,11 @@ void Player::PlayerMove()
 		else slideDown = true;
 	}
 
-	PlayerSilde();	//플레이어 슬라이딩
+	PlayerSilde();   //플레이어 슬라이딩
 
 	//플레이어 피격 상자
 	player.playerHitRect = RectMakeCenter(player.playerBodyRect.left + (player.playerBodyRect.right - player.playerBodyRect.left) / 2,
-		player.playerBodyRect.top - 10, 60, 65);
+		player.playerBodyRect.top + (player.playerBodyRect.bottom - player.playerBodyRect.top) / 2, 40, 20);
 }
 
 void Player::PlayerSilde()
@@ -385,7 +385,7 @@ void Player::PlayerShot()
 		playerDownShot = false;
 	}
 
-	PlayerShotMove();	//플레이어 공격 방향
+	PlayerShotMove();   //플레이어 공격 방향
 }
 
 void Player::PlayerShotMove()

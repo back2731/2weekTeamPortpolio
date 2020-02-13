@@ -22,8 +22,8 @@ HRESULT Monstro::Init(POINT position)
 	Monstro.enemySpeed = 2.0f;
 	vMonstro.push_back(Monstro);
 
-	rndX = RND->getFromIntTo(-80, 80);
-	rndY = RND->getFromIntTo(-80, 80);
+	rndX = RND->getFromIntTo(-100, 100);
+	rndY = RND->getFromIntTo(-100, 100);
 
 	firstEnemyAiPattern = 1;
 
@@ -79,9 +79,9 @@ void Monstro::EnemyAiTime()
 {
 	// AI 패턴 시간
 	firstEnemyAiTime++;
-	if (firstEnemyAiTime / 60 == 3)
+	if (firstEnemyAiTime / 60 == 2)
 	{
-		firstEnemyAiPattern = RND->getFromIntTo(4, 4);
+		firstEnemyAiPattern = RND->getFromIntTo(2, 4);
 		firstEnemyAiTime = 0;
 	}
 }
@@ -98,64 +98,28 @@ void Monstro::EnemyAi()
 
 		switch (firstEnemyAiPattern)
 		{
-		case 1:		// 플레이어의 근처로 순간이동
+		case 1:
 			teleport = false;
 			jump = false;
 			snowPattern = false;
-			EnemyAiTime();	// AI패턴
+			EnemyAiTime();   // AI패턴
 			break;
-		case 2:		// 점프 후 전방위 발사
-			teleport = false;
+		case 2:      // 점프 후 전방위 발사
 			jump = true;
 			snowPattern = false;
+			teleport = false;
 			jumpPower = 40.0f;
 			break;
-		case 3:		// 90도 눈꽃 공격
-			teleport = false;
+		case 3:      // 90도 눈꽃 공격
 			jump = false;
 			snowPattern = true;
+			teleport = false;
 			break;
-		case 4:
-			teleport = true;
+		case 4:      // 플레이어의 근처로 순간이동
 			jump = false;
 			snowPattern = false;
+			teleport = true;
 			break;
-		}
-		// 패턴1 : 순간이동
-		if (teleport)
-		{
-			teleportImage = true;
-			teleportCount++;
-
-			if (teleportCount > 0 && teleportCount < 300)
-			{
-				teleportImage = false;
-
-				// getdistance(적의 위치 x, y, 플레이어의 위치 x, y)
-				distance = getDistance(vMonstro[i].enemyX, vMonstro[i].enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY());
-				if (distance)
-				{
-					// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
-					vx = ((PLAYERMANAGER->GetPlayerHitRectX() + rndX) - vMonstro[i].enemyX) / distance * vMonstro[i].enemySpeed;
-					vy = ((PLAYERMANAGER->GetPlayerHitRectY() + rndY) - vMonstro[i].enemyY) / distance * vMonstro[i].enemySpeed;
-				}
-				else
-				{
-					vx = 0;
-					vy = vMonstro[i].enemySpeed;
-				}
-				vMonstro[i].enemyX += vx;
-				vMonstro[i].enemyY += vy;
-				vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 120, 60);
-			}
-			else
-			{
-				firstEnemyAiPattern = 1;
-			}
-		}
-		else
-		{
-			teleportCount = 0;
 		}
 		// 패턴2 : 점프
 		if (jump)
@@ -218,6 +182,42 @@ void Monstro::EnemyAi()
 		else
 		{
 			shotCount = 0;
+		}
+		// 패턴4 : 순간이동
+		if (teleport)
+		{
+			teleportImage = true;
+			teleportCount++;
+
+			if (teleportCount > 0 && teleportCount < 300)
+			{
+				teleportImage = false;
+
+				// getdistance(적의 위치 x, y, 플레이어의 위치 x, y)
+				distance = getDistance(vMonstro[i].enemyX, vMonstro[i].enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY());
+				if (distance)
+				{
+					// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
+					vx = ((PLAYERMANAGER->GetPlayerHitRectX() + rndX) - vMonstro[i].enemyX) / distance * vMonstro[i].enemySpeed;
+					vy = ((PLAYERMANAGER->GetPlayerHitRectY() + rndY) - vMonstro[i].enemyY) / distance * vMonstro[i].enemySpeed;
+				}
+				else
+				{
+					vx = 0;
+					vy = vMonstro[i].enemySpeed;
+				}
+				vMonstro[i].enemyX += vx;
+				vMonstro[i].enemyY += vy;
+				vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 120, 60);
+			}
+			else
+			{
+				firstEnemyAiPattern = 3;
+			}
+		}
+		else
+		{
+			teleportCount = 0;
 		}
 	}
 

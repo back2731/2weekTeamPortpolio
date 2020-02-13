@@ -70,8 +70,6 @@ public:
 	vector<ItemInfo> GetKeyInfo() { return vKey; }
 	vector<ItemInfo> GetCardInfo() { return vCard; }
 	vector<ItemInfo> GetPillInfo() { return vPill; }
-
-
+	   
 	vector<ItemInfo> GetGoldInfo() { return vGold; }
 };
-

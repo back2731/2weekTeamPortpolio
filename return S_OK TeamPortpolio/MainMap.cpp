@@ -38,6 +38,20 @@ void MainMap::update()
 			count = 0;
 		}
 	}
+
+	for (int i = 0; i < TILE_COUNT_X; i++)
+	{
+		for (int j = 0; j < TILE_COUNT_Y; j++)
+		{
+			for (int z = 0; z < TILE_MAX; z++)
+			{
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_DOOR)
+				{
+					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+				}
+			}
+		}
+	}
 }
 
 void MainMap::render()
@@ -54,7 +68,7 @@ void MainMap::render()
 		{
 			for (int z = 0; z < TILE_MAX; z++)
 			{
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_TERRAIN)
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_DOOR)
 				{
 					Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 				}

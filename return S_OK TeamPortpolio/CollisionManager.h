@@ -27,4 +27,9 @@ public:
 
 	// 다른 벡터의 에너미 충돌
 	void MinionToMinionCollision();
+
+	// 플레이어 -> 장애물 렉트 충돌
+	void PlayerToObstacleCollision(RECT obstacleRect);
+	
+	void EnemyToObstacleCollision(RECT obstacleRect);
 };
