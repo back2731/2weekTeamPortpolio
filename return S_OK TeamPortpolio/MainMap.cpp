@@ -62,7 +62,13 @@ void MainMap::update()
 			{
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
 				{
-					Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+					//Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+				}
+
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
+				{
+					//Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
 				}
 			}
@@ -86,7 +92,21 @@ void MainMap::render()
 			{
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
 				{
+					// Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+				}
+
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
+				{
 					Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+
+					HBRUSH brush = CreateSolidBrush(RGB(204, 0, 102));
+					FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+					DeleteObject(brush);
+				}
+
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
+				{
+					//Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 				}
 			}
 		}
@@ -195,9 +215,6 @@ void MainMap::load(int loadCount)
 	file = CreateFile(fileName[loadCount], GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	ReadFile(file, _tileMap, sizeof(TagTile) * TILE_COUNT_X * TILE_COUNT_Y, &read, NULL);
-
-
-
 
 	CloseHandle(file);
 }

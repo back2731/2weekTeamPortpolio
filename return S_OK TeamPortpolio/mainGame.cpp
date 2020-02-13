@@ -43,6 +43,11 @@ HRESULT mainGame::init()
 #endif // SUBWINOPEN
 
 
+	// 게임씬에서 필요한 매니저들 초기화.
+	OBJECTPOOL->Init();
+	BULLETMANAGER->Init();
+	ITEMMANAGER->Init();
+
 	SCENEMANAGER->changeScene("MainMenu");
 
 	return S_OK;

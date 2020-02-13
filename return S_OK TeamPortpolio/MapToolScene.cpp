@@ -282,6 +282,9 @@ void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
 		if (_tileMap[isoX][isoY].index > -1)
 		{
 			_tileMap[isoX][isoY].index--;
+			_tileMap[isoX][isoY].tileNum[_tileMap[isoX][isoY].index] = index;
+			_tileMap[isoX][isoY].tileKind[_tileMap[isoX][isoY].index] = kindSelect(-1, -1);
+			_tileMap[isoX][isoY].tilePos[_tileMap[isoX][isoY].index] = imageFrame;
 		}
 		break;
 	}
@@ -290,6 +293,11 @@ void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
 // 속성종류 정해줌
 TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 {
+	if (frameX == -1 && frameY == -1)
+	{
+		return TILEKIND_NONE;
+	}
+
 	if (SUBWIN->GetFrameIndex() == -1)return TILEKIND_NONE;
 
 	if (SUBWIN->GetFrameIndex() == 5)
