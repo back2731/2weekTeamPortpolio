@@ -103,6 +103,7 @@ void Player::PlayerMove()
 	{
 		direction = PLAYER_IDLE;
 	}
+
 	//오른쪽
 	if (KEYMANAGER->isStayKeyDown('D'))
 	{
@@ -119,6 +120,7 @@ void Player::PlayerMove()
 	{
 		direction = PLAYER_IDLE;
 	}
+
 	//위
 	if (KEYMANAGER->isStayKeyDown('W'))
 	{
@@ -135,6 +137,7 @@ void Player::PlayerMove()
 	{
 		direction = PLAYER_IDLE;
 	}
+
 	//아래
 	if (KEYMANAGER->isStayKeyDown('S'))
 	{
