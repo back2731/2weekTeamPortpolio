@@ -132,9 +132,18 @@ void MapToolScene::DrawTileMap() // render 해주는 부분
 						}
 						break;
 					case 7:
+						if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+						{
+							IMAGEMANAGER->frameRender("door", getMemDC(),
+								_tileMap[i][j].left - 50,
+								_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
 						IMAGEMANAGER->frameRender("door", getMemDC(),
-							_tileMap[i][j].left - 52,
-							_tileMap[i][j].top - _tileMap[i][j].height * z - 52,
+							_tileMap[i][j].left - 26,
+							_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
 							_tileMap[i][j].tilePos[z].x,
 							_tileMap[i][j].tilePos[z].y);
 						break;
@@ -283,12 +292,12 @@ TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 {
 	if (SUBWIN->GetFrameIndex() == -1)return TILEKIND_NONE;
 
-	if (SUBWIN->GetFrameIndex() == 0)
+	if (SUBWIN->GetFrameIndex() == 5)
 	{
 		if (frameY >= 0 && frameY <= 4)
 			return TILEKIND_TERRAIN;
 	}
-	if (SUBWIN->GetFrameIndex() == 1)
+	if (SUBWIN->GetFrameIndex() == 6)
 	{
 		if (frameY >= 0 && frameY <= 3)
 			return TILEKIND_OBJECT;
@@ -297,7 +306,7 @@ TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 		if (frameY >= 7 && frameY <= 9)
 			return TILEKIND_OBJECT_BULLET;
 	}
-	if (SUBWIN->GetFrameIndex() == 2)
+	if (SUBWIN->GetFrameIndex() == 7)
 	{
 		if ((frameX >= 0 && frameX < 2) || (frameX >= 4 && frameX < 6))
 			return TILEKIND_OPEN_DOOR;

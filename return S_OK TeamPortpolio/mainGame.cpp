@@ -25,7 +25,7 @@ HRESULT mainGame::init()
 	IMAGEMANAGER->addFrameImage("mapTile", "images/maptool/SampleMap.bmp",
 		0, 0, 52 * 17 * 4, 52 * 11 * 4, 4, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("door", "images/maptool/doorSprite.bmp",
-		0, 0, 52 * 3 * 8, 52 * 3 * 10, 8, 10, true, RGB(255, 0, 255));
+		0, 0, 52 * 2.5 * 8, 52 * 2 * 10, 8, 10, true, RGB(255, 0, 255));
 
 	SubMap* sub = new SubMap;
 	SCENEMANAGER->addScene("SubMap", sub);

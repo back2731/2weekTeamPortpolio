@@ -16,7 +16,7 @@ HRESULT MainMap::init()
 	IMAGEMANAGER->addFrameImage("mapTile", "images/maptool/SampleMap.bmp",
 		0, 0, 52 * 17 * 4, 52 * 11 * 4, 4, 4, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addFrameImage("door", "images/maptool/doorSprite.bmp",
-		0, 0, 52 * 3 * 8, 52 * 3 * 10, 8, 10, true, RGB(255, 0, 255));
+		0, 0, 52 * 2.5 * 8, 52 * 3 * 10, 8, 10, true, RGB(255, 0, 255));
 
 
 	_isoX = 0;
@@ -53,6 +53,21 @@ void MainMap::update()
 	if (KEYMANAGER->isStayKeyDown('G')) { _startY -= 5; }
 	if (KEYMANAGER->isStayKeyDown('F')) { _startX += 5; }
 	if (KEYMANAGER->isStayKeyDown('H')) { _startX -= 5; }
+
+	for (int i = 0; i < TILE_COUNT_X; i++)
+	{
+		for (int j = 0; j < TILE_COUNT_Y; j++)
+		{
+			for (int z = 0; z < TILE_MAX; z++)
+			{
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
+				{
+					Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+				}
+			}
+		}
+	}
 }
 
 void MainMap::render()
@@ -69,7 +84,7 @@ void MainMap::render()
 		{
 			for (int z = 0; z < TILE_MAX; z++)
 			{
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_NONE)
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
 				{
 					Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 				}
@@ -123,9 +138,18 @@ void MainMap::DrawTileMap()
 						}
 						break;
 					case 7:
+						if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+						{
+							IMAGEMANAGER->frameRender("door", getMemDC(),
+								_tileMap[i][j].left - 50,
+								_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
 						IMAGEMANAGER->frameRender("door", getMemDC(),
-							_tileMap[i][j].left - 52,
-							_tileMap[i][j].top - _tileMap[i][j].height * z - 52,
+							_tileMap[i][j].left - 26,
+							_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
 							_tileMap[i][j].tilePos[z].x,
 							_tileMap[i][j].tilePos[z].y);
 						break;
