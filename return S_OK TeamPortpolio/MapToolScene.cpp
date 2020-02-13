@@ -111,12 +111,18 @@ void MapToolScene::DrawTileMap() // render 해주는 부분
 				{
 					switch (_tileMap[i][j].tileNum[z])
 					{
+
+
 					case 0:
-						IMAGEMANAGER->frameRender("blocks", getMemDC(),
-							_tileMap[i][j].left,
-							_tileMap[i][j].top - _tileMap[i][j].height*z,
-							_tileMap[i][j].tilePos[z].x,
-							_tileMap[i][j].tilePos[z].y);
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height*z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
 						break;
 					case 1:
 						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
@@ -251,7 +257,7 @@ void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
 
 			if (_tileMap[isoX][isoY].index == -1)
 			{
-				_tileMap[isoX][isoY].index++;
+				//_tileMap[isoX][isoY].index++;
 
 				if (_tileMap[isoX][isoY].index >= TILE_MAX)
 				{
@@ -273,21 +279,24 @@ void MapToolScene::setMap(int isoX, int isoY, bool isAdd)
 }
 
 // 속성종류 정해줌
-TILEKIND MapToolScene::kindSelect(int frameX, int frameY) 
+TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 {
 	if (frameX == -1 && frameY == -1)return TILEKIND_NONE;
 
 	if (SUBWIN->GetFrameIndex() == 0)
 	{
-		return TILEKIND_OBJECT;
+		if (frameY <= 9)
+			return TILEKIND_OBJECT;
 	}
 	if (SUBWIN->GetFrameIndex() == 1)
 	{
-		return TILEKIND_TERRAIN;
+		if (frameY <= 4)
+			return TILEKIND_TERRAIN;
 	}
 	if (SUBWIN->GetFrameIndex() == 2)
 	{
-		return TILEKIND_DOOR;
+		if (frameY <= 10)
+			return TILEKIND_DOOR;
 	}
 	return TILEKIND_TERRAIN;
 }
@@ -314,8 +323,8 @@ void MapToolScene::Load(int loadCount)
 //세이브
 void MapToolScene::Save(int saveCount)
 {
-		file = CreateFile(fileName[saveCount], GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	file = CreateFile(fileName[saveCount], GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 
-		WriteFile(file, _tileMap, sizeof(TagTile) * TILE_COUNT_X * TILE_COUNT_Y, &write, NULL);
-		CloseHandle(file);
+	WriteFile(file, _tileMap, sizeof(TagTile) * TILE_COUNT_X * TILE_COUNT_Y, &write, NULL);
+	CloseHandle(file);
 }

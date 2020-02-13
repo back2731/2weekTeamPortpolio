@@ -166,6 +166,7 @@
     <ClInclude Include="ItemManager.h" />
     <ClInclude Include="keyManager.h" />
     <ClInclude Include="mainGame.h" />
+    <ClInclude Include="MainMap.h" />
     <ClInclude Include="MainMenu.h" />
     <ClInclude Include="MapToolScene.h" />
     <ClInclude Include="MapToolTile.h" />
@@ -216,6 +217,7 @@
     <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="keyManager.cpp" />
     <ClCompile Include="mainGame.cpp" />
+    <ClCompile Include="MainMap.cpp" />
     <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="MapToolScene.cpp" />
     <ClCompile Include="MinionAttackFly.cpp" />

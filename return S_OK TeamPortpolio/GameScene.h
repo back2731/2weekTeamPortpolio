@@ -1,14 +1,14 @@
 #pragma once
 #include "gameNode.h"
 #include "Shop.h"
-#include "MapToolScene.h"
+#include "MainMap.h"
 
 class GameScene : public gameNode
 {
 private:
 	Shop* m_shop;
 	image* testMapImage;
-	MapToolScene * _mapToolScene;
+	MainMap * mainMap;
 
 public:
 	GameScene();

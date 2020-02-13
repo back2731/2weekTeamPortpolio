@@ -234,6 +234,9 @@
     <ClInclude Include="Monstro.h">
       <Filter>mainGame\Enemy\Boss</Filter>
     </ClInclude>
+    <ClInclude Include="MainMap.h">
+      <Filter>mainGame\Scene\MapTool</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -367,6 +370,9 @@
     </ClCompile>
     <ClCompile Include="Monstro.cpp">
       <Filter>mainGame\Enemy\Boss</Filter>
+    </ClCompile>
+    <ClCompile Include="MainMap.cpp">
+      <Filter>mainGame\Scene\MapTool</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

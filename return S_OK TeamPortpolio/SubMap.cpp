@@ -72,13 +72,13 @@ void SubMap::render(HDC hdc)
 		}//end of for
 		break;
 	case 2:
-		for (int i = 0; i < TILE_SIZE_X - 6; i++)
+		for (int i = 0; i < TILE_SIZE_X; i++)
 		{
-			for (int j = 0; j < TILE_SIZE_Y - 8; j++)
+			for (int j = 0; j < TILE_SIZE_Y; j++)
 			{
 				IMAGEMANAGER->findImage("door")->frameRender(hdc,
-					0 + j * 30, 200 + i * 30,
-					j, i, 30, 30);
+					0 + i * 30, 200 + j * 30,
+					i, j, 30, 30);
 			}
 		}//end of for
 		break;
