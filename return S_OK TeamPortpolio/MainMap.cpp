@@ -49,11 +49,10 @@ void MainMap::update()
 		}
 	}
 
-<<<<<<< HEAD
-	if (KEYMANAGER->isStayKeyDown('T')) { _startY += 5; }
-	if (KEYMANAGER->isStayKeyDown('G')) { _startY -= 5; }
-	if (KEYMANAGER->isStayKeyDown('F')) { _startX += 5; }
-	if (KEYMANAGER->isStayKeyDown('H')) { _startX -= 5; }
+	if (KEYMANAGER->isStayKeyDown('W')) { _startY += 5; }
+	if (KEYMANAGER->isStayKeyDown('S')) { _startY -= 5; }
+	if (KEYMANAGER->isStayKeyDown('A')) { _startX += 5; }
+	if (KEYMANAGER->isStayKeyDown('D')) { _startX -= 5; }
 
 	for (int i = 0; i < TILE_COUNT_X; i++)
 	{
@@ -75,12 +74,7 @@ void MainMap::update()
 			}
 		}
 	}
-=======
-	if (KEYMANAGER->isStayKeyDown('W')) { _startY += 5; }
-	if (KEYMANAGER->isStayKeyDown('S')) { _startY -= 5; }
-	if (KEYMANAGER->isStayKeyDown('A')) { _startX += 5; }
-	if (KEYMANAGER->isStayKeyDown('D')) { _startX -= 5; }
->>>>>>> dev
+
 }
 
 void MainMap::render()

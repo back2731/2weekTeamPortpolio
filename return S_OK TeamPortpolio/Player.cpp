@@ -21,13 +21,10 @@ HRESULT Player::Init(string imageName)
 	aniBody = ANIMATIONMANAGER->findAnimation("bodyIdle");
 
 	// 플레이어 정보
-<<<<<<< HEAD
-	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 - 100, 32 * 2, 23 * 2);		// 머리 상자
-	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 - 70, 32 * 2, 11 * 2);		// 몸 상자
-=======
+
 	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 - 100, 32 * 2, 23 * 2);	// 머리 상자
 	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 - 70, 32 * 2, 11 * 2);	// 몸 상자
->>>>>>> dev
+
 	player.playerOffensePower = 5;																// 공격력
 	player.playerShotSpeed = 8.0f;																// 공격속도
 	player.playerShotRange = 450.0f;															// 공격사거리
