@@ -49,11 +49,11 @@ void SubWindow::init()
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		tempX + 115, 60, 100, 20, hWnd, HMENU(8), m_hInstance, NULL);
-	_btnN1 = CreateWindow("button", "Blocks",
+	_btnN1 = CreateWindow("button", "MapTiles",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX , 135, 70, 25, hWnd, HMENU(5), m_hInstance, NULL);
-	_btnN2 = CreateWindow("button", "MapTiles",
+		tempX, 135, 70, 25, hWnd, HMENU(5), m_hInstance, NULL);
+	_btnN2 = CreateWindow("button", "Blocks",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
 		tempX + 75, 135, 70, 25, hWnd, HMENU(6), m_hInstance, NULL);
@@ -143,7 +143,7 @@ LRESULT SubWindow::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			case CTRL_NUM1:
 			case CTRL_NUM2:
 			case CTRL_NUM3:
-				SUBWIN->SetFrameIndex(LOWORD(wParam) - 5);
+				SUBWIN->SetFrameIndex(LOWORD(wParam));
 				break;
 			case CTRL_MAIN:
 				SCENEMANAGER->changeScene("MainMenu");
