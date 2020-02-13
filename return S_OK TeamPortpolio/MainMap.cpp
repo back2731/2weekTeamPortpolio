@@ -49,26 +49,10 @@ void MainMap::update()
 		}
 	}
 
-<<<<<<< HEAD
-	for (int i = 0; i < TILE_COUNT_X; i++)
-	{
-		for (int j = 0; j < TILE_COUNT_Y; j++)
-		{
-			for (int z = 0; z < TILE_MAX; z++)
-			{
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_DOOR)
-				{
-					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
-				}
-			}
-		}
-	}
-=======
 	if (KEYMANAGER->isStayKeyDown('T')) { _startY += 5; }
 	if (KEYMANAGER->isStayKeyDown('G')) { _startY -= 5; }
 	if (KEYMANAGER->isStayKeyDown('F')) { _startX += 5; }
 	if (KEYMANAGER->isStayKeyDown('H')) { _startX -= 5; }
->>>>>>> dev
 }
 
 void MainMap::render()
@@ -85,11 +69,7 @@ void MainMap::render()
 		{
 			for (int z = 0; z < TILE_MAX; z++)
 			{
-<<<<<<< HEAD
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_DOOR)
-=======
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_NONE)
->>>>>>> dev
 				{
 					Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 				}

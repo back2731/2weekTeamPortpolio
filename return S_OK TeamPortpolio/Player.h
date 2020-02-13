@@ -3,6 +3,7 @@
 //캐릭터 방향 enum문
 enum Direction
 {
+	PLAYER_IDLE,
 	PLAYER_LEFT,
 	PLAYER_RIGHT,
 	PLAYER_UP,
@@ -12,17 +13,17 @@ enum Direction
 //캐릭터 속성 구조체
 struct PlayerInfo
 {
-	image*	playerHeadImage;		// 플레이어 머리 이미지
-	image*	playerBodyImage;		// 플레이어 몸 이미지
-	RECT	playerHeadRect;			// 플레이어 머리 상자
-	RECT	playerBodyRect;			// 플레이어 몸 상자
-	RECT	playerHitRect;			// 플레이어 피격용 상자
-	int		playerOffensePower;		// 플레이어 공격력
-	int		playerShotDelay;		// 공격주기
-	float	playerShotSpeed;		// 공격속도
-	float	playerShotRange;		// 공격사거리
-	float	playerSpeed;			// 이동속도
-	float	playerSlideSpeed;		// 슬라이딩 속도
+	image*   playerHeadImage;      // 플레이어 머리 이미지
+	image*   playerBodyImage;      // 플레이어 몸 이미지
+	RECT   playerHeadRect;         // 플레이어 머리 상자
+	RECT   playerBodyRect;         // 플레이어 몸 상자
+	RECT   playerHitRect;         // 플레이어 피격용 상자
+	int      playerOffensePower;      // 플레이어 공격력
+	int      playerShotDelay;      // 공격주기
+	float   playerShotSpeed;      // 공격속도
+	float   playerShotRange;      // 공격사거리
+	float   playerSpeed;         // 이동속도
+	float   playerSlideSpeed;      // 슬라이딩 속도
 };
 
 class Player
@@ -37,7 +38,9 @@ private:
 
 	vector<BulletInfo> vPlayerBullet;
 	vector<BulletInfo>::iterator viPlayerBullet;
-	int playerBulletCount;			// 플레이어 불렛 카운트
+	int playerBulletCount;         // 플레이어 불렛 카운트
+	int headNum;
+	int bodyNum;
 
 private:
 	//플레이어 무브 변수
@@ -70,10 +73,11 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void PlayerMove();				//플레이어 이동키 함수
-	void PlayerSilde();				//플레이어 이동시 슬라이딩 함수
-	void PlayerShot();				//플레이어 공격키 함수
-	void PlayerShotMove();			//플레이어 공격시 방향 함수
+	void PlayerMove();            //플레이어 이동키 함수
+	void PlayerSilde();            //플레이어 이동시 슬라이딩 함수
+	void PlayerShot();            //플레이어 공격키 함수
+	void PlayerShotMove();         //플레이어 공격시 방향 함수
+	void PlayerAnimation();         //플레이어 애니메이션
 
 	RECT GetPlayerHeadRect() { return player.playerHeadRect; }
 	float GetPlayerHeadRectX() { return (player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2); }

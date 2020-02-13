@@ -11,14 +11,14 @@ Player::~Player()
 
 HRESULT Player::Init(string imageName)
 {
-	player.playerHeadImage = IMAGEMANAGER->addFrameImage("playerHead", "images/player/issac.bmp", 512 * 2, 512 * 2, 16, 16, true, RGB(255, 0, 255));
-	int arrlen[] = { 0 };
-	ANIMATIONMANAGER->addAnimation("head", "playerHead", arrlen, 1, 10, true);
+	player.playerHeadImage = IMAGEMANAGER->addFrameImage("playerHead", "images/player/player.bmp", 320 * 2, 124 * 2, 10, 4, true, RGB(255, 0, 255));
+	//int arrlen[] = { 0 };
+	ANIMATIONMANAGER->addAnimation("head", "playerHead", 0, 1, 1, false, true);
 	aniHead = ANIMATIONMANAGER->findAnimation("head");
 
-	player.playerBodyImage = IMAGEMANAGER->addFrameImage("playerBody", "images/player/issac.bmp", 512 * 2, 512 * 2, 16, 16, true, RGB(255, 0, 255));
-	int arrlen2[] = { 16 };
-	ANIMATIONMANAGER->addAnimation("body", "playerBody", arrlen2, 1, 10, true);
+	player.playerBodyImage = IMAGEMANAGER->addFrameImage("playerBody", "images/player/player.bmp", 320 * 2, 124 * 2, 10, 4, true, RGB(255, 0, 255));
+	//int arrlen2[] = { 22 };
+	ANIMATIONMANAGER->addAnimation("body", "playerBody", 20, 29, 15, false, true);
 	aniBody = ANIMATIONMANAGER->findAnimation("body");
 
 	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY - 100, 32 * 2, 23 * 2);      // 머리 상자
@@ -52,6 +52,9 @@ HRESULT Player::Init(string imageName)
 	playerUpShot = false;
 	playerDownShot = false;
 
+	// 캐릭터 프레임
+	direction = PLAYER_IDLE;
+
 	return S_OK;
 }
 
@@ -61,15 +64,10 @@ void Player::Release()
 
 void Player::Update()
 {
+	PlayerAnimation();
 	PlayerMove();
 	PlayerShot();
 	COLLISIONMANAGER->PlayerBulletCollision(vPlayerBullet, viPlayerBullet);
-
-	//애니메이션 프레임
-	aniHead = ANIMATIONMANAGER->findAnimation("head");
-	ANIMATIONMANAGER->start("head");
-	aniBody = ANIMATIONMANAGER->findAnimation("body");
-	ANIMATIONMANAGER->start("body");
 }
 
 void Player::Render(HDC hdc)
@@ -85,9 +83,31 @@ void Player::Render(HDC hdc)
 		DeleteObject(brush);
 	}
 
-	player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 25, aniBody);
+	player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 20, aniBody);
 	player.playerHeadImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
 	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
+}
+
+void Player::PlayerAnimation()
+{
+	switch (direction)
+	{
+	case PLAYER_IDLE:
+		break;
+	case PLAYER_LEFT:
+		break;
+	case PLAYER_RIGHT:
+		break;
+	case PLAYER_UP:
+		break;
+	case PLAYER_DOWN:
+		//애니메이션 프레임
+		aniHead = ANIMATIONMANAGER->findAnimation("head");
+		ANIMATIONMANAGER->start("head");
+		aniBody = ANIMATIONMANAGER->findAnimation("body");
+		ANIMATIONMANAGER->start("body");
+		break;
+	}
 }
 
 void Player::PlayerMove()
@@ -95,6 +115,7 @@ void Player::PlayerMove()
 	//왼쪽
 	if (KEYMANAGER->isStayKeyDown('A'))
 	{
+		direction = PLAYER_LEFT;
 		isLeft = true;
 
 		player.playerHeadRect.left -= player.playerSpeed;
@@ -105,6 +126,7 @@ void Player::PlayerMove()
 	}
 	if (KEYMANAGER->isOnceKeyUp('A'))
 	{
+		direction = PLAYER_IDLE;
 		if (isUp) slideLeftUp = true;
 		else if (isDown) slideLeftDown = true;
 		else slideLeft = true;
@@ -112,6 +134,7 @@ void Player::PlayerMove()
 	//오른쪽
 	if (KEYMANAGER->isStayKeyDown('D'))
 	{
+		direction = PLAYER_RIGHT;
 		isRight = true;
 
 		player.playerHeadRect.left += player.playerSpeed;
@@ -122,6 +145,7 @@ void Player::PlayerMove()
 	}
 	if (KEYMANAGER->isOnceKeyUp('D'))
 	{
+		direction = PLAYER_IDLE;
 		if (isUp) slideRightUp = true;
 		else if (isDown) slideRightDown = true;
 		else slideRight = true;
@@ -129,6 +153,7 @@ void Player::PlayerMove()
 	//위
 	if (KEYMANAGER->isStayKeyDown('W'))
 	{
+		direction = PLAYER_UP;
 		isUp = true;
 
 		player.playerHeadRect.top -= player.playerSpeed;
@@ -139,6 +164,7 @@ void Player::PlayerMove()
 	}
 	if (KEYMANAGER->isOnceKeyUp('W'))
 	{
+		direction = PLAYER_IDLE;
 		if (isLeft) slideLeftUp = true;
 		else if (isRight) slideRightUp = true;
 		else slideUp = true;
@@ -146,6 +172,7 @@ void Player::PlayerMove()
 	//아래
 	if (KEYMANAGER->isStayKeyDown('S'))
 	{
+		direction = PLAYER_DOWN;
 		isDown = true;
 
 		player.playerHeadRect.top += player.playerSpeed;
@@ -156,6 +183,7 @@ void Player::PlayerMove()
 	}
 	if (KEYMANAGER->isOnceKeyUp('S'))
 	{
+		direction = PLAYER_IDLE;
 		if (isLeft) slideLeftDown = true;
 		else if (isRight) slideRightDown = true;
 		else slideDown = true;
