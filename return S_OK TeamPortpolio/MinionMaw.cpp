@@ -159,7 +159,7 @@ void MinionMaw::EnemyAi()
 						vMinionMaw[i].enemyRect.left += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right += vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.right >= 950)
+					if (vMinionMaw[i].enemyRect.right >= 830)
 					{
 						firstEnemyAiPattern = 2;
 					}
@@ -210,7 +210,7 @@ void MinionMaw::EnemyAi()
 						vMinionMaw[i].enemyRect.left += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right += vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.right >= 950)
+					if (vMinionMaw[i].enemyRect.right >= 830)
 					{
 						secondEnemyAiPattern = 2;
 					}
@@ -261,7 +261,7 @@ void MinionMaw::EnemyAi()
 						vMinionMaw[i].enemyRect.left += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right += vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.right >= 950)
+					if (vMinionMaw[i].enemyRect.right >= 830)
 					{
 						thirdEnemyAiPattern = 2;
 					}

@@ -1,7 +1,7 @@
 #pragma once
 
 //캐릭터 방향 enum문
-enum Direction
+enum pDirection
 {
 	PLAYER_IDLE,
 	PLAYER_LEFT,
@@ -30,11 +30,12 @@ class Shop;
 class Player
 {
 private:
+	image* shadow;
 	animation* aniHead;
 	animation* aniBody;
 
 private:
-	Direction direction;
+	pDirection direction;
 	PlayerInfo player;
 
 	vector<BulletInfo> vPlayerBullet;

@@ -12,6 +12,8 @@ Player::~Player()
 
 HRESULT Player::Init(string imageName)
 {
+	// 플레이어 그림자
+	shadow = IMAGEMANAGER->addImage("shadow", "images/player/playerShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
 	// 플레이어 HeadIdle
 	player.playerHeadImage = IMAGEMANAGER->addFrameImage("playerHead", "images/player/player.bmp", 320 * 2, 124 * 2, 10, 4, true, RGB(255, 0, 255));
 	ANIMATIONMANAGER->addAnimation("headIdle", "playerHead", arrHeadIdle, 1, 1, true);
@@ -22,10 +24,9 @@ HRESULT Player::Init(string imageName)
 	aniBody = ANIMATIONMANAGER->findAnimation("bodyIdle");
 
 	// 플레이어 정보
-
 	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 23 * 2);			// 머리 상자
 	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 30, 32 * 2, 11 * 2);	// 몸 상자
-	player.playerOffensePower = 5;																// 공격력
+	player.playerOffensePower = 2;																// 공격력
 	player.playerShotSpeed = 8.0f;																// 공격속도
 	player.playerShotRange = 450.0f;															// 공격사거리
 	playerBulletCount = 0;																		// 불렛 카운트
@@ -79,7 +80,6 @@ void Player::Update()
 	PlayerMove();
 	PlayerShot();
 	COLLISIONMANAGER->PlayerBulletCollision(vPlayerBullet, viPlayerBullet);
-
 }
 
 void Player::Render(HDC hdc)
@@ -95,6 +95,7 @@ void Player::Render(HDC hdc)
 		DeleteObject(brush);
 	}
 
+	shadow->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
 	player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 20, aniBody);
 	player.playerHeadImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
 	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
@@ -208,7 +209,7 @@ void Player::PlayerSilde()
 		player.playerBodyRect.left -= player.playerSlideSpeed;
 		player.playerBodyRect.right -= player.playerSlideSpeed;
 
-		if (player.playerSlideSpeed < 0.5f)
+		if (player.playerSlideSpeed < 0.8f)
 		{
 			player.playerSlideSpeed = 2.0f;
 			isLeft = false;
@@ -227,7 +228,7 @@ void Player::PlayerSilde()
 		player.playerBodyRect.left += int(player.playerSlideSpeed + 1);
 		player.playerBodyRect.right += int(player.playerSlideSpeed + 1);
 
-		if (player.playerSlideSpeed < 0.5f)
+		if (player.playerSlideSpeed < 0.8f)
 		{
 			player.playerSlideSpeed = 2.0f;
 			isRight = false;
@@ -246,7 +247,7 @@ void Player::PlayerSilde()
 		player.playerBodyRect.top -= player.playerSlideSpeed;
 		player.playerBodyRect.bottom -= player.playerSlideSpeed;
 
-		if (player.playerSlideSpeed < 0.5f)
+		if (player.playerSlideSpeed < 0.8f)
 		{
 			player.playerSlideSpeed = 2.0f;
 			isUp = false;
@@ -265,7 +266,7 @@ void Player::PlayerSilde()
 		player.playerBodyRect.top += int(player.playerSlideSpeed + 1);
 		player.playerBodyRect.bottom += int(player.playerSlideSpeed + 1);
 
-		if (player.playerSlideSpeed < 0.5f)
+		if (player.playerSlideSpeed < 0.8f)
 		{
 			player.playerSlideSpeed = 2.0f;
 			isDown = false;

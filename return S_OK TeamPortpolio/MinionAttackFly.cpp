@@ -14,9 +14,13 @@ HRESULT MinionAttackFly::Init(POINT position, int EnemyNumber)
 	//구조체 정보 기입
 	EnemyInfo MinionAttackFly;
 	MinionAttackFly.enemyNumber = EnemyNumber;
-	MinionAttackFly.enemyRect = RectMakeCenter(position.x, position.y, 30, 30);
+	MinionAttackFly.enemyRect = RectMakeCenter(position.x, position.y, 20, 20);
 	MinionAttackFly.enemyHp = 5;
 	MinionAttackFly.enemySpeed = 2.0f;
+	// 애니메이션 Idle
+	MinionAttackFly.enemyImage = IMAGEMANAGER->addFrameImage("attackflyIdle", "images/monster/attackfly/attackflyMove.bmp", 712 / 2, 183 / 2, 4, 1, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addAnimation("minionLeft", "attackflyIdle", 0, 1, 15, false, true);
+	minionAni = ANIMATIONMANAGER->findAnimation("minionLeft");
 	vMinionAttackFly.push_back(MinionAttackFly);
 
 	enemyAreaCheck = false;
@@ -47,6 +51,7 @@ void MinionAttackFly::Render(HDC hdc)
 			FillRect(hdc, &vMinionAttackFly[i].enemyRect, brush);
 			DeleteObject(brush);
 		}
+		vMinionAttackFly[i].enemyImage->aniRender(hdc, vMinionAttackFly[i].enemyRect.left - 35, vMinionAttackFly[i].enemyRect.top - 40, minionAni);
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -101,6 +106,20 @@ void MinionAttackFly::EnemyAi()
 		{
 			// 플레이어를 쫓아가라.
 			enemyAreaCheck = true;
+
+			if (vMinionAttackFly[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
+			{
+				//애니메이션 프레임
+				minionAni = ANIMATIONMANAGER->findAnimation("minionLeft");
+				ANIMATIONMANAGER->start("minionLeft");
+			}
+			else
+			{
+				//애니메이션 프레임
+				ANIMATIONMANAGER->addAnimation("minionRight", "attackflyIdle", 2, 3, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
+				ANIMATIONMANAGER->start("minionRight");
+			}
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
@@ -124,7 +143,7 @@ void MinionAttackFly::EnemyAi()
 			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
 			vMinionAttackFly[i].enemyX += vx;
 			vMinionAttackFly[i].enemyY += vy;
-			vMinionAttackFly[i].enemyRect = RectMakeCenter(vMinionAttackFly[i].enemyX, vMinionAttackFly[i].enemyY, 30, 30);
+			vMinionAttackFly[i].enemyRect = RectMakeCenter(vMinionAttackFly[i].enemyX, vMinionAttackFly[i].enemyY, 20, 20);
 		}
 		// 범위안에 플레이어가 없다면 자율행동(AI)
 		else
@@ -139,6 +158,10 @@ void MinionAttackFly::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
+					//애니메이션 프레임
+					minionAni = ANIMATIONMANAGER->findAnimation("minionLeft");
+					ANIMATIONMANAGER->start("minionLeft");
+
 					if (vMinionAttackFly[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionAttackFly[i].enemyRect.left -= vMinionAttackFly[i].enemySpeed;
@@ -150,12 +173,17 @@ void MinionAttackFly::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
+					//애니메이션 프레임
+					ANIMATIONMANAGER->addAnimation("minionRight", "attackflyIdle", 2, 3, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
+					ANIMATIONMANAGER->start("minionRight");
+
 					if (vMinionAttackFly[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
 					{
 						vMinionAttackFly[i].enemyRect.left += vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.right += vMinionAttackFly[i].enemySpeed;
 					}
-					if (vMinionAttackFly[i].enemyRect.right >= 950)
+					if (vMinionAttackFly[i].enemyRect.right >= 850)
 					{
 						firstEnemyAiPattern = 2;
 					}
@@ -206,7 +234,7 @@ void MinionAttackFly::EnemyAi()
 						vMinionAttackFly[i].enemyRect.left += vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.right += vMinionAttackFly[i].enemySpeed;
 					}
-					if (vMinionAttackFly[i].enemyRect.right >= 950)
+					if (vMinionAttackFly[i].enemyRect.right >= 850)
 					{
 						secondEnemyAiPattern = 2;
 					}
@@ -257,7 +285,7 @@ void MinionAttackFly::EnemyAi()
 						vMinionAttackFly[i].enemyRect.left += vMinionAttackFly[i].enemySpeed;
 						vMinionAttackFly[i].enemyRect.right += vMinionAttackFly[i].enemySpeed;
 					}
-					if (vMinionAttackFly[i].enemyRect.right >= 950)
+					if (vMinionAttackFly[i].enemyRect.right >= 850)
 					{
 						thirdEnemyAiPattern = 2;
 					}
@@ -316,5 +344,3 @@ void MinionAttackFly::SetEnemyRectY(int enemyNum, int move)
 	vMinionAttackFly[enemyNum].enemyRect.top += move;
 	vMinionAttackFly[enemyNum].enemyRect.bottom += move;
 }
-
-

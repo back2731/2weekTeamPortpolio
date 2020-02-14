@@ -184,7 +184,7 @@ void MinionTumor::EnemyAi()
 			vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed * 2;
 			vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed * 2;
 
-			if (vMinionTumor[i].enemyRect.right >= 930)
+			if (vMinionTumor[i].enemyRect.right >= 830)
 			{
 				enemyMove = true;
 				enemyRightBoost = false;
@@ -248,7 +248,7 @@ void MinionTumor::EnemyAi()
 						vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
 						vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
 					}
-					if (vMinionTumor[i].enemyRect.right >= 950)
+					if (vMinionTumor[i].enemyRect.right >= 850)
 					{
 						firstEnemyAiPattern = 2;
 					}
@@ -299,7 +299,7 @@ void MinionTumor::EnemyAi()
 						vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
 						vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
 					}
-					if (vMinionTumor[i].enemyRect.right >= 950)
+					if (vMinionTumor[i].enemyRect.right >= 850)
 					{
 						secondEnemyAiPattern = 2;
 					}
@@ -350,7 +350,7 @@ void MinionTumor::EnemyAi()
 						vMinionTumor[i].enemyRect.left += vMinionTumor[i].enemySpeed;
 						vMinionTumor[i].enemyRect.right += vMinionTumor[i].enemySpeed;
 					}
-					if (vMinionTumor[i].enemyRect.right >= 950)
+					if (vMinionTumor[i].enemyRect.right >= 850)
 					{
 						thirdEnemyAiPattern = 2;
 					}

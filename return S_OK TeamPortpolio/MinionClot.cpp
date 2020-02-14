@@ -124,7 +124,7 @@ void MinionClot::EnemyAi()
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right += vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.right >= 950)
+				if (vMinionClot[i].enemyRect.right >= 830)
 				{
 					firstEnemyAiPattern = 2;
 				}
@@ -175,7 +175,7 @@ void MinionClot::EnemyAi()
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right += vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.right >= 950)
+				if (vMinionClot[i].enemyRect.right >= 830)
 				{
 					secondEnemyAiPattern = 2;
 				}
@@ -226,7 +226,7 @@ void MinionClot::EnemyAi()
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right += vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.right >= 950)
+				if (vMinionClot[i].enemyRect.right >= 830)
 				{
 					thirdEnemyAiPattern = 2;
 				}

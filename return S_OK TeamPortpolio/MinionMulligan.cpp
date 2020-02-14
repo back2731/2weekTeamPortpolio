@@ -127,7 +127,7 @@ void MinionMulligan::EnemyAi()
 			}
 
 			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
-			if (vMinionMulligan[i].enemyRect.left >= 10 && vMinionMulligan[i].enemyRect.right <= 950 &&
+			if (vMinionMulligan[i].enemyRect.left >= 10 && vMinionMulligan[i].enemyRect.right <= 830 &&
 				vMinionMulligan[i].enemyRect.top >= 10 && vMinionMulligan[i].enemyRect.bottom <= 530)
 			{
 				collisionCheck = true;
@@ -165,7 +165,7 @@ void MinionMulligan::EnemyAi()
 						vMinionMulligan[i].enemyRect.left += vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.right += vMinionMulligan[i].enemySpeed;
 					}
-					if (vMinionMulligan[i].enemyRect.right >= 950)
+					if (vMinionMulligan[i].enemyRect.right >= 830)
 					{
 						firstEnemyAiPattern = 2;
 					}
@@ -216,7 +216,7 @@ void MinionMulligan::EnemyAi()
 						vMinionMulligan[i].enemyRect.left += vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.right += vMinionMulligan[i].enemySpeed;
 					}
-					if (vMinionMulligan[i].enemyRect.right >= 950)
+					if (vMinionMulligan[i].enemyRect.right >= 830)
 					{
 						secondEnemyAiPattern = 2;
 					}
@@ -267,7 +267,7 @@ void MinionMulligan::EnemyAi()
 						vMinionMulligan[i].enemyRect.left += vMinionMulligan[i].enemySpeed;
 						vMinionMulligan[i].enemyRect.right += vMinionMulligan[i].enemySpeed;
 					}
-					if (vMinionMulligan[i].enemyRect.right >= 950)
+					if (vMinionMulligan[i].enemyRect.right >= 830)
 					{
 						thirdEnemyAiPattern = 2;
 					}
@@ -377,7 +377,7 @@ void MinionMulligan::DeleteEnemy()
 {
 	for (i = 0; i < vMinionMulligan.size(); i++)
 	{
-		if (vMinionMulligan[i].enemyRect.left <= 10 || vMinionMulligan[i].enemyRect.right >= 950 ||
+		if (vMinionMulligan[i].enemyRect.left <= 10 || vMinionMulligan[i].enemyRect.right >= 830 ||
 			vMinionMulligan[i].enemyRect.top <= 10 || vMinionMulligan[i].enemyRect.bottom >= 530)
 		{
 			if (collisionCheck)

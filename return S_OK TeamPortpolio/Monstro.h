@@ -4,9 +4,6 @@
 class Monstro : public EnemyBase
 {
 private:
-	animation* bossAni;
-
-private:
 	vector<EnemyInfo> vMonstro;
 
 	vector<BulletInfo> vEnemyBullet;
