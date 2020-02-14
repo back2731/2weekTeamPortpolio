@@ -16,12 +16,7 @@ Shop::~Shop()
 
 HRESULT Shop::Init()
 {
-<<<<<<< HEAD
-	//IMAGEMANAGER->addImage("TestMap", "images/TestMap.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
-	vActiveItem = ITEMMANAGER->GetActiveItemInfo();
-	vPassiveItem = ITEMMANAGER->GetPassiveItemInfo();
-	vTrinkets = ITEMMANAGER->GetTrinketsInfo();
-=======
+
 	IMAGEMANAGER->addImage("TestMap", "images/item/TestMap.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	vShopActiveItem = ITEMMANAGER->GetActiveItemInfo();
 	vShopPassiveItem = ITEMMANAGER->GetPassiveItemInfo();
@@ -35,7 +30,6 @@ HRESULT Shop::Init()
 
 	vShopCard = ITEMMANAGER->GetCardInfo();
 	vShopPill = ITEMMANAGER->GetPillInfo();
->>>>>>> dev
 
 	vShopAllItem = ITEMMANAGER->GetAllItemInfo();
 
@@ -76,15 +70,11 @@ void Shop::Update()
 
 void Shop::Render(HDC hdc)
 {
-<<<<<<< HEAD
-	//IMAGEMANAGER->render("TestMap", hdc);
-=======
-	IMAGEMANAGER->render("TestMap", hdc, 0, 0);
+
 
 	for (int i = 0; i < 10; i++)
 	{
 		AllItem[i].itemImage->render(hdc, rc[i].left, rc[i].top);
 		//Rectangle(hdc, rc[i].left, rc[i].top, rc[i].right, rc[i].bottom );
 	}
->>>>>>> dev
 }

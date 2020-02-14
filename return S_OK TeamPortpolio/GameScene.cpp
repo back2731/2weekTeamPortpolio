@@ -12,14 +12,8 @@ GameScene::~GameScene()
 
 HRESULT GameScene::init()
 {
-<<<<<<< HEAD
 	mainMap = new MainMap;
 	mainMap->init();
-=======
-	IMAGEMANAGER->addImage("TestMap", "images/TestMap.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
-	//mainMap = new MainMap;
-	//mainMap->init();
->>>>>>> dev
 
 	// 게임씬에서 필요한 매니저들 초기화.
 	BULLETMANAGER->Init();
@@ -39,12 +33,12 @@ HRESULT GameScene::init()
 void GameScene::release()
 {
 	SAFE_DELETE(m_shop);
-	//SAFE_DELETE(mainMap);
+	SAFE_DELETE(mainMap);
 }
 
 void GameScene::update()
 {
-	//mainMap->update();
+	mainMap->update();
 	m_shop->Update();
 	PLAYERMANAGER->Update();
 	ENEMYMANAGER->Update();
@@ -54,11 +48,8 @@ void GameScene::update()
 
 void GameScene::render()
 {
-<<<<<<< HEAD
 	mainMap->render();
-=======
-	//mainMap->render();
->>>>>>> dev
+
 	m_shop->Render(getMemDC());
 	ENEMYMANAGER->Render(getMemDC());
 	PLAYERMANAGER->Render(getMemDC());
