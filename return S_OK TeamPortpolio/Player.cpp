@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Player.h"
+#include "Shop.h"
 
 Player::Player()
 {
@@ -52,11 +53,25 @@ HRESULT Player::Init(string imageName)
 	// 플레이어 프레임
 	direction = PLAYER_IDLE;
 
+	//아이템 정보
+	m_Shop = new Shop;
+	vPlayerActiveItem = ITEMMANAGER->GetActiveItemInfo();
+	vPlayerPassiveItem = ITEMMANAGER->GetPassiveItemInfo();
+	vPlayerTrinkets = ITEMMANAGER->GetTrinketsInfo();
+
+	vPlayerHeart = ITEMMANAGER->GetHeartInfo();
+
+	vPlayerBomb = ITEMMANAGER->GetBombInfo();
+	vPlayerKey = ITEMMANAGER->GetKeyInfo();
+
+	vPlayerCard = ITEMMANAGER->GetCardInfo();
+	vPlayerPill = ITEMMANAGER->GetPillInfo();
 	return S_OK;
 }
 
 void Player::Release()
 {
+	
 }
 
 void Player::Update()
@@ -65,6 +80,7 @@ void Player::Update()
 	PlayerMove();
 	PlayerShot();
 	COLLISIONMANAGER->PlayerBulletCollision(vPlayerBullet, viPlayerBullet);
+
 }
 
 void Player::Render(HDC hdc)
@@ -83,6 +99,20 @@ void Player::Render(HDC hdc)
 	player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 20, aniBody);
 	player.playerHeadImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
 	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
+
+	if (IntersectRect(&temp, &GetPlayerHitRect(), &m_Shop->GetShopItemRect(0)))
+	{
+		Rectangle(hdc, test1.left, test1.top, test1.right, test1.bottom );
+
+	}
+	if (IntersectRect(&temp, &GetPlayerHitRect(), &m_Shop->GetShopItemRect(1)))
+	{
+		Rectangle(hdc, test2.left, test2.top, test2.right, test2.bottom);
+	}
+	if (IntersectRect(&temp, &GetPlayerHitRect(), &m_Shop->GetShopItemRect(2)))
+	{
+		Rectangle(hdc, test3.left, test3.top, test3.right, test3.bottom);
+	}
 }
 
 void Player::PlayerMove()

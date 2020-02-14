@@ -52,6 +52,8 @@ private:
 	vector <ItemInfo> vCard;			// 카드 아이템 벡터
 	vector <ItemInfo> vPill;			// 알약 아이템 벡터
 
+	vector <ItemInfo> vAllItem;			// 모든 아이템 벡터
+
 public:
 	ItemManager();
 	~ItemManager();
@@ -70,6 +72,8 @@ public:
 	vector<ItemInfo> GetKeyInfo() { return vKey; }
 	vector<ItemInfo> GetCardInfo() { return vCard; }
 	vector<ItemInfo> GetPillInfo() { return vPill; }
-	   
+	   				
 	vector<ItemInfo> GetGoldInfo() { return vGold; }
+	vector<ItemInfo> GetAllItemInfo() { return vAllItem; }
+
 };
