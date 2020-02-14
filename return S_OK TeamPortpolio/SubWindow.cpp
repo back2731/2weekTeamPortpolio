@@ -25,42 +25,42 @@ void SubWindow::init()
 
 	int tempX = 10;
 
-	_btnDraw = CreateWindow("button", "Tile",
+	_btnDraw = CreateWindow("button", "Draw",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX, 0, 100, 20, hWnd, HMENU(0), m_hInstance, NULL);
+		tempX, 0, 100, 20, hWnd, HMENU(CTRL_DRAW) , m_hInstance, NULL);
 	_btnEraser = CreateWindow("button", "Eraser",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX, 30, 100, 20, hWnd, HMENU(1), m_hInstance, NULL);
+		tempX, 30, 100, 20, hWnd, HMENU(CTRL_ERASER), m_hInstance, NULL);
 	_btnInit = CreateWindow("button", "Init",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX, 60, 100, 20, hWnd, HMENU(2), m_hInstance, NULL);
+		tempX, 60, 100, 20, hWnd, HMENU(CTRL_INIT), m_hInstance, NULL);
 	_btnSave = CreateWindow("button", "Save",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 115, 0, 100, 20, hWnd, HMENU(3), m_hInstance, NULL);
+		tempX + 115, 0, 100, 20, hWnd, HMENU(CTRL_SAVE), m_hInstance, NULL);
 	_btnLoad = CreateWindow("button", "Load",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 115, 30, 100, 20, hWnd, HMENU(4), m_hInstance, NULL);
-	_btnMain = CreateWindow("button", "MainMenu",
-		//자식으로 생성하면 안쪽에 만들어짐
-		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 115, 60, 100, 20, hWnd, HMENU(8), m_hInstance, NULL);
+		tempX + 115, 30, 100, 20, hWnd, HMENU(CTRL_LOAD), m_hInstance, NULL);
 	_btnN1 = CreateWindow("button", "MapTiles",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX, 135, 70, 25, hWnd, HMENU(5), m_hInstance, NULL);
+		tempX, 135, 70, 25, hWnd, HMENU(CTRL_NUM1), m_hInstance, NULL);
 	_btnN2 = CreateWindow("button", "Blocks",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 75, 135, 70, 25, hWnd, HMENU(6), m_hInstance, NULL);
+		tempX + 75, 135, 70, 25, hWnd, HMENU(CTRL_NUM2), m_hInstance, NULL);
 	_btnN3 = CreateWindow("button", "Doors",
 		//자식으로 생성하면 안쪽에 만들어짐
 		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
-		tempX + 150, 135, 70, 25, hWnd, HMENU(7), m_hInstance, NULL);
+		tempX + 150, 135, 70, 25, hWnd, HMENU(CTRL_NUM3), m_hInstance, NULL);
+	_btnMain = CreateWindow("button", "MainMenu",
+		//자식으로 생성하면 안쪽에 만들어짐
+		WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON,
+		tempX + 115, 60, 100, 20, hWnd, HMENU(CTRL_MAIN), m_hInstance, NULL);
 
 	clickFrame = { 0,0 };
 	clickIndex = 0;
@@ -117,6 +117,9 @@ LRESULT SubWindow::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 			switch (LOWORD(wParam))
 			{
 			case CTRL_DRAW:
+				_currentCTRL = (CTRL)(LOWORD(wParam));
+				break;
+
 			case CTRL_ERASER:
 				_currentCTRL = (CTRL)(LOWORD(wParam));
 				break;

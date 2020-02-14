@@ -97,10 +97,28 @@ void MainMap::render()
 						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 						DeleteObject(brush);
 					}
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_OPEN_DOOR)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(123, 100, 102));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
 
 					if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(204, 123, 102));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT_BUMB)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(204, 255, 102));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
 					}
 				}
 			}
@@ -134,25 +152,25 @@ void MainMap::DrawTileMap()
 				{
 					switch (_tileMap[i][j].tileNum[z])
 					{
-					case 5:
+					case TILEKIND_TERRAIN:
 						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
 							_tileMap[i][j].left,
 							_tileMap[i][j].top - _tileMap[i][j].height*z,
 							_tileMap[i][j].tilePos[z].x,
 							_tileMap[i][j].tilePos[z].y);
 						break;
-					//case 6:
-					//	if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
-					//	{
-					//		IMAGEMANAGER->frameRender("blocks", getMemDC(),
-					//			_tileMap[i][j].left,
-					//			_tileMap[i][j].top - _tileMap[i][j].height * z,
-					//			_tileMap[i][j].tilePos[z].x,
-					//			_tileMap[i][j].tilePos[z].y);
-					//		break;
-					//	}
-					//	break;
-					case 7:
+					case TILEKIND_OBJECT:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_OBJECT_BUMB:
 						if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
 						{
 							IMAGEMANAGER->frameRender("door", getMemDC(),

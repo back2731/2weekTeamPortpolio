@@ -135,14 +135,14 @@ void MapToolScene::DrawTileMap()
 				{
 					switch (_tileMap[i][j].tileNum[z])
 					{
-					case 5:
+					case TILEKIND_TERRAIN:
 						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
 							_tileMap[i][j].left,
 							_tileMap[i][j].top - _tileMap[i][j].height*z,
 							_tileMap[i][j].tilePos[z].x,
 							_tileMap[i][j].tilePos[z].y);
 						break;
-					case 6:
+					case TILEKIND_OBJECT:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
 							IMAGEMANAGER->frameRender("blocks", getMemDC(),
@@ -153,7 +153,7 @@ void MapToolScene::DrawTileMap()
 							break;
 						}
 						break;
-					case 7:
+					case TILEKIND_OBJECT_BUMB:
 						if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
 						{
 							IMAGEMANAGER->frameRender("door", getMemDC(),
@@ -241,9 +241,9 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 
 	switch (SUBWIN->GetFrameIndex())
 	{
-	case 5:
-	case 6:
-	case 7:
+	case TILEKIND_TERRAIN:
+	case TILEKIND_OBJECT:
+	case TILEKIND_OBJECT_BUMB:
 		imageFrame = SUBWIN->GetFramePoint();
 		break;
 	}
@@ -289,7 +289,6 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 	case CTRL_ERASER:
 		if (_tileMap[locationX][locationY].index > -1)
 		{
-			_tileMap[locationX][locationY].index--;
 			_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
 			_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = kindSelect(-1, -1);
 			_tileMap[locationX][locationY].tilePos[_tileMap[locationX][locationY].index] = imageFrame;
