@@ -41,12 +41,6 @@ void MainMenu::render()
 		Rectangle(getMemDC(), optionRect.left, optionRect.top, optionRect.right, optionRect.bottom);
 	}
 	IMAGEMANAGER->render("MainMenuArrow", getMemDC(), cursorRect.left, cursorRect.top);
-
-	sprintf_s((str), "x : %d", m_ptMouse.x);
-	TextOut(getMemDC(), 10, 10, str, strlen(str));
-
-	sprintf_s((str), "y : %d", m_ptMouse.y);
-	TextOut(getMemDC(), 10, 30, str, strlen(str));
 }
 
 void MainMenu::CursorMove()

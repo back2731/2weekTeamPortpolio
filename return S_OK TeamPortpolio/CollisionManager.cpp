@@ -3301,20 +3301,20 @@ int CollisionManager::PlayerCollisionNextDoor(RECT nextDoor)
 		int tempW = temp.right - temp.left;
 		int tempH = temp.bottom - temp.top;
 
-		if (tempH > tempW)
+		if (tempH >= tempW)
 		{
 			// 왼쪽 충돌시 오른쪽으로 밀어줌
 			if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
 			{
-				PLAYERMANAGER->SetPlayerRectX(tempW * 50);
-				direction = 0;
+				//PLAYERMANAGER->SetPlayerRectX(tempW * 50);
+				direction = 1;
 				return direction;
 			}
 			// 오른쪽 충돌시 왼쪽으로 밀어줌
 			else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
 			{
 				//PLAYERMANAGER->SetPlayerRectX(-tempW * 50);
-				direction = 1;
+				direction = 2;
 
 				return direction;
 			}
@@ -3325,7 +3325,7 @@ int CollisionManager::PlayerCollisionNextDoor(RECT nextDoor)
 			if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
 			{
 				//PLAYERMANAGER->SetPlayerRectY(tempH * 50);
-				direction = 2;
+				direction = 3;
 
 				return direction;
 			}
@@ -3333,7 +3333,7 @@ int CollisionManager::PlayerCollisionNextDoor(RECT nextDoor)
 			else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
 			{
 				//PLAYERMANAGER->SetPlayerRectY(-tempH * 50);
-				direction = 3;
+				direction = 4;
 
 				return direction;
 			}

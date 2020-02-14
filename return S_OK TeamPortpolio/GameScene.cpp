@@ -38,10 +38,11 @@ void GameScene::release()
 
 void GameScene::update()
 {
-	mainMap->update();
-	m_shop->Update();
 	PLAYERMANAGER->Update();
 	ENEMYMANAGER->Update();
+	mainMap->update();
+	m_shop->Update();
+
 	COLLISIONMANAGER->UpdateCollision();
 	ANIMATIONMANAGER->update();
 }
@@ -49,9 +50,9 @@ void GameScene::update()
 void GameScene::render()
 {
 	mainMap->render();
-
-	m_shop->Render(getMemDC());
+	//m_shop->Render(getMemDC());
 	ENEMYMANAGER->Render(getMemDC());
 	PLAYERMANAGER->Render(getMemDC());
 	OBJECTPOOL->Render(getMemDC());
+
 }

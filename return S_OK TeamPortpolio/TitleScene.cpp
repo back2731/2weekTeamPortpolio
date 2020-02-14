@@ -49,9 +49,4 @@ void TitleScene::render()
 	IMAGEMANAGER->render("TitleBg", getMemDC());
 	pressImage->aniRender(getMemDC(), WINSIZEX / 2 - 155, WINSIZEY / 2 - 90, ani);
 	IMAGEMANAGER->render("TitleName", getMemDC(), WINSIZEX / 2 - 260, WINSIZEY / 2 - 230);
-
-	sprintf_s((str), "x : %d", m_ptMouse.x);
-	TextOut(getMemDC(), 100, 100, str, strlen(str));
-	sprintf_s((str), "y : %d", m_ptMouse.y);
-	TextOut(getMemDC(), 100, 130, str, strlen(str));
 }

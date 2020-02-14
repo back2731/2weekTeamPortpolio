@@ -12,9 +12,12 @@ private:
 
 	int count = 0;
 
-	int _startX;
-	int _startY;
+	int currentX;
+	int currentY;
 
+	int savePositionX;
+	int savePositionY;
+	
 	POINT imageFrame;
 	CTRL _currentCTRL;
 	RECT cameraRect = { 0,0,WINSIZEX,WINSIZEY };
@@ -22,6 +25,12 @@ private:
 
 	bool _isDebug;
 	bool openDoor;
+	bool stopCamera;
+
+	bool moveUp;
+	bool moveDown;
+	bool moveRight;
+	bool moveLeft;
 
 	//
 	const char* fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };

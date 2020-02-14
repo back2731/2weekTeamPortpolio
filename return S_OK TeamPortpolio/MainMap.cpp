@@ -22,11 +22,21 @@ HRESULT MainMap::init()
 	_locationY = 0;
 	_center = 0;
 	memset(_tileMap, 0, sizeof(_tileMap));
-
-	_startX = INIT_X;
-	_startY = INIT_Y;
+	
+	currentX = INIT_X;
+	currentY = INIT_Y;
 
 	openDoor = false;
+
+	moveUp = false;
+	moveDown = false;
+	moveRight = false;
+	moveLeft = false;
+
+	stopCamera = true;
+
+	savePositionX = currentX;
+	savePositionY = currentY;
 
 	load(RND->getInt(10));
 
@@ -49,10 +59,10 @@ void MainMap::update()
 		}
 	}
 
-	if (KEYMANAGER->isStayKeyDown('W')) { _startY += 5; }
-	if (KEYMANAGER->isStayKeyDown('S')) { _startY -= 5; }
-	if (KEYMANAGER->isStayKeyDown('A')) { _startX += 5; }
-	if (KEYMANAGER->isStayKeyDown('D')) { _startX -= 5; }
+	//if (KEYMANAGER->isStayKeyDown('W')) { currentY += 5; }
+	//if (KEYMANAGER->isStayKeyDown('S')) { currentY -= 5; }
+	//if (KEYMANAGER->isStayKeyDown('A')) { currentX += 5; }
+	//if (KEYMANAGER->isStayKeyDown('D')) { currentX -= 5; }
 	if (KEYMANAGER->isOnceKeyDown('B'))
 	{
 		openDoor = true;
@@ -84,13 +94,80 @@ void MainMap::update()
 				{
 					if (_tileMap[i][j].tileKind[z] == TILEKIND_OPEN_DOOR)
 					{
-						if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 2)
+						if (stopCamera)
 						{
-							_startY = _startY + WINSIZEY;
+							if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 3)
+							{
+								moveUp = true;
+								stopCamera = false;
+
+								PLAYERMANAGER->SetPlayerRectY(300);
+							}
+							if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 4)
+							{
+								moveDown = true;
+								stopCamera = false;
+
+								PLAYERMANAGER->SetPlayerRectY(-300);
+							}
+
+							if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 1)
+							{
+								moveLeft = true;
+								stopCamera = false;
+
+								PLAYERMANAGER->SetPlayerRectX(630);
+
+							}
+							if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 2)
+							{
+								moveRight = true;
+								stopCamera = false;
+
+								PLAYERMANAGER->SetPlayerRectX(-630);
+							}
 						}
 					}
 				}
 			}
+		}
+	}
+
+	if (!stopCamera)
+	{
+		if (moveUp)
+		{
+			currentY += 60;
+
+			if (currentY >= savePositionY + WINSIZEY)
+			{
+				currentY = savePositionY + WINSIZEY;
+				savePositionY = currentY;
+				moveUp = false;								
+				stopCamera = true;
+			}
+		}
+		if (moveDown)
+		{
+			currentY -= 60;
+
+			if (currentY <= savePositionY - WINSIZEY)
+			{
+				currentY = savePositionY - WINSIZEY;
+				savePositionY = currentY;
+				moveUp = false;
+				stopCamera = true;
+			}
+		}
+		else if (moveLeft)
+		{
+			currentX = currentX + WINSIZEX;
+			moveLeft = false;
+		}
+		else if (moveRight)
+		{
+			currentX = currentX - WINSIZEX;
+			moveRight = false;
 		}
 	}
 }
@@ -160,10 +237,10 @@ void MainMap::DrawTileMap()
 	{
 		for (int j = 0; j < TILE_COUNT_Y; j++)
 		{
-			int left = _startX + (i * CELL_WIDTH);
-			int top = _startY + (j * CELL_HEIGHT);
-			int right = _startX + (i * CELL_WIDTH) + CELL_WIDTH;
-			int bottom = _startY + (j * CELL_HEIGHT) + CELL_HEIGHT;
+			int left = currentX + (i * CELL_WIDTH);
+			int top = currentY + (j * CELL_HEIGHT);
+			int right = currentX + (i * CELL_WIDTH) + CELL_WIDTH;
+			int bottom = currentY + (j * CELL_HEIGHT) + CELL_HEIGHT;
 
 			_tileMap[i][j].left = left;
 			_tileMap[i][j].top = top;

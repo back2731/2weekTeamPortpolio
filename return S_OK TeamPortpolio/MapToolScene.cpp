@@ -31,8 +31,8 @@ HRESULT MapToolScene::init()
 	_center = 0;
 	memset(_tileMap, 0, sizeof(_tileMap));
 
-	_startX = INIT_X;
-	_startY = INIT_Y;
+	currentX = INIT_X;
+	currentY = INIT_Y;
 
 	_isDebug = true;
 	_currentCTRL = CTRL_DRAW;
@@ -53,10 +53,10 @@ void MapToolScene::update()
 		SUBWIN->update();
 	#endif // SUBWINOPEN
 
-	if (KEYMANAGER->isStayKeyDown('W')) { _startY += 5; }
-	if (KEYMANAGER->isStayKeyDown('S')) { _startY -= 5; }
-	if (KEYMANAGER->isStayKeyDown('A')) { _startX += 5; }
-	if (KEYMANAGER->isStayKeyDown('D')) { _startX -= 5; }
+	if (KEYMANAGER->isStayKeyDown('W')) { currentY += 5; }
+	if (KEYMANAGER->isStayKeyDown('S')) { currentY -= 5; }
+	if (KEYMANAGER->isStayKeyDown('A')) { currentX += 5; }
+	if (KEYMANAGER->isStayKeyDown('D')) { currentX -= 5; }
 
 	if (KEYMANAGER->isOnceKeyDown(VK_TAB))
 	{
@@ -65,7 +65,7 @@ void MapToolScene::update()
 
 	if (!SUBWIN->GetIsActive() && KEYMANAGER->isOnceKeyDown(VK_LBUTTON))
 	{
-		float cellX = (float)(m_ptMouse.x - _startX);
+		float cellX = (float)(m_ptMouse.x - currentX);
 
 		if (cellX < 0)
 		{
@@ -76,8 +76,8 @@ void MapToolScene::update()
 			//얼만큼 떨어져서 클릭했는가를 수치화(가로지름 기준)
 			cellX = cellX / (float)CELL_WIDTH;
 		}
-		int cellY = abs(m_ptMouse.y - _startY) / CELL_HEIGHT;
-		cellY = (m_ptMouse.y < _startY) ? cellY * -1 : cellY;
+		int cellY = abs(m_ptMouse.y - currentY) / CELL_HEIGHT;
+		cellY = (m_ptMouse.y < currentY) ? cellY * -1 : cellY;
 		int locationX = (int)cellX;
 		int locationY = (int)cellY;
 		/*
@@ -120,10 +120,10 @@ void MapToolScene::DrawTileMap()
 	{
 		for (int j = 0; j < TILE_COUNT_Y; j++)
 		{
-			int left = _startX + (i * CELL_WIDTH);
-			int top = _startY + (j * CELL_HEIGHT);
-			int right = _startX + (i * CELL_WIDTH) + CELL_WIDTH;
-			int bottom = _startY + (j * CELL_HEIGHT) + CELL_HEIGHT;
+			int left = currentX + (i * CELL_WIDTH);
+			int top = currentY + (j * CELL_HEIGHT);
+			int right = currentX + (i * CELL_WIDTH) + CELL_WIDTH;
+			int bottom = currentY + (j * CELL_HEIGHT) + CELL_HEIGHT;
 
 			_tileMap[i][j].left = left;
 			_tileMap[i][j].top = top;
@@ -327,9 +327,7 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 	case CTRL_ERASER:
 		if (_tileMap[locationX][locationY].index > -1)
 		{
-
-			_tileMap[locationX][locationY].index = { 0, };
-			_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = 0;
+			_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = { 0, };
 			_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = kindSelect(-1, -1);
 			_tileMap[locationX][locationY].tilePos[_tileMap[locationX][locationY].index] = imageFrame;
 		}

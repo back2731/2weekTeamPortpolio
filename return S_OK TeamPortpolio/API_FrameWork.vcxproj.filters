@@ -162,9 +162,6 @@
     <ClInclude Include="PlayerManager.h">
       <Filter>Manager\수정중</Filter>
     </ClInclude>
-    <ClInclude Include="CameraManager.h">
-      <Filter>Manager\수정중</Filter>
-    </ClInclude>
     <ClInclude Include="ItemManager.h">
       <Filter>Manager\수정중</Filter>
     </ClInclude>
@@ -303,9 +300,6 @@
       <Filter>Manager\수정중</Filter>
     </ClCompile>
     <ClCompile Include="PlayerManager.cpp">
-      <Filter>Manager\수정중</Filter>
-    </ClCompile>
-    <ClCompile Include="CameraManager.cpp">
       <Filter>Manager\수정중</Filter>
     </ClCompile>
     <ClCompile Include="ItemManager.cpp">

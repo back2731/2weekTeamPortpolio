@@ -17,8 +17,8 @@ private:
 	char str[128];
 
 
-	int _startX;
-	int _startY;
+	int currentX;
+	int currentY;
 
 	POINT imageFrame;
 	CTRL _currentCTRL;
