@@ -114,7 +114,7 @@ void MinionPacer::EnemyAi()
 						vMinionPacer[i].enemyRect.left += vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.right += vMinionPacer[i].enemySpeed;
 					}
-					if (vMinionPacer[i].enemyRect.right >= 950)
+					if (vMinionPacer[i].enemyRect.right >= 830)
 					{
 						firstEnemyAiPattern = 2;
 					}
@@ -165,7 +165,7 @@ void MinionPacer::EnemyAi()
 						vMinionPacer[i].enemyRect.left += vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.right += vMinionPacer[i].enemySpeed;
 					}
-					if (vMinionPacer[i].enemyRect.right >= 950)
+					if (vMinionPacer[i].enemyRect.right >= 830)
 					{
 						secondEnemyAiPattern = 2;
 					}
@@ -216,7 +216,7 @@ void MinionPacer::EnemyAi()
 						vMinionPacer[i].enemyRect.left += vMinionPacer[i].enemySpeed;
 						vMinionPacer[i].enemyRect.right += vMinionPacer[i].enemySpeed;
 					}
-					if (vMinionPacer[i].enemyRect.right >= 950)
+					if (vMinionPacer[i].enemyRect.right >= 830)
 					{
 						thirdEnemyAiPattern = 2;
 					}

@@ -11,16 +11,16 @@ MinionBlackFly::~MinionBlackFly()
 
 HRESULT MinionBlackFly::Init(POINT position, int EnemyNumber)
 {
-	//blackFly = IMAGEMANAGER->addFrameImage("blackfly", "images/monster/blackfly.bmp", 128 * 2, 128 * 2, 4, 4, true, RGB(255, 0, 255));
-	//ANIMATIONMANAGER->addDefAnimation("ani1", "blackfly", 10, false, true);
-	//ani = ANIMATIONMANAGER->findAnimation("ani1");
-
 	//구조체 정보 기입
 	EnemyInfo MinionBlackFly;
 	MinionBlackFly.enemyNumber = EnemyNumber;
-	MinionBlackFly.enemyRect = RectMakeCenter(position.x, position.y, 30, 30);
-	MinionBlackFly.enemyHp = 20;
-	MinionBlackFly.enemySpeed = 2.0f;
+	MinionBlackFly.enemyRect = RectMakeCenter(position.x, position.y, 15, 15);
+	MinionBlackFly.enemyHp = 3;
+	MinionBlackFly.enemySpeed = 1.5f;
+	// 애니메이션 Idle
+	MinionBlackFly.enemyImage = IMAGEMANAGER->addFrameImage("blackflyIdle", "images/monster/blackfly/blackflyMove.bmp", 712 / 2, 183 / 2, 4, 1, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addAnimation("minionIdle", "blackflyIdle", 0, 1, 15, false, true);
+	minionAni = ANIMATIONMANAGER->findAnimation("minionIdle");
 	vMinionBlackFly.push_back(MinionBlackFly);
 
 	enemyMove = true;
@@ -52,7 +52,7 @@ void MinionBlackFly::Render(HDC hdc)
 			FillRect(hdc, &vMinionBlackFly[i].enemyRect, brush);
 			DeleteObject(brush);
 		}
-		//blackFly->aniRender(hdc, vMinionBlackFly[i].enemyRect.left - 20, vMinionBlackFly[i].enemyRect.top - 15, ani);
+		vMinionBlackFly[i].enemyImage->aniRender(hdc, vMinionBlackFly[i].enemyRect.left - 37, vMinionBlackFly[i].enemyRect.top - 40, minionAni);
 	}
 }
 
@@ -94,10 +94,6 @@ void MinionBlackFly::EnemyAi()
 {
 	for (i = 0; i < vMinionBlackFly.size(); i++)
 	{
-		//애니메이션 프레임
-		//ani = ANIMATIONMANAGER->findAnimation("ani1");
-		//ANIMATIONMANAGER->start("ani1");
-
 		RECT temp;
 
 		// 적 x축, y축 좌표
@@ -120,6 +116,10 @@ void MinionBlackFly::EnemyAi()
 			(vMinionBlackFly[i].enemyRect.bottom) > PLAYERMANAGER->GetPlayerHitRectY() &&
 			enemyAreaCheck)
 		{
+			//애니메이션 프레임
+			minionAni = ANIMATIONMANAGER->findAnimation("minionLeft");
+			ANIMATIONMANAGER->start("minionLeft");
+
 			enemyMove = false;
 			enemyLeftBoost = true;
 			enemyRightBoost = false;
@@ -132,6 +132,11 @@ void MinionBlackFly::EnemyAi()
 			(vMinionBlackFly[i].enemyRect.bottom) > PLAYERMANAGER->GetPlayerHitRectY() &&
 			enemyAreaCheck)
 		{
+			//애니메이션 프레임
+			ANIMATIONMANAGER->addAnimation("minionRight", "blackflyIdle", 2, 3, 15, false, true);
+			minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
+			ANIMATIONMANAGER->start("minionRight");
+
 			enemyMove = false;
 			enemyRightBoost = true;
 			enemyLeftBoost = false;
@@ -186,7 +191,7 @@ void MinionBlackFly::EnemyAi()
 			vMinionBlackFly[i].enemyRect.left += vMinionBlackFly[i].enemySpeed * 2;
 			vMinionBlackFly[i].enemyRect.right += vMinionBlackFly[i].enemySpeed * 2;
 
-			if (vMinionBlackFly[i].enemyRect.right >= 930)
+			if (vMinionBlackFly[i].enemyRect.right >= 830)
 			{
 				enemyMove = true;
 				enemyRightBoost = false;
@@ -223,7 +228,6 @@ void MinionBlackFly::EnemyAi()
 		// 자율행동(AI)
 		if (enemyMove)
 		{
-
 			EnemyAiTime();
 
 			switch (vMinionBlackFly[i].enemyNumber)
@@ -234,6 +238,10 @@ void MinionBlackFly::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
+					//애니메이션 프레임
+					minionAni = ANIMATIONMANAGER->findAnimation("minionLeft");
+					ANIMATIONMANAGER->start("minionLeft");
+
 					if (vMinionBlackFly[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.left -= vMinionBlackFly[i].enemySpeed;
@@ -245,12 +253,17 @@ void MinionBlackFly::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
+					//애니메이션 프레임
+					ANIMATIONMANAGER->addAnimation("minionRight", "blackflyIdle", 2, 3, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
+					ANIMATIONMANAGER->start("minionRight");
+
 					if (vMinionBlackFly[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.left += vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.right += vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.right >= 950)
+					if (vMinionBlackFly[i].enemyRect.right >= 850)
 					{
 						firstEnemyAiPattern = 2;
 					}
@@ -301,7 +314,7 @@ void MinionBlackFly::EnemyAi()
 						vMinionBlackFly[i].enemyRect.left += vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.right += vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.right >= 950)
+					if (vMinionBlackFly[i].enemyRect.right >= 850)
 					{
 						secondEnemyAiPattern = 2;
 					}
@@ -352,7 +365,7 @@ void MinionBlackFly::EnemyAi()
 						vMinionBlackFly[i].enemyRect.left += vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.right += vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.right >= 950)
+					if (vMinionBlackFly[i].enemyRect.right >= 850)
 					{
 						thirdEnemyAiPattern = 2;
 					}
@@ -385,7 +398,7 @@ void MinionBlackFly::EnemyAi()
 		}
 
 		// 판정 범위가 항상 적의 좌표를 쫓아다님
-		vMinionBlackFly[i].enemyFireRange = RectMakeCenter(vMinionBlackFly[i].enemyX, vMinionBlackFly[i].enemyY, 200, 200);
+		vMinionBlackFly[i].enemyFireRange = RectMakeCenter(vMinionBlackFly[i].enemyX, vMinionBlackFly[i].enemyY, 250, 250);
 	}
 }
 

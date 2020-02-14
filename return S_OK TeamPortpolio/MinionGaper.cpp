@@ -155,7 +155,7 @@ void MinionGaper::EnemyAi()
 						vMinionGaper[i].enemyRect.left += vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.right += vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.right >= 950)
+					if (vMinionGaper[i].enemyRect.right >= 830)
 					{
 						firstEnemyAiPattern = 2;
 					}
@@ -206,7 +206,7 @@ void MinionGaper::EnemyAi()
 						vMinionGaper[i].enemyRect.left += vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.right += vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.right >= 950)
+					if (vMinionGaper[i].enemyRect.right >= 830)
 					{
 						secondEnemyAiPattern = 2;
 					}
@@ -257,7 +257,7 @@ void MinionGaper::EnemyAi()
 						vMinionGaper[i].enemyRect.left += vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.right += vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.right >= 950)
+					if (vMinionGaper[i].enemyRect.right >= 830)
 					{
 						thirdEnemyAiPattern = 2;
 					}

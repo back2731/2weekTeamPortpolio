@@ -14,7 +14,7 @@ HRESULT Monstro::Init(POINT position)
 	// 구조체 정보 기입
 	EnemyInfo Monstro;
 	Monstro.enemyRect = RectMakeCenter(position.x, position.y, 120, 60);
-	Monstro.enemyHp = 10;
+	Monstro.enemyHp = 250;
 	Monstro.enemyShotSpeed = 5.0f;
 	Monstro.enemyShotRange = 500.0f;
 	Monstro.enemyShotDelay = 30;
@@ -60,23 +60,24 @@ void Monstro::Render(HDC hdc)
 			DeleteObject(brush);
 		}
 
-		switch (firstEnemyAiPattern)
+		if (jump)
 		{
-		case 0:
+			vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 75, vMonstro[i].enemyRect.top - 417, bossAni);
+		}
+		else if (snowPattern)
+		{
 			vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 55, vMonstro[i].enemyRect.top - 170, bossAni);
-			break;
-		case 1:
-			vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 55, vMonstro[i].enemyRect.top - 310, bossAni);
-			break;
-		case 2:
-			vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 55, vMonstro[i].enemyRect.top - 170, bossAni);
-			break;
-		case 3:
+		}
+		else if (teleport)
+		{
 			if (!teleportImage)
 			{
-				vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 55, vMonstro[i].enemyRect.top - 170, bossAni);
+				vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 52, vMonstro[i].enemyRect.top - 218, bossAni);
 			}
-			break;
+		}
+		else
+		{
+			vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 55, vMonstro[i].enemyRect.top - 170, bossAni);
 		}
 	}
 
@@ -105,7 +106,7 @@ void Monstro::EnemyAiTime()
 	firstEnemyAiTime++;
 	if (firstEnemyAiTime / 60 == 3)
 	{
-		firstEnemyAiPattern = RND->getFromIntTo(1, 1);
+		firstEnemyAiPattern = RND->getFromIntTo(1, 3);
 		firstEnemyAiTime = 0;
 	}
 }
@@ -123,41 +124,61 @@ void Monstro::EnemyAi()
 		switch (firstEnemyAiPattern)
 		{
 		case 0:		 // 기본 IDLE 상태
-			// bool
-			teleport = false;
-			jump = false;
-			snowPattern = false;
 			// 애니메이션 Idle
 			vMonstro[i].enemyImage = IMAGEMANAGER->addFrameImage("monstroIdle", "images/monster/boss/monstroIdle.bmp", 2043, 729, 9, 3, true, RGB(255, 0, 255));
 			bossAni = ANIMATIONMANAGER->findAnimation("bossIdle");
 			ANIMATIONMANAGER->resume("bossIdle");
+			// bool
+			teleport = false;
+			jump = false;
+			snowPattern = false;
+
+			// 플레이어 추적
+			// getdistance(적의 위치 x, y, 플레이어의 위치 x, y)
+			distance = getDistance(vMonstro[i].enemyX, vMonstro[i].enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY());
+			if (distance)
+			{
+				// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
+				vx = ((PLAYERMANAGER->GetPlayerHitRectX()) - vMonstro[i].enemyX) / distance * vMonstro[i].enemySpeed;
+				vy = ((PLAYERMANAGER->GetPlayerHitRectY()) - vMonstro[i].enemyY) / distance * vMonstro[i].enemySpeed;
+			}
+			else
+			{
+				vx = 0;
+				vy = vMonstro[i].enemySpeed;
+			}
+			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
+			vMonstro[i].enemyX += vx;
+			vMonstro[i].enemyY += vy;
+			vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 120, 60);
+
 			// AI패턴
 			EnemyAiTime();
 			break;
 		case 1:      // 점프 후 전방위 발사
+			// 애니메이션 Idle
+			ANIMATIONMANAGER->stop("bossIdle");
 			// bool
 			jump = true;
 			snowPattern = false;
 			teleport = false;
 			jumpPower = 40.0f;
-			// 애니메이션 Idle
-			ANIMATIONMANAGER->stop("bossIdle");
 			break;
 		case 2:      // 90도 눈꽃 공격
+			// 애니메이션 Idle
+			ANIMATIONMANAGER->stop("bossIdle");
 			// bool
 			jump = false;
 			snowPattern = true;
 			teleport = false;
-			// 애니메이션 Idle
-			ANIMATIONMANAGER->stop("bossIdle");
 			break;
 		case 3:      // 플레이어의 근처로 순간이동
+			// 애니메이션 Idle
+			ANIMATIONMANAGER->stop("bossIdle");
 			// bool
 			jump = false;
 			snowPattern = false;
 			teleport = true;
-			// 애니메이션 Idle
-			ANIMATIONMANAGER->stop("bossIdle");
 			break;
 		}
 
@@ -176,29 +197,16 @@ void Monstro::EnemyPattern()
 	// 패턴1 : 점프
 	if (jump)
 	{
-		// 카운트가 0일 때 방향을 결정한다.
-		//if (jumpCount == 0)
-		//{
-		//	if (vMonstro[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX()) isLeft = true;
-		//	else isLeft = false;
-		//}
-
 		jumpCount++;
 
 		if (jumpCount < 21)
 		{
-			// 애니메이션 점프
-			//vMonstro[i].enemyImage = IMAGEMANAGER->addFrameImage("monstroJump", "images/monster/boss/monstroJumpUp.bmp", 3405, 786, 15, 2, true, RGB(255, 0, 255));
-			//ANIMATIONMANAGER->addAnimation("bossLeftJump", "monstroJump", 15, 29, 1, true);
-			//bossAni = ANIMATIONMANAGER->findAnimation("bossLeftJump");
-			//ANIMATIONMANAGER->resume("bossLeftJump");
-
 			gravity = 5.0f;
 			vMonstro[i].enemyRect.top -= jumpPower;
 			vMonstro[i].enemyRect.bottom -= jumpPower;
 			jumpPower -= gravity;
 		}
-		else if (jumpCount > 20 && jumpCount <= 180)
+		else if (jumpCount > 20 && jumpCount <= 165)
 		{
 			// 애니메이션 낙하
 			vMonstro[i].enemyImage = IMAGEMANAGER->addFrameImage("monstroDown", "images/monster/boss/monstroJumpDown.bmp", 3406, 2530, 13, 5, true, RGB(255, 0, 255));
@@ -225,7 +233,7 @@ void Monstro::EnemyPattern()
 			vMonstro[i].enemyY += vy * 5;
 			vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 120, 60);
 		}
-		else if (jumpCount > 180 && jumpCount <= 190)
+		else if (jumpCount > 165 && jumpCount <= 175)
 		{
 			EnemyAllShot();
 		}
@@ -303,16 +311,16 @@ void Monstro::EnemyPattern()
 	if (teleport)
 	{
 		// 애니메이션 텔레포트
-		vMonstro[i].enemyImage = IMAGEMANAGER->addFrameImage("monstroTeleport", "images/monster/boss/monstroMove.bmp", 3930, 3036, 15, 6, true, RGB(255, 0, 255));
+		vMonstro[i].enemyImage = IMAGEMANAGER->addFrameImage("monstroTeleport", "images/monster/boss/monstroMove.bmp", 2043, 1455, 9, 5, true, RGB(255, 0, 255));
 		teleportCount++;
 
-		if (teleportCount < 30)
+		if (teleportCount < 90)
 		{
 			ANIMATIONMANAGER->addAnimation("monstroTeleport", "monstroTeleport", 0, 44, 20, true);
 			bossAni = ANIMATIONMANAGER->findAnimation("monstroTeleport");
 			ANIMATIONMANAGER->resume("monstroTeleport");
 		}
-		else if (teleportCount > 29 && teleportCount < 200)
+		else if (teleportCount > 89 && teleportCount < 300)
 		{
 			teleportImage = true;
 			ANIMATIONMANAGER->pause("monstroTeleport");
@@ -334,15 +342,15 @@ void Monstro::EnemyPattern()
 			vMonstro[i].enemyY += vy;
 			vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 120, 60);
 		}
-		else if (teleportCount > 199 & teleportCount < 250)
+		else if (teleportCount > 299 & teleportCount < 350)
 		{
 			teleportImage = false;
 			ANIMATIONMANAGER->resume("monstroTeleport");
 		}
 		else
 		{
-			firstEnemyAiPattern = 0;
 			ANIMATIONMANAGER->stop("monstroTeleport");
+			firstEnemyAiPattern = 2;
 		}
 	}
 	else
