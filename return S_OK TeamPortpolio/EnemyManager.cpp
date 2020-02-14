@@ -25,29 +25,28 @@ HRESULT EnemyManager::Init()
 
 	//m_Monstro->Init(PointMake(WINSIZEX / 2, WINSIZEY / 2));
 
-	m_MinionAttackFly->Init(PointMake(80, 100), 0);
-	//m_MinionAttackFly->Init(PointMake(80, 150), 1);
-	//m_MinionAttackFly->Init(PointMake(80, 200), 2);
+	//m_MinionAttackFly->Init(PointMake(150, 150), 1);
+	//m_MinionAttackFly->Init(PointMake(150, 200), 2);
 
-	m_MinionBlackFly->Init(PointMake(300, 400), 0);
+	//m_MinionBlackFly->Init(PointMake(300, 400), 0);
 	//m_MinionBlackFly->Init(PointMake(400, 400), 1);
 	//m_MinionBlackFly->Init(PointMake(500, 400), 2);	
 
-	//m_MinionMaw->Init(PointMake(500, 100), 0);
-	//m_MinionMaw->Init(PointMake(550, 100), 1);
-	//m_MinionMaw->Init(PointMake(600, 100), 2);
+	//m_MinionMaw->Init(PointMake(200, 100), 0);
+	//m_MinionMaw->Init(PointMake(250, 100), 1);
+	//m_MinionMaw->Init(PointMake(300, 100), 2);
 
-	//m_MinionTumor->Init(PointMake(700, 100), 0);
-	//m_MinionTumor->Init(PointMake(800, 100), 1);
-	//m_MinionTumor->Init(PointMake(900, 100), 2);
+	//m_MinionTumor->Init(PointMake(200, 100), 0);
+	//m_MinionTumor->Init(PointMake(250, 100), 1);
+	//m_MinionTumor->Init(PointMake(300, 100), 2);
 
 	//m_MinionClot->Init(PointMake(100, 500), 0);
 	//m_MinionClot->Init(PointMake(200, 500), 1);
 	//m_MinionClot->Init(PointMake(300, 500), 2);
 
-	//m_MinionClotty->Init(PointMake(100, 500), 0);
-	//m_MinionClotty->Init(PointMake(200, 500), 1);
-	//m_MinionClotty->Init(PointMake(300, 500), 2);
+	//m_MinionClotty->Init(PointMake(100, 300), 0);
+	//m_MinionClotty->Init(PointMake(200, 300), 1);
+	//m_MinionClotty->Init(PointMake(300, 300), 2);
 
 	//m_MinionGaper->Init(PointMake(100, 300), 0);
 	//m_MinionGaper->Init(PointMake(200, 300), 1);

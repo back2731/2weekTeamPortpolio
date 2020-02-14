@@ -475,3 +475,4 @@ void Player::SetPlayerRectY(int num)
 	player.playerHitRect.top += num;
 	player.playerHitRect.bottom += num;
 }
+

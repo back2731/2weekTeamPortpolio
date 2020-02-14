@@ -124,6 +124,7 @@ public:
 	void SetPlayerRectX(int num);
 	void SetPlayerRectY(int num);
 
+
 	vector<BulletInfo> GetPlayerBulletVector() { return vPlayerBullet; }
 
 	int GetPlayerOffensePower() { return player.playerOffensePower; }

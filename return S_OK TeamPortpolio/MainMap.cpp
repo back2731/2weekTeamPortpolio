@@ -80,7 +80,11 @@ void MainMap::update()
 			{
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
 				{
-					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+					if (stopCamera)
+					{
+						COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+						COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
+					}
 				}
 
 				if (!openDoor)
@@ -88,6 +92,7 @@ void MainMap::update()
 					if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
 					{
 						COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+						COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
 					}
 				}
 				else
@@ -98,36 +103,38 @@ void MainMap::update()
 						{
 							if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 3)
 							{
+								PLAYERMANAGER->SetPlayerRectY(340);
 								moveUp = true;
 								stopCamera = false;
-
-								PLAYERMANAGER->SetPlayerRectY(300);
 							}
-							if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 4)
+
+							else if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 4)
 							{
+								PLAYERMANAGER->SetPlayerRectY(-340);
 								moveDown = true;
 								stopCamera = false;
-
-								PLAYERMANAGER->SetPlayerRectY(-300);
 							}
 
-							if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 1)
+							else if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 1)
 							{
+								PLAYERMANAGER->SetPlayerRectX(620);
 								moveLeft = true;
 								stopCamera = false;
-
-								PLAYERMANAGER->SetPlayerRectX(630);
-
 							}
-							if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 2)
+							else if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 2)
 							{
+								PLAYERMANAGER->SetPlayerRectX(-620);								
 								moveRight = true;
 								stopCamera = false;
-
-								PLAYERMANAGER->SetPlayerRectX(-630);
 							}
 						}
 					}
+				}
+
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
+				{
+					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+					COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
 				}
 			}
 		}
@@ -155,19 +162,33 @@ void MainMap::update()
 			{
 				currentY = savePositionY - WINSIZEY;
 				savePositionY = currentY;
-				moveUp = false;
+				moveDown = false;
 				stopCamera = true;
 			}
 		}
 		else if (moveLeft)
 		{
-			currentX = currentX + WINSIZEX;
-			moveLeft = false;
+			currentX += 100;
+			
+			if (currentX >= savePositionX + WINSIZEX)
+			{
+				currentX = savePositionX + WINSIZEX;
+				savePositionX = currentX;
+				moveLeft = false;
+				stopCamera = true;
+			}
 		}
 		else if (moveRight)
 		{
-			currentX = currentX - WINSIZEX;
-			moveRight = false;
+			currentX -= 100;
+
+			if (currentX <= savePositionX - WINSIZEX)
+			{
+				currentX = savePositionX - WINSIZEX;
+				savePositionX = currentX;
+				moveRight = false;
+				stopCamera = true;
+			}
 		}
 	}
 }
@@ -217,7 +238,7 @@ void MainMap::render()
 							DeleteObject(brush);
 						}
 					}
-					if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT_NEXTROOM)
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 						HBRUSH brush = CreateSolidBrush(RGB(0, 0, 255));

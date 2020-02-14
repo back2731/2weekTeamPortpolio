@@ -157,7 +157,7 @@ void MapToolScene::DrawTileMap()
 							break;
 						}
 						break;
-					case TILEKIND_OBJECT_NEXTROOM:
+					case TILEKIND_INVISIBLE_BLOCK:
 						IMAGEMANAGER->frameRender("blocks", getMemDC(),
 							_tileMap[i][j].left,
 							_tileMap[i][j].top - _tileMap[i][j].height*z,
@@ -279,7 +279,7 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 	case TILEKIND_NONE:
 	case TILEKIND_TERRAIN:
 	case TILEKIND_OBJECT:
-	case TILEKIND_OBJECT_NEXTROOM:
+	case TILEKIND_INVISIBLE_BLOCK:
 	case TILEKIND_OPEN_DOOR:
 	case TILEKIND_CLOSE_DOOR:
 		imageFrame = SUBWIN->GetFramePoint();
@@ -300,7 +300,7 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 
 			if (_tileMap[locationX][locationY].index >= TILE_MAX)
 			{
-				_tileMap[locationX][locationY].index = TILE_MAX - 1;
+				_tileMap[locationX][locationY].index = 0;
 			}
 			_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
 			_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = kindSelect(imageFrame.x, imageFrame.y);
@@ -327,9 +327,17 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 	case CTRL_ERASER:
 		if (_tileMap[locationX][locationY].index > -1)
 		{
-			_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = { 0, };
-			_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = kindSelect(-1, -1);
-			_tileMap[locationX][locationY].tilePos[_tileMap[locationX][locationY].index] = imageFrame;
+	/*		_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
+			_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = kindSelect(-20, -20);
+			_tileMap[locationX][locationY].tilePos[_tileMap[locationX][locationY].index] = imageFrame;*/
+
+			for (int i = 0; i < 3; i++)
+			{
+				_tileMap[locationX][locationY].tileNum[i] = 0;
+				_tileMap[locationX][locationY].tileKind[i] = TILEKIND_TERRAIN;
+				_tileMap[locationX][locationY].tilePos[i] = { 0 };
+			}
+			index = -1;
 		}
 		break;
 	}
@@ -338,11 +346,10 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 // 속성종류 정해줌
 TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 {
-	if (frameX == -1 && frameY == -1)
+	if (frameX == -20, frameY == -20)
 	{
 		return TILEKIND_NONE;
 	}
-
 	if (SUBWIN->GetFrameIndex() == CTRL_NUM1)
 	{
 		return TILEKIND_TERRAIN;
@@ -355,7 +362,7 @@ TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 		}
 		if (frameY == 4)
 		{
-			return TILEKIND_OBJECT_NEXTROOM;
+			return TILEKIND_INVISIBLE_BLOCK;
 		}
 	}
 	if (SUBWIN->GetFrameIndex() == CTRL_NUM3)

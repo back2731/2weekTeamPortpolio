@@ -22,8 +22,11 @@ void ObjectPool::Init()
 
 void ObjectPool::Render(HDC hdc)
 {
-	sprintf_s((str), "ÃÑ¾Ë ÀÜ¿© : %d", vBulletRepository.size());
+	sprintf_s((str), "x : %d", m_ptMouse.x);
 	TextOut(hdc, 100, 100, str, strlen(str));
+
+	sprintf_s((str), "y : %d", m_ptMouse.y);
+	TextOut(hdc, 100, 120, str, strlen(str));
 }
 
 void ObjectPool::SetBulletVector(BulletInfo vSpentBullet)

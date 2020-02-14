@@ -3289,6 +3289,387 @@ void CollisionManager::PlayerToObstacleCollision(RECT obstacleRect)
 
 void CollisionManager::EnemyToObstacleCollision(RECT obstacleRect)
 {
+	RECT temp;
+
+	// MinionAttackFly 충돌
+	for (int j = 0; j < ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector().size(); j++)
+	{
+		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect))
+		{
+			// temp의 Width와 Height 선언
+			int tempW = temp.right - temp.left;
+			int tempH = temp.bottom - temp.top;
+
+			if (tempH > tempW)
+			{
+				// 왼쪽 충돌시 오른쪽으로 밀어줌
+				if (temp.left == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.left)
+				{
+					ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectX(j, tempW);
+				}
+				// 오른쪽 충돌시 왼쪽으로 밀어줌
+				else if (temp.right == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.right)
+				{
+					ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectX(j, -tempW);
+				}
+			}
+			else
+			{
+				// 위쪽 충돌시 아래쪽으로 밀어줌
+				if (temp.top == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.top)
+				{
+					ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectY(j, tempH);
+				}
+				// 아래쪽 충돌시 위쪽으로 밀어줌
+				else if (temp.bottom == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.bottom)
+				{
+					ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectY(j, -tempH);
+				}
+			}
+		}
+	}
+
+	// MinionBlackFly 충돌
+	for (int j = 0; j < ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector().size(); j++)
+	{
+		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect))
+		{
+			// temp의 Width와 Height 선언
+			int tempW = temp.right - temp.left;
+			int tempH = temp.bottom - temp.top;
+
+			if (tempH > tempW)
+			{
+				// 왼쪽 충돌시 오른쪽으로 밀어줌
+				if (temp.left == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.left)
+				{
+					ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectX(j, tempW);
+				}
+				// 오른쪽 충돌시 왼쪽으로 밀어줌
+				else if (temp.right == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.right)
+				{
+					ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectX(j, -tempW);
+				}
+			}
+			else
+			{
+				// 위쪽 충돌시 아래쪽으로 밀어줌
+				if (temp.top == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.top)
+				{
+					ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectY(j, tempH);
+				}
+				// 아래쪽 충돌시 위쪽으로 밀어줌
+				else if (temp.bottom == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.bottom)
+				{
+					ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectY(j, -tempH);
+				}
+			}
+		}
+	}
+
+	// MinionMaw 충돌
+	for (int j = 0; j < ENEMYMANAGER->GetMinionMaw()->GetMinionVector().size(); j++)
+	{
+		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect))
+		{
+			// temp의 Width와 Height 선언
+			int tempW = temp.right - temp.left;
+			int tempH = temp.bottom - temp.top;
+
+			if (tempH > tempW)
+			{
+				// 왼쪽 충돌시 오른쪽으로 밀어줌
+				if (temp.left == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.left)
+				{
+					ENEMYMANAGER->GetMinionMaw()->SetEnemyRectX(j, tempW);
+				}
+				// 오른쪽 충돌시 왼쪽으로 밀어줌
+				else if (temp.right == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.right)
+				{
+					ENEMYMANAGER->GetMinionMaw()->SetEnemyRectX(j, -tempW);
+				}
+			}
+			else
+			{
+				// 위쪽 충돌시 아래쪽으로 밀어줌
+				if (temp.top == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.top)
+				{
+					ENEMYMANAGER->GetMinionMaw()->SetEnemyRectY(j, tempH);
+				}
+				// 아래쪽 충돌시 위쪽으로 밀어줌
+				else if (temp.bottom == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.bottom)
+				{
+					ENEMYMANAGER->GetMinionMaw()->SetEnemyRectY(j, -tempH);
+				}
+			}
+		}
+	}
+
+	// MinionTumor 충돌
+	for (int j = 0; j < ENEMYMANAGER->GetMinionTumor()->GetMinionVector().size(); j++)
+	{
+		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect))
+		{
+			// temp의 Width와 Height 선언
+			int tempW = temp.right - temp.left;
+			int tempH = temp.bottom - temp.top;
+
+			if (tempH > tempW)
+			{
+				// 왼쪽 충돌시 오른쪽으로 밀어줌
+				if (temp.left == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.left)
+				{
+					ENEMYMANAGER->GetMinionTumor()->SetEnemyRectX(j, tempW);
+				}
+				// 오른쪽 충돌시 왼쪽으로 밀어줌
+				else if (temp.right == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.right)
+				{
+					ENEMYMANAGER->GetMinionTumor()->SetEnemyRectX(j, -tempW);
+				}
+			}
+			else
+			{
+				// 위쪽 충돌시 아래쪽으로 밀어줌
+				if (temp.top == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.top)
+				{
+					ENEMYMANAGER->GetMinionTumor()->SetEnemyRectY(j, tempH);
+				}
+				// 아래쪽 충돌시 위쪽으로 밀어줌
+				else if (temp.bottom == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.bottom)
+				{
+					ENEMYMANAGER->GetMinionTumor()->SetEnemyRectY(j, -tempH);
+				}
+			}
+		}
+	}
+
+	// MinionClot 충돌
+	for (int j = 0; j < ENEMYMANAGER->GetMinionClot()->GetMinionVector().size(); j++)
+	{
+		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect))
+		{
+			// temp의 Width와 Height 선언
+			int tempW = temp.right - temp.left;
+			int tempH = temp.bottom - temp.top;
+
+			if (tempH > tempW)
+			{
+				// 왼쪽 충돌시 오른쪽으로 밀어줌
+				if (temp.left == ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect.left)
+				{
+					ENEMYMANAGER->GetMinionClot()->SetEnemyRectX(j, tempW);
+				}
+				// 오른쪽 충돌시 왼쪽으로 밀어줌
+				else if (temp.right == ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect.right)
+				{
+					ENEMYMANAGER->GetMinionClot()->SetEnemyRectX(j, -tempW);
+				}
+			}
+			else
+			{
+				// 위쪽 충돌시 아래쪽으로 밀어줌
+				if (temp.top == ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect.top)
+				{
+					ENEMYMANAGER->GetMinionClot()->SetEnemyRectY(j, tempH);
+				}
+				// 아래쪽 충돌시 위쪽으로 밀어줌
+				else if (temp.bottom == ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect.bottom)
+				{
+					ENEMYMANAGER->GetMinionClot()->SetEnemyRectY(j, -tempH);
+				}
+			}
+		}
+	}
+
+	// MinionClotty 충돌
+	for (int j = 0; j < ENEMYMANAGER->GetMinionClotty()->GetMinionVector().size(); j++)
+	{
+		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect))
+		{
+			// temp의 Width와 Height 선언
+			int tempW = temp.right - temp.left;
+			int tempH = temp.bottom - temp.top;
+
+			if (tempH > tempW)
+			{
+				// 왼쪽 충돌시 오른쪽으로 밀어줌
+				if (temp.left == ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect.left)
+				{
+					ENEMYMANAGER->GetMinionClotty()->SetEnemyRectX(j, tempW);
+				}
+				// 오른쪽 충돌시 왼쪽으로 밀어줌
+				else if (temp.right == ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect.right)
+				{
+					ENEMYMANAGER->GetMinionClotty()->SetEnemyRectX(j, -tempW);
+				}
+			}
+			else
+			{
+				// 위쪽 충돌시 아래쪽으로 밀어줌
+				if (temp.top == ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect.top)
+				{
+					ENEMYMANAGER->GetMinionClotty()->SetEnemyRectY(j, tempH);
+				}
+				// 아래쪽 충돌시 위쪽으로 밀어줌
+				else if (temp.bottom == ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect.bottom)
+				{
+					ENEMYMANAGER->GetMinionClotty()->SetEnemyRectY(j, -tempH);
+				}
+			}
+		}
+	}
+
+	// MinionGaper 충돌
+	for (int j = 0; j < ENEMYMANAGER->GetMinionGaper()->GetMinionVector().size(); j++)
+	{
+		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect))
+		{
+			// temp의 Width와 Height 선언
+			int tempW = temp.right - temp.left;
+			int tempH = temp.bottom - temp.top;
+
+			if (tempH > tempW)
+			{
+				// 왼쪽 충돌시 오른쪽으로 밀어줌
+				if (temp.left == ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect.left)
+				{
+					ENEMYMANAGER->GetMinionGaper()->SetEnemyRectX(j, tempW);
+				}
+				// 오른쪽 충돌시 왼쪽으로 밀어줌
+				else if (temp.right == ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect.right)
+				{
+					ENEMYMANAGER->GetMinionGaper()->SetEnemyRectX(j, -tempW);
+				}
+			}
+			else
+			{
+				// 위쪽 충돌시 아래쪽으로 밀어줌
+				if (temp.top == ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect.top)
+				{
+					ENEMYMANAGER->GetMinionGaper()->SetEnemyRectY(j, tempH);
+				}
+				// 아래쪽 충돌시 위쪽으로 밀어줌
+				else if (temp.bottom == ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect.bottom)
+				{
+					ENEMYMANAGER->GetMinionGaper()->SetEnemyRectY(j, -tempH);
+				}
+			}
+		}
+	}
+
+	// MinionHorf 충돌
+	for (int j = 0; j < ENEMYMANAGER->GetMinionHorf()->GetMinionVector().size(); j++)
+	{
+		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect))
+		{
+			// temp의 Width와 Height 선언
+			int tempW = temp.right - temp.left;
+			int tempH = temp.bottom - temp.top;
+
+			if (tempH > tempW)
+			{
+				// 왼쪽 충돌시 오른쪽으로 밀어줌
+				if (temp.left == ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect.left)
+				{
+					ENEMYMANAGER->GetMinionHorf()->SetEnemyRectX(j, tempW);
+				}
+				// 오른쪽 충돌시 왼쪽으로 밀어줌
+				else if (temp.right == ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect.right)
+				{
+					ENEMYMANAGER->GetMinionHorf()->SetEnemyRectX(j, -tempW);
+				}
+			}
+			else
+			{
+				// 위쪽 충돌시 아래쪽으로 밀어줌
+				if (temp.top == ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect.top)
+				{
+					ENEMYMANAGER->GetMinionHorf()->SetEnemyRectY(j, tempH);
+				}
+				// 아래쪽 충돌시 위쪽으로 밀어줌
+				else if (temp.bottom == ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect.bottom)
+				{
+					ENEMYMANAGER->GetMinionHorf()->SetEnemyRectY(j, -tempH);
+				}
+			}
+		}
+	}
+
+	// MinionMulligan 충돌
+	for (int j = 0; j < ENEMYMANAGER->GetMinionMulligan()->GetMinionVector().size(); j++)
+	{
+		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect))
+		{
+			// temp의 Width와 Height 선언
+			int tempW = temp.right - temp.left;
+			int tempH = temp.bottom - temp.top;
+
+			if (tempH > tempW)
+			{
+				// 왼쪽 충돌시 오른쪽으로 밀어줌
+				if (temp.left == ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect.left)
+				{
+					ENEMYMANAGER->GetMinionMulligan()->SetEnemyRectX(j, tempW);
+				}
+				// 오른쪽 충돌시 왼쪽으로 밀어줌
+				else if (temp.right == ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect.right)
+				{
+					ENEMYMANAGER->GetMinionMulligan()->SetEnemyRectX(j, -tempW);
+				}
+			}
+			else
+			{
+				// 위쪽 충돌시 아래쪽으로 밀어줌
+				if (temp.top == ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect.top)
+				{
+					ENEMYMANAGER->GetMinionMulligan()->SetEnemyRectY(j, tempH);
+				}
+				// 아래쪽 충돌시 위쪽으로 밀어줌
+				else if (temp.bottom == ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect.bottom)
+				{
+					ENEMYMANAGER->GetMinionMulligan()->SetEnemyRectY(j, -tempH);
+				}
+			}
+		}
+	}
+
+	// MinionPacer 충돌
+	for (int j = 0; j < ENEMYMANAGER->GetMinionPacer()->GetMinionVector().size(); j++)
+	{
+		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect))
+		{
+			// temp의 Width와 Height 선언
+			int tempW = temp.right - temp.left;
+			int tempH = temp.bottom - temp.top;
+
+			if (tempH > tempW)
+			{
+				// 왼쪽 충돌시 오른쪽으로 밀어줌
+				if (temp.left == ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect.left)
+				{
+					ENEMYMANAGER->GetMinionPacer()->SetEnemyRectX(j, tempW);
+				}
+				// 오른쪽 충돌시 왼쪽으로 밀어줌
+				else if (temp.right == ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect.right)
+				{
+					ENEMYMANAGER->GetMinionPacer()->SetEnemyRectX(j, -tempW);
+				}
+			}
+			else
+			{
+				// 위쪽 충돌시 아래쪽으로 밀어줌
+				if (temp.top == ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect.top)
+				{
+					ENEMYMANAGER->GetMinionPacer()->SetEnemyRectY(j, tempH);
+				}
+				// 아래쪽 충돌시 위쪽으로 밀어줌
+				else if (temp.bottom == ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect.bottom)
+				{
+					ENEMYMANAGER->GetMinionPacer()->SetEnemyRectY(j, -tempH);
+				}
+			}
+		}
+	}
 }
 
 int CollisionManager::PlayerCollisionNextDoor(RECT nextDoor)

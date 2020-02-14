@@ -29,4 +29,5 @@ public:
 
 	int GetPlayerOffensePower() { return m_Player->GetPlayerOffensePower(); }
 	void SetPlayerOffensePower(int addPower) { m_Player->SetPlayerOffensePower(addPower); }
+
 };
