@@ -11,9 +11,9 @@ MinionBlackFly::~MinionBlackFly()
 
 HRESULT MinionBlackFly::Init(POINT position, int EnemyNumber)
 {
-	blackFly = IMAGEMANAGER->addFrameImage("blackfly", "images/monster/blackfly.bmp", 128 * 2, 128 * 2, 4, 4, true, RGB(255, 0, 255));
-	ANIMATIONMANAGER->addDefAnimation("ani1", "blackfly", 10, false, true);
-	ani = ANIMATIONMANAGER->findAnimation("ani1");
+	//blackFly = IMAGEMANAGER->addFrameImage("blackfly", "images/monster/blackfly.bmp", 128 * 2, 128 * 2, 4, 4, true, RGB(255, 0, 255));
+	//ANIMATIONMANAGER->addDefAnimation("ani1", "blackfly", 10, false, true);
+	//ani = ANIMATIONMANAGER->findAnimation("ani1");
 
 	//구조체 정보 기입
 	EnemyInfo MinionBlackFly;
@@ -52,7 +52,7 @@ void MinionBlackFly::Render(HDC hdc)
 			FillRect(hdc, &vMinionBlackFly[i].enemyRect, brush);
 			DeleteObject(brush);
 		}
-		blackFly->aniRender(hdc, vMinionBlackFly[i].enemyRect.left - 20, vMinionBlackFly[i].enemyRect.top - 15, ani);
+		//blackFly->aniRender(hdc, vMinionBlackFly[i].enemyRect.left - 20, vMinionBlackFly[i].enemyRect.top - 15, ani);
 	}
 }
 
@@ -95,8 +95,8 @@ void MinionBlackFly::EnemyAi()
 	for (i = 0; i < vMinionBlackFly.size(); i++)
 	{
 		//애니메이션 프레임
-		ani = ANIMATIONMANAGER->findAnimation("ani1");
-		ANIMATIONMANAGER->start("ani1");
+		//ani = ANIMATIONMANAGER->findAnimation("ani1");
+		//ANIMATIONMANAGER->start("ani1");
 
 		RECT temp;
 
