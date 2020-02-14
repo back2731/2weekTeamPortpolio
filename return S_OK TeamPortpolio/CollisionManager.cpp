@@ -3291,12 +3291,12 @@ void CollisionManager::EnemyToObstacleCollision(RECT obstacleRect)
 {
 }
 
-void CollisionManager::test(RECT obstacleRect, int _startX, int _startY)
+int CollisionManager::PlayerCollisionNextDoor(RECT nextDoor)
 {
 	RECT temp;
-
-	if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &obstacleRect))
+	if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &nextDoor))
 	{
+
 		// temp의 Width와 Height 선언
 		int tempW = temp.right - temp.left;
 		int tempH = temp.bottom - temp.top;
@@ -3306,12 +3306,17 @@ void CollisionManager::test(RECT obstacleRect, int _startX, int _startY)
 			// 왼쪽 충돌시 오른쪽으로 밀어줌
 			if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
 			{
-				PLAYERMANAGER->SetPlayerRectX(tempW);
+				PLAYERMANAGER->SetPlayerRectX(tempW * 50);
+				direction = 0;
+				return direction;
 			}
 			// 오른쪽 충돌시 왼쪽으로 밀어줌
 			else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
 			{
-				PLAYERMANAGER->SetPlayerRectX(-tempW);
+				//PLAYERMANAGER->SetPlayerRectX(-tempW * 50);
+				direction = 1;
+
+				return direction;
 			}
 		}
 		else
@@ -3319,14 +3324,19 @@ void CollisionManager::test(RECT obstacleRect, int _startX, int _startY)
 			// 위쪽 충돌시 아래쪽으로 밀어줌
 			if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
 			{
-				PLAYERMANAGER->SetPlayerRectY(tempH);
+				//PLAYERMANAGER->SetPlayerRectY(tempH * 50);
+				direction = 2;
+
+				return direction;
 			}
 			// 아래쪽 충돌시 위쪽으로 밀어줌
 			else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
 			{
-				PLAYERMANAGER->SetPlayerRectY(-tempH);
-				_startY -= 500;
+				//PLAYERMANAGER->SetPlayerRectY(-tempH * 50);
+				direction = 3;
+
+				return direction;
 			}
 		}
-	}
+	}	
 }

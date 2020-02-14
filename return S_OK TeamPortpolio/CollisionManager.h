@@ -5,6 +5,7 @@
 class CollisionManager : public singletonBase<CollisionManager>
 {
 private:
+	int direction;
 
 public:
 	CollisionManager();
@@ -33,5 +34,5 @@ public:
 	
 	void EnemyToObstacleCollision(RECT obstacleRect);
 
-	void test(RECT obstacleRect, int _startX, int _startY);
+	int PlayerCollisionNextDoor(RECT nextDoor);
 };

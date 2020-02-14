@@ -12,7 +12,6 @@ GameScene::~GameScene()
 
 HRESULT GameScene::init()
 {
-	//IMAGEMANAGER->addImage("TestMap", "images/TestMap.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	mainMap = new MainMap;
 	mainMap->init();
 
@@ -49,7 +48,7 @@ void GameScene::update()
 void GameScene::render()
 {
 	mainMap->render();
-	IMAGEMANAGER->render("TestMap", getMemDC());
+	m_shop->Render(getMemDC());
 	ENEMYMANAGER->Render(getMemDC());
 	PLAYERMANAGER->Render(getMemDC());
 	OBJECTPOOL->Render(getMemDC());

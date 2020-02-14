@@ -26,6 +26,8 @@ HRESULT MainMap::init()
 	_startX = INIT_X;
 	_startY = INIT_Y;
 
+	openDoor = false;
+
 	load(RND->getInt(10));
 
 	return E_NOTIMPL;
@@ -51,6 +53,14 @@ void MainMap::update()
 	if (KEYMANAGER->isStayKeyDown('S')) { _startY -= 5; }
 	if (KEYMANAGER->isStayKeyDown('A')) { _startX += 5; }
 	if (KEYMANAGER->isStayKeyDown('D')) { _startX -= 5; }
+	if (KEYMANAGER->isOnceKeyDown('B'))
+	{
+		openDoor = true;
+	}
+	if (KEYMANAGER->isOnceKeyDown('N'))
+	{
+		openDoor = false;
+	}
 
 	for (int i = 0; i < TILE_COUNT_X; i++)
 	{
@@ -63,10 +73,22 @@ void MainMap::update()
 					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
 				}
 
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
+				if (!openDoor)
 				{
-					//COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
-					COLLISIONMANAGER->test(_tileMap[i][j].rect, _startX, _startY);
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
+					{
+						COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+					}
+				}
+				else
+				{
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_OPEN_DOOR)
+					{
+						if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 2)
+						{
+							_startY = _startY + WINSIZEY;
+						}
+					}
 				}
 			}
 		}
@@ -97,26 +119,31 @@ void MainMap::render()
 						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 						DeleteObject(brush);
 					}
-					if (_tileMap[i][j].tileKind[z] == TILEKIND_OPEN_DOOR)
+		
+					if (!openDoor)
 					{
-						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
-						HBRUSH brush = CreateSolidBrush(RGB(123, 100, 102));
-						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
-						DeleteObject(brush);
+						if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
+						{
+							Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+							HBRUSH brush = CreateSolidBrush(RGB(255, 0, 0));
+							FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+							DeleteObject(brush);
+						}
 					}
-
-					if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
+					else
 					{
-						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
-						HBRUSH brush = CreateSolidBrush(RGB(204, 123, 102));
-						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
-						DeleteObject(brush);
+						if (_tileMap[i][j].tileKind[z] == TILEKIND_OPEN_DOOR)
+						{
+							Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+							HBRUSH brush = CreateSolidBrush(RGB(0, 255, 0));
+							FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+							DeleteObject(brush);
+						}
 					}
-
-					if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT_BUMB)
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT_NEXTROOM)
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
-						HBRUSH brush = CreateSolidBrush(RGB(204, 255, 102));
+						HBRUSH brush = CreateSolidBrush(RGB(0, 0, 255));
 						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 						DeleteObject(brush);
 					}
@@ -150,7 +177,7 @@ void MainMap::DrawTileMap()
 			{
 				if (_tileMap[i][j].tileKind[z] != TILEKIND_NONE)
 				{
-					switch (_tileMap[i][j].tileNum[z])
+					switch (_tileMap[i][j].tileKind[z])
 					{
 					case TILEKIND_TERRAIN:
 						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
@@ -170,23 +197,54 @@ void MainMap::DrawTileMap()
 							break;
 						}
 						break;
-					case TILEKIND_OBJECT_BUMB:
-						if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+
+					case TILEKIND_OPEN_DOOR:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
-							IMAGEMANAGER->frameRender("door", getMemDC(),
-								_tileMap[i][j].left - 50,
-								_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
-								_tileMap[i][j].tilePos[z].x,
-								_tileMap[i][j].tilePos[z].y);
-							break;
+							if (openDoor)
+							{
+								if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+								{
+									IMAGEMANAGER->frameRender("door", getMemDC(),
+										_tileMap[i][j].left - 50,
+										_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+										_tileMap[i][j].tilePos[z].x,
+										_tileMap[i][j].tilePos[z].y);
+									break;
+								}
+								IMAGEMANAGER->frameRender("door", getMemDC(),
+									_tileMap[i][j].left - 26,
+									_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+									_tileMap[i][j].tilePos[z].x,
+									_tileMap[i][j].tilePos[z].y);
+								break;
+							}
 						}
-						IMAGEMANAGER->frameRender("door", getMemDC(),
-							_tileMap[i][j].left - 26,
-							_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
-							_tileMap[i][j].tilePos[z].x,
-							_tileMap[i][j].tilePos[z].y);
 						break;
-					}
+					case TILEKIND_CLOSE_DOOR:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							if (!openDoor)
+							{
+								if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+								{
+									IMAGEMANAGER->frameRender("door", getMemDC(),
+										_tileMap[i][j].left - 50,
+										_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+										_tileMap[i][j].tilePos[z].x,
+										_tileMap[i][j].tilePos[z].y);
+									break;
+								}
+								IMAGEMANAGER->frameRender("door", getMemDC(),
+									_tileMap[i][j].left - 26,
+									_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+									_tileMap[i][j].tilePos[z].x,
+									_tileMap[i][j].tilePos[z].y);
+								break;
+							}
+						}
+						break;
+					}					
 				}
 			}
 

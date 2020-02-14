@@ -1,6 +1,6 @@
 #pragma once
-#include"gameNode.h"
-#include"MapToolTile.h"
+#include "gameNode.h"
+#include "MapToolTile.h"
 #include "SubMap.h"
 
 #define SUBWINOPEN 1
@@ -8,6 +8,7 @@
 class MapToolScene : public gameNode
 {
 private:
+	SubMap* sub = new SubMap;
 
 	TagTile _tileMap[TILE_COUNT_X][TILE_COUNT_Y];
 
@@ -40,6 +41,8 @@ public:
 	void release();
 	void update();
 	void render();
+
+	void SetSubWindow();
 
 	//타일맵 그리자.
 	void DrawTileMap();

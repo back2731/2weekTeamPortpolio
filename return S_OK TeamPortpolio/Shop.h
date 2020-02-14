@@ -1,7 +1,11 @@
 #pragma once
-class Shop
+//SHOP 초기좌표
+#define INIT_X -1768
+#define INIT_Y -1716
+class Shop 
 {
 private:
+
 	vector <ItemInfo> vActiveItem;				// 액티브 아이템 벡터
 	vector <ItemInfo>::iterator viActiveItem;	// 액티브 아이템 벡터
 	vector <ItemInfo> vPassiveItem;				// 패시브 아이템 벡터

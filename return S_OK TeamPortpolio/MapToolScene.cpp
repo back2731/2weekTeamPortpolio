@@ -14,7 +14,6 @@ MapToolScene::~MapToolScene()
 HRESULT MapToolScene::init()
 {
 	// 서브윈도우 선언, 씬 추가
-	SubMap* sub = new SubMap;
 	SCENEMANAGER->addScene("SubMap", sub);
 
 	// 서브윈도우 초기화
@@ -109,6 +108,11 @@ void MapToolScene::render()
 	DrawTileMap();
 }
 
+void MapToolScene::SetSubWindow()
+{	
+	MapToolSetup();
+}
+
 // render 해주는 부분
 void MapToolScene::DrawTileMap() 
 {
@@ -133,7 +137,7 @@ void MapToolScene::DrawTileMap()
 			{
 				if (_tileMap[i][j].tileKind[z] != TILEKIND_NONE)
 				{
-					switch (_tileMap[i][j].tileNum[z])
+					switch (_tileMap[i][j].tileKind[z])
 					{
 					case TILEKIND_TERRAIN:
 						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
@@ -153,21 +157,52 @@ void MapToolScene::DrawTileMap()
 							break;
 						}
 						break;
-					case TILEKIND_OBJECT_BUMB:
-						if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+					case TILEKIND_OBJECT_NEXTROOM:
+						IMAGEMANAGER->frameRender("blocks", getMemDC(),
+							_tileMap[i][j].left,
+							_tileMap[i][j].top - _tileMap[i][j].height*z,
+							_tileMap[i][j].tilePos[z].x,
+							_tileMap[i][j].tilePos[z].y);
+						break;
+					case TILEKIND_OPEN_DOOR:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
+							if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+							{
+								IMAGEMANAGER->frameRender("door", getMemDC(),
+									_tileMap[i][j].left - 50,
+									_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+									_tileMap[i][j].tilePos[z].x,
+									_tileMap[i][j].tilePos[z].y);
+								break;
+							}
 							IMAGEMANAGER->frameRender("door", getMemDC(),
-								_tileMap[i][j].left - 50,
+								_tileMap[i][j].left - 26,
 								_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
 								_tileMap[i][j].tilePos[z].x,
 								_tileMap[i][j].tilePos[z].y);
 							break;
 						}
-						IMAGEMANAGER->frameRender("door", getMemDC(),
-							_tileMap[i][j].left - 26,
-							_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
-							_tileMap[i][j].tilePos[z].x,
-							_tileMap[i][j].tilePos[z].y);
+						break;
+					case TILEKIND_CLOSE_DOOR:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+							{
+								IMAGEMANAGER->frameRender("door", getMemDC(),
+									_tileMap[i][j].left - 50,
+									_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+									_tileMap[i][j].tilePos[z].x,
+									_tileMap[i][j].tilePos[z].y);
+								break;
+							}
+							IMAGEMANAGER->frameRender("door", getMemDC(),
+								_tileMap[i][j].left - 26,
+								_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
 						break;
 					}
 				}
@@ -241,9 +276,12 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 
 	switch (SUBWIN->GetFrameIndex())
 	{
+	case TILEKIND_NONE:
 	case TILEKIND_TERRAIN:
 	case TILEKIND_OBJECT:
-	case TILEKIND_OBJECT_BUMB:
+	case TILEKIND_OBJECT_NEXTROOM:
+	case TILEKIND_OPEN_DOOR:
+	case TILEKIND_CLOSE_DOOR:
 		imageFrame = SUBWIN->GetFramePoint();
 		break;
 	}
@@ -289,7 +327,9 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 	case CTRL_ERASER:
 		if (_tileMap[locationX][locationY].index > -1)
 		{
-			_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = index;
+
+			_tileMap[locationX][locationY].index = { 0, };
+			_tileMap[locationX][locationY].tileNum[_tileMap[locationX][locationY].index] = 0;
 			_tileMap[locationX][locationY].tileKind[_tileMap[locationX][locationY].index] = kindSelect(-1, -1);
 			_tileMap[locationX][locationY].tilePos[_tileMap[locationX][locationY].index] = imageFrame;
 		}
@@ -305,30 +345,34 @@ TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 		return TILEKIND_NONE;
 	}
 
-	if (SUBWIN->GetFrameIndex() == -1)return TILEKIND_NONE;
-
-	if (SUBWIN->GetFrameIndex() == 5)
+	if (SUBWIN->GetFrameIndex() == CTRL_NUM1)
 	{
-		if (frameY >= 0 && frameY <= 4)
-			return TILEKIND_TERRAIN;
+		return TILEKIND_TERRAIN;
 	}
-	if (SUBWIN->GetFrameIndex() == 6)
+	if (SUBWIN->GetFrameIndex() == CTRL_NUM2)
 	{
 		if (frameY >= 0 && frameY <= 3)
+		{
 			return TILEKIND_OBJECT;
-		if (frameY >= 4 && frameY <= 6)
-			return TILEKIND_OBJECT_BUMB;
-		if (frameY >= 7 && frameY <= 9)
-			return TILEKIND_OBJECT_BULLET;
+		}
+		if (frameY == 4)
+		{
+			return TILEKIND_OBJECT_NEXTROOM;
+		}
 	}
-	if (SUBWIN->GetFrameIndex() == 7)
+	if (SUBWIN->GetFrameIndex() == CTRL_NUM3)
 	{
-		if ((frameX >= 0 && frameX < 2) || (frameX >= 4 && frameX < 6))
+		if (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 5)
+		{
 			return TILEKIND_OPEN_DOOR;
-		if ((frameX >= 2 && frameX < 4) || (frameX >= 6 && frameX < 8))
+		}
+		else if (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7)
+		{
 			return TILEKIND_CLOSE_DOOR;
+		}
 	}
-	return TILEKIND_TERRAIN;
+	return TILEKIND_NONE;
+
 }
 
 //초기 인덱스 지정 // 사용되지 않음.

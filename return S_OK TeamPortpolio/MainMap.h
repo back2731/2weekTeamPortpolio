@@ -21,6 +21,7 @@ private:
 	RECT temp;
 
 	bool _isDebug;
+	bool openDoor;
 
 	//
 	const char* fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };

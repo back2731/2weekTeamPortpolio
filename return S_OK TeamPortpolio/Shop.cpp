@@ -13,6 +13,7 @@ Shop::~Shop()
 
 HRESULT Shop::Init()
 {
+	//IMAGEMANAGER->addImage("TestMap", "images/TestMap.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	vActiveItem = ITEMMANAGER->GetActiveItemInfo();
 	vPassiveItem = ITEMMANAGER->GetPassiveItemInfo();
 	vTrinkets = ITEMMANAGER->GetTrinketsInfo();
@@ -39,4 +40,5 @@ void Shop::Update()
 
 void Shop::Render(HDC hdc)
 {
+	//IMAGEMANAGER->render("TestMap", hdc);
 }

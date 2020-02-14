@@ -125,7 +125,7 @@ LRESULT SubWindow::WndLogProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam
 				break;
 
 			case CTRL_INIT:
-				SUBWIN->GetIsoMap()->init();
+				SUBWIN->GetIsoMap()->SetSubWindow();
 				break;
 			case CTRL_SAVE:
 				if (SUBWIN->saveCount == 10)

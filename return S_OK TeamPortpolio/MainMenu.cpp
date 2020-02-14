@@ -11,13 +11,13 @@ MainMenu::~MainMenu()
 
 HRESULT MainMenu::init()
 {
-	IMAGEMANAGER->addImage("MainMenu", "images/UI/menu/MainMenu.bmp", WINSIZEX / 2, WINSIZEY / 2, 960, 540, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("MainMenu", "images/UI/menu/mainmenu_resize.bmp", WINSIZEX / 2, WINSIZEY / 2, 884, 572, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("MainMenuArrow", "images/UI/menu/MainMenuArrow.bmp", WINSIZEY / 2, WINSIZEY / 2, 24, 30, true, RGB(255, 0, 255));
 
-	newRunRect = RectMake(320, 160, 24, 30);
-	mapToolRect = RectMake(340, 270, 24, 30);
-	optionRect = RectMake(360, 360, 24, 30);
-	cursorRect = RectMake(320, 160, 24, 30);
+	newRunRect = RectMake(WINSIZEX / 2 - 160, WINSIZEY / 2 - 120, 24, 30);
+	mapToolRect = RectMake(WINSIZEX / 2 - 145, WINSIZEY / 2 - 5, 24, 30);
+	optionRect = RectMake(WINSIZEX / 2 - 115, WINSIZEY / 2 + 95, 24, 30);
+	cursorRect = RectMake(WINSIZEX / 2 - 160, WINSIZEY / 2 - 120, 24, 30);
 
 	return S_OK;
 }
@@ -34,9 +34,12 @@ void MainMenu::update()
 void MainMenu::render()
 {
 	IMAGEMANAGER->render("MainMenu", getMemDC());
-	//Rectangle(getMemDC(), newRunRect.left, newRunRect.top, newRunRect.right, newRunRect.bottom);
-	//Rectangle(getMemDC(), mapToolRect.left, mapToolRect.top, mapToolRect.right, mapToolRect.bottom);
-	//Rectangle(getMemDC(), optionRect.left, optionRect.top, optionRect.right, optionRect.bottom);
+	if (KEYMANAGER->isToggleKey(VK_TAB))
+	{
+		Rectangle(getMemDC(), newRunRect.left, newRunRect.top, newRunRect.right, newRunRect.bottom);
+		Rectangle(getMemDC(), mapToolRect.left, mapToolRect.top, mapToolRect.right, mapToolRect.bottom);
+		Rectangle(getMemDC(), optionRect.left, optionRect.top, optionRect.right, optionRect.bottom);
+	}
 	IMAGEMANAGER->render("MainMenuArrow", getMemDC(), cursorRect.left, cursorRect.top);
 
 	sprintf_s((str), "x : %d", m_ptMouse.x);
@@ -53,7 +56,7 @@ void MainMenu::CursorMove()
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			cursorRect = RectMake(340, 270, 24, 30);
+			cursorRect = RectMake(WINSIZEX / 2 - 145, WINSIZEY / 2 - 5, 24, 30);
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || KEYMANAGER->isOnceKeyDown(VK_SPACE))
 		{
@@ -65,11 +68,11 @@ void MainMenu::CursorMove()
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			cursorRect = RectMake(320, 160, 24, 30);
+			cursorRect = RectMake(WINSIZEX / 2 - 160, WINSIZEY / 2 - 120, 24, 30);
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			cursorRect = RectMake(360, 360, 24, 30);
+			cursorRect = RectMake(WINSIZEX / 2 - 115, WINSIZEY / 2 + 95, 24, 30);
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || KEYMANAGER->isOnceKeyDown(VK_SPACE))
 		{
@@ -81,7 +84,7 @@ void MainMenu::CursorMove()
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			cursorRect = RectMake(340, 270, 24, 30);
+			cursorRect = RectMake(WINSIZEX / 2 - 145, WINSIZEY / 2 - 5, 24, 30);
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || KEYMANAGER->isOnceKeyDown(VK_SPACE))
 		{

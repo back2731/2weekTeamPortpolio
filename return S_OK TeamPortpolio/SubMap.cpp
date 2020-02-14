@@ -54,7 +54,7 @@ void SubMap::render(HDC hdc)
 {
 	switch (SUBWIN->GetFrameIndex())
 	{
-	case TILEKIND_TERRAIN:
+	case CTRL_NUM1:
 		for (int i = 0; i < TILE_SIZE_X - 4; i++)
 		{
 			for (int j = 0; j < TILE_SIZE_Y - 6; j++)
@@ -63,10 +63,10 @@ void SubMap::render(HDC hdc)
 			}
 		}//end of for
 		break;
-	case TILEKIND_OBJECT:
+	case CTRL_NUM2:
 		IMAGEMANAGER->findImage("blocks")->render(hdc, 0, 200, SUBWINSIZEX, 270);
 		break;
-	case TILEKIND_OBJECT_BUMB:
+	case CTRL_NUM3:
 		for (int i = 0; i < TILE_SIZE_X; i++)
 		{
 			for (int j = 0; j < TILE_SIZE_Y; j++)
