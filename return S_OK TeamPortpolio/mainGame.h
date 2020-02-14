@@ -1,11 +1,10 @@
 #pragma once
 #include "gameNode.h"
+#include "TitleScene.h"
 #include "MainMenu.h"
 #include "GameScene.h"
-//#include "SubMap.h"
 #include "MapToolScene.h"
 
-//#define SUBWINOPEN 1
 class mainGame :  public gameNode
 {
 private:

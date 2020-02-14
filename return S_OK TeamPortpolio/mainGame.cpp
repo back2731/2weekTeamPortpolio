@@ -13,6 +13,9 @@ HRESULT mainGame::init()
 {
 	gameNode::init(true);
 
+	// 타이틀 씬
+	SCENEMANAGER->addScene("TitleScene", new TitleScene);
+
 	// 메뉴
 	SCENEMANAGER->addScene("MainMenu", new MainMenu);
 
@@ -32,27 +35,10 @@ HRESULT mainGame::init()
 
 	SUBWIN->SetIsoMap(map);
 
-	//MapToolScene* map = new MapToolScene;
-	//SCENEMANAGER->addScene("MapTool", map);
-
-	//SubMap* sub = new SubMap;
-	//SCENEMANAGER->addScene("SubMap", sub);
-
-	//SUBWIN->SetIsoMap(map);
-//
-//#ifdef SUBWINOPEN
-//	SUBWIN->init();
-//#endif // SUBWINOPEN
-//
-//#ifdef SUBWINOPEN
-//	SUBWIN->SetScene(sub);
-//#endif // SUBWINOPEN
-//
-
 	// 게임씬에서 필요한 매니저들 초기화.
 	OBJECTPOOL->Init();
 
-	SCENEMANAGER->changeScene("MainMenu");
+	SCENEMANAGER->changeScene("TitleScene");
 
 	return S_OK;
 }

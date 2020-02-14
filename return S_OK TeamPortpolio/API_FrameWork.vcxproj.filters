@@ -237,6 +237,9 @@
     <ClInclude Include="MainMap.h">
       <Filter>mainGame\Scene\MapTool</Filter>
     </ClInclude>
+    <ClInclude Include="TitleScene.h">
+      <Filter>mainGame\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -373,6 +376,9 @@
     </ClCompile>
     <ClCompile Include="MainMap.cpp">
       <Filter>mainGame\Scene\MapTool</Filter>
+    </ClCompile>
+    <ClCompile Include="TitleScene.cpp">
+      <Filter>mainGame\Scene</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
