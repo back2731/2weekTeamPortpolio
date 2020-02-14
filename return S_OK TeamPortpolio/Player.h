@@ -26,6 +26,7 @@ struct PlayerInfo
 	float   playerSlideSpeed;		// 슬라이딩 속도
 };
 
+class Shop;
 class Player
 {
 private:
@@ -63,6 +64,38 @@ private:
 	bool playerRightShot;
 	bool playerUpShot;
 	bool playerDownShot;
+
+private:
+	Shop* m_Shop;
+	RECT temp;
+	RECT test1{ 10,10,20,20 };
+	RECT test2{ 30,10,40,20 };
+	RECT test3{ 50,10,60,20 };
+
+	vector <ItemInfo> vPlayerActiveItem;				// 액티브 아이템 벡터
+	vector <ItemInfo>::iterator viPlayerActiveItem;		// 액티브 아이템 벡터
+	vector <ItemInfo> vPlayerPassiveItem;				// 패시브 아이템 벡터
+	vector <ItemInfo>::iterator viPlayerPassiveItem;	// 패시브 아이템 벡터
+	vector <ItemInfo> vPlayerTrinkets;					// 장신구 아이템 벡터
+	vector <ItemInfo>::iterator viPlayerTrinkets;		// 장신구 아이템 벡터
+
+	vector <ItemInfo> vPlayerHeart;						// 체력 아이템 벡터
+	vector <ItemInfo>::iterator viPlayerHeart;			// 체력 아이템 벡터
+
+	vector <ItemInfo> vPlayerGold;						// 골드 아이템 벡터
+	vector <ItemInfo>::iterator viPlayerGold;			// 골드 아이템 벡터
+	vector <ItemInfo> vPlayerBomb;						// 폭탄 아이템 벡터
+	vector <ItemInfo>::iterator viPlayerBomb;			// 폭탄 아이템 벡터
+	vector <ItemInfo> vPlayerKey;						// 열쇠 아이템 벡터
+	vector <ItemInfo>::iterator viPlayerKey;			// 열쇠 아이템 벡터
+
+	vector <ItemInfo> vPlayerCard;						// 카드 아이템 벡터
+	vector <ItemInfo>::iterator viPlayerCard;			// 카드 아이템 벡터
+	vector <ItemInfo> vPlayerPill;						// 알약 아이템 벡터
+	vector <ItemInfo>::iterator viPlayerPill;			// 알약 아이템 벡터
+
+	vector <ItemInfo> vPlayerAllItem;						// 모든 아이템 벡터
+	vector <ItemInfo>::iterator viPlayerAllItem;			// 모든 아이템 벡터
 
 public:
 	Player();

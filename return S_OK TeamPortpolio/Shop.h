@@ -1,11 +1,16 @@
 #pragma once
+<<<<<<< HEAD
 //SHOP 초기좌표
 #define INIT_X -1768
 #define INIT_Y -1716
+=======
+//class Player;
+>>>>>>> dev
 class Shop 
 {
 private:
 
+<<<<<<< HEAD
 	vector <ItemInfo> vActiveItem;				// 액티브 아이템 벡터
 	vector <ItemInfo>::iterator viActiveItem;	// 액티브 아이템 벡터
 	vector <ItemInfo> vPassiveItem;				// 패시브 아이템 벡터
@@ -27,6 +32,39 @@ private:
 	vector <ItemInfo>::iterator viCard;			// 카드 아이템 벡터
 	vector <ItemInfo> vPill;					// 알약 아이템 벡터
 	vector <ItemInfo>::iterator viPill;			// 알약 아이템 벡터
+=======
+	vector <ItemInfo> vShopActiveItem;				// 액티브 아이템 벡터
+	vector <ItemInfo>::iterator viShopActiveItem;	// 액티브 아이템 벡터
+	vector <ItemInfo> vShopPassiveItem;				// 패시브 아이템 벡터
+	vector <ItemInfo>::iterator viShopPassiveItem;	// 패시브 아이템 벡터
+	vector <ItemInfo> vShopTrinkets;				// 장신구 아이템 벡터
+	vector <ItemInfo>::iterator viShopTrinkets;		// 장신구 아이템 벡터
+
+	vector <ItemInfo> vShopHeart;					// 체력 아이템 벡터
+	vector <ItemInfo>::iterator viShopHeart;		// 체력 아이템 벡터
+
+	vector <ItemInfo> vShopGold;					// 골드 아이템 벡터
+	vector <ItemInfo>::iterator viShopGold;			// 골드 아이템 벡터
+	vector <ItemInfo> vShopBomb;					// 폭탄 아이템 벡터
+	vector <ItemInfo>::iterator viShopBomb;			// 폭탄 아이템 벡터
+	vector <ItemInfo> vShopKey;						// 열쇠 아이템 벡터
+	vector <ItemInfo>::iterator viShopKey;			// 열쇠 아이템 벡터
+
+	vector <ItemInfo> vShopCard;					// 카드 아이템 벡터
+	vector <ItemInfo>::iterator viShopCard;			// 카드 아이템 벡터
+	vector <ItemInfo> vShopPill;					// 알약 아이템 벡터
+	vector <ItemInfo>::iterator viShopPill;			// 알약 아이템 벡터
+
+	vector <ItemInfo> vShopAllItem;					// 모든 아이템 벡터
+	vector <ItemInfo>::iterator viShopAllItem;		// 모든 아이템 벡터
+
+	ItemInfo AllItem[10];							// 모든 아이템 배열
+	ItemInfo Temp[1];								// 셔플용 배열
+
+	int sour, dest;
+
+	RECT rc[10];
+>>>>>>> dev
 
 public:
 	Shop();
@@ -36,6 +74,17 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
+	RECT GetShopItemRect(int x) { return rc[x]; }
+
+	vector<ItemInfo> GetShopActiveItemInfo() { return vShopActiveItem; }
+	vector<ItemInfo> GetShopPassiveItemInfo() { return vShopPassiveItem; }
+	vector<ItemInfo> GetShopTrinketsInfo() { return vShopTrinkets; }
+	vector<ItemInfo> GetShopHeartInfo() { return vShopHeart; }
+	vector<ItemInfo> GetShopBombInfo() { return vShopBomb; }
+	vector<ItemInfo> GetShopKeyInfo() { return vShopKey; }
+	vector<ItemInfo> GetShopCardInfo() { return vShopCard; }
+	vector<ItemInfo> GetShopPillInfo() { return vShopPill; }
+	vector<ItemInfo> GetShopGoldInfo() { return vShopGold; }
 
 };
 
