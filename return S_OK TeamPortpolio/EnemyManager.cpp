@@ -12,7 +12,11 @@ EnemyManager::~EnemyManager()
 HRESULT EnemyManager::Init()
 {
 	m_Monstro = new Monstro;
+<<<<<<< HEAD
 	//m_Monstro->Init(PointMake(WINSIZEX / 2, WINSIZEY / 2 - 50));
+=======
+	m_Monstro->Init(PointMake(WINSIZEX / 2, WINSIZEY / 2));
+>>>>>>> test
 
 	m_MinionAttackFly = new MinionAttackFly;
 	m_MinionBlackFly = new MinionBlackFly;

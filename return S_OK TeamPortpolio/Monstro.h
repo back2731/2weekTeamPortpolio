@@ -4,7 +4,6 @@
 class Monstro : public EnemyBase
 {
 private:
-	image* monstro;
 	animation* bossAni;
 
 private:
@@ -21,10 +20,11 @@ private:
 	float jumpPower;	// 점프 파워
 	float gravity;		// 중력값
 
+	bool teleportImage; // 텔레포트 표시할 이미지
 	bool teleport;		// 텔레포트
 	bool jump;			// 점프할지 안 할지 체크
 	bool snowPattern;	// 눈꽃 패턴
-	bool teleportImage; // 텔레포트 표시할 이미지
+	bool isLeft;		// 눈꽃 패턴에서 방향을 정해줄 bool
 
 public:
 	Monstro();
@@ -35,8 +35,10 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void EnemyAiTime();
-	void EnemyAi();
+	void EnemyDeath();		// 죽음
+	void EnemyAiTime();		// AI를 결정하는 시간
+	void EnemyAi();			// AI
+	void EnemyPattern();	// 패턴
 	void EnemySnowShot();	// 눈꽃 공격
 	void EnemyAllShot();	// 전방위 공격
 
@@ -53,5 +55,4 @@ public:
 	// 에너미 Hp를 세팅해주는 함수
 	int GetEnemyHp(int enemyNum) { return vMonstro[enemyNum].enemyHp; }
 	void SetEnemyHp(int enemyNum, int hp) { vMonstro[enemyNum].enemyHp = hp; }
-
 };
