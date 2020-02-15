@@ -40,7 +40,7 @@ HRESULT MainMap::init()
 
 	load(RND->getInt(10));
 
-	return E_NOTIMPL;
+	return S_OK;
 }
 
 void MainMap::release()
