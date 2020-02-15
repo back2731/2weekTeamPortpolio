@@ -86,8 +86,8 @@ void Player::Render(HDC hdc)
 {
 	if (KEYMANAGER->isToggleKey(VK_F1))
 	{
-		Rectangle(hdc, player.playerHeadRect.left, player.playerHeadRect.top, player.playerHeadRect.right, player.playerHeadRect.bottom);
-		Rectangle(hdc, player.playerBodyRect.left, player.playerBodyRect.top, player.playerBodyRect.right, player.playerBodyRect.bottom);
+		//Rectangle(hdc, player.playerHeadRect.left, player.playerHeadRect.top, player.playerHeadRect.right, player.playerHeadRect.bottom);
+		//Rectangle(hdc, player.playerBodyRect.left, player.playerBodyRect.top, player.playerBodyRect.right, player.playerBodyRect.bottom);
 		Rectangle(hdc, player.playerHitRect.left, player.playerHitRect.top, player.playerHitRect.right, player.playerHitRect.bottom);
 
 		HBRUSH brush = CreateSolidBrush(RGB(255, 255, 153));
@@ -348,7 +348,7 @@ void Player::PlayerShotMove()
 
 		//ºÒ·¿ Á¶ÁØ
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
-			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
+			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2 - 20,
 			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
 			ANGLE_180, player.playerShotSpeed, player.playerShotRange, playerBulletCount++, player.playerShotDelay);
 
@@ -362,7 +362,7 @@ void Player::PlayerShotMove()
 
 		//ºÒ·¿ Á¶ÁØ
 		BULLETMANAGER->ShootBullet("playerBullet", vPlayerBullet,
-			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2,
+			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2 + 20,
 			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2,
 			ANGLE_0, player.playerShotSpeed, player.playerShotRange, playerBulletCount++, player.playerShotDelay);
 	}

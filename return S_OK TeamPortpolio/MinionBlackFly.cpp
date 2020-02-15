@@ -18,10 +18,15 @@ HRESULT MinionBlackFly::Init(POINT position, int EnemyNumber)
 	MinionBlackFly.enemyHp = 3;
 	MinionBlackFly.enemySpeed = 1.5f;
 	// 애니메이션 Idle
-	MinionBlackFly.enemyImage = IMAGEMANAGER->addFrameImage("blackflyIdle", "images/monster/blackfly/blackflyMove.bmp", 712 / 2, 183 / 2, 4, 1, true, RGB(255, 0, 255));
-	ANIMATIONMANAGER->addAnimation("minionIdle", "blackflyIdle", 0, 1, 15, false, true);
-	minionAni = ANIMATIONMANAGER->findAnimation("minionIdle");
+	MinionBlackFly.enemyImage = IMAGEMANAGER->addFrameImage("BlackFlyMove", "images/monster/blackfly/blackflyMove.bmp", 712 / 2, 183 / 2, 4, 1, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addAnimation("BlackFlyLeft", "BlackFlyMove", 0, 1, 15, false, true);
+	minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyLeft");
 	vMinionBlackFly.push_back(MinionBlackFly);
+
+	// IDLE
+	firstEnemyAiPattern = 1;
+	secondEnemyAiPattern = 1;
+	thirdEnemyAiPattern = 1;
 
 	enemyMove = true;
 	enemyAreaCheck = false;
@@ -63,7 +68,7 @@ void MinionBlackFly::EnemyAiTime()
 	case 0:
 		// AI 패턴 시간
 		firstEnemyAiTime++;
-		if (firstEnemyAiTime / 60 == 2)
+		if (firstEnemyAiTime / 60 == 3)
 		{
 			firstEnemyAiPattern = RND->getFromIntTo(2, 5);
 			firstEnemyAiTime = 0;
@@ -72,7 +77,7 @@ void MinionBlackFly::EnemyAiTime()
 	case 1:
 		// AI 패턴 시간
 		secondEnemyAiTime++;
-		if (secondEnemyAiTime / 60 == 2)
+		if (secondEnemyAiTime / 60 == 3)
 		{
 			secondEnemyAiPattern = RND->getFromIntTo(2, 5);
 			secondEnemyAiTime = 0;
@@ -81,7 +86,7 @@ void MinionBlackFly::EnemyAiTime()
 	case 2:
 		// AI 패턴 시간
 		thirdEnemyAiTime++;
-		if (thirdEnemyAiTime / 60 == 2)
+		if (thirdEnemyAiTime / 60 == 3)
 		{
 			thirdEnemyAiPattern = RND->getFromIntTo(2, 5);
 			thirdEnemyAiTime = 0;
@@ -117,9 +122,9 @@ void MinionBlackFly::EnemyAi()
 			enemyAreaCheck)
 		{
 			//애니메이션 프레임
-			minionAni = ANIMATIONMANAGER->findAnimation("minionLeft");
-			ANIMATIONMANAGER->start("minionLeft");
-
+			minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyLeft");
+			ANIMATIONMANAGER->start("BlackFlyLeft");
+			
 			enemyMove = false;
 			enemyLeftBoost = true;
 			enemyRightBoost = false;
@@ -133,7 +138,7 @@ void MinionBlackFly::EnemyAi()
 			enemyAreaCheck)
 		{
 			//애니메이션 프레임
-			ANIMATIONMANAGER->addAnimation("minionRight", "blackflyIdle", 2, 3, 15, false, true);
+			ANIMATIONMANAGER->addAnimation("minionRight", "BlackFlyMove", 2, 3, 15, false, true);
 			minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
 			ANIMATIONMANAGER->start("minionRight");
 
@@ -175,10 +180,10 @@ void MinionBlackFly::EnemyAi()
 		// 왼쪽이면 빠르게 움직여라
 		if (enemyLeftBoost)
 		{
-			vMinionBlackFly[i].enemyRect.left -= vMinionBlackFly[i].enemySpeed * 2;
-			vMinionBlackFly[i].enemyRect.right -= vMinionBlackFly[i].enemySpeed * 2;
+			vMinionBlackFly[i].enemyRect.left -= vMinionBlackFly[i].enemySpeed * 3;
+			vMinionBlackFly[i].enemyRect.right -= vMinionBlackFly[i].enemySpeed * 3;
 
-			if (vMinionBlackFly[i].enemyRect.left <= 30)
+			if (vMinionBlackFly[i].enemyRect.left <= 140)
 			{
 				enemyMove = true;
 				enemyLeftBoost = false;
@@ -188,10 +193,10 @@ void MinionBlackFly::EnemyAi()
 		// 오른쪽이면 빠르게 움직여라
 		else if (enemyRightBoost)
 		{
-			vMinionBlackFly[i].enemyRect.left += vMinionBlackFly[i].enemySpeed * 2;
-			vMinionBlackFly[i].enemyRect.right += vMinionBlackFly[i].enemySpeed * 2;
+			vMinionBlackFly[i].enemyRect.left += vMinionBlackFly[i].enemySpeed * 3;
+			vMinionBlackFly[i].enemyRect.right += vMinionBlackFly[i].enemySpeed * 3;
 
-			if (vMinionBlackFly[i].enemyRect.right >= 830)
+			if (vMinionBlackFly[i].enemyRect.right >= 740)
 			{
 				enemyMove = true;
 				enemyRightBoost = false;
@@ -201,10 +206,10 @@ void MinionBlackFly::EnemyAi()
 		// 위면 빠르게 움직여라
 		else if (enemyUpBoost)
 		{
-			vMinionBlackFly[i].enemyRect.top -= vMinionBlackFly[i].enemySpeed * 2;
-			vMinionBlackFly[i].enemyRect.bottom -= vMinionBlackFly[i].enemySpeed * 2;
+			vMinionBlackFly[i].enemyRect.top -= vMinionBlackFly[i].enemySpeed * 3;
+			vMinionBlackFly[i].enemyRect.bottom -= vMinionBlackFly[i].enemySpeed * 3;
 
-			if (vMinionBlackFly[i].enemyRect.top <= 30)
+			if (vMinionBlackFly[i].enemyRect.top <= 140)
 			{
 				enemyMove = true;
 				enemyUpBoost = false;
@@ -214,10 +219,10 @@ void MinionBlackFly::EnemyAi()
 		// 아래면 빠르게 움직여라
 		else if (enemyDownBoost)
 		{
-			vMinionBlackFly[i].enemyRect.top += vMinionBlackFly[i].enemySpeed * 2;
-			vMinionBlackFly[i].enemyRect.bottom += vMinionBlackFly[i].enemySpeed * 2;
+			vMinionBlackFly[i].enemyRect.top += vMinionBlackFly[i].enemySpeed * 3;
+			vMinionBlackFly[i].enemyRect.bottom += vMinionBlackFly[i].enemySpeed * 3;
 
-			if (vMinionBlackFly[i].enemyRect.bottom >= 510)
+			if (vMinionBlackFly[i].enemyRect.bottom >= 430)
 			{
 				enemyMove = true;
 				enemyDownBoost = false;
@@ -236,56 +241,58 @@ void MinionBlackFly::EnemyAi()
 				switch (firstEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					//애니메이션 프레임
+					ANIMATIONMANAGER->start("BlackFlyLeft");
 					break;
 				case 2:		// LEFT
 					//애니메이션 프레임
-					minionAni = ANIMATIONMANAGER->findAnimation("minionLeft");
-					ANIMATIONMANAGER->start("minionLeft");
+					minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyLeft");
+					ANIMATIONMANAGER->start("BlackFlyLeft");
 
-					if (vMinionBlackFly[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionBlackFly[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.left -= vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.right -= vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.left <= 10)
+					if (vMinionBlackFly[i].enemyRect.left <= 120)
 					{
 						firstEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
 					//애니메이션 프레임
-					ANIMATIONMANAGER->addAnimation("minionRight", "blackflyIdle", 2, 3, 15, false, true);
+					ANIMATIONMANAGER->addAnimation("minionRight", "BlackFlyMove", 2, 3, 15, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
 					ANIMATIONMANAGER->start("minionRight");
 
-					if (vMinionBlackFly[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionBlackFly[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.left += vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.right += vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.right >= 850)
+					if (vMinionBlackFly[i].enemyRect.right >= 760)
 					{
 						firstEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
-					if (vMinionBlackFly[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionBlackFly[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.top -= vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.bottom -= vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.top <= 10)
+					if (vMinionBlackFly[i].enemyRect.top <= 120)
 					{
 						firstEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionBlackFly[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionBlackFly[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.top += vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.bottom += vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.bottom >= 530)
+					if (vMinionBlackFly[i].enemyRect.bottom >= 450)
 					{
 						firstEnemyAiPattern = 4;
 					}
@@ -296,47 +303,58 @@ void MinionBlackFly::EnemyAi()
 				switch (secondEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					//애니메이션 프레임
+					ANIMATIONMANAGER->start("BlackFlyLeft");
 					break;
 				case 2:		// LEFT
-					if (vMinionBlackFly[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					//애니메이션 프레임
+					minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyLeft");
+					ANIMATIONMANAGER->start("BlackFlyLeft");
+
+					if (vMinionBlackFly[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.left -= vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.right -= vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.left <= 10)
+					if (vMinionBlackFly[i].enemyRect.left <= 120)
 					{
 						secondEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionBlackFly[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					//애니메이션 프레임
+					ANIMATIONMANAGER->addAnimation("minionRight", "BlackFlyMove", 2, 3, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
+					ANIMATIONMANAGER->start("minionRight");
+
+					if (vMinionBlackFly[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.left += vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.right += vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.right >= 850)
+					if (vMinionBlackFly[i].enemyRect.right >= 760)
 					{
 						secondEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
-					if (vMinionBlackFly[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionBlackFly[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.top -= vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.bottom -= vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.top <= 10)
+					if (vMinionBlackFly[i].enemyRect.top <= 120)
 					{
 						secondEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionBlackFly[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionBlackFly[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.top += vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.bottom += vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.bottom >= 530)
+					if (vMinionBlackFly[i].enemyRect.bottom >= 450)
 					{
 						secondEnemyAiPattern = 4;
 					}
@@ -347,47 +365,58 @@ void MinionBlackFly::EnemyAi()
 				switch (thirdEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					//애니메이션 프레임
+					ANIMATIONMANAGER->start("BlackFlyLeft");
 					break;
 				case 2:		// LEFT
-					if (vMinionBlackFly[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					//애니메이션 프레임
+					minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyLeft");
+					ANIMATIONMANAGER->start("BlackFlyLeft");
+
+					if (vMinionBlackFly[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.left -= vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.right -= vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.left <= 10)
+					if (vMinionBlackFly[i].enemyRect.left <= 120)
 					{
 						thirdEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionBlackFly[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					//애니메이션 프레임
+					ANIMATIONMANAGER->addAnimation("minionRight", "BlackFlyMove", 2, 3, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
+					ANIMATIONMANAGER->start("minionRight");
+
+					if (vMinionBlackFly[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.left += vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.right += vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.right >= 850)
+					if (vMinionBlackFly[i].enemyRect.right >= 760)
 					{
 						thirdEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
-					if (vMinionBlackFly[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionBlackFly[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.top -= vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.bottom -= vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.top <= 10)
+					if (vMinionBlackFly[i].enemyRect.top <= 120)
 					{
 						thirdEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionBlackFly[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionBlackFly[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionBlackFly[i].enemyRect.top += vMinionBlackFly[i].enemySpeed;
 						vMinionBlackFly[i].enemyRect.bottom += vMinionBlackFly[i].enemySpeed;
 					}
-					if (vMinionBlackFly[i].enemyRect.bottom >= 530)
+					if (vMinionBlackFly[i].enemyRect.bottom >= 450)
 					{
 						thirdEnemyAiPattern = 4;
 					}

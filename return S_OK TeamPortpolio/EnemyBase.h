@@ -52,8 +52,9 @@ protected:
 	float distance;				// 적과 플레이어의 거리
 	float vx, vy;				// 접근 속도 변수
 
-	bool enemyDeath;			// 적의 죽음을 체크해주는 변수
 	bool enemyAreaCheck;		// 적의 판정 범위와 플레이어의 충돌을 체크하는 변수
+	bool enemyAtk;				// 미니언 공격 체크
+	bool enemyDeath;			// 적의 죽음을 체크해주는 변수
 
 public:
 	EnemyBase();

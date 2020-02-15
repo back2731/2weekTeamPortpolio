@@ -25,20 +25,19 @@ HRESULT EnemyManager::Init()
 
 	//m_Monstro->Init(PointMake(WINSIZEX / 2, WINSIZEY / 2));
 
+	//m_MinionAttackFly->Init(PointMake(150, 150), 0);
 	//m_MinionAttackFly->Init(PointMake(150, 150), 1);
 	//m_MinionAttackFly->Init(PointMake(150, 200), 2);
 
-	//m_MinionBlackFly->Init(PointMake(300, 400), 0);
+	//m_MinionBlackFly->Init(PointMake(740, 150), 0);
 	//m_MinionBlackFly->Init(PointMake(400, 400), 1);
 	//m_MinionBlackFly->Init(PointMake(500, 400), 2);	
 
-	//m_MinionMaw->Init(PointMake(200, 100), 0);
+	//m_MinionMaw->Init(PointMake(150, 400), 0);
 	//m_MinionMaw->Init(PointMake(250, 100), 1);
 	//m_MinionMaw->Init(PointMake(300, 100), 2);
 
-	//m_MinionTumor->Init(PointMake(200, 100), 0);
-	//m_MinionTumor->Init(PointMake(250, 100), 1);
-	//m_MinionTumor->Init(PointMake(300, 100), 2);
+	m_MinionTumor->Init(PointMake(740, 400), 0);
 
 	//m_MinionClot->Init(PointMake(100, 500), 0);
 	//m_MinionClot->Init(PointMake(200, 500), 1);

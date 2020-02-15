@@ -139,45 +139,45 @@ void MinionGaper::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionGaper[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left -= vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.right -= vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.left <= 10)
+					if (vMinionGaper[i].enemyRect.left <= 120)
 					{
 						firstEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionGaper[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left += vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.right += vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.right >= 830)
+					if (vMinionGaper[i].enemyRect.right >= 760)
 					{
 						firstEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
-					if (vMinionGaper[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top -= vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.bottom -= vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.top <= 10)
+					if (vMinionGaper[i].enemyRect.top <= 120)
 					{
 						firstEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionGaper[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top += vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.bottom += vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.bottom >= 530)
+					if (vMinionGaper[i].enemyRect.bottom >= 450)
 					{
 						firstEnemyAiPattern = 4;
 					}
@@ -190,45 +190,45 @@ void MinionGaper::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionGaper[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left -= vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.right -= vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.left <= 10)
+					if (vMinionGaper[i].enemyRect.left <= 120)
 					{
 						secondEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionGaper[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left += vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.right += vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.right >= 830)
+					if (vMinionGaper[i].enemyRect.right >= 760)
 					{
 						secondEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
-					if (vMinionGaper[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top -= vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.bottom -= vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.top <= 10)
+					if (vMinionGaper[i].enemyRect.top <= 120)
 					{
 						secondEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionGaper[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top += vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.bottom += vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.bottom >= 530)
+					if (vMinionGaper[i].enemyRect.bottom >= 450)
 					{
 						secondEnemyAiPattern = 4;
 					}
@@ -241,45 +241,45 @@ void MinionGaper::EnemyAi()
 				case 1:		// IDLE
 					break;
 				case 2:		// LEFT
-					if (vMinionGaper[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left -= vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.right -= vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.left <= 10)
+					if (vMinionGaper[i].enemyRect.left <= 120)
 					{
 						thirdEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionGaper[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left += vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.right += vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.right >= 830)
+					if (vMinionGaper[i].enemyRect.right >= 760)
 					{
 						thirdEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
-					if (vMinionGaper[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top -= vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.bottom -= vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.top <= 10)
+					if (vMinionGaper[i].enemyRect.top <= 120)
 					{
 						thirdEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionGaper[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionGaper[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top += vMinionGaper[i].enemySpeed;
 						vMinionGaper[i].enemyRect.bottom += vMinionGaper[i].enemySpeed;
 					}
-					if (vMinionGaper[i].enemyRect.bottom >= 530)
+					if (vMinionGaper[i].enemyRect.bottom >= 450)
 					{
 						thirdEnemyAiPattern = 4;
 					}
