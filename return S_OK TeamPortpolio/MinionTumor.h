@@ -9,6 +9,8 @@ private:
 	vector<BulletInfo> vEnemyBullet;
 	vector<BulletInfo>::iterator viEnemyBullet;
 
+	int attackCount;		// 공격 카운트
+
 	bool enemyMove;			// 자동 AI
 	bool enemyLeftBoost;	// 서로의 x축이 같은 선상이라면 왼쪽 부스트
 	bool enemyRightBoost;	// 서로의 x축이 같은 선상이라면 오른쪽 부스트
@@ -24,9 +26,10 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void EnemyAiTime();
-	void EnemyAi();
-	void EnemyShot();
+	void EnemyAiTime();		// AI를 결정하는 시간
+	void EnemyAi();			// AI
+	void EnemyShot();		// 공격
+	void EnemyAnimation();	// 공격 애니메이션
 
 	// 에너미 벡터를 반환하는 함수
 	vector<EnemyInfo> GetMinionVector() { return vMinionTumor; }

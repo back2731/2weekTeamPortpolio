@@ -108,45 +108,45 @@ void MinionClot::EnemyAi()
 			case 1:		// IDLE
 				break;
 			case 2:		// LEFT
-				if (vMinionClot[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right -= vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.left <= 10)
+				if (vMinionClot[i].enemyRect.left <= 120)
 				{
 					firstEnemyAiPattern = 3;
 				}
 				break;
 			case 3:		// RIGHT
-				if (vMinionClot[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right += vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.right >= 830)
+				if (vMinionClot[i].enemyRect.right >= 760)
 				{
 					firstEnemyAiPattern = 2;
 				}
 				break;
 			case 4:		// UP
-				if (vMinionClot[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom -= vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.top <= 10)
+				if (vMinionClot[i].enemyRect.top <= 120)
 				{
 					firstEnemyAiPattern = 5;
 				}
 				break;
 			case 5:		// DOWN
-				if (vMinionClot[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom += vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.bottom >= 530)
+				if (vMinionClot[i].enemyRect.bottom >= 450)
 				{
 					firstEnemyAiPattern = 4;
 				}
@@ -159,45 +159,45 @@ void MinionClot::EnemyAi()
 			case 1:		// IDLE
 				break;
 			case 2:		// LEFT
-				if (vMinionClot[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right -= vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.left <= 10)
+				if (vMinionClot[i].enemyRect.left <= 120)
 				{
 					secondEnemyAiPattern = 3;
 				}
 				break;
 			case 3:		// RIGHT
-				if (vMinionClot[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right += vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.right >= 830)
+				if (vMinionClot[i].enemyRect.right >= 760)
 				{
 					secondEnemyAiPattern = 2;
 				}
 				break;
 			case 4:		// UP
-				if (vMinionClot[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom -= vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.top <= 10)
+				if (vMinionClot[i].enemyRect.top <= 120)
 				{
 					secondEnemyAiPattern = 5;
 				}
 				break;
 			case 5:		// DOWN
-				if (vMinionClot[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom += vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.bottom >= 530)
+				if (vMinionClot[i].enemyRect.bottom >= 450)
 				{
 					secondEnemyAiPattern = 4;
 				}
@@ -210,45 +210,45 @@ void MinionClot::EnemyAi()
 			case 1:		// IDLE
 				break;
 			case 2:		// LEFT
-				if (vMinionClot[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right -= vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.left <= 10)
+				if (vMinionClot[i].enemyRect.left <= 120)
 				{
 					thirdEnemyAiPattern = 3;
 				}
 				break;
 			case 3:		// RIGHT
-				if (vMinionClot[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.right += vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.right >= 830)
+				if (vMinionClot[i].enemyRect.right >= 760)
 				{
 					thirdEnemyAiPattern = 2;
 				}
 				break;
 			case 4:		// UP
-				if (vMinionClot[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top -= vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom -= vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.top <= 10)
+				if (vMinionClot[i].enemyRect.top <= 120)
 				{
 					thirdEnemyAiPattern = 5;
 				}
 				break;
 			case 5:		// DOWN
-				if (vMinionClot[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+				if (vMinionClot[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top += vMinionClot[i].enemySpeed;
 					vMinionClot[i].enemyRect.bottom += vMinionClot[i].enemySpeed;
 				}
-				if (vMinionClot[i].enemyRect.bottom >= 530)
+				if (vMinionClot[i].enemyRect.bottom >= 450)
 				{
 					thirdEnemyAiPattern = 4;
 				}

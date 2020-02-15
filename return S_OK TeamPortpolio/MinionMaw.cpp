@@ -12,15 +12,24 @@ MinionMaw::~MinionMaw()
 HRESULT MinionMaw::Init(POINT position, int EnemyNumber)
 {
 	//구조체 정보 기입
-	EnemyInfo minionMaw;
-	minionMaw.enemyNumber = EnemyNumber;
-	minionMaw.enemyRect = RectMakeCenter(position.x, position.y, 30, 30);
-	minionMaw.enemyHp = 25;
-	minionMaw.enemyShotSpeed = 5.0f;
-	minionMaw.enemyShotRange = 500.0f;
-	minionMaw.enemyShotDelay = 50;
-	minionMaw.enemySpeed = 1.5f;
-	vMinionMaw.push_back(minionMaw);
+	EnemyInfo MinionMaw;
+	MinionMaw.enemyNumber = EnemyNumber;
+	MinionMaw.enemyRect = RectMakeCenter(position.x, position.y, 35, 35);
+	MinionMaw.enemyHp = 25;
+	MinionMaw.enemyShotSpeed = 5.0f;
+	MinionMaw.enemyShotRange = 500.0f;
+	MinionMaw.enemyShotDelay = 50;
+	MinionMaw.enemySpeed = 1.5f;
+	// 애니메이션 Idle
+	MinionMaw.enemyImage = IMAGEMANAGER->addFrameImage("mawIdle", "images/monster/maw/mawIdle.bmp", 64 * 2, 33 * 2, 2, 1, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("maw", "mawIdle", 15, false, true);
+	minionAni = ANIMATIONMANAGER->findAnimation("maw");
+	vMinionMaw.push_back(MinionMaw);
+
+	// IDLE
+	firstEnemyAiPattern = 1;
+	secondEnemyAiPattern = 1;
+	thirdEnemyAiPattern = 1;
 
 	enemyAreaCheck = false;
 
@@ -50,6 +59,15 @@ void MinionMaw::Render(HDC hdc)
 			FillRect(hdc, &vMinionMaw[i].enemyRect, brush);
 			DeleteObject(brush);
 		}
+
+		if (enemyAtk)
+		{
+			vMinionMaw[i].enemyImage->aniRender(hdc, vMinionMaw[i].enemyRect.left - 20, vMinionMaw[i].enemyRect.top - 30, minionAni);
+		}
+		else
+		{
+			vMinionMaw[i].enemyImage->aniRender(hdc, vMinionMaw[i].enemyRect.left - 15, vMinionMaw[i].enemyRect.top - 15, minionAni);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -62,7 +80,7 @@ void MinionMaw::EnemyAiTime()
 	case 0:
 		// AI 패턴 시간
 		firstEnemyAiTime++;
-		if (firstEnemyAiTime / 60 == 2)
+		if (firstEnemyAiTime / 60 == 3)
 		{
 			firstEnemyAiPattern = RND->getFromIntTo(2, 5);
 			firstEnemyAiTime = 0;
@@ -71,7 +89,7 @@ void MinionMaw::EnemyAiTime()
 	case 1:
 		// AI 패턴 시간
 		secondEnemyAiTime++;
-		if (secondEnemyAiTime / 60 == 2)
+		if (secondEnemyAiTime / 60 == 3)
 		{
 			secondEnemyAiPattern = RND->getFromIntTo(2, 5);
 			secondEnemyAiTime = 0;
@@ -80,7 +98,7 @@ void MinionMaw::EnemyAiTime()
 	case 2:
 		// AI 패턴 시간
 		thirdEnemyAiTime++;
-		if (thirdEnemyAiTime / 60 == 2)
+		if (thirdEnemyAiTime / 60 == 3)
 		{
 			thirdEnemyAiPattern = RND->getFromIntTo(2, 5);
 			thirdEnemyAiTime = 0;
@@ -104,12 +122,13 @@ void MinionMaw::EnemyAi()
 		{
 			// 플레이어를 쫓아가라.
 			enemyAreaCheck = true;
-			EnemyShot();
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
 		if (enemyAreaCheck)
 		{
+			EnemyShot();
+
 			// getdistance(적의 위치 x, y, 플레이어의 위치 x, y)
 			distance = getDistance(vMinionMaw[i].enemyX, vMinionMaw[i].enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY());
 
@@ -128,11 +147,12 @@ void MinionMaw::EnemyAi()
 			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
 			vMinionMaw[i].enemyX += vx;
 			vMinionMaw[i].enemyY += vy;
-			vMinionMaw[i].enemyRect = RectMakeCenter(vMinionMaw[i].enemyX, vMinionMaw[i].enemyY, 30, 30);
+			vMinionMaw[i].enemyRect = RectMakeCenter(vMinionMaw[i].enemyX, vMinionMaw[i].enemyY, 35, 35);
 		}
 		// 범위안에 플레이어가 없다면 자율행동(AI)
 		else
 		{
+			enemyAtk = false;
 			EnemyAiTime();
 
 			switch (vMinionMaw[i].enemyNumber)
@@ -141,47 +161,49 @@ void MinionMaw::EnemyAi()
 				switch (firstEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					//애니메이션 프레임
+					ANIMATIONMANAGER->start("maw");
 					break;
 				case 2:		// LEFT
-					if (vMinionMaw[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.left -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right -= vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.left <= 10)
+					if (vMinionMaw[i].enemyRect.left <= 120)
 					{
 						firstEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionMaw[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.left += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right += vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.right >= 830)
+					if (vMinionMaw[i].enemyRect.right >= 760)
 					{
 						firstEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
-					if (vMinionMaw[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.top -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom -= vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.top <= 10)
+					if (vMinionMaw[i].enemyRect.top <= 120)
 					{
 						firstEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionMaw[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.top += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom += vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.bottom >= 530)
+					if (vMinionMaw[i].enemyRect.bottom >= 450)
 					{
 						firstEnemyAiPattern = 4;
 					}
@@ -192,47 +214,49 @@ void MinionMaw::EnemyAi()
 				switch (secondEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					//애니메이션 프레임
+					ANIMATIONMANAGER->start("maw");
 					break;
 				case 2:		// LEFT
-					if (vMinionMaw[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.left -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right -= vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.left <= 10)
+					if (vMinionMaw[i].enemyRect.left <= 120)
 					{
 						secondEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionMaw[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.left += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right += vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.right >= 830)
+					if (vMinionMaw[i].enemyRect.right >= 760)
 					{
 						secondEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
-					if (vMinionMaw[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.top -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom -= vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.top <= 10)
+					if (vMinionMaw[i].enemyRect.top <= 120)
 					{
 						secondEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionMaw[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.top += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom += vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.bottom >= 530)
+					if (vMinionMaw[i].enemyRect.bottom >= 450)
 					{
 						secondEnemyAiPattern = 4;
 					}
@@ -243,47 +267,49 @@ void MinionMaw::EnemyAi()
 				switch (thirdEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					//애니메이션 프레임
+					ANIMATIONMANAGER->start("maw");
 					break;
 				case 2:		// LEFT
-					if (vMinionMaw[i].enemyRect.left > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.left -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right -= vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.left <= 10)
+					if (vMinionMaw[i].enemyRect.left <= 120)
 					{
 						thirdEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
-					if (vMinionMaw[i].enemyRect.right < WINSIZEX) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.left += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.right += vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.right >= 830)
+					if (vMinionMaw[i].enemyRect.right >= 760)
 					{
 						thirdEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
-					if (vMinionMaw[i].enemyRect.top > 0) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.top -= vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom -= vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.top <= 10)
+					if (vMinionMaw[i].enemyRect.top <= 120)
 					{
 						thirdEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
-					if (vMinionMaw[i].enemyRect.bottom < WINSIZEY) // 몬스터 이동 범위 제한
+					if (vMinionMaw[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionMaw[i].enemyRect.top += vMinionMaw[i].enemySpeed;
 						vMinionMaw[i].enemyRect.bottom += vMinionMaw[i].enemySpeed;
 					}
-					if (vMinionMaw[i].enemyRect.bottom >= 530)
+					if (vMinionMaw[i].enemyRect.bottom >= 450)
 					{
 						thirdEnemyAiPattern = 4;
 					}
@@ -294,7 +320,7 @@ void MinionMaw::EnemyAi()
 		}
 
 		// 판정 범위가 항상 적의 좌표를 쫓아다님
-		vMinionMaw[i].enemyFireRange = RectMakeCenter(vMinionMaw[i].enemyX, vMinionMaw[i].enemyY, 200, 200);
+		vMinionMaw[i].enemyFireRange = RectMakeCenter(vMinionMaw[i].enemyX, vMinionMaw[i].enemyY, 300, 300);
 	}
 
 	// 적이 쏘는 불렛의 움직임
@@ -306,6 +332,26 @@ void MinionMaw::EnemyAi()
 
 void MinionMaw::EnemyShot()
 {
+	enemyAtk = true;
+
+	if (enemyAtk)
+	{
+		// 애니메이션
+		vMinionMaw[i].enemyImage = IMAGEMANAGER->addFrameImage("mawAttack", "images/monster/maw/mawAttack.bmp", 1510 / 2, 604 / 2, 10, 4, true, RGB(255, 0, 255));
+		if (vMinionMaw[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
+		{
+			ANIMATIONMANAGER->addAnimation("mawAtkLeft", "mawAttack", 20, 39, 25, false, true);
+			minionAni = ANIMATIONMANAGER->findAnimation("mawAtkLeft");
+			ANIMATIONMANAGER->resume("mawAtkLeft");
+		}
+		else
+		{
+			ANIMATIONMANAGER->addAnimation("mawAtkRight", "mawAttack", 0, 19, 25, false, true);
+			minionAni = ANIMATIONMANAGER->findAnimation("mawAtkRight");
+			ANIMATIONMANAGER->resume("mawAtkRight");
+		}
+	}
+
 	switch (vMinionMaw[i].enemyNumber)
 	{
 	case 0:

@@ -39,12 +39,12 @@ void Monstro::Release()
 
 void Monstro::Update()
 {
-	EnemyDeath();
-
 	if (!enemyDeath)
 	{
 		EnemyAi();
 	}
+
+	EnemyDeath();
 }
 
 void Monstro::Render(HDC hdc)
@@ -349,8 +349,8 @@ void Monstro::EnemyPattern()
 		}
 		else
 		{
-			ANIMATIONMANAGER->stop("monstroTeleport");
 			firstEnemyAiPattern = 2;
+			ANIMATIONMANAGER->stop("monstroTeleport");
 		}
 	}
 	else

@@ -18,9 +18,9 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void EnemyAiTime();
-	void EnemyAi();
-	void EnemyShot();
+	void EnemyAiTime();		// AI를 결정하는 시간
+	void EnemyAi();			// AI
+	void EnemyShot();		// 공격
 
 	// 에너미 벡터를 반환하는 함수
 	vector<EnemyInfo> GetMinionVector() { return vMinionMaw; }

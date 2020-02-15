@@ -134,7 +134,7 @@ void MainMap::update()
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
 				{
 					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
-					COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
+					//COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
 				}
 			}
 		}
