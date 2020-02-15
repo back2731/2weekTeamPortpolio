@@ -45,6 +45,11 @@ void GameScene::update()
 
 	COLLISIONMANAGER->UpdateCollision();
 	ANIMATIONMANAGER->update();
+
+	if (KEYMANAGER->isOnceKeyDown('P'))
+	{
+		SCENEMANAGER->changeScene("MainMenu");
+	}
 }
 
 void GameScene::render()

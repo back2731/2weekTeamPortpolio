@@ -11,12 +11,12 @@ MainMap::~MainMap()
 
 HRESULT MainMap::init()
 {
-	IMAGEMANAGER->addFrameImage("blocks", "images/maptool/blocks.bmp",
-		0, 0, 52 * 8, 52 * 9, 8, 9, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("mapTile", "images/maptool/SampleMap.bmp",
-		0, 0, 52 * 17 * 4, 52 * 11 * 4, 4, 4, true, RGB(255, 0, 255));
-	IMAGEMANAGER->addFrameImage("door", "images/maptool/doorSprite.bmp",
-		0, 0, 52 * 2.5 * 8, 52 * 3 * 10, 8, 10, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addFrameImage("blocks", "images/maptool/blocks.bmp",
+	//	0, 0, 52 * 8, 52 * 9, 8, 9, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addFrameImage("mapTile", "images/maptool/SampleMap.bmp",
+	//	0, 0, 52 * 17 * 4, 52 * 11 * 4, 4, 4, true, RGB(255, 0, 255));
+	//IMAGEMANAGER->addFrameImage("door", "images/maptool/doorSprite.bmp",
+	//	0, 0, 52 * 2.5 * 8, 52 * 3 * 10, 8, 10, true, RGB(255, 0, 255));
 
 	_locationX = 0;
 	_locationY = 0;
@@ -65,11 +65,7 @@ void MainMap::update()
 	//if (KEYMANAGER->isStayKeyDown('D')) { currentX -= 5; }
 	if (KEYMANAGER->isOnceKeyDown('B'))
 	{
-		openDoor = true;
-	}
-	if (KEYMANAGER->isOnceKeyDown('N'))
-	{
-		openDoor = false;
+		openDoor = !openDoor;
 	}
 
 	for (int i = 0; i < TILE_COUNT_X; i++)
@@ -134,7 +130,7 @@ void MainMap::update()
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
 				{
 					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
-					COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
+					//COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
 				}
 			}
 		}
@@ -217,7 +213,7 @@ void MainMap::render()
 						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 						DeleteObject(brush);
 					}
-		
+
 					if (!openDoor)
 					{
 						if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
@@ -238,10 +234,131 @@ void MainMap::render()
 							DeleteObject(brush);
 						}
 					}
+
 					if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 						HBRUSH brush = CreateSolidBrush(RGB(0, 0, 255));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMPOINT)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(51, 0, 51));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMHEART)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(204, 204, 102));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMMONEY)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(51, 102, 0));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMBOMB)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(204, 255, 204));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMKEY)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(0, 255, 255));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMPILL)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(0, 102, 153));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMCARD)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(0, 51, 102));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_BLACKITEMBOXOPEN)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(153, 255, 203));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_BLACKITEMBOXCLOSE)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(0, 102, 0));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_GOLDITEMBOXOPEN)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(153, 51, 102));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_GOLDITEMBOXCLOSE)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(153, 153, 204));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_REDITEMBOXOPEN)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(153, 0, 102));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_REDITEMBOXCLOSE)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(255, 204, 153));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_CRACKEDITEMBOXOPEN)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(51, 0, 255));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_CRACKEDITEMBOXCLOSE)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(204, 204, 204));
 						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 						DeleteObject(brush);
 					}
@@ -275,7 +392,7 @@ void MainMap::DrawTileMap()
 			{
 				if (_tileMap[i][j].tileKind[z] != TILEKIND_NONE)
 				{
-					switch (_tileMap[i][j].tileKind[z])
+										switch (_tileMap[i][j].tileKind[z])
 					{
 					case TILEKIND_TERRAIN:
 						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
@@ -295,7 +412,6 @@ void MainMap::DrawTileMap()
 							break;
 						}
 						break;
-
 					case TILEKIND_OPEN_DOOR:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
@@ -324,6 +440,7 @@ void MainMap::DrawTileMap()
 						{
 							if (!openDoor)
 							{
+
 								if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
 								{
 									IMAGEMANAGER->frameRender("door", getMemDC(),
@@ -342,14 +459,180 @@ void MainMap::DrawTileMap()
 							}
 						}
 						break;
-					}					
+					case TILEKIND_ITEMPOINT:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_ITEMHEART:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_ITEMMONEY:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_ITEMBOMB:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_ITEMKEY:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_ITEMPILL:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_ITEMCARD:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_BLACKITEMBOXOPEN:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_BLACKITEMBOXCLOSE:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_GOLDITEMBOXOPEN:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_GOLDITEMBOXCLOSE:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_REDITEMBOXOPEN:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_REDITEMBOXCLOSE:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_CRACKEDITEMBOXOPEN:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_CRACKEDITEMBOXCLOSE:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					}
+
 				}
 			}
 
 			if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 			{
 
-				if (_isDebug)
+				if (KEYMANAGER->isToggleKey(VK_TAB))
 				{
 					if (j % 11 == 0)
 					{
@@ -369,7 +652,7 @@ void MainMap::DrawTileMap()
 						Draw_Line_Y(left, top);
 					}
 					SetTextColor(getMemDC(), RGB(255, 0, 0));
-					sprintf_s(str, "(%d,%d)", i + 1, j + 1);
+					sprintf_s(str, "(%d,%d)", i, j);
 					TextOut(getMemDC(),
 						left + CELL_WIDTH / 2 - 20,
 						top + CELL_HEIGHT / 2 - 10, str, strlen(str));

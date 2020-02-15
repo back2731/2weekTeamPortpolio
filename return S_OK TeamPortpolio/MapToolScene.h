@@ -20,6 +20,8 @@ private:
 	int currentX;
 	int currentY;
 
+	bool openDoor;
+
 	POINT imageFrame;
 	CTRL _currentCTRL;
 	RECT cameraRect = { 0,0,WINSIZEX,WINSIZEY };

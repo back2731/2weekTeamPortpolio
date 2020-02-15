@@ -11,7 +11,7 @@ MainMenu::~MainMenu()
 
 HRESULT MainMenu::init()
 {
-	IMAGEMANAGER->addImage("MainMenu", "images/UI/menu/mainmenu_resize.bmp", WINSIZEX / 2, WINSIZEY / 2, 884, 572, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("MainMenu", "images/UI/menu/MainMenu.bmp", WINSIZEX / 2, WINSIZEY / 2, 884, 572, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("MainMenuArrow", "images/UI/menu/MainMenuArrow.bmp", WINSIZEY / 2, WINSIZEY / 2, 24, 30, true, RGB(255, 0, 255));
 
 	newRunRect = RectMake(WINSIZEX / 2 - 160, WINSIZEY / 2 - 120, 24, 30);
