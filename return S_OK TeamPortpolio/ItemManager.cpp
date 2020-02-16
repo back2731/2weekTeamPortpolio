@@ -196,7 +196,6 @@ HRESULT ItemManager::Init()
 	trinkets_MatchStick.price = 15;
 	vTrinkets.push_back(trinkets_MatchStick);
 
-	ItemInfo heart;
 	heart.itemKind = ITEM_HEART;
 	//heart.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 50, 50, true, RGB(255, 0, 255));
 	//heart.itemName = "Trinkets_MatchStick";
@@ -214,7 +213,6 @@ HRESULT ItemManager::Init()
 	heart.price = 5;
 	vHeart.push_back(heart);
 
-	ItemInfo gold;
 	gold.itemKind = ITEM_GOLD;
 	//gold.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 50, 50, true, RGB(255, 0, 255));
 	//gold.itemName = "Trinkets_MatchStick";
@@ -232,7 +230,6 @@ HRESULT ItemManager::Init()
 	gold.price = 0;
 	vGold.push_back(gold);
 
-	ItemInfo bomb;
 	bomb.itemKind = ITEM_BOMB;
 	//bomb.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 50, 50, true, RGB(255, 0, 255));
 	//bomb.itemName = "Trinkets_MatchStick";
@@ -250,7 +247,6 @@ HRESULT ItemManager::Init()
 	bomb.price = 0;
 	vBomb.push_back(bomb);
 
-	ItemInfo key;
 	key.itemKind = ITEM_KEY;
 	//key.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 50, 50, true, RGB(255, 0, 255));
 	//key.itemName = "Trinkets_MatchStick";

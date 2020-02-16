@@ -30,4 +30,9 @@ public:
 	int GetPlayerOffensePower() { return m_Player->GetPlayerOffensePower(); }
 	void SetPlayerOffensePower(int addPower) { m_Player->SetPlayerOffensePower(addPower); }
 
+	void SetPlayerHp(float num) { m_Player->SetPlayerHp(num); }
+	void SetPlayerGold(int num) { m_Player->SetPlayerGold(num); }
+	void SetPlayerBomb(int num) { m_Player->SetPlayerBomb(num); }
+	void SetPlayerKey(int num) { m_Player->SetPlayerKey(num); }
+
 };

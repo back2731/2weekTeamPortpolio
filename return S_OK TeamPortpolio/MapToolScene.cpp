@@ -176,7 +176,7 @@ void MapToolScene::render()
 						DeleteObject(brush);
 					}
 
-					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMMONEY)
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMGOLD)
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 						HBRUSH brush = CreateSolidBrush(RGB(51, 102, 0));
@@ -188,6 +188,14 @@ void MapToolScene::render()
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 						HBRUSH brush = CreateSolidBrush(RGB(204, 255, 204));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMATTACKBOMB)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(204, 100, 204));
 						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 						DeleteObject(brush);
 					}
@@ -404,7 +412,7 @@ void MapToolScene::DrawTileMap()
 							break;
 						}
 						break;
-					case TILEKIND_ITEMMONEY:
+					case TILEKIND_ITEMGOLD:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
 							IMAGEMANAGER->frameRender("blocks", getMemDC(),
@@ -416,6 +424,17 @@ void MapToolScene::DrawTileMap()
 						}
 						break;
 					case TILEKIND_ITEMBOMB:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_ITEMATTACKBOMB:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
 							IMAGEMANAGER->frameRender("blocks", getMemDC(),
@@ -627,8 +646,9 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 	case TILEKIND_CLOSE_DOOR:
 
 	case TILEKIND_ITEMHEART:
-	case TILEKIND_ITEMMONEY:
+	case TILEKIND_ITEMGOLD:
 	case TILEKIND_ITEMBOMB:
+	case TILEKIND_ITEMATTACKBOMB:
 	case TILEKIND_ITEMKEY:
 	case TILEKIND_ITEMPILL:
 	case TILEKIND_ITEMCARD:
@@ -723,13 +743,17 @@ TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 		{
 			return TILEKIND_ITEMHEART;
 		}
-		if (frameX >= 4 && frameY == 2)
+		if (frameX <= 3 && frameY == 2)
 		{
-			return TILEKIND_ITEMMONEY;
+			return TILEKIND_ITEMGOLD;
 		}
-		if (frameX <= 5 && frameY == 2)
+		if (frameX >= 4 && frameX <= 5 && frameY == 2)
 		{
 			return TILEKIND_ITEMBOMB;
+		}		
+		if (frameX >= 6 && frameY == 2)
+		{
+			return TILEKIND_ITEMATTACKBOMB;
 		}
 		if (frameX <= 1 && frameY == 3)
 		{

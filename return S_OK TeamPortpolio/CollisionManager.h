@@ -1,11 +1,14 @@
 #pragma once
 #include"singletonBase.h"
 #define KNOCKBACK 3
+#define PLAYERINVINCIBILITYTIME 1000
 
 class CollisionManager : public singletonBase<CollisionManager>
 {
 private:
 	int direction;
+	bool playerHit;
+	int hitCount;
 
 public:
 	CollisionManager();

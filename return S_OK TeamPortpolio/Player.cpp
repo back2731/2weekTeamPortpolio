@@ -26,13 +26,19 @@ HRESULT Player::Init(string imageName)
 	// 플레이어 정보
 	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 23 * 2);			// 머리 상자
 	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 30, 32 * 2, 11 * 2);	// 몸 상자
-	player.playerOffensePower = 2;																// 공격력
+	player.playerOffensePower = 50;																// 공격력
 	player.playerShotSpeed = 8.0f;																// 공격속도
 	player.playerShotRange = 450.0f;															// 공격사거리
 	playerBulletCount = 0;																		// 불렛 카운트
 	player.playerShotDelay = 25;																// 공격주기
 	player.playerSpeed = 3.0f;																	// 이동속도
 	player.playerSlideSpeed = 2.0f;																// 슬라이딩 속도
+
+	player.playerMaxHp = 3.0f;
+	player.playerHp = 2.0f;
+	player.playerGold = 0;
+	player.playerBomb = 1;
+	player.playerKey = 0;
 
 	// 플레이어 무브 변수 초기화
 	isLeft = false;
@@ -103,7 +109,6 @@ void Player::Render(HDC hdc)
 	if (IntersectRect(&temp, &GetPlayerHitRect(), &m_Shop->GetShopItemRect(0)))
 	{
 		Rectangle(hdc, test1.left, test1.top, test1.right, test1.bottom );
-
 	}
 	if (IntersectRect(&temp, &GetPlayerHitRect(), &m_Shop->GetShopItemRect(1)))
 	{
@@ -113,6 +118,18 @@ void Player::Render(HDC hdc)
 	{
 		Rectangle(hdc, test3.left, test3.top, test3.right, test3.bottom);
 	}
+
+	sprintf_s((str), "hp : %f", player.playerHp);
+	TextOut(hdc, 0, 100, str, strlen(str));
+
+	sprintf_s((str), "gold : %d", player.playerGold);
+	TextOut(hdc, 0, 120, str, strlen(str));
+
+	sprintf_s((str), "bomb : %d", player.playerBomb);
+	TextOut(hdc, 0, 140, str, strlen(str));
+
+	sprintf_s((str), "key : %d", player.playerKey);
+	TextOut(hdc, 0, 160, str, strlen(str));
 }
 
 void Player::PlayerMove()
@@ -449,6 +466,42 @@ void Player::PlayerAnimation()
 		aniBody = ANIMATIONMANAGER->findAnimation("bodyDown");
 		ANIMATIONMANAGER->resume("bodyDown");
 		break;
+	}
+}
+
+void Player::SetPlayerHp(float num)
+{  
+	player.playerHp += num;
+	if (player.playerHp >= player.playerMaxHp)
+	{
+		player.playerHp = player.playerMaxHp;
+	}
+}
+
+void Player::SetPlayerGold(int num)
+{
+	player.playerGold += num;
+	if (player.playerGold > 99)
+	{
+		player.playerGold = 99;
+	}
+}
+
+void Player::SetPlayerBomb(int num)
+{
+	player.playerBomb += num;
+	if (player.playerBomb > 99)
+	{
+		player.playerBomb = 99;
+	}
+}
+
+void Player::SetPlayerKey(int num)
+{
+	player.playerKey += num;
+	if (player.playerKey > 99)
+	{
+		player.playerKey = 99;
 	}
 }
 

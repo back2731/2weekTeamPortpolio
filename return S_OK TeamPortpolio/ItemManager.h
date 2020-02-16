@@ -54,6 +54,11 @@ private:
 
 	vector <ItemInfo> vAllItem;			// 모든 아이템 벡터
 
+	ItemInfo heart;
+	ItemInfo gold;
+	ItemInfo bomb;
+	ItemInfo key;
+
 public:
 	ItemManager();
 	~ItemManager();
