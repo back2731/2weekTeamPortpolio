@@ -12,6 +12,9 @@
 #include "MinionClot.h"
 #include "MinionClotty.h"
 
+#define ROOM_MAX_X 5
+#define ROOM_MAX_Y 5
+
 class EnemyManager : public singletonBase<EnemyManager>
 {
 private:
@@ -32,6 +35,15 @@ private:
 	MinionMulligan*		m_MinionMulligan;
 	MinionPacer*		m_MinionPacer;
 
+	int loadData;
+
+	bool isCheckClear;
+	bool isSummonEnemy;
+	bool isBoss;
+	bool openDoor;
+
+	// 문자 테스트용 변수
+	char str[128];
 public:	
 	EnemyManager();
 	~EnemyManager();
@@ -55,4 +67,20 @@ public:
 	MinionHorf*			GetMinionHorf()			{ return m_MinionHorf; }
 	MinionMulligan*		GetMinionMulligan()		{ return  m_MinionMulligan; }
 	MinionPacer*		GetMinionPacer()		{ return  m_MinionPacer; }
+
+	//bool isCheckClear[ROOM_MAX_X][ROOM_MAX_Y];
+	//bool isSummonEnemy[ROOM_MAX_X][ROOM_MAX_Y];
+	//bool isBoss[ROOM_MAX_X][ROOM_MAX_Y];;
+	//bool isShop[ROOM_MAX_X][ROOM_MAX_Y];;
+	//bool isGoldRoom[ROOM_MAX_X][ROOM_MAX_Y];;
+
+
+
+	void GetLoadData(int loadData);
+	
+	void GetCheckClear(bool value);
+	void GetSummonEnemy(bool value);
+	void GetBoss(bool value);
+
+	bool SetOpenDoor() { return openDoor; }
 };

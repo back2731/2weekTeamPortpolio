@@ -24,6 +24,14 @@ struct PlayerInfo
 	float   playerShotRange;		// 공격사거리
 	float   playerSpeed;			// 이동속도
 	float   playerSlideSpeed;		// 슬라이딩 속도
+
+	// 아이템
+
+	float playerMaxHp;				// 플레이어 최대체력
+	float playerHp;					// 플레이어 체력
+	int playerGold;					// 플레이어 골드
+	int playerBomb;					// 플레이어 폭탄
+	int playerKey;					// 플레이어 키
 };
 
 class Shop;
@@ -65,6 +73,8 @@ private:
 	bool playerRightShot;
 	bool playerUpShot;
 	bool playerDownShot;
+
+	char str[128];
 
 private:
 	Shop* m_Shop;
@@ -121,9 +131,13 @@ public:
 	float GetPlayerHitRectX() { return (player.playerHitRect.left + (player.playerHitRect.right - player.playerHitRect.left) / 2); }
 	float GetPlayerHitRectY() { return (player.playerHitRect.top + (player.playerHitRect.bottom - player.playerHitRect.top) / 2); }
 
+	void SetPlayerHp(float num);
+	void SetPlayerGold(int num);
+	void SetPlayerBomb(int num);
+	void SetPlayerKey(int num);
+
 	void SetPlayerRectX(int num);
 	void SetPlayerRectY(int num);
-
 
 	vector<BulletInfo> GetPlayerBulletVector() { return vPlayerBullet; }
 

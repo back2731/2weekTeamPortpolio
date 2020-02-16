@@ -38,9 +38,9 @@ void GameScene::release()
 
 void GameScene::update()
 {
+	mainMap->update();
 	PLAYERMANAGER->Update();
 	ENEMYMANAGER->Update();
-	mainMap->update();
 	m_shop->Update();
 
 	COLLISIONMANAGER->UpdateCollision();

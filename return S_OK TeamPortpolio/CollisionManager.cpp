@@ -3,6 +3,8 @@
 
 CollisionManager::CollisionManager()
 {
+	playerHit = false;
+	hitCount = 0;
 }
 
 CollisionManager::~CollisionManager()
@@ -771,18 +773,33 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 void CollisionManager::EnemyBulletCollision(vector<BulletInfo>& enemyBulletVector, vector<BulletInfo>::iterator & enemyBulletIter)
 {
 	RECT temp;
-
-	for (enemyBulletIter = enemyBulletVector.begin(); enemyBulletIter != enemyBulletVector.end();)
+	if (!playerHit)
 	{
-		if (IntersectRect(&temp, &enemyBulletIter->rect, &PLAYERMANAGER->GetPlayerHitRect()))
+		for (enemyBulletIter = enemyBulletVector.begin(); enemyBulletIter != enemyBulletVector.end();)
 		{
-			// 오브젝트 풀로 총알을 돌려주는 함수
-			OBJECTPOOL->SetBulletVector(enemyBulletVector.front());
-			enemyBulletIter = enemyBulletVector.erase(enemyBulletIter);
+			if (IntersectRect(&temp, &enemyBulletIter->rect, &PLAYERMANAGER->GetPlayerHitRect()))
+			{
+				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHit = true;
+
+				// 오브젝트 풀로 총알을 돌려주는 함수
+				OBJECTPOOL->SetBulletVector(enemyBulletVector.front());
+				enemyBulletIter = enemyBulletVector.erase(enemyBulletIter);
+			}
+			else
+			{
+				++enemyBulletIter;
+			}
 		}
-		else
+	}
+
+	if(playerHit)
+	{
+		hitCount++;
+		if (hitCount % PLAYERINVINCIBILITYTIME == 0)
 		{
-			++enemyBulletIter;
+			playerHit = false;
+			hitCount = 0;
 		}
 	}
 }
@@ -790,384 +807,425 @@ void CollisionManager::EnemyBulletCollision(vector<BulletInfo>& enemyBulletVecto
 void CollisionManager::PlayerToMinionCollision()
 {
 	RECT temp;
-
-	// MinionAttackFly 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector().size(); j++)
+	if (!playerHit)
 	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect))
+		// MinionAttackFly 충돌
+		for (int j = 0; j < ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector().size(); j++)
 		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect))
 			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHit = true;
+
+				// temp의 Width와 Height 선언
+				int tempW = temp.right - temp.left;
+				int tempH = temp.bottom - temp.top;
+
+				if (tempH > tempW)
 				{
-					PLAYERMANAGER->SetPlayerRectX(tempW);
+					// 왼쪽 충돌시 오른쪽으로 밀어줌
+					if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+					{
+						PLAYERMANAGER->SetPlayerRectX(tempW);
+					}
+					// 오른쪽 충돌시 왼쪽으로 밀어줌
+					else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+					{
+						PLAYERMANAGER->SetPlayerRectX(-tempW);
+					}
 				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+				else
 				{
-					PLAYERMANAGER->SetPlayerRectX(-tempW);
+					// 위쪽 충돌시 아래쪽으로 밀어줌
+					if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+					{
+						PLAYERMANAGER->SetPlayerRectY(tempH);
+					}
+					// 아래쪽 충돌시 위쪽으로 밀어줌
+					else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+					{
+						PLAYERMANAGER->SetPlayerRectY(-tempH);
+					}
 				}
 			}
-			else
+		}
+
+		// MinionBlackFly 충돌
+		for (int j = 0; j < ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector().size(); j++)
+		{
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect))
 			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHit = true;
+
+				// temp의 Width와 Height 선언
+				int tempW = temp.right - temp.left;
+				int tempH = temp.bottom - temp.top;
+
+				if (tempH > tempW)
 				{
-					PLAYERMANAGER->SetPlayerRectY(tempH);
+					// 왼쪽 충돌시 오른쪽으로 밀어줌
+					if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+					{
+						PLAYERMANAGER->SetPlayerRectX(tempW);
+					}
+					// 오른쪽 충돌시 왼쪽으로 밀어줌
+					else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+					{
+						PLAYERMANAGER->SetPlayerRectX(-tempW);
+					}
 				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+				else
 				{
-					PLAYERMANAGER->SetPlayerRectY(-tempH);
+					// 위쪽 충돌시 아래쪽으로 밀어줌
+					if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+					{
+						PLAYERMANAGER->SetPlayerRectY(tempH);
+					}
+					// 아래쪽 충돌시 위쪽으로 밀어줌
+					else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+					{
+						PLAYERMANAGER->SetPlayerRectY(-tempH);
+					}
+				}
+			}
+		}
+
+		// MinionMaw 충돌
+		for (int j = 0; j < ENEMYMANAGER->GetMinionMaw()->GetMinionVector().size(); j++)
+		{
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect))
+			{
+				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHit = true;
+
+				// temp의 Width와 Height 선언
+				int tempW = temp.right - temp.left;
+				int tempH = temp.bottom - temp.top;
+
+				if (tempH > tempW)
+				{
+					// 왼쪽 충돌시 오른쪽으로 밀어줌
+					if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+					{
+						PLAYERMANAGER->SetPlayerRectX(tempW);
+					}
+					// 오른쪽 충돌시 왼쪽으로 밀어줌
+					else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+					{
+						PLAYERMANAGER->SetPlayerRectX(-tempW);
+					}
+				}
+				else
+				{
+					// 위쪽 충돌시 아래쪽으로 밀어줌
+					if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+					{
+						PLAYERMANAGER->SetPlayerRectY(tempH);
+					}
+					// 아래쪽 충돌시 위쪽으로 밀어줌
+					else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+					{
+						PLAYERMANAGER->SetPlayerRectY(-tempH);
+					}
+				}
+			}
+		}
+
+		// MinionTumor 충돌
+		for (int j = 0; j < ENEMYMANAGER->GetMinionTumor()->GetMinionVector().size(); j++)
+		{
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect))
+			{
+				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHit = true;
+
+				// temp의 Width와 Height 선언
+				int tempW = temp.right - temp.left;
+				int tempH = temp.bottom - temp.top;
+
+				if (tempH > tempW)
+				{
+					// 왼쪽 충돌시 오른쪽으로 밀어줌
+					if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+					{
+						PLAYERMANAGER->SetPlayerRectX(tempW);
+					}
+					// 오른쪽 충돌시 왼쪽으로 밀어줌
+					else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+					{
+						PLAYERMANAGER->SetPlayerRectX(-tempW);
+					}
+				}
+				else
+				{
+					// 위쪽 충돌시 아래쪽으로 밀어줌
+					if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+					{
+						PLAYERMANAGER->SetPlayerRectY(tempH);
+					}
+					// 아래쪽 충돌시 위쪽으로 밀어줌
+					else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+					{
+						PLAYERMANAGER->SetPlayerRectY(-tempH);
+					}
+				}
+			}
+		}
+
+		// MinionClot 충돌
+		for (int j = 0; j < ENEMYMANAGER->GetMinionClot()->GetMinionVector().size(); j++)
+		{
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect))
+			{
+				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHit = true;
+
+				// temp의 Width와 Height 선언
+				int tempW = temp.right - temp.left;
+				int tempH = temp.bottom - temp.top;
+
+				if (tempH > tempW)
+				{
+					// 왼쪽 충돌시 오른쪽으로 밀어줌
+					if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+					{
+						PLAYERMANAGER->SetPlayerRectX(tempW);
+					}
+					// 오른쪽 충돌시 왼쪽으로 밀어줌
+					else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+					{
+						PLAYERMANAGER->SetPlayerRectX(-tempW);
+					}
+				}
+				else
+				{
+					// 위쪽 충돌시 아래쪽으로 밀어줌
+					if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+					{
+						PLAYERMANAGER->SetPlayerRectY(tempH);
+					}
+					// 아래쪽 충돌시 위쪽으로 밀어줌
+					else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+					{
+						PLAYERMANAGER->SetPlayerRectY(-tempH);
+					}
+				}
+			}
+		}
+
+		// MinionClotty 충돌
+		for (int j = 0; j < ENEMYMANAGER->GetMinionClotty()->GetMinionVector().size(); j++)
+		{
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect))
+			{
+				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHit = true;
+
+				// temp의 Width와 Height 선언
+				int tempW = temp.right - temp.left;
+				int tempH = temp.bottom - temp.top;
+
+				if (tempH > tempW)
+				{
+					// 왼쪽 충돌시 오른쪽으로 밀어줌
+					if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+					{
+						PLAYERMANAGER->SetPlayerRectX(tempW);
+					}
+					// 오른쪽 충돌시 왼쪽으로 밀어줌
+					else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+					{
+						PLAYERMANAGER->SetPlayerRectX(-tempW);
+					}
+				}
+				else
+				{
+					// 위쪽 충돌시 아래쪽으로 밀어줌
+					if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+					{
+						PLAYERMANAGER->SetPlayerRectY(tempH);
+					}
+					// 아래쪽 충돌시 위쪽으로 밀어줌
+					else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+					{
+						PLAYERMANAGER->SetPlayerRectY(-tempH);
+					}
+				}
+			}
+		}
+
+		// MinionGaper 충돌
+		for (int j = 0; j < ENEMYMANAGER->GetMinionGaper()->GetMinionVector().size(); j++)
+		{
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect))
+			{
+				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHit = true;
+
+				// temp의 Width와 Height 선언
+				int tempW = temp.right - temp.left;
+				int tempH = temp.bottom - temp.top;
+
+				if (tempH > tempW)
+				{
+					// 왼쪽 충돌시 오른쪽으로 밀어줌
+					if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+					{
+						PLAYERMANAGER->SetPlayerRectX(tempW);
+					}
+					// 오른쪽 충돌시 왼쪽으로 밀어줌
+					else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+					{
+						PLAYERMANAGER->SetPlayerRectX(-tempW);
+					}
+				}
+				else
+				{
+					// 위쪽 충돌시 아래쪽으로 밀어줌
+					if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+					{
+						PLAYERMANAGER->SetPlayerRectY(tempH);
+					}
+					// 아래쪽 충돌시 위쪽으로 밀어줌
+					else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+					{
+						PLAYERMANAGER->SetPlayerRectY(-tempH);
+					}
+				}
+			}
+		}
+
+		// MinionHorf 충돌
+		for (int j = 0; j < ENEMYMANAGER->GetMinionHorf()->GetMinionVector().size(); j++)
+		{
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect))
+			{
+				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHit = true;
+
+				// temp의 Width와 Height 선언
+				int tempW = temp.right - temp.left;
+				int tempH = temp.bottom - temp.top;
+
+				if (tempH > tempW)
+				{
+					// 왼쪽 충돌시 오른쪽으로 밀어줌
+					if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+					{
+						PLAYERMANAGER->SetPlayerRectX(tempW);
+					}
+					// 오른쪽 충돌시 왼쪽으로 밀어줌
+					else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+					{
+						PLAYERMANAGER->SetPlayerRectX(-tempW);
+					}
+				}
+				else
+				{
+					// 위쪽 충돌시 아래쪽으로 밀어줌
+					if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+					{
+						PLAYERMANAGER->SetPlayerRectY(tempH);
+					}
+					// 아래쪽 충돌시 위쪽으로 밀어줌
+					else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+					{
+						PLAYERMANAGER->SetPlayerRectY(-tempH);
+					}
+				}
+			}
+		}
+
+		// MinionMulligan 충돌
+		for (int j = 0; j < ENEMYMANAGER->GetMinionMulligan()->GetMinionVector().size(); j++)
+		{
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect))
+			{
+				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHit = true;
+
+				// temp의 Width와 Height 선언
+				int tempW = temp.right - temp.left;
+				int tempH = temp.bottom - temp.top;
+
+				if (tempH > tempW)
+				{
+					// 왼쪽 충돌시 오른쪽으로 밀어줌
+					if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+					{
+						PLAYERMANAGER->SetPlayerRectX(tempW);
+					}
+					// 오른쪽 충돌시 왼쪽으로 밀어줌
+					else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+					{
+						PLAYERMANAGER->SetPlayerRectX(-tempW);
+					}
+				}
+				else
+				{
+					// 위쪽 충돌시 아래쪽으로 밀어줌
+					if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+					{
+						PLAYERMANAGER->SetPlayerRectY(tempH);
+					}
+					// 아래쪽 충돌시 위쪽으로 밀어줌
+					else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+					{
+						PLAYERMANAGER->SetPlayerRectY(-tempH);
+					}
+				}
+			}
+		}
+
+		// MinionPacer 충돌
+		for (int j = 0; j < ENEMYMANAGER->GetMinionPacer()->GetMinionVector().size(); j++)
+		{
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect))
+			{
+				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHit = true;
+
+				// temp의 Width와 Height 선언
+				int tempW = temp.right - temp.left;
+				int tempH = temp.bottom - temp.top;
+
+				if (tempH > tempW)
+				{
+					// 왼쪽 충돌시 오른쪽으로 밀어줌
+					if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
+					{
+						PLAYERMANAGER->SetPlayerRectX(tempW);
+					}
+					// 오른쪽 충돌시 왼쪽으로 밀어줌
+					else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
+					{
+						PLAYERMANAGER->SetPlayerRectX(-tempW);
+					}
+				}
+				else
+				{
+					// 위쪽 충돌시 아래쪽으로 밀어줌
+					if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
+					{
+						PLAYERMANAGER->SetPlayerRectY(tempH);
+					}
+					// 아래쪽 충돌시 위쪽으로 밀어줌
+					else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
+					{
+						PLAYERMANAGER->SetPlayerRectY(-tempH);
+					}
 				}
 			}
 		}
 	}
-
-	// MinionBlackFly 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector().size(); j++)
+	else
 	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect))
+		hitCount++;
+		if (hitCount % PLAYERINVINCIBILITYTIME == 0)
 		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
-				{
-					PLAYERMANAGER->SetPlayerRectX(tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
-				{
-					PLAYERMANAGER->SetPlayerRectX(-tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
-				{
-					PLAYERMANAGER->SetPlayerRectY(tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
-				{
-					PLAYERMANAGER->SetPlayerRectY(-tempH);
-				}
-			}
-		}
-	}
-
-	// MinionMaw 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionMaw()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
-				{
-					PLAYERMANAGER->SetPlayerRectX(tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
-				{
-					PLAYERMANAGER->SetPlayerRectX(-tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
-				{
-					PLAYERMANAGER->SetPlayerRectY(tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
-				{
-					PLAYERMANAGER->SetPlayerRectY(-tempH);
-				}
-			}
-		}
-	}
-
-	// MinionTumor 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionTumor()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
-				{
-					PLAYERMANAGER->SetPlayerRectX(tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
-				{
-					PLAYERMANAGER->SetPlayerRectX(-tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
-				{
-					PLAYERMANAGER->SetPlayerRectY(tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
-				{
-					PLAYERMANAGER->SetPlayerRectY(-tempH);
-				}
-			}
-		}
-	}
-
-	// MinionClot 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionClot()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
-				{
-					PLAYERMANAGER->SetPlayerRectX(tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
-				{
-					PLAYERMANAGER->SetPlayerRectX(-tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
-				{
-					PLAYERMANAGER->SetPlayerRectY(tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
-				{
-					PLAYERMANAGER->SetPlayerRectY(-tempH);
-				}
-			}
-		}
-	}
-
-	// MinionClotty 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionClotty()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
-				{
-					PLAYERMANAGER->SetPlayerRectX(tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
-				{
-					PLAYERMANAGER->SetPlayerRectX(-tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
-				{
-					PLAYERMANAGER->SetPlayerRectY(tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
-				{
-					PLAYERMANAGER->SetPlayerRectY(-tempH);
-				}
-			}
-		}
-	}
-
-	// MinionGaper 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionGaper()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
-				{
-					PLAYERMANAGER->SetPlayerRectX(tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
-				{
-					PLAYERMANAGER->SetPlayerRectX(-tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
-				{
-					PLAYERMANAGER->SetPlayerRectY(tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
-				{
-					PLAYERMANAGER->SetPlayerRectY(-tempH);
-				}
-			}
-		}
-	}
-
-	// MinionHorf 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionHorf()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
-				{
-					PLAYERMANAGER->SetPlayerRectX(tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
-				{
-					PLAYERMANAGER->SetPlayerRectX(-tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
-				{
-					PLAYERMANAGER->SetPlayerRectY(tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
-				{
-					PLAYERMANAGER->SetPlayerRectY(-tempH);
-				}
-			}
-		}
-	}
-
-	// MinionMulligan 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionMulligan()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
-				{
-					PLAYERMANAGER->SetPlayerRectX(tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
-				{
-					PLAYERMANAGER->SetPlayerRectX(-tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
-				{
-					PLAYERMANAGER->SetPlayerRectY(tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
-				{
-					PLAYERMANAGER->SetPlayerRectY(-tempH);
-				}
-			}
-		}
-	}
-
-	// MinionPacer 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionPacer()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == PLAYERMANAGER->GetPlayerHitRect().left)
-				{
-					PLAYERMANAGER->SetPlayerRectX(tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == PLAYERMANAGER->GetPlayerHitRect().right)
-				{
-					PLAYERMANAGER->SetPlayerRectX(-tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == PLAYERMANAGER->GetPlayerHitRect().top)
-				{
-					PLAYERMANAGER->SetPlayerRectY(tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == PLAYERMANAGER->GetPlayerHitRect().bottom)
-				{
-					PLAYERMANAGER->SetPlayerRectY(-tempH);
-				}
-			}
+			playerHit = false;
+			hitCount = 0;
 		}
 	}
 }

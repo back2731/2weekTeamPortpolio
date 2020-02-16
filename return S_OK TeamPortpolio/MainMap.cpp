@@ -11,13 +11,6 @@ MainMap::~MainMap()
 
 HRESULT MainMap::init()
 {
-	//IMAGEMANAGER->addFrameImage("blocks", "images/maptool/blocks.bmp",
-	//	0, 0, 52 * 8, 52 * 9, 8, 9, true, RGB(255, 0, 255));
-	//IMAGEMANAGER->addFrameImage("mapTile", "images/maptool/SampleMap.bmp",
-	//	0, 0, 52 * 17 * 4, 52 * 11 * 4, 4, 4, true, RGB(255, 0, 255));
-	//IMAGEMANAGER->addFrameImage("door", "images/maptool/doorSprite.bmp",
-	//	0, 0, 52 * 2.5 * 8, 52 * 3 * 10, 8, 10, true, RGB(255, 0, 255));
-
 	_locationX = 0;
 	_locationY = 0;
 	_center = 0;
@@ -26,7 +19,7 @@ HRESULT MainMap::init()
 	currentX = INIT_X;
 	currentY = INIT_Y;
 
-	openDoor = false;
+	openDoor = true;
 
 	moveUp = false;
 	moveDown = false;
@@ -38,7 +31,55 @@ HRESULT MainMap::init()
 	savePositionX = currentX;
 	savePositionY = currentY;
 
-	load(RND->getInt(10));
+	loadData = 0;
+	load(loadData);
+
+	// 맵 데이터에 따라서 각 방의 위치의 bool 값을 지정해준다.
+	switch (loadData)
+	{
+	case 0:
+	{
+		for (int i = 0; i < ROOM_MAX_X; i++)
+		{
+			for (int j = 0; j < ROOM_MAX_Y; j++)
+			{
+				isCheckClear[i][j] = false;
+				isSummonEnemy[i][j] = false;
+
+				isBoss[i][j] = false;
+				isShop[i][j] = false;
+				isGoldRoom[i][j] = false;
+			}
+		}
+		isBoss[1][2] = true;
+		isShop[2][1] = true;
+		isGoldRoom[2][3] = true;
+
+		// 초기시작위치에서 적이 소환되지 않게 해주는 부분
+		isSummonEnemy[2][2] = true;
+	}
+		break;
+	case 1:
+		break;
+	case 2:
+		break;
+	case 3:
+		break;
+	case 4:
+		break;
+	case 5:
+		break;
+	case 6:
+		break;
+	case 7:
+		break;
+	case 8:
+		break;
+	case 9:
+		break;
+	default:
+		break;
+	}
 
 	return S_OK;
 }
@@ -54,18 +95,70 @@ void MainMap::update()
 		count++;
 		if (count == 60)
 		{
-			load(RND->getInt(10));
+			resetData = RND->getInt(10);
+			loadData = resetData;
+			ENEMYMANAGER->Init();
+			PLAYERMANAGER->Init();
+			load(loadData);
 			count = 0;
 		}
 	}
 
-	//if (KEYMANAGER->isStayKeyDown('W')) { currentY += 5; }
-	//if (KEYMANAGER->isStayKeyDown('S')) { currentY -= 5; }
-	//if (KEYMANAGER->isStayKeyDown('A')) { currentX += 5; }
-	//if (KEYMANAGER->isStayKeyDown('D')) { currentX -= 5; }
-	if (KEYMANAGER->isOnceKeyDown('B'))
+	ENEMYMANAGER->GetLoadData(loadData);
+
+	// 해당 방에 입장 했을 때
+	for (int i = 0; i < ROOM_MAX_X; i++)
 	{
-		openDoor = !openDoor;
+		for (int j = 0; j < ROOM_MAX_Y; j++)
+		{
+			if (isSummonEnemy[i][j] == false)
+			{
+				if (savePositionX == (j * -884) && savePositionY == (i * -572))
+				{
+					isCheckClear[i][j] = true;
+					ENEMYMANAGER->GetCheckClear(isCheckClear[i][j]);
+				}
+			}
+		}
+	}
+
+	// 보스방에 입장 했을 때
+	switch (loadData)
+	{
+		case 0:
+		{	
+			// 보스방에 입장 했을 시의 bool값
+			if (isCheckClear[1][2] == true && isBoss[1][2] == true && isSummonEnemy[1][2] == false)
+			{
+				isBoss[1][2] = false;
+				isSummonEnemy[1][2] = true;
+				ENEMYMANAGER->GetBoss(isBoss[1][2]);
+				ENEMYMANAGER->GetSummonEnemy(isSummonEnemy[1][2]);
+			}
+		}
+			break;
+	}
+
+	// 일반방에 입장 했을 때
+	switch (loadData)
+	{
+		case 0:
+		{
+			for (int i = 0; i < ROOM_MAX_X; i++)
+			{
+				for (int j = 0; j < ROOM_MAX_Y; j++)
+				{
+					// isCheckClear -> 방에 입장했다면 true / isSummonEnemy -> 몬스터를 소환한 적이 없다면 false / 보스방이아니라면 false / 상점이 아니라면 false / 황금방이 아니라면 false
+					if (isCheckClear[i][j] == true && isSummonEnemy[i][j] == false && isBoss[i][j] == false && isShop[i][j] == false && isGoldRoom[i][j] == false)
+					{
+						// 몬스터를 소환했다면 true
+						isSummonEnemy[i][j] = true;
+						ENEMYMANAGER->GetSummonEnemy(isSummonEnemy[i][j]);
+					}
+				}
+			}
+		}
+			break;
 	}
 
 	for (int i = 0; i < TILE_COUNT_X; i++)
@@ -83,15 +176,7 @@ void MainMap::update()
 					}
 				}
 
-				if (!openDoor)
-				{
-					if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
-					{
-						COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
-						COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
-					}
-				}
-				else
+				if (ENEMYMANAGER->SetOpenDoor())
 				{
 					if (_tileMap[i][j].tileKind[z] == TILEKIND_OPEN_DOOR)
 					{
@@ -119,11 +204,19 @@ void MainMap::update()
 							}
 							else if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 2)
 							{
-								PLAYERMANAGER->SetPlayerRectX(-620);								
+								PLAYERMANAGER->SetPlayerRectX(-620);
 								moveRight = true;
 								stopCamera = false;
 							}
 						}
+					}
+				}				
+				else
+				{
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
+					{
+						COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+						COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
 					}
 				}
 
@@ -131,6 +224,50 @@ void MainMap::update()
 				{
 					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
 					//COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
+				}
+
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMHEART)
+				{
+					if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &_tileMap[i][j].rect))
+					{
+						PLAYERMANAGER->SetPlayerHp(1.0f);
+						_tileMap[i][j].tileNum[z] = 0;
+						_tileMap[i][j].tileKind[z] = TILEKIND_NONE;
+						_tileMap[i][j].tilePos[z] = { 0 };
+					}
+				}
+
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMGOLD)
+				{
+					if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &_tileMap[i][j].rect))
+					{
+						PLAYERMANAGER->SetPlayerGold(1);
+						_tileMap[i][j].tileNum[z] = 0;
+						_tileMap[i][j].tileKind[z] = TILEKIND_NONE;
+						_tileMap[i][j].tilePos[z] = { 0 };
+					}
+				}
+
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMBOMB)
+				{
+					if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &_tileMap[i][j].rect))
+					{
+						PLAYERMANAGER->SetPlayerBomb(1);
+						_tileMap[i][j].tileNum[z] = 0;
+						_tileMap[i][j].tileKind[z] = TILEKIND_NONE;
+						_tileMap[i][j].tilePos[z] = { 0 };
+					}
+				}
+
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMKEY)
+				{
+					if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &_tileMap[i][j].rect))
+					{
+						PLAYERMANAGER->SetPlayerKey(1);
+						_tileMap[i][j].tileNum[z] = 0;
+						_tileMap[i][j].tileKind[z] = TILEKIND_NONE;
+						_tileMap[i][j].tilePos[z] = { 0 };
+					}
 				}
 			}
 		}
@@ -191,10 +328,6 @@ void MainMap::update()
 
 void MainMap::render()
 {
-	//좌표 출력.
-	sprintf_s(str, "locationX : %d, locationY : %d", _locationX + 1, _locationY + 1);
-	TextOut(getMemDC(), WINSIZEX - 130, 0, str, strlen(str));
-
 	DrawTileMap();
 
 	for (int i = 0; i < TILE_COUNT_X; i++)
@@ -214,22 +347,22 @@ void MainMap::render()
 						DeleteObject(brush);
 					}
 
-					if (!openDoor)
-					{
-						if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
-						{
-							Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
-							HBRUSH brush = CreateSolidBrush(RGB(255, 0, 0));
-							FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
-							DeleteObject(brush);
-						}
-					}
-					else
+					if (ENEMYMANAGER->SetOpenDoor())
 					{
 						if (_tileMap[i][j].tileKind[z] == TILEKIND_OPEN_DOOR)
 						{
 							Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 							HBRUSH brush = CreateSolidBrush(RGB(0, 255, 0));
+							FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+							DeleteObject(brush);
+						}
+					}
+					else	
+					{
+						if (_tileMap[i][j].tileKind[z] == TILEKIND_CLOSE_DOOR)
+						{
+							Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+							HBRUSH brush = CreateSolidBrush(RGB(255, 0, 0));
 							FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 							DeleteObject(brush);
 						}
@@ -259,7 +392,7 @@ void MainMap::render()
 						DeleteObject(brush);
 					}
 
-					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMMONEY)
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMGOLD)
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 						HBRUSH brush = CreateSolidBrush(RGB(51, 102, 0));
@@ -271,6 +404,14 @@ void MainMap::render()
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 						HBRUSH brush = CreateSolidBrush(RGB(204, 255, 204));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMATTACKBOMB)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(204, 100, 204));
 						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 						DeleteObject(brush);
 					}
@@ -366,7 +507,11 @@ void MainMap::render()
 			}
 		}
 	}
+	sprintf_s((str), "x : %d", savePositionX);
+	TextOut(getMemDC(), 100, 100, str, strlen(str));
 
+	sprintf_s((str), "y : %d", savePositionY);
+	TextOut(getMemDC(), 100, 120, str, strlen(str));
 }
 
 void MainMap::DrawTileMap()
@@ -392,7 +537,7 @@ void MainMap::DrawTileMap()
 			{
 				if (_tileMap[i][j].tileKind[z] != TILEKIND_NONE)
 				{
-										switch (_tileMap[i][j].tileKind[z])
+					switch (_tileMap[i][j].tileKind[z])
 					{
 					case TILEKIND_TERRAIN:
 						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
@@ -415,7 +560,7 @@ void MainMap::DrawTileMap()
 					case TILEKIND_OPEN_DOOR:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
-							if (openDoor)
+							if (ENEMYMANAGER->SetOpenDoor())
 							{
 								if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
 								{
@@ -438,9 +583,8 @@ void MainMap::DrawTileMap()
 					case TILEKIND_CLOSE_DOOR:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
-							if (!openDoor)
+							if (!ENEMYMANAGER->SetOpenDoor())
 							{
-
 								if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
 								{
 									IMAGEMANAGER->frameRender("door", getMemDC(),
@@ -481,7 +625,7 @@ void MainMap::DrawTileMap()
 							break;
 						}
 						break;
-					case TILEKIND_ITEMMONEY:
+					case TILEKIND_ITEMGOLD:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
 							IMAGEMANAGER->frameRender("blocks", getMemDC(),
@@ -493,6 +637,17 @@ void MainMap::DrawTileMap()
 						}
 						break;
 					case TILEKIND_ITEMBOMB:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_ITEMATTACKBOMB:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
 							IMAGEMANAGER->frameRender("blocks", getMemDC(),

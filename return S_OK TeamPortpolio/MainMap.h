@@ -12,6 +12,9 @@ private:
 
 	int count = 0;
 
+	int loadData;
+	int resetData;
+
 	int currentX;
 	int currentY;
 
@@ -24,6 +27,7 @@ private:
 	RECT temp;
 
 	bool _isDebug;
+
 	bool openDoor;
 	bool stopCamera;
 
@@ -31,6 +35,12 @@ private:
 	bool moveDown;
 	bool moveRight;
 	bool moveLeft;
+
+	bool isCheckClear[ROOM_MAX_X][ROOM_MAX_Y];
+	bool isSummonEnemy[ROOM_MAX_X][ROOM_MAX_Y];
+	bool isBoss[ROOM_MAX_X][ROOM_MAX_Y];;
+	bool isShop[ROOM_MAX_X][ROOM_MAX_Y];;
+	bool isGoldRoom[ROOM_MAX_X][ROOM_MAX_Y];;
 
 	//
 	const char* fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };

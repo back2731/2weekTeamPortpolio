@@ -23,45 +23,9 @@ HRESULT EnemyManager::Init()
 	m_MinionMulligan = new MinionMulligan;
 	m_MinionPacer = new MinionPacer;
 
-	//m_Monstro->Init(PointMake(WINSIZEX / 2, WINSIZEY / 2));
-
-	//m_MinionAttackFly->Init(PointMake(150, 150), 0);
-	//m_MinionAttackFly->Init(PointMake(150, 150), 1);
-	//m_MinionAttackFly->Init(PointMake(150, 200), 2);
-
-	//m_MinionBlackFly->Init(PointMake(740, 150), 0);
-	//m_MinionBlackFly->Init(PointMake(400, 400), 1);
-	//m_MinionBlackFly->Init(PointMake(500, 400), 2);	
-
-	//m_MinionMaw->Init(PointMake(150, 400), 0);
-	//m_MinionMaw->Init(PointMake(250, 100), 1);
-	//m_MinionMaw->Init(PointMake(300, 100), 2);
-
-	m_MinionTumor->Init(PointMake(740, 400), 0);
-
-	//m_MinionClot->Init(PointMake(100, 500), 0);
-	//m_MinionClot->Init(PointMake(200, 500), 1);
-	//m_MinionClot->Init(PointMake(300, 500), 2);
-
-	//m_MinionClotty->Init(PointMake(100, 300), 0);
-	//m_MinionClotty->Init(PointMake(200, 300), 1);
-	//m_MinionClotty->Init(PointMake(300, 300), 2);
-
-	//m_MinionGaper->Init(PointMake(100, 300), 0);
-	//m_MinionGaper->Init(PointMake(200, 300), 1);
-	//m_MinionGaper->Init(PointMake(300, 300), 2);
-
-	//m_MinionHorf->Init(PointMake(100, 300), 0);
-	//m_MinionHorf->Init(PointMake(200, 300), 1);
-	//m_MinionHorf->Init(PointMake(300, 300), 2);
-
-	//m_MinionMulligan->Init(PointMake(100, 300), 0);
-	//m_MinionMulligan->Init(PointMake(200, 300), 1);
-	//m_MinionMulligan->Init(PointMake(300, 300), 2);
-
-	//m_MinionPacer->Init(PointMake(100, 300), 0);
-	//m_MinionPacer->Init(PointMake(200, 300), 1);
-	//m_MinionPacer->Init(PointMake(300, 300), 2);
+	openDoor = true;
+	isSummonEnemy = false;
+	isBoss = true;
 
 	return S_OK;
 }
@@ -83,6 +47,85 @@ void EnemyManager::Release()
 
 void EnemyManager::Update()
 {
+	//보스방 진입시 보스를 소환한다.
+	if (isCheckClear && isSummonEnemy && !isBoss)
+	{
+		m_Monstro->Init(PointMake(WINSIZEX / 2, WINSIZEY / 2));
+		isSummonEnemy = false;
+		isBoss = true;
+	}
+
+	// 보스방, 상점방, 황금방이 아닌 일반방 진입 시 몬스터를 소환한다. 
+	else if (isCheckClear && isSummonEnemy)
+	{
+		// 일반방에 들어오면 case에 따라서 랜덤으로 몬스터를 소환해준다.
+		switch (RND->getInt(10))
+		{
+			case 0:
+			{
+				m_MinionAttackFly->Init(PointMake(150, 150), 0);
+				m_MinionBlackFly->Init(PointMake(300, 150), 0);
+				isSummonEnemy = false;
+			}
+			break;
+			case 1:
+			{
+				m_MinionBlackFly->Init(PointMake(300, 150), 0);
+				isSummonEnemy = false;
+			}
+			break;
+			case 2:
+			{
+				m_MinionMaw->Init(PointMake(150, 400), 0);
+				isSummonEnemy = false;
+			}
+			break;
+			case 3:
+			{
+				m_MinionTumor->Init(PointMake(540, 400), 0);
+				m_MinionMaw->Init(PointMake(150, 400), 0);
+				isSummonEnemy = false;
+			}
+				break;
+			case 4:
+			{	
+				m_MinionTumor->Init(PointMake(540, 400), 0);
+				m_MinionAttackFly->Init(PointMake(650, 350), 0);
+				isSummonEnemy = false;
+			}
+				break;
+			case 5:
+			{	
+				m_MinionAttackFly->Init(PointMake(650, 350), 0);
+				m_MinionBlackFly->Init(PointMake(200, 200), 0);
+				isSummonEnemy = false;
+			}
+				break;
+			case 6:
+			{	
+				isSummonEnemy = false; 
+			}
+				break;
+			case 7:
+			{	
+				m_MinionAttackFly->Init(PointMake(650, 300), 0);
+				isSummonEnemy = false; 
+			}
+				break;
+			case 8:
+			{
+				m_MinionMaw->Init(PointMake(600, 350), 0);
+				isSummonEnemy = false; 
+			}
+				break;
+			case 9:
+			{
+				isSummonEnemy = false; 
+			}
+				break;
+		}
+	}
+
 	m_Monstro->Update();
 	m_MinionAttackFly->Update();
 	m_MinionBlackFly->Update();
@@ -94,6 +137,25 @@ void EnemyManager::Update()
 	m_MinionPacer->Update();
 	m_MinionClot->Update();
 	m_MinionClotty->Update();
+
+	// 해당 방에 몬스터의 벡터값이 존재하면 문을 닫고 없으면 문을 연다
+	if (m_MinionAttackFly->GetMinionVector().size() > 0 ||
+		m_MinionBlackFly->GetMinionVector().size() > 0 ||
+		m_MinionMaw->GetMinionVector().size() > 0 ||
+		m_MinionTumor->GetMinionVector().size() > 0 ||
+		m_MinionGaper->GetMinionVector().size() > 0 ||
+		m_MinionHorf->GetMinionVector().size() > 0 ||
+		m_MinionPacer->GetMinionVector().size() > 0 ||
+		m_MinionClot->GetMinionVector().size() > 0 ||
+		m_MinionClotty->GetMinionVector().size() > 0 ||
+		m_Monstro->GetMinionVector().size() > 0)
+	{
+		openDoor = false;
+	}
+	else
+	{
+		openDoor = true;
+	}
 }
 
 void EnemyManager::Render(HDC hdc)
@@ -110,3 +172,24 @@ void EnemyManager::Render(HDC hdc)
 	m_MinionClot->Render(hdc);
 	m_MinionClotty->Render(hdc);
 }
+
+void EnemyManager::GetLoadData(int _loadData)
+{
+	loadData = _loadData;
+}
+
+void EnemyManager::GetCheckClear(bool value)
+{
+	isCheckClear = value;
+}
+
+void EnemyManager::GetSummonEnemy(bool value)
+{
+	isSummonEnemy = value;
+}
+
+void EnemyManager::GetBoss(bool value)
+{
+	isBoss = value;
+}
+
