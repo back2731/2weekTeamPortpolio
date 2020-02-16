@@ -14,13 +14,22 @@ HRESULT MinionMulligan::Init(POINT position, int EnemyNumber)
 	//구조체 정보 기입
 	EnemyInfo MinionMulligan;
 	MinionMulligan.enemyNumber = EnemyNumber;
-	MinionMulligan.enemyRect = RectMakeCenter(position.x, position.y, 50, 50);
+	MinionMulligan.enemyRect = RectMakeCenter(position.x, position.y, 35, 40);
 	MinionMulligan.enemyHp = 13;
 	MinionMulligan.enemyShotSpeed = 5.0f;
 	MinionMulligan.enemyShotRange = 500.0f;
 	MinionMulligan.enemyShotDelay = 50;
 	MinionMulligan.enemySpeed = 2.5f;
+	// 애니메이션 Idle
+	MinionMulligan.enemyImage = IMAGEMANAGER->addFrameImage("mulliganIdle", "images/monster/mulligan/mulliganAppear.bmp", 660, 258, 5, 2, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("mulligan", "mulliganIdle", 15, false, true);
+	minionAni = ANIMATIONMANAGER->findAnimation("mulligan");
 	vMinionMulligan.push_back(MinionMulligan);
+
+	// IDLE
+	firstEnemyAiPattern = 1;
+	secondEnemyAiPattern = 1;
+	thirdEnemyAiPattern = 1;
 
 	enemyAreaCheck = false;
 
@@ -51,6 +60,8 @@ void MinionMulligan::Render(HDC hdc)
 			FillRect(hdc, &vMinionMulligan[i].enemyRect, brush);
 			DeleteObject(brush);
 		}
+
+		vMinionMulligan[i].enemyImage->aniRender(hdc, vMinionMulligan[i].enemyRect.left - 50, vMinionMulligan[i].enemyRect.top - 40, minionAni);
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -147,8 +158,16 @@ void MinionMulligan::EnemyAi()
 				switch (firstEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					// 애니메이션 Idle
+					ANIMATIONMANAGER->resume("mulligan");
 					break;
 				case 2:		// LEFT
+					// 애니메이션 Left
+					//vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/mulligan/clotty/muliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					//ANIMATIONMANAGER->addAnimation("mulliganLeft", "muliganMove", 20, 39, 15, false, true);
+					//minionAni = ANIMATIONMANAGER->findAnimation("mulliganLeft");
+					//ANIMATIONMANAGER->resume("mulliganLeft");
+
 					if (vMinionMulligan[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left -= vMinionMulligan[i].enemySpeed;
@@ -198,6 +217,8 @@ void MinionMulligan::EnemyAi()
 				switch (secondEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					// 애니메이션 Idle
+					ANIMATIONMANAGER->resume("mulligan");
 					break;
 				case 2:		// LEFT
 					if (vMinionMulligan[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
@@ -249,6 +270,8 @@ void MinionMulligan::EnemyAi()
 				switch (thirdEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					// 애니메이션 Idle
+					ANIMATIONMANAGER->resume("mulligan");
 					break;
 				case 2:		// LEFT
 					if (vMinionMulligan[i].enemyRect.left > 105) // 몬스터 이동 범위 제한

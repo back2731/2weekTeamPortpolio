@@ -16,9 +16,13 @@ HRESULT MinionHorf::Init(POINT position, int EnemyNumber)
 	MinionHorf.enemyNumber = EnemyNumber;
 	MinionHorf.enemyRect = RectMakeCenter(position.x, position.y, 30, 30);
 	MinionHorf.enemyHp = 10;
-	MinionHorf.enemyShotSpeed = 5.0f;
-	MinionHorf.enemyShotRange = 500.0f;
-	MinionHorf.enemyShotDelay = 50;
+	MinionHorf.enemyShotSpeed = 6.0f;
+	MinionHorf.enemyShotRange = 600.0f;
+	MinionHorf.enemyShotDelay = 65;
+	// 애니메이션 Idle
+	MinionHorf.enemyImage = IMAGEMANAGER->addFrameImage("horfIdle", "images/monster/horf/horfIdle.bmp", 534 / 2, 172 / 2, 3, 1, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("horf", "horfIdle", 25, false, true);
+	minionAni = ANIMATIONMANAGER->findAnimation("horf");
 	vMinionHorf.push_back(MinionHorf);
 
 	enemyAreaCheck = false;
@@ -39,16 +43,18 @@ void MinionHorf::Update()
 void MinionHorf::Render(HDC hdc)
 {
 	for (i = 0; i < vMinionHorf.size(); i++)
-	{		
+	{
 		if (KEYMANAGER->isToggleKey(VK_F1))
 		{
-			//Rectangle(hdc, vMinionHorf[i].enemyFireRange.left, vMinionHorf[i].enemyFireRange.top, vMinionHorf[i].enemyFireRange.right, vMinionHorf[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionHorf[i].enemyFireRange.left, vMinionHorf[i].enemyFireRange.top, vMinionHorf[i].enemyFireRange.right, vMinionHorf[i].enemyFireRange.bottom);
 			Rectangle(hdc, vMinionHorf[i].enemyRect.left, vMinionHorf[i].enemyRect.top, vMinionHorf[i].enemyRect.right, vMinionHorf[i].enemyRect.bottom);
 
 			HBRUSH brush = CreateSolidBrush(RGB(51, 102, 255));
 			FillRect(hdc, &vMinionHorf[i].enemyRect, brush);
 			DeleteObject(brush);
 		}
+
+		vMinionHorf[i].enemyImage->aniRender(hdc, vMinionHorf[i].enemyRect.left - 30, vMinionHorf[i].enemyRect.top - 40, minionAni);
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -68,10 +74,34 @@ void MinionHorf::EnemyAi()
 		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionHorf[i].enemyFireRange))
 		{
 			EnemyShot();
+
+			if (vMinionHorf[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
+			{
+				// 애니메이션 좌측 공격
+				vMinionHorf[i].enemyImage = IMAGEMANAGER->addFrameImage("horfAttack", "images/monster/horf/horfAttack.bmp", 890 / 2, 1376 / 2, 5, 8, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addAnimation("horfAtkLeft", "horfAttack", 20, 39, 16, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("horfAtkLeft");
+				ANIMATIONMANAGER->resume("horfAtkLeft");
+			}
+			else
+			{
+				// 애니메이션 우측 공격
+				vMinionHorf[i].enemyImage = IMAGEMANAGER->addFrameImage("horfAttack", "images/monster/horf/horfAttack.bmp", 890 / 2, 1376 / 2, 5, 8, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addAnimation("horfAtkRight", "horfAttack", 0, 19, 16, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("horfAtkRight");
+				ANIMATIONMANAGER->resume("horfAtkRight");
+			}
+		}
+		else
+		{
+			vMinionHorf[i].enemyImage = IMAGEMANAGER->addFrameImage("horfIdle", "images/monster/horf/horfIdle.bmp", 534 / 2, 172 / 2, 3, 1, true, RGB(255, 0, 255));
+			ANIMATIONMANAGER->addDefAnimation("horf", "horfIdle", 25, false, true);
+			minionAni = ANIMATIONMANAGER->findAnimation("horf");
+			ANIMATIONMANAGER->resume("horf");
 		}
 
 		// 판정 범위가 항상 적의 좌표를 쫓아다님
-		vMinionHorf[i].enemyFireRange = RectMakeCenter(vMinionHorf[i].enemyX, vMinionHorf[i].enemyY, 400, 400);
+		vMinionHorf[i].enemyFireRange = RectMakeCenter(vMinionHorf[i].enemyX, vMinionHorf[i].enemyY, 700, 300);
 	}
 
 	// 적이 쏘는 불렛의 움직임

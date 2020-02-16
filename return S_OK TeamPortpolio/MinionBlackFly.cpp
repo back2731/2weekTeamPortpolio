@@ -123,7 +123,7 @@ void MinionBlackFly::EnemyAi()
 		{
 			//애니메이션 프레임
 			minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyLeft");
-			ANIMATIONMANAGER->start("BlackFlyLeft");
+			ANIMATIONMANAGER->resume("BlackFlyLeft");
 			
 			enemyMove = false;
 			enemyLeftBoost = true;
@@ -138,9 +138,9 @@ void MinionBlackFly::EnemyAi()
 			enemyAreaCheck)
 		{
 			//애니메이션 프레임
-			ANIMATIONMANAGER->addAnimation("minionRight", "BlackFlyMove", 2, 3, 15, false, true);
-			minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
-			ANIMATIONMANAGER->start("minionRight");
+			ANIMATIONMANAGER->addAnimation("BlackFlyRight", "BlackFlyMove", 2, 3, 15, false, true);
+			minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyRight");
+			ANIMATIONMANAGER->resume("BlackFlyRight");
 
 			enemyMove = false;
 			enemyRightBoost = true;
@@ -242,12 +242,12 @@ void MinionBlackFly::EnemyAi()
 				{
 				case 1:		// IDLE
 					//애니메이션 프레임
-					ANIMATIONMANAGER->start("BlackFlyLeft");
+					ANIMATIONMANAGER->resume("BlackFlyLeft");
 					break;
 				case 2:		// LEFT
 					//애니메이션 프레임
 					minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyLeft");
-					ANIMATIONMANAGER->start("BlackFlyLeft");
+					ANIMATIONMANAGER->resume("BlackFlyLeft");
 
 					if (vMinionBlackFly[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
@@ -261,9 +261,9 @@ void MinionBlackFly::EnemyAi()
 					break;
 				case 3:		// RIGHT
 					//애니메이션 프레임
-					ANIMATIONMANAGER->addAnimation("minionRight", "BlackFlyMove", 2, 3, 15, false, true);
-					minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
-					ANIMATIONMANAGER->start("minionRight");
+					ANIMATIONMANAGER->addAnimation("BlackFlyRight", "BlackFlyMove", 2, 3, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyRight");
+					ANIMATIONMANAGER->resume("BlackFlyRight");
 
 					if (vMinionBlackFly[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
@@ -304,12 +304,12 @@ void MinionBlackFly::EnemyAi()
 				{
 				case 1:		// IDLE
 					//애니메이션 프레임
-					ANIMATIONMANAGER->start("BlackFlyLeft");
+					ANIMATIONMANAGER->resume("BlackFlyLeft");
 					break;
 				case 2:		// LEFT
 					//애니메이션 프레임
 					minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyLeft");
-					ANIMATIONMANAGER->start("BlackFlyLeft");
+					ANIMATIONMANAGER->resume("BlackFlyLeft");
 
 					if (vMinionBlackFly[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
@@ -323,9 +323,9 @@ void MinionBlackFly::EnemyAi()
 					break;
 				case 3:		// RIGHT
 					//애니메이션 프레임
-					ANIMATIONMANAGER->addAnimation("minionRight", "BlackFlyMove", 2, 3, 15, false, true);
-					minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
-					ANIMATIONMANAGER->start("minionRight");
+					ANIMATIONMANAGER->addAnimation("BlackFlyRight", "BlackFlyMove", 2, 3, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyRight");
+					ANIMATIONMANAGER->resume("BlackFlyRight");
 
 					if (vMinionBlackFly[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
@@ -366,12 +366,12 @@ void MinionBlackFly::EnemyAi()
 				{
 				case 1:		// IDLE
 					//애니메이션 프레임
-					ANIMATIONMANAGER->start("BlackFlyLeft");
+					ANIMATIONMANAGER->resume("BlackFlyLeft");
 					break;
 				case 2:		// LEFT
 					//애니메이션 프레임
 					minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyLeft");
-					ANIMATIONMANAGER->start("BlackFlyLeft");
+					ANIMATIONMANAGER->resume("BlackFlyLeft");
 
 					if (vMinionBlackFly[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
@@ -385,9 +385,9 @@ void MinionBlackFly::EnemyAi()
 					break;
 				case 3:		// RIGHT
 					//애니메이션 프레임
-					ANIMATIONMANAGER->addAnimation("minionRight", "BlackFlyMove", 2, 3, 15, false, true);
-					minionAni = ANIMATIONMANAGER->findAnimation("minionRight");
-					ANIMATIONMANAGER->start("minionRight");
+					ANIMATIONMANAGER->addAnimation("BlackFlyRight", "BlackFlyMove", 2, 3, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyRight");
+					ANIMATIONMANAGER->resume("BlackFlyRight");
 
 					if (vMinionBlackFly[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{

@@ -17,7 +17,7 @@ HRESULT MinionTumor::Init(POINT position, int EnemyNumber)
 	MinionTumor.enemyRect = RectMakeCenter(position.x, position.y, 45, 45);
 	MinionTumor.enemyHp = 20;
 	MinionTumor.enemyShotSpeed = 4.0f;
-	MinionTumor.enemyShotRange = 500.0f;
+	MinionTumor.enemyShotRange = 300.0f;
 	MinionTumor.enemyShotDelay = 20;
 	MinionTumor.enemySpeed = 1.5f;
 	// 애니메이션 Idle

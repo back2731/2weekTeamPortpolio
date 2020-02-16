@@ -11,13 +11,26 @@ MinionGaper::~MinionGaper()
 
 HRESULT MinionGaper::Init(POINT position, int EnemyNumber)
 {
+	gaperShadow = IMAGEMANAGER->addImage("gaperShadow", "images/monster/gaper/gaperShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
+	gaperHead = IMAGEMANAGER->addImage("gaperHead", "images/monster/gaper/gaper.bmp", 32 * 2, 32 * 2, true, RGB(255, 0, 255));
+
 	//구조체 정보 기입
 	EnemyInfo MinionGaper;
 	MinionGaper.enemyNumber = EnemyNumber;
-	MinionGaper.enemyRect = RectMakeCenter(position.x, position.y, 30, 30);
+	MinionGaper.enemyRect = RectMakeCenter(position.x, position.y, 30, 50);
 	MinionGaper.enemyHp = 10;
 	MinionGaper.enemySpeed = 2.5f;
+	// 애니메이션 Idle
+	MinionGaper.enemyImage = IMAGEMANAGER->addFrameImage("gaperBody", "images/monster/gaper/gaperBody.bmp", 320 * 2, 124 * 2, 10, 4, true, RGB(255, 0, 255));
+	int arrBodyIdle[] = { 22 };
+	ANIMATIONMANAGER->addAnimation("gaper", "gaperBody", arrBodyIdle, 1, 1, true);
+	minionAni = ANIMATIONMANAGER->findAnimation("gaper");
 	vMinionGaper.push_back(MinionGaper);
+
+	// IDLE
+	firstEnemyAiPattern = 1;
+	secondEnemyAiPattern = 1;
+	thirdEnemyAiPattern = 1;
 
 	enemyAreaCheck = false;
 
@@ -47,6 +60,10 @@ void MinionGaper::Render(HDC hdc)
 			FillRect(hdc, &vMinionGaper[i].enemyRect, brush);
 			DeleteObject(brush);
 		}
+
+		gaperShadow->alphaRender(hdc, vMinionGaper[i].enemyRect.left - 5, vMinionGaper[i].enemyRect.top + 42, 70);
+		vMinionGaper[i].enemyImage->aniRender(hdc, vMinionGaper[i].enemyRect.left - 17, vMinionGaper[i].enemyRect.top + 10, minionAni);
+		gaperHead->render(hdc, vMinionGaper[i].enemyRect.left - 17, vMinionGaper[i].enemyRect.top - 19);
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -101,6 +118,21 @@ void MinionGaper::EnemyAi()
 		{
 			// 플레이어를 쫓아가라.
 			enemyAreaCheck = true;
+
+			if (vMinionGaper[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
+			{
+				// BodyLeft
+				ANIMATIONMANAGER->addAnimation("gaperLeft", "gaperBody", 10, 19, 12, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("gaperLeft");
+				ANIMATIONMANAGER->resume("gaperLeft");
+			}
+			else
+			{
+				// BodyRight
+				ANIMATIONMANAGER->addAnimation("gaperRight", "gaperBody", 30, 39, 12, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("gaperRight");
+				ANIMATIONMANAGER->resume("gaperRight");
+			}
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
@@ -124,7 +156,7 @@ void MinionGaper::EnemyAi()
 			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
 			vMinionGaper[i].enemyX += vx;
 			vMinionGaper[i].enemyY += vy;
-			vMinionGaper[i].enemyRect = RectMakeCenter(vMinionGaper[i].enemyX, vMinionGaper[i].enemyY, 30, 30);
+			vMinionGaper[i].enemyRect = RectMakeCenter(vMinionGaper[i].enemyX, vMinionGaper[i].enemyY, 30, 50);
 		}
 		// 범위안에 플레이어가 없다면 자율행동(AI)
 		else
@@ -137,8 +169,15 @@ void MinionGaper::EnemyAi()
 				switch (firstEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					// 애니메이션 Idle
+					ANIMATIONMANAGER->resume("gaper");
 					break;
 				case 2:		// LEFT
+					// BodyLeft
+					ANIMATIONMANAGER->addAnimation("gaperLeft", "gaperBody", 10, 19, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperLeft");
+					ANIMATIONMANAGER->resume("gaperLeft");
+
 					if (vMinionGaper[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left -= vMinionGaper[i].enemySpeed;
@@ -150,6 +189,11 @@ void MinionGaper::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
+					// BodyRight
+					ANIMATIONMANAGER->addAnimation("gaperRight", "gaperBody", 30, 39, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperRight");
+					ANIMATIONMANAGER->resume("gaperRight");
+
 					if (vMinionGaper[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left += vMinionGaper[i].enemySpeed;
@@ -161,6 +205,11 @@ void MinionGaper::EnemyAi()
 					}
 					break;
 				case 4:		// UP
+					// BodyUp
+					ANIMATIONMANAGER->addAnimation("gaperUp", "gaperBody", 20, 29, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperUp");
+					ANIMATIONMANAGER->resume("gaperUp");
+
 					if (vMinionGaper[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top -= vMinionGaper[i].enemySpeed;
@@ -172,6 +221,11 @@ void MinionGaper::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
+					// BodyDown
+					ANIMATIONMANAGER->addAnimation("gaperDown", "gaperBody", 20, 29, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperDown");
+					ANIMATIONMANAGER->resume("gaperDown");
+
 					if (vMinionGaper[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top += vMinionGaper[i].enemySpeed;
@@ -188,8 +242,15 @@ void MinionGaper::EnemyAi()
 				switch (secondEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					// 애니메이션 Idle
+					ANIMATIONMANAGER->resume("gaper");
 					break;
 				case 2:		// LEFT
+					// BodyLeft
+					ANIMATIONMANAGER->addAnimation("gaperLeft", "gaperBody", 10, 19, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperLeft");
+					ANIMATIONMANAGER->resume("gaperLeft");
+
 					if (vMinionGaper[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left -= vMinionGaper[i].enemySpeed;
@@ -197,10 +258,15 @@ void MinionGaper::EnemyAi()
 					}
 					if (vMinionGaper[i].enemyRect.left <= 120)
 					{
-						secondEnemyAiPattern = 3;
+						firstEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
+					// BodyRight
+					ANIMATIONMANAGER->addAnimation("gaperRight", "gaperBody", 30, 39, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperRight");
+					ANIMATIONMANAGER->resume("gaperRight");
+
 					if (vMinionGaper[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left += vMinionGaper[i].enemySpeed;
@@ -208,10 +274,15 @@ void MinionGaper::EnemyAi()
 					}
 					if (vMinionGaper[i].enemyRect.right >= 760)
 					{
-						secondEnemyAiPattern = 2;
+						firstEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
+					// BodyUp
+					ANIMATIONMANAGER->addAnimation("gaperUp", "gaperBody", 20, 29, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperUp");
+					ANIMATIONMANAGER->resume("gaperUp");
+
 					if (vMinionGaper[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top -= vMinionGaper[i].enemySpeed;
@@ -219,10 +290,15 @@ void MinionGaper::EnemyAi()
 					}
 					if (vMinionGaper[i].enemyRect.top <= 120)
 					{
-						secondEnemyAiPattern = 5;
+						firstEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
+					// BodyDown
+					ANIMATIONMANAGER->addAnimation("gaperDown", "gaperBody", 20, 29, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperDown");
+					ANIMATIONMANAGER->resume("gaperDown");
+
 					if (vMinionGaper[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top += vMinionGaper[i].enemySpeed;
@@ -230,7 +306,7 @@ void MinionGaper::EnemyAi()
 					}
 					if (vMinionGaper[i].enemyRect.bottom >= 450)
 					{
-						secondEnemyAiPattern = 4;
+						firstEnemyAiPattern = 4;
 					}
 					break;
 				}
@@ -239,8 +315,15 @@ void MinionGaper::EnemyAi()
 				switch (thirdEnemyAiPattern)
 				{
 				case 1:		// IDLE
+					// 애니메이션 Idle
+					ANIMATIONMANAGER->resume("gaper");
 					break;
 				case 2:		// LEFT
+					// BodyLeft
+					ANIMATIONMANAGER->addAnimation("gaperLeft", "gaperBody", 10, 19, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperLeft");
+					ANIMATIONMANAGER->resume("gaperLeft");
+
 					if (vMinionGaper[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left -= vMinionGaper[i].enemySpeed;
@@ -248,10 +331,15 @@ void MinionGaper::EnemyAi()
 					}
 					if (vMinionGaper[i].enemyRect.left <= 120)
 					{
-						thirdEnemyAiPattern = 3;
+						firstEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
+					// BodyRight
+					ANIMATIONMANAGER->addAnimation("gaperRight", "gaperBody", 30, 39, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperRight");
+					ANIMATIONMANAGER->resume("gaperRight");
+
 					if (vMinionGaper[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.left += vMinionGaper[i].enemySpeed;
@@ -259,10 +347,15 @@ void MinionGaper::EnemyAi()
 					}
 					if (vMinionGaper[i].enemyRect.right >= 760)
 					{
-						thirdEnemyAiPattern = 2;
+						firstEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
+					// BodyUp
+					ANIMATIONMANAGER->addAnimation("gaperUp", "gaperBody", 20, 29, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperUp");
+					ANIMATIONMANAGER->resume("gaperUp");
+
 					if (vMinionGaper[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top -= vMinionGaper[i].enemySpeed;
@@ -270,10 +363,15 @@ void MinionGaper::EnemyAi()
 					}
 					if (vMinionGaper[i].enemyRect.top <= 120)
 					{
-						thirdEnemyAiPattern = 5;
+						firstEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
+					// BodyDown
+					ANIMATIONMANAGER->addAnimation("gaperDown", "gaperBody", 20, 29, 12, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("gaperDown");
+					ANIMATIONMANAGER->resume("gaperDown");
+
 					if (vMinionGaper[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionGaper[i].enemyRect.top += vMinionGaper[i].enemySpeed;
@@ -281,7 +379,7 @@ void MinionGaper::EnemyAi()
 					}
 					if (vMinionGaper[i].enemyRect.bottom >= 450)
 					{
-						thirdEnemyAiPattern = 4;
+						firstEnemyAiPattern = 4;
 					}
 					break;
 				}

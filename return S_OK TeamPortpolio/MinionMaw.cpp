@@ -17,7 +17,7 @@ HRESULT MinionMaw::Init(POINT position, int EnemyNumber)
 	MinionMaw.enemyRect = RectMakeCenter(position.x, position.y, 35, 35);
 	MinionMaw.enemyHp = 25;
 	MinionMaw.enemyShotSpeed = 5.0f;
-	MinionMaw.enemyShotRange = 500.0f;
+	MinionMaw.enemyShotRange = 300.0f;
 	MinionMaw.enemyShotDelay = 50;
 	MinionMaw.enemySpeed = 1.5f;
 	// 애니메이션 Idle
@@ -162,7 +162,7 @@ void MinionMaw::EnemyAi()
 				{
 				case 1:		// IDLE
 					//애니메이션 프레임
-					ANIMATIONMANAGER->start("maw");
+					ANIMATIONMANAGER->resume("maw");
 					break;
 				case 2:		// LEFT
 					if (vMinionMaw[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
@@ -215,7 +215,7 @@ void MinionMaw::EnemyAi()
 				{
 				case 1:		// IDLE
 					//애니메이션 프레임
-					ANIMATIONMANAGER->start("maw");
+					ANIMATIONMANAGER->resume("maw");
 					break;
 				case 2:		// LEFT
 					if (vMinionMaw[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
@@ -268,7 +268,7 @@ void MinionMaw::EnemyAi()
 				{
 				case 1:		// IDLE
 					//애니메이션 프레임
-					ANIMATIONMANAGER->start("maw");
+					ANIMATIONMANAGER->resume("maw");
 					break;
 				case 2:		// LEFT
 					if (vMinionMaw[i].enemyRect.left > 105) // 몬스터 이동 범위 제한

@@ -14,15 +14,22 @@ HRESULT MinionClot::Init(POINT position, int EnemyNumber)
 	//구조체 정보 기입
 	EnemyInfo MinionClot;
 	MinionClot.enemyNumber = EnemyNumber;
-	MinionClot.enemyRect = RectMakeCenter(position.x, position.y, 50, 50);
+	MinionClot.enemyRect = RectMakeCenter(position.x, position.y, 40, 25);
 	MinionClot.enemyHp = 15;
 	MinionClot.enemyShotSpeed = 5.0f;
-	MinionClot.enemyShotRange = 500.0f;
-	MinionClot.enemyShotDelay = 200;
-	MinionClot.enemySpeed = 2.5f;
+	MinionClot.enemyShotRange = 200.0f;
+	MinionClot.enemyShotDelay = 150;
+	MinionClot.enemySpeed = 2.0f;
+	// 애니메이션 Idle
+	MinionClot.enemyImage = IMAGEMANAGER->addFrameImage("clotIdle", "images/monster/clot/clotAppear.bmp", 908 / 2, 1000 / 2, 4, 5, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("clot", "clotIdle", 15, false, true);
+	minionAni = ANIMATIONMANAGER->findAnimation("clot");
 	vMinionClot.push_back(MinionClot);
 
-	enemyAreaCheck = false;
+	// IDLE
+	firstEnemyAiPattern = 1;
+	secondEnemyAiPattern = 1;
+	thirdEnemyAiPattern = 1;
 
 	return S_OK;
 }
@@ -42,14 +49,16 @@ void MinionClot::Render(HDC hdc)
 	for (i = 0; i < vMinionClot.size(); i++)
 	{
 		if (KEYMANAGER->isToggleKey(VK_F1))
-		{		
+		{
 			//Rectangle(hdc, vMinionClot[i].enemyFireRange.left, vMinionClot[i].enemyFireRange.top, vMinionClot[i].enemyFireRange.right, vMinionClot[i].enemyFireRange.bottom);
 			Rectangle(hdc, vMinionClot[i].enemyRect.left, vMinionClot[i].enemyRect.top, vMinionClot[i].enemyRect.right, vMinionClot[i].enemyRect.bottom);
-			
+
 			HBRUSH brush = CreateSolidBrush(RGB(204, 0, 102));
 			FillRect(hdc, &vMinionClot[i].enemyRect, brush);
 			DeleteObject(brush);
 		}
+
+		vMinionClot[i].enemyImage->aniRender(hdc, vMinionClot[i].enemyRect.left - 36, vMinionClot[i].enemyRect.top - 65, minionAni);
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -62,7 +71,7 @@ void MinionClot::EnemyAiTime()
 	case 0:
 		// AI 패턴 시간
 		firstEnemyAiTime++;
-		if (firstEnemyAiTime / 60 == 2)
+		if (firstEnemyAiTime / 60 == 3)
 		{
 			firstEnemyAiPattern = RND->getFromIntTo(2, 5);
 			firstEnemyAiTime = 0;
@@ -71,7 +80,7 @@ void MinionClot::EnemyAiTime()
 	case 1:
 		// AI 패턴 시간
 		secondEnemyAiTime++;
-		if (secondEnemyAiTime / 60 == 2)
+		if (secondEnemyAiTime / 60 == 3)
 		{
 			secondEnemyAiPattern = RND->getFromIntTo(2, 5);
 			secondEnemyAiTime = 0;
@@ -80,7 +89,7 @@ void MinionClot::EnemyAiTime()
 	case 2:
 		// AI 패턴 시간
 		thirdEnemyAiTime++;
-		if (thirdEnemyAiTime / 60 == 2)
+		if (thirdEnemyAiTime / 60 == 3)
 		{
 			thirdEnemyAiPattern = RND->getFromIntTo(2, 5);
 			thirdEnemyAiTime = 0;
@@ -97,7 +106,6 @@ void MinionClot::EnemyAi()
 		vMinionClot[i].enemyX = vMinionClot[i].enemyRect.left + (vMinionClot[i].enemyRect.right - vMinionClot[i].enemyRect.left) / 2;
 		vMinionClot[i].enemyY = vMinionClot[i].enemyRect.top + (vMinionClot[i].enemyRect.bottom - vMinionClot[i].enemyRect.top) / 2;
 
-		EnemyShot();
 		EnemyAiTime();
 
 		switch (vMinionClot[i].enemyNumber)
@@ -106,8 +114,16 @@ void MinionClot::EnemyAi()
 			switch (firstEnemyAiPattern)
 			{
 			case 1:		// IDLE
+				// 애니메이션 Idle
+				ANIMATIONMANAGER->resume("clot");
 				break;
 			case 2:		// LEFT
+				// 애니메이션 Left
+				vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotMove", "images/monster/clot/clotMove.bmp", 908 / 2, 2000 / 2, 4, 10, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addAnimation("clotLeft", "clotMove", 0, 19, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("clotLeft");
+				ANIMATIONMANAGER->resume("clotLeft");
+
 				if (vMinionClot[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left -= vMinionClot[i].enemySpeed;
@@ -119,6 +135,12 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 3:		// RIGHT
+				// 애니메이션 Right
+				vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotMove", "images/monster/clot/clotMove.bmp", 908 / 2, 2000 / 2, 4, 10, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addAnimation("clotRight", "clotMove", 20, 39, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("clotRight");
+				ANIMATIONMANAGER->resume("clotRight");
+
 				if (vMinionClot[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
@@ -130,6 +152,23 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 4:		// UP
+				if (vMinionClot[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpLeft", "clotJump", 23, 45, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpLeft");
+					ANIMATIONMANAGER->resume("clotJumpLeft");
+				}
+				else
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpRight", "clotJump", 0, 22, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpRight");
+					ANIMATIONMANAGER->resume("clotJumpRight");
+				}
+
 				if (vMinionClot[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top -= vMinionClot[i].enemySpeed;
@@ -141,6 +180,23 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 5:		// DOWN
+				if (vMinionClot[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpLeft", "clotJump", 23, 45, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpLeft");
+					ANIMATIONMANAGER->resume("clotJumpLeft");
+				}
+				else
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpRight", "clotJump", 0, 22, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpRight");
+					ANIMATIONMANAGER->resume("clotJumpRight");
+				}
+
 				if (vMinionClot[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top += vMinionClot[i].enemySpeed;
@@ -157,8 +213,16 @@ void MinionClot::EnemyAi()
 			switch (secondEnemyAiPattern)
 			{
 			case 1:		// IDLE
+				// 애니메이션 Idle
+				ANIMATIONMANAGER->resume("clot");
 				break;
 			case 2:		// LEFT
+				// 애니메이션 Left
+				vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotMove", "images/monster/clot/clotMove.bmp", 908 / 2, 2000 / 2, 4, 10, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addAnimation("clotLeft", "clotMove", 0, 19, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("clotLeft");
+				ANIMATIONMANAGER->resume("clotLeft");
+
 				if (vMinionClot[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left -= vMinionClot[i].enemySpeed;
@@ -170,6 +234,12 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 3:		// RIGHT
+				// 애니메이션 Right
+				vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotMove", "images/monster/clot/clotMove.bmp", 908 / 2, 2000 / 2, 4, 10, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addAnimation("clotRight", "clotMove", 20, 39, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("clotRight");
+				ANIMATIONMANAGER->resume("clotRight");
+
 				if (vMinionClot[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
@@ -181,6 +251,23 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 4:		// UP
+				if (vMinionClot[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpLeft", "clotJump", 23, 45, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpLeft");
+					ANIMATIONMANAGER->resume("clotJumpLeft");
+				}
+				else
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpRight", "clotJump", 0, 22, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpRight");
+					ANIMATIONMANAGER->resume("clotJumpRight");
+				}
+
 				if (vMinionClot[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top -= vMinionClot[i].enemySpeed;
@@ -192,6 +279,23 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 5:		// DOWN
+				if (vMinionClot[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpLeft", "clotJump", 23, 45, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpLeft");
+					ANIMATIONMANAGER->resume("clotJumpLeft");
+				}
+				else
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpRight", "clotJump", 0, 22, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpRight");
+					ANIMATIONMANAGER->resume("clotJumpRight");
+				}
+
 				if (vMinionClot[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top += vMinionClot[i].enemySpeed;
@@ -208,8 +312,16 @@ void MinionClot::EnemyAi()
 			switch (thirdEnemyAiPattern)
 			{
 			case 1:		// IDLE
+				// 애니메이션 Idle
+				ANIMATIONMANAGER->resume("clot");
 				break;
 			case 2:		// LEFT
+				// 애니메이션 Left
+				vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotMove", "images/monster/clot/clotMove.bmp", 908 / 2, 2000 / 2, 4, 10, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addAnimation("clotLeft", "clotMove", 0, 19, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("clotLeft");
+				ANIMATIONMANAGER->resume("clotLeft");
+
 				if (vMinionClot[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left -= vMinionClot[i].enemySpeed;
@@ -221,6 +333,12 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 3:		// RIGHT
+				// 애니메이션 Right
+				vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotMove", "images/monster/clot/clotMove.bmp", 908 / 2, 2000 / 2, 4, 10, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addAnimation("clotRight", "clotMove", 20, 39, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("clotRight");
+				ANIMATIONMANAGER->resume("clotRight");
+
 				if (vMinionClot[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.left += vMinionClot[i].enemySpeed;
@@ -232,6 +350,23 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 4:		// UP
+				if (vMinionClot[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpLeft", "clotJump", 23, 45, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpLeft");
+					ANIMATIONMANAGER->resume("clotJumpLeft");
+				}
+				else
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpRight", "clotJump", 0, 22, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpRight");
+					ANIMATIONMANAGER->resume("clotJumpRight");
+				}
+
 				if (vMinionClot[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top -= vMinionClot[i].enemySpeed;
@@ -243,6 +378,23 @@ void MinionClot::EnemyAi()
 				}
 				break;
 			case 5:		// DOWN
+				if (vMinionClot[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpLeft", "clotJump", 23, 45, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpLeft");
+					ANIMATIONMANAGER->resume("clotJumpLeft");
+				}
+				else
+				{
+					// 애니메이션 JUMP
+					vMinionClot[i].enemyImage = IMAGEMANAGER->addFrameImage("clotJump", "images/monster/clot/clotJump.bmp", 1816 / 2, 1200 / 2, 8, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("clotJumpRight", "clotJump", 0, 22, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("clotJumpRight");
+					ANIMATIONMANAGER->resume("clotJumpRight");
+				}
+
 				if (vMinionClot[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 				{
 					vMinionClot[i].enemyRect.top += vMinionClot[i].enemySpeed;
@@ -256,6 +408,8 @@ void MinionClot::EnemyAi()
 			}
 			break;
 		}
+
+		EnemyShot();
 	}
 
 	// 적이 쏘는 불렛의 움직임
