@@ -23,51 +23,9 @@ HRESULT EnemyManager::Init()
 	m_MinionMulligan = new MinionMulligan;
 	m_MinionPacer = new MinionPacer;
 
-<<<<<<< HEAD
-	//m_Monstro->Init(PointMake(WINSIZEX / 2, WINSIZEY / 2));
-
-	m_MinionAttackFly->Init(PointMake(150, 150), 0);
-	//m_MinionAttackFly->Init(PointMake(300, 150), 1);
-	//m_MinionAttackFly->Init(PointMake(500, 150), 2);
-
-	m_MinionBlackFly->Init(PointMake(300, 150), 0);
-	//m_MinionBlackFly->Init(PointMake(400, 400), 1);
-	//m_MinionBlackFly->Init(PointMake(500, 400), 2);	
-
-	m_MinionMaw->Init(PointMake(450, 150), 0);
-	//m_MinionMaw->Init(PointMake(250, 100), 1);
-	//m_MinionMaw->Init(PointMake(300, 100), 2);
-
-	m_MinionTumor->Init(PointMake(600, 150), 0);
-
-	m_MinionClot->Init(PointMake(150, 300), 0);
-	//m_MinionClot->Init(PointMake(400, 300), 1);
-	//m_MinionClot->Init(PointMake(600, 300), 2);
-
-	m_MinionClotty->Init(PointMake(300, 300), 0);
-	//m_MinionClotty->Init(PointMake(200, 300), 1);
-	//m_MinionClotty->Init(PointMake(300, 300), 2);
-
-	m_MinionGaper->Init(PointMake(450, 300), 0);
-	//m_MinionGaper->Init(PointMake(200, 300), 1);
-	//m_MinionGaper->Init(PointMake(300, 300), 2);
-
-	m_MinionHorf->Init(PointMake(600, 300), 0);
-	//m_MinionHorf->Init(PointMake(200, 300), 1);
-	//m_MinionHorf->Init(PointMake(300, 300), 2);
-
-	//m_MinionMulligan->Init(PointMake(100, 300), 0);
-	//m_MinionMulligan->Init(PointMake(200, 300), 1);
-	//m_MinionMulligan->Init(PointMake(300, 300), 2);
-
-	//m_MinionPacer->Init(PointMake(100, 300), 0);
-	//m_MinionPacer->Init(PointMake(200, 300), 1);
-	//m_MinionPacer->Init(PointMake(300, 300), 2);
-=======
 	openDoor = true;
 	isSummonEnemy = false;
 	isBoss = true;
->>>>>>> test
 
 	return S_OK;
 }
