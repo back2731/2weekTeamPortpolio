@@ -21,8 +21,9 @@ HRESULT MinionMaw::Init(POINT position, int EnemyNumber)
 	MinionMaw.enemyShotDelay = 50;
 	MinionMaw.enemySpeed = 1.5f;
 	// 애니메이션 Idle
-	MinionMaw.enemyImage = IMAGEMANAGER->addFrameImage("mawIdle", "images/monster/maw/mawIdle.bmp", 64 * 2, 33 * 2, 2, 1, true, RGB(255, 0, 255));
-	ANIMATIONMANAGER->addDefAnimation("maw", "mawIdle", 15, false, true);
+	MinionMaw.enemyShadowImage = IMAGEMANAGER->addImage("MawShadow", "images/monster/maw/mawShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
+	MinionMaw.enemyImage = IMAGEMANAGER->addFrameImage("MawIdle", "images/monster/maw/MawIdle.bmp", 342 / 2, 181 / 2, 2, 1, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("maw", "MawIdle", 15, false, true);
 	minionAni = ANIMATIONMANAGER->findAnimation("maw");
 	vMinionMaw.push_back(MinionMaw);
 
@@ -62,11 +63,13 @@ void MinionMaw::Render(HDC hdc)
 
 		if (enemyAtk)
 		{
-			vMinionMaw[i].enemyImage->aniRender(hdc, vMinionMaw[i].enemyRect.left - 20, vMinionMaw[i].enemyRect.top - 30, minionAni);
+			vMinionMaw[i].enemyShadowImage->alphaRender(hdc, vMinionMaw[i].enemyRect.left - 2, vMinionMaw[i].enemyRect.top + 50, 70);
+			vMinionMaw[i].enemyImage->aniRender(hdc, vMinionMaw[i].enemyRect.left - 25, vMinionMaw[i].enemyRect.top - 35, minionAni);
 		}
 		else
 		{
-			vMinionMaw[i].enemyImage->aniRender(hdc, vMinionMaw[i].enemyRect.left - 15, vMinionMaw[i].enemyRect.top - 15, minionAni);
+			vMinionMaw[i].enemyShadowImage->alphaRender(hdc, vMinionMaw[i].enemyRect.left - 2, vMinionMaw[i].enemyRect.top + 50, 70);
+			vMinionMaw[i].enemyImage->aniRender(hdc, vMinionMaw[i].enemyRect.left - 25, vMinionMaw[i].enemyRect.top - 35, minionAni);
 		}
 	}
 
@@ -337,16 +340,16 @@ void MinionMaw::EnemyShot()
 	if (enemyAtk)
 	{
 		// 애니메이션
-		vMinionMaw[i].enemyImage = IMAGEMANAGER->addFrameImage("mawAttack", "images/monster/maw/mawAttack.bmp", 1510 / 2, 604 / 2, 10, 4, true, RGB(255, 0, 255));
+		vMinionMaw[i].enemyImage = IMAGEMANAGER->addFrameImage("mawAttack", "images/monster/maw/mawAttack.bmp", 1710 / 2, 724 / 2, 10, 4, true, RGB(255, 0, 255));
 		if (vMinionMaw[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
 		{
-			ANIMATIONMANAGER->addAnimation("mawAtkLeft", "mawAttack", 20, 39, 25, false, true);
+			ANIMATIONMANAGER->addAnimation("mawAtkLeft", "mawAttack", 0, 19, 25, false, true);
 			minionAni = ANIMATIONMANAGER->findAnimation("mawAtkLeft");
 			ANIMATIONMANAGER->resume("mawAtkLeft");
 		}
 		else
 		{
-			ANIMATIONMANAGER->addAnimation("mawAtkRight", "mawAttack", 0, 19, 25, false, true);
+			ANIMATIONMANAGER->addAnimation("mawAtkRight", "mawAttack", 20, 39, 25, false, true);
 			minionAni = ANIMATIONMANAGER->findAnimation("mawAtkRight");
 			ANIMATIONMANAGER->resume("mawAtkRight");
 		}

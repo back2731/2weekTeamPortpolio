@@ -21,8 +21,9 @@ HRESULT MinionTumor::Init(POINT position, int EnemyNumber)
 	MinionTumor.enemyShotDelay = 20;
 	MinionTumor.enemySpeed = 1.5f;
 	// 애니메이션 Idle
-	MinionTumor.enemyImage = IMAGEMANAGER->addFrameImage("tumorIdle", "images/monster/tumor/tumorMove.bmp", 1600, 200, 16, 2, true, RGB(255, 0, 255));
-	ANIMATIONMANAGER->addAnimation("tumor", "tumorIdle", 0, 15, 15, false, true);
+	MinionTumor.enemyShadowImage = IMAGEMANAGER->addImage("TomorShadow", "images/monster/tumor/tumorShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
+	MinionTumor.enemyImage = IMAGEMANAGER->addFrameImage("TumorIdle", "images/monster/tumor/tumorMove.bmp", 1600, 200, 16, 2, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addAnimation("tumor", "TumorIdle", 0, 15, 15, false, true);
 	minionAni = ANIMATIONMANAGER->findAnimation("tumor");
 	vMinionTumor.push_back(MinionTumor);
 
@@ -63,10 +64,12 @@ void MinionTumor::Render(HDC hdc)
 
 		if (enemyAtk)
 		{
+			vMinionTumor[i].enemyShadowImage->alphaRender(hdc, vMinionTumor[i].enemyRect.left + 3, vMinionTumor[i].enemyRect.top + 70, 70);
 			vMinionTumor[i].enemyImage->aniRender(hdc, vMinionTumor[i].enemyRect.left - 20, vMinionTumor[i].enemyRect.top - 30, minionAni);
 		}
 		else
 		{
+			vMinionTumor[i].enemyShadowImage->alphaRender(hdc, vMinionTumor[i].enemyRect.left + 3, vMinionTumor[i].enemyRect.top + 70, 70);
 			vMinionTumor[i].enemyImage->aniRender(hdc, vMinionTumor[i].enemyRect.left - 25, vMinionTumor[i].enemyRect.top - 30, minionAni);
 		}
 	}
@@ -507,8 +510,8 @@ void MinionTumor::EnemyAnimation()
 	else
 	{
 		//애니메이션 프레임
-		vMinionTumor[i].enemyImage = IMAGEMANAGER->addFrameImage("tumorIdle", "images/monster/tumor/tumorMove.bmp", 1600, 200, 16, 2, true, RGB(255, 0, 255));
-		ANIMATIONMANAGER->addAnimation("tumor", "tumorIdle", 0, 15, 15, false, true);
+		vMinionTumor[i].enemyImage = IMAGEMANAGER->addFrameImage("TumorIdle", "images/monster/tumor/tumorMove.bmp", 1600, 200, 16, 2, true, RGB(255, 0, 255));
+		ANIMATIONMANAGER->addAnimation("tumor", "TumorIdle", 0, 15, 15, false, true);
 		minionAni = ANIMATIONMANAGER->findAnimation("tumor");
 		ANIMATIONMANAGER->resume("tumor");
 	}

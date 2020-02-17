@@ -19,10 +19,11 @@ HRESULT MinionMulligan::Init(POINT position, int EnemyNumber)
 	MinionMulligan.enemyShotSpeed = 5.0f;
 	MinionMulligan.enemyShotRange = 500.0f;
 	MinionMulligan.enemyShotDelay = 50;
-	MinionMulligan.enemySpeed = 2.5f;
+	MinionMulligan.enemySpeed = 2.0f;
 	// 애니메이션 Idle
-	MinionMulligan.enemyImage = IMAGEMANAGER->addFrameImage("mulliganIdle", "images/monster/mulligan/mulliganAppear.bmp", 660, 258, 5, 2, true, RGB(255, 0, 255));
-	ANIMATIONMANAGER->addDefAnimation("mulligan", "mulliganIdle", 15, false, true);
+	MinionMulligan.enemyShadowImage = IMAGEMANAGER->addImage("MulliganShadow", "images/monster/mulligan/mulliganShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
+	MinionMulligan.enemyImage = IMAGEMANAGER->addFrameImage("MulliganIdle", "images/monster/mulligan/mulliganAppear.bmp", 660, 258, 5, 2, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("mulligan", "MulliganIdle", 15, false, true);
 	minionAni = ANIMATIONMANAGER->findAnimation("mulligan");
 	vMinionMulligan.push_back(MinionMulligan);
 
@@ -61,7 +62,16 @@ void MinionMulligan::Render(HDC hdc)
 			DeleteObject(brush);
 		}
 
-		vMinionMulligan[i].enemyImage->aniRender(hdc, vMinionMulligan[i].enemyRect.left - 50, vMinionMulligan[i].enemyRect.top - 40, minionAni);
+		if (moveCheck)
+		{
+			vMinionMulligan[i].enemyShadowImage->alphaRender(hdc, vMinionMulligan[i].enemyRect.left - 5, vMinionMulligan[i].enemyRect.top + 50, 70);
+			vMinionMulligan[i].enemyImage->aniRender(hdc, vMinionMulligan[i].enemyRect.left - 30, vMinionMulligan[i].enemyRect.top - 25, minionAni);
+		}
+		else
+		{
+			vMinionMulligan[i].enemyShadowImage->alphaRender(hdc, vMinionMulligan[i].enemyRect.left - 5, vMinionMulligan[i].enemyRect.top + 50, 70);
+			vMinionMulligan[i].enemyImage->aniRender(hdc, vMinionMulligan[i].enemyRect.left - 50, vMinionMulligan[i].enemyRect.top - 40, minionAni);
+		}
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -145,7 +155,7 @@ void MinionMulligan::EnemyAi()
 				vMinionMulligan[i].enemyX -= vx;
 				vMinionMulligan[i].enemyY -= vy;
 			}
-			vMinionMulligan[i].enemyRect = RectMakeCenter(vMinionMulligan[i].enemyX, vMinionMulligan[i].enemyY, 50, 50);
+			vMinionMulligan[i].enemyRect = RectMakeCenter(vMinionMulligan[i].enemyX, vMinionMulligan[i].enemyY, 35, 40);
 		}
 		// 범위안에 플레이어가 없다면 자율행동(AI)
 		else
@@ -162,11 +172,13 @@ void MinionMulligan::EnemyAi()
 					ANIMATIONMANAGER->resume("mulligan");
 					break;
 				case 2:		// LEFT
+					moveCheck = true;
+
 					// 애니메이션 Left
-					//vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/mulligan/clotty/muliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
-					//ANIMATIONMANAGER->addAnimation("mulliganLeft", "muliganMove", 20, 39, 15, false, true);
-					//minionAni = ANIMATIONMANAGER->findAnimation("mulliganLeft");
-					//ANIMATIONMANAGER->resume("mulliganLeft");
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganLeft", "muliganMove", 0, 21, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganLeft");
+					ANIMATIONMANAGER->resume("mulliganLeft");
 
 					if (vMinionMulligan[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
@@ -179,6 +191,14 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 3:		// RIGHT
+					moveCheck = true;
+
+					// 애니메이션 RIGHT
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganRight", "muliganMove", 22, 43, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganRight");
+					ANIMATIONMANAGER->resume("mulliganRight");
+
 					if (vMinionMulligan[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left += vMinionMulligan[i].enemySpeed;
@@ -190,6 +210,14 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 4:		// UP
+					moveCheck = true;
+
+					// 애니메이션 Up
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganUp", "muliganMove", 44, 65, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganUp");
+					ANIMATIONMANAGER->resume("mulliganUp");
+
 					if (vMinionMulligan[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top -= vMinionMulligan[i].enemySpeed;
@@ -201,6 +229,14 @@ void MinionMulligan::EnemyAi()
 					}
 					break;
 				case 5:		// DOWN
+					moveCheck = true;
+
+					// 애니메이션 Down
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganDown", "muliganMove", 44, 65, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganDown");
+					ANIMATIONMANAGER->resume("mulliganDown");
+
 					if (vMinionMulligan[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top += vMinionMulligan[i].enemySpeed;
@@ -221,6 +257,14 @@ void MinionMulligan::EnemyAi()
 					ANIMATIONMANAGER->resume("mulligan");
 					break;
 				case 2:		// LEFT
+					moveCheck = true;
+
+					// 애니메이션 Left
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganLeft", "muliganMove", 0, 21, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganLeft");
+					ANIMATIONMANAGER->resume("mulliganLeft");
+
 					if (vMinionMulligan[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left -= vMinionMulligan[i].enemySpeed;
@@ -228,10 +272,18 @@ void MinionMulligan::EnemyAi()
 					}
 					if (vMinionMulligan[i].enemyRect.left <= 120)
 					{
-						secondEnemyAiPattern = 3;
+						firstEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
+					moveCheck = true;
+
+					// 애니메이션 RIGHT
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganRight", "muliganMove", 22, 43, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganRight");
+					ANIMATIONMANAGER->resume("mulliganRight");
+
 					if (vMinionMulligan[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left += vMinionMulligan[i].enemySpeed;
@@ -239,10 +291,18 @@ void MinionMulligan::EnemyAi()
 					}
 					if (vMinionMulligan[i].enemyRect.right >= 760)
 					{
-						secondEnemyAiPattern = 2;
+						firstEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
+					moveCheck = true;
+
+					// 애니메이션 Up
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganUp", "muliganMove", 44, 65, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganUp");
+					ANIMATIONMANAGER->resume("mulliganUp");
+
 					if (vMinionMulligan[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top -= vMinionMulligan[i].enemySpeed;
@@ -250,10 +310,18 @@ void MinionMulligan::EnemyAi()
 					}
 					if (vMinionMulligan[i].enemyRect.top <= 120)
 					{
-						secondEnemyAiPattern = 5;
+						firstEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
+					moveCheck = true;
+
+					// 애니메이션 Down
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganDown", "muliganMove", 44, 65, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganDown");
+					ANIMATIONMANAGER->resume("mulliganDown");
+
 					if (vMinionMulligan[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top += vMinionMulligan[i].enemySpeed;
@@ -261,7 +329,7 @@ void MinionMulligan::EnemyAi()
 					}
 					if (vMinionMulligan[i].enemyRect.bottom >= 450)
 					{
-						secondEnemyAiPattern = 4;
+						firstEnemyAiPattern = 4;
 					}
 					break;
 				}
@@ -274,6 +342,14 @@ void MinionMulligan::EnemyAi()
 					ANIMATIONMANAGER->resume("mulligan");
 					break;
 				case 2:		// LEFT
+					moveCheck = true;
+
+					// 애니메이션 Left
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganLeft", "muliganMove", 0, 21, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganLeft");
+					ANIMATIONMANAGER->resume("mulliganLeft");
+
 					if (vMinionMulligan[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left -= vMinionMulligan[i].enemySpeed;
@@ -281,10 +357,18 @@ void MinionMulligan::EnemyAi()
 					}
 					if (vMinionMulligan[i].enemyRect.left <= 120)
 					{
-						thirdEnemyAiPattern = 3;
+						firstEnemyAiPattern = 3;
 					}
 					break;
 				case 3:		// RIGHT
+					moveCheck = true;
+
+					// 애니메이션 RIGHT
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganRight", "muliganMove", 22, 43, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganRight");
+					ANIMATIONMANAGER->resume("mulliganRight");
+
 					if (vMinionMulligan[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.left += vMinionMulligan[i].enemySpeed;
@@ -292,10 +376,18 @@ void MinionMulligan::EnemyAi()
 					}
 					if (vMinionMulligan[i].enemyRect.right >= 760)
 					{
-						thirdEnemyAiPattern = 2;
+						firstEnemyAiPattern = 2;
 					}
 					break;
 				case 4:		// UP
+					moveCheck = true;
+
+					// 애니메이션 Up
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganUp", "muliganMove", 44, 65, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganUp");
+					ANIMATIONMANAGER->resume("mulliganUp");
+
 					if (vMinionMulligan[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top -= vMinionMulligan[i].enemySpeed;
@@ -303,10 +395,18 @@ void MinionMulligan::EnemyAi()
 					}
 					if (vMinionMulligan[i].enemyRect.top <= 120)
 					{
-						thirdEnemyAiPattern = 5;
+						firstEnemyAiPattern = 5;
 					}
 					break;
 				case 5:		// DOWN
+					moveCheck = true;
+
+					// 애니메이션 Down
+					vMinionMulligan[i].enemyImage = IMAGEMANAGER->addFrameImage("muliganMove", "images/monster/mulligan/mulliganMove.bmp", 1958 / 2, 1098 / 2, 11, 6, true, RGB(255, 0, 255));
+					ANIMATIONMANAGER->addAnimation("mulliganDown", "muliganMove", 44, 65, 15, false, true);
+					minionAni = ANIMATIONMANAGER->findAnimation("mulliganDown");
+					ANIMATIONMANAGER->resume("mulliganDown");
+
 					if (vMinionMulligan[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 					{
 						vMinionMulligan[i].enemyRect.top += vMinionMulligan[i].enemySpeed;
@@ -314,7 +414,7 @@ void MinionMulligan::EnemyAi()
 					}
 					if (vMinionMulligan[i].enemyRect.bottom >= 450)
 					{
-						thirdEnemyAiPattern = 4;
+						firstEnemyAiPattern = 4;
 					}
 					break;
 				}

@@ -21,8 +21,9 @@ HRESULT MinionClot::Init(POINT position, int EnemyNumber)
 	MinionClot.enemyShotDelay = 150;
 	MinionClot.enemySpeed = 2.0f;
 	// 애니메이션 Idle
-	MinionClot.enemyImage = IMAGEMANAGER->addFrameImage("clotIdle", "images/monster/clot/clotAppear.bmp", 908 / 2, 1000 / 2, 4, 5, true, RGB(255, 0, 255));
-	ANIMATIONMANAGER->addDefAnimation("clot", "clotIdle", 15, false, true);
+	MinionClot.enemyShadowImage = IMAGEMANAGER->addImage("ClotShadow", "images/monster/clot/clotShadow.bmp", 120 / 2, 49 / 3, true, RGB(255, 0, 255));
+	MinionClot.enemyImage = IMAGEMANAGER->addFrameImage("ClotIdle", "images/monster/clot/clotAppear.bmp", 908 / 2, 1000 / 2, 4, 5, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("clot", "ClotIdle", 15, false, true);
 	minionAni = ANIMATIONMANAGER->findAnimation("clot");
 	vMinionClot.push_back(MinionClot);
 
@@ -58,6 +59,7 @@ void MinionClot::Render(HDC hdc)
 			DeleteObject(brush);
 		}
 
+		vMinionClot[i].enemyShadowImage->alphaRender(hdc, vMinionClot[i].enemyRect.left - 8, vMinionClot[i].enemyRect.top + 25, 70);
 		vMinionClot[i].enemyImage->aniRender(hdc, vMinionClot[i].enemyRect.left - 36, vMinionClot[i].enemyRect.top - 65, minionAni);
 	}
 

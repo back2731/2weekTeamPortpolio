@@ -9,6 +9,7 @@ private:
 	vector<BulletInfo> vEnemyBullet;
 	vector<BulletInfo>::iterator viEnemyBullet;
 
+	bool moveCheck;
 	bool collisionCheck;
 
 public:

@@ -15,7 +15,7 @@ HRESULT mainGame::init()
 
 	// Å¸ÀÌÆ² ¾À
 	SCENEMANAGER->addScene("TitleScene", new TitleScene);
-
+	
 	// ¸Ş´º
 	SCENEMANAGER->addScene("MainMenu", new MainMenu);
 

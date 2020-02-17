@@ -18,6 +18,7 @@ HRESULT MinionBlackFly::Init(POINT position, int EnemyNumber)
 	MinionBlackFly.enemyHp = 3;
 	MinionBlackFly.enemySpeed = 1.5f;
 	// 애니메이션 Idle
+	MinionBlackFly.enemyShadowImage = IMAGEMANAGER->addImage("BlackFlyShadow", "images/monster/blackfly/blackflyShadow.bmp", 120 / 4, 49 / 4, true, RGB(255, 0, 255));
 	MinionBlackFly.enemyImage = IMAGEMANAGER->addFrameImage("BlackFlyMove", "images/monster/blackfly/blackflyMove.bmp", 712 / 2, 183 / 2, 4, 1, true, RGB(255, 0, 255));
 	ANIMATIONMANAGER->addAnimation("BlackFlyLeft", "BlackFlyMove", 0, 1, 15, false, true);
 	minionAni = ANIMATIONMANAGER->findAnimation("BlackFlyLeft");
@@ -57,6 +58,8 @@ void MinionBlackFly::Render(HDC hdc)
 			FillRect(hdc, &vMinionBlackFly[i].enemyRect, brush);
 			DeleteObject(brush);
 		}
+
+		vMinionBlackFly[i].enemyShadowImage->alphaRender(hdc, vMinionBlackFly[i].enemyRect.left - 8, vMinionBlackFly[i].enemyRect.top + 35, 70);
 		vMinionBlackFly[i].enemyImage->aniRender(hdc, vMinionBlackFly[i].enemyRect.left - 37, vMinionBlackFly[i].enemyRect.top - 40, minionAni);
 	}
 }

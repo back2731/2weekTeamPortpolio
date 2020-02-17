@@ -15,6 +15,8 @@ struct PlayerInfo
 {
 	image*	playerHeadImage;		// 플레이어 머리 이미지
 	image*	playerBodyImage;		// 플레이어 몸 이미지
+	image*	playerHitImage;			// 플레이어 피격 이미지
+	image*	playerShadowImage;		// 플레이어 그림자 이미지
 	RECT	playerHeadRect;			// 플레이어 머리 상자
 	RECT	playerBodyRect;			// 플레이어 몸 상자
 	RECT	playerHitRect;			// 플레이어 피격용 상자
@@ -37,9 +39,9 @@ struct PlayerInfo
 class Player
 {
 private:
-	image* shadow;
 	animation* aniHead;
 	animation* aniBody;
+	animation* aniHit;
 
 private:
 	pDirection direction;

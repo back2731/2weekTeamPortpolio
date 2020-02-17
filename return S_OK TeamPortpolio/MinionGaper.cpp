@@ -11,19 +11,19 @@ MinionGaper::~MinionGaper()
 
 HRESULT MinionGaper::Init(POINT position, int EnemyNumber)
 {
-	gaperShadow = IMAGEMANAGER->addImage("gaperShadow", "images/monster/gaper/gaperShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
-	gaperHead = IMAGEMANAGER->addImage("gaperHead", "images/monster/gaper/gaper.bmp", 32 * 2, 32 * 2, true, RGB(255, 0, 255));
+	gaperHead = IMAGEMANAGER->addImage("GaperHead", "images/monster/gaper/gaper.bmp", 32 * 2, 32 * 2, true, RGB(255, 0, 255));
 
 	//구조체 정보 기입
 	EnemyInfo MinionGaper;
 	MinionGaper.enemyNumber = EnemyNumber;
 	MinionGaper.enemyRect = RectMakeCenter(position.x, position.y, 30, 50);
 	MinionGaper.enemyHp = 10;
-	MinionGaper.enemySpeed = 2.5f;
+	MinionGaper.enemySpeed = 2.0f;
 	// 애니메이션 Idle
-	MinionGaper.enemyImage = IMAGEMANAGER->addFrameImage("gaperBody", "images/monster/gaper/gaperBody.bmp", 320 * 2, 124 * 2, 10, 4, true, RGB(255, 0, 255));
+	MinionGaper.enemyShadowImage = IMAGEMANAGER->addImage("GaperShadow", "images/monster/gaper/gaperShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
+	MinionGaper.enemyImage = IMAGEMANAGER->addFrameImage("GaperBody", "images/monster/gaper/gaperBody.bmp", 320 * 2, 124 * 2, 10, 4, true, RGB(255, 0, 255));
 	int arrBodyIdle[] = { 22 };
-	ANIMATIONMANAGER->addAnimation("gaper", "gaperBody", arrBodyIdle, 1, 1, true);
+	ANIMATIONMANAGER->addAnimation("gaper", "GaperBody", arrBodyIdle, 1, 1, true);
 	minionAni = ANIMATIONMANAGER->findAnimation("gaper");
 	vMinionGaper.push_back(MinionGaper);
 
@@ -61,7 +61,7 @@ void MinionGaper::Render(HDC hdc)
 			DeleteObject(brush);
 		}
 
-		gaperShadow->alphaRender(hdc, vMinionGaper[i].enemyRect.left - 5, vMinionGaper[i].enemyRect.top + 42, 70);
+		vMinionGaper[i].enemyShadowImage->alphaRender(hdc, vMinionGaper[i].enemyRect.left - 5, vMinionGaper[i].enemyRect.top + 42, 70);
 		vMinionGaper[i].enemyImage->aniRender(hdc, vMinionGaper[i].enemyRect.left - 17, vMinionGaper[i].enemyRect.top + 10, minionAni);
 		gaperHead->render(hdc, vMinionGaper[i].enemyRect.left - 17, vMinionGaper[i].enemyRect.top - 19);
 	}
@@ -122,14 +122,14 @@ void MinionGaper::EnemyAi()
 			if (vMinionGaper[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
 			{
 				// BodyLeft
-				ANIMATIONMANAGER->addAnimation("gaperLeft", "gaperBody", 10, 19, 12, false, true);
+				ANIMATIONMANAGER->addAnimation("gaperLeft", "GaperBody", 10, 19, 12, false, true);
 				minionAni = ANIMATIONMANAGER->findAnimation("gaperLeft");
 				ANIMATIONMANAGER->resume("gaperLeft");
 			}
 			else
 			{
 				// BodyRight
-				ANIMATIONMANAGER->addAnimation("gaperRight", "gaperBody", 30, 39, 12, false, true);
+				ANIMATIONMANAGER->addAnimation("gaperRight", "GaperBody", 30, 39, 12, false, true);
 				minionAni = ANIMATIONMANAGER->findAnimation("gaperRight");
 				ANIMATIONMANAGER->resume("gaperRight");
 			}
@@ -174,7 +174,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 2:		// LEFT
 					// BodyLeft
-					ANIMATIONMANAGER->addAnimation("gaperLeft", "gaperBody", 10, 19, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperLeft", "GaperBody", 10, 19, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperLeft");
 					ANIMATIONMANAGER->resume("gaperLeft");
 
@@ -190,7 +190,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 3:		// RIGHT
 					// BodyRight
-					ANIMATIONMANAGER->addAnimation("gaperRight", "gaperBody", 30, 39, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperRight", "GaperBody", 30, 39, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperRight");
 					ANIMATIONMANAGER->resume("gaperRight");
 
@@ -206,7 +206,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 4:		// UP
 					// BodyUp
-					ANIMATIONMANAGER->addAnimation("gaperUp", "gaperBody", 20, 29, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperUp", "GaperBody", 20, 29, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperUp");
 					ANIMATIONMANAGER->resume("gaperUp");
 
@@ -222,7 +222,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 5:		// DOWN
 					// BodyDown
-					ANIMATIONMANAGER->addAnimation("gaperDown", "gaperBody", 20, 29, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperDown", "GaperBody", 20, 29, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperDown");
 					ANIMATIONMANAGER->resume("gaperDown");
 
@@ -247,7 +247,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 2:		// LEFT
 					// BodyLeft
-					ANIMATIONMANAGER->addAnimation("gaperLeft", "gaperBody", 10, 19, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperLeft", "GaperBody", 10, 19, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperLeft");
 					ANIMATIONMANAGER->resume("gaperLeft");
 
@@ -263,7 +263,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 3:		// RIGHT
 					// BodyRight
-					ANIMATIONMANAGER->addAnimation("gaperRight", "gaperBody", 30, 39, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperRight", "GaperBody", 30, 39, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperRight");
 					ANIMATIONMANAGER->resume("gaperRight");
 
@@ -279,7 +279,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 4:		// UP
 					// BodyUp
-					ANIMATIONMANAGER->addAnimation("gaperUp", "gaperBody", 20, 29, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperUp", "GaperBody", 20, 29, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperUp");
 					ANIMATIONMANAGER->resume("gaperUp");
 
@@ -295,7 +295,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 5:		// DOWN
 					// BodyDown
-					ANIMATIONMANAGER->addAnimation("gaperDown", "gaperBody", 20, 29, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperDown", "GaperBody", 20, 29, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperDown");
 					ANIMATIONMANAGER->resume("gaperDown");
 
@@ -320,7 +320,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 2:		// LEFT
 					// BodyLeft
-					ANIMATIONMANAGER->addAnimation("gaperLeft", "gaperBody", 10, 19, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperLeft", "GaperBody", 10, 19, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperLeft");
 					ANIMATIONMANAGER->resume("gaperLeft");
 
@@ -336,7 +336,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 3:		// RIGHT
 					// BodyRight
-					ANIMATIONMANAGER->addAnimation("gaperRight", "gaperBody", 30, 39, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperRight", "GaperBody", 30, 39, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperRight");
 					ANIMATIONMANAGER->resume("gaperRight");
 
@@ -352,7 +352,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 4:		// UP
 					// BodyUp
-					ANIMATIONMANAGER->addAnimation("gaperUp", "gaperBody", 20, 29, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperUp", "GaperBody", 20, 29, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperUp");
 					ANIMATIONMANAGER->resume("gaperUp");
 
@@ -368,7 +368,7 @@ void MinionGaper::EnemyAi()
 					break;
 				case 5:		// DOWN
 					// BodyDown
-					ANIMATIONMANAGER->addAnimation("gaperDown", "gaperBody", 20, 29, 12, false, true);
+					ANIMATIONMANAGER->addAnimation("gaperDown", "GaperBody", 20, 29, 12, false, true);
 					minionAni = ANIMATIONMANAGER->findAnimation("gaperDown");
 					ANIMATIONMANAGER->resume("gaperDown");
 

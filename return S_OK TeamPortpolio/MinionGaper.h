@@ -4,7 +4,6 @@
 class MinionGaper : public EnemyBase
 {
 private:
-	image* gaperShadow;
 	image* gaperHead;
 	vector<EnemyInfo> vMinionGaper;
 
