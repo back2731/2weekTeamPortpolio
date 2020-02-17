@@ -14,10 +14,10 @@ HRESULT MainMenu::init()
 	IMAGEMANAGER->addImage("MainMenu", "images/UI/menu/MainMenu.bmp", WINSIZEX / 2, WINSIZEY / 2, 884, 572, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("MainMenuArrow", "images/UI/menu/MainMenuArrow.bmp", WINSIZEY / 2, WINSIZEY / 2, 24, 30, true, RGB(255, 0, 255));
 
-	newRunRect = RectMake(WINSIZEX / 2 - 160, WINSIZEY / 2 - 120, 24, 30);
-	mapToolRect = RectMake(WINSIZEX / 2 - 145, WINSIZEY / 2 - 5, 24, 30);
-	optionRect = RectMake(WINSIZEX / 2 - 115, WINSIZEY / 2 + 95, 24, 30);
-	cursorRect = RectMake(WINSIZEX / 2 - 160, WINSIZEY / 2 - 120, 24, 30);
+	newRunRect = RectMake(WINSIZEX / 2 - 145, WINSIZEY / 2 - 100, 24, 30);
+	mapToolRect = RectMake(WINSIZEX / 2 - 130, WINSIZEY / 2 - 5, 24, 30);
+	optionRect = RectMake(WINSIZEX / 2 - 110, WINSIZEY / 2 + 85, 24, 30);
+	cursorRect = RectMake(WINSIZEX / 2 - 145, WINSIZEY / 2 - 100, 24, 30);
 
 	return S_OK;
 }
@@ -50,7 +50,7 @@ void MainMenu::CursorMove()
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			cursorRect = RectMake(WINSIZEX / 2 - 145, WINSIZEY / 2 - 5, 24, 30);
+			cursorRect = RectMake(WINSIZEX / 2 - 135, WINSIZEY / 2 - 5, 24, 30);
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || KEYMANAGER->isOnceKeyDown(VK_SPACE))
 		{
@@ -62,11 +62,11 @@ void MainMenu::CursorMove()
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			cursorRect = RectMake(WINSIZEX / 2 - 160, WINSIZEY / 2 - 120, 24, 30);
+			cursorRect = RectMake(WINSIZEX / 2 - 145, WINSIZEY / 2 - 100, 24, 30);
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			cursorRect = RectMake(WINSIZEX / 2 - 115, WINSIZEY / 2 + 95, 24, 30);
+			cursorRect = RectMake(WINSIZEX / 2 - 110, WINSIZEY / 2 + 85, 24, 30);
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || KEYMANAGER->isOnceKeyDown(VK_SPACE))
 		{
@@ -78,7 +78,7 @@ void MainMenu::CursorMove()
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_UP))
 		{
-			cursorRect = RectMake(WINSIZEX / 2 - 145, WINSIZEY / 2 - 5, 24, 30);
+			cursorRect = RectMake(WINSIZEX / 2 - 130, WINSIZEY / 2 - 5, 24, 30);
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || KEYMANAGER->isOnceKeyDown(VK_SPACE))
 		{

@@ -11,6 +11,13 @@ Monstro::~Monstro()
 
 HRESULT Monstro::Init(POINT position)
 {
+	// HP ProgressBar
+	PROGRESSMANAGER->init("images/UI/ingameUI/bossHP.bmp", "images/UI/ingameUI/bossHpBar.bmp", WINSIZEX / 2 - 129, 30, 129 * 2, 18 * 2);
+	PROGRESSMANAGER->setGauge(currentHP, maxHP);
+	currentHP = 280;
+	maxHP = 280;
+	damage = 0;
+
 	// 구조체 정보 기입
 	EnemyInfo Monstro;
 	Monstro.enemyRect = RectMakeCenter(position.x, position.y, 120, 60);
@@ -79,6 +86,8 @@ void Monstro::Render(HDC hdc)
 		{
 			vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 55, vMonstro[i].enemyRect.top - 170, bossAni);
 		}
+
+		PROGRESSMANAGER->render(hdc);
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -183,6 +192,9 @@ void Monstro::EnemyAi()
 		}
 
 		EnemyPattern();
+
+		PROGRESSMANAGER->update();
+		PROGRESSMANAGER->setGauge(currentHP, maxHP);
 	}
 
 	// 적이 쏘는 불렛의 움직임
@@ -417,4 +429,9 @@ void Monstro::SetEnemyRectY(int enemyNum, int move)
 {
 	vMonstro[enemyNum].enemyRect.top += move;
 	vMonstro[enemyNum].enemyRect.bottom += move;
+}
+
+void Monstro::hitDamage(int _damage)
+{
+	currentHP -= _damage;
 }

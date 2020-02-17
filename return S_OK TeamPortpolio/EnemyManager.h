@@ -74,8 +74,6 @@ public:
 	//bool isShop[ROOM_MAX_X][ROOM_MAX_Y];;
 	//bool isGoldRoom[ROOM_MAX_X][ROOM_MAX_Y];;
 
-
-
 	void GetLoadData(int loadData);
 	
 	void GetCheckClear(bool value);

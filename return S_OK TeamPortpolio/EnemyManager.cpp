@@ -65,12 +65,16 @@ void EnemyManager::Update()
 			{
 				m_MinionAttackFly->Init(PointMake(150, 150), 0);
 				m_MinionBlackFly->Init(PointMake(300, 150), 0);
+				//m_MinionMulligan->Init(PointMake(150, 150), 0);
+				//m_MinionPacer->Init(PointMake(300, 150), 0);
 				isSummonEnemy = false;
 			}
 			break;
 			case 1:
 			{
 				m_MinionBlackFly->Init(PointMake(300, 150), 0);
+				//m_MinionMulligan->Init(PointMake(150, 150), 0);
+				//m_MinionPacer->Init(PointMake(300, 150), 0);
 				isSummonEnemy = false;
 			}
 			break;

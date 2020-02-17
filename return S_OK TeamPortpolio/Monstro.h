@@ -9,6 +9,9 @@ private:
 	vector<BulletInfo> vEnemyBullet;
 	vector<BulletInfo>::iterator viEnemyBullet;
 
+	int currentHP;		// 보스의 현재 HP
+	int maxHP;			// 보스의 전체 HP
+	int damage;			// 보스가 받은 데미지
 	int teleportCount;	// 텔레포트 카운트
 	int shotCount;		// 공격 카운트
 	int jumpCount;		// 점프 카운트
@@ -38,6 +41,7 @@ public:
 	void EnemyPattern();	// 패턴
 	void EnemySnowShot();	// 눈꽃 공격
 	void EnemyAllShot();	// 전방위 공격
+	void hitDamage(int _damage);
 
 	// 에너미 벡터를 반환하는 함수
 	vector<EnemyInfo> GetMinionVector() { return vMonstro; }

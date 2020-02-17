@@ -27,6 +27,9 @@ HRESULT GameScene::init()
 	PLAYERMANAGER->Init();
 	ENEMYMANAGER->Init();
 
+	// »ç¿îµå
+	//SOUNDMANAGER->addSound("BGM", "sound/Sacrificial.mp3", true, true);
+
 	return S_OK;
 }
 
@@ -43,6 +46,7 @@ void GameScene::update()
 	ENEMYMANAGER->Update();
 	m_shop->Update();
 
+	//SOUNDMANAGER->play("BGM", 1.0f);
 	COLLISIONMANAGER->UpdateCollision();
 	ANIMATIONMANAGER->update();
 
@@ -59,5 +63,4 @@ void GameScene::render()
 	ENEMYMANAGER->Render(getMemDC());
 	PLAYERMANAGER->Render(getMemDC());
 	OBJECTPOOL->Render(getMemDC());
-
 }

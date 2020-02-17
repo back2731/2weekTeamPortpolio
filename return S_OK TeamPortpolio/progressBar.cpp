@@ -41,11 +41,11 @@ void progressBar::update()
 		_progressBarBack->getWidth(), _progressBarBack->getHeight());
 }
 
-void progressBar::render()
+void progressBar::render(HDC hdc)
 {
-	_progressBarBack->render(getMemDC(), _rcProgress.left, _y, 0, 0, _progressBarBack->getWidth(), _progressBarBack->getHeight());
+	_progressBarBack->render(hdc, _rcProgress.left, _y, 0, 0, _progressBarBack->getWidth(), _progressBarBack->getHeight());
 
-	_progressBarFront->render(getMemDC(),_rcProgress.left, _y, 0, 0, _width, _progressBarBack->getHeight());
+	_progressBarFront->render(hdc,_rcProgress.left + 4, _y, 0, 0, _width, _progressBarBack->getHeight());
 
 }
 void progressBar::setGauge(float currentGauge, float maxGauge)

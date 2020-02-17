@@ -18,6 +18,7 @@ HRESULT MinionAttackFly::Init(POINT position, int EnemyNumber)
 	MinionAttackFly.enemyHp = 5;
 	MinionAttackFly.enemySpeed = 2.0f;
 	// 애니메이션 Idle
+	MinionAttackFly.enemyShadowImage = IMAGEMANAGER->addImage("AttackFlyShadow", "images/monster/attackfly/attackflyShadow.bmp", 120 / 4, 49 / 4, true, RGB(255, 0, 255));
 	MinionAttackFly.enemyImage = IMAGEMANAGER->addFrameImage("AttackFlyMove", "images/monster/attackfly/attackflyMove.bmp", 712 / 2, 183 / 2, 4, 1, true, RGB(255, 0, 255));
 	ANIMATIONMANAGER->addAnimation("AttackFlyLeft", "AttackFlyMove", 0, 1, 15, false, true);
 	minionAni = ANIMATIONMANAGER->findAnimation("AttackFlyLeft");
@@ -56,6 +57,8 @@ void MinionAttackFly::Render(HDC hdc)
 			FillRect(hdc, &vMinionAttackFly[i].enemyRect, brush);
 			DeleteObject(brush);
 		}
+
+		vMinionAttackFly[i].enemyShadowImage->alphaRender(hdc, vMinionAttackFly[i].enemyRect.left - 6, vMinionAttackFly[i].enemyRect.top + 42, 70);
 		vMinionAttackFly[i].enemyImage->aniRender(hdc, vMinionAttackFly[i].enemyRect.left - 35, vMinionAttackFly[i].enemyRect.top - 40, minionAni);
 	}
 

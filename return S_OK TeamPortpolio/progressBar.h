@@ -1,6 +1,6 @@
 #pragma once
-#include"gameNode.h"
-class progressBar :public gameNode
+#include"singletonBase.h"
+class progressBar :public singletonBase<progressBar>
 {
 private:
 
@@ -11,7 +11,6 @@ private:
 	image* _progressBarFront;		//체력바 앞이미지
 	image* _progressBarBack;		//체력바 뒤이미지
 
-
 public:
 	progressBar();
 	~progressBar();
@@ -19,7 +18,7 @@ public:
 	HRESULT init(char* frontImage, char* backImage, float x, float y, int width, int height);
 	void release();
 	void update();
-	void render();
+	void render(HDC hdc);
 	//게이지 셋팅
 	void setGauge(float currentGauge, float maxGauge);
 

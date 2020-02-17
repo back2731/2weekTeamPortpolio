@@ -20,8 +20,9 @@ HRESULT MinionHorf::Init(POINT position, int EnemyNumber)
 	MinionHorf.enemyShotRange = 600.0f;
 	MinionHorf.enemyShotDelay = 65;
 	// 애니메이션 Idle
-	MinionHorf.enemyImage = IMAGEMANAGER->addFrameImage("horfIdle", "images/monster/horf/horfIdle.bmp", 534 / 2, 172 / 2, 3, 1, true, RGB(255, 0, 255));
-	ANIMATIONMANAGER->addDefAnimation("horf", "horfIdle", 25, false, true);
+	MinionHorf.enemyShadowImage = IMAGEMANAGER->addImage("HorfShadow", "images/monster/horf/horfShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
+	MinionHorf.enemyImage = IMAGEMANAGER->addFrameImage("HorfIdle", "images/monster/horf/horfIdle.bmp", 534 / 2, 172 / 2, 3, 1, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("horf", "HorfIdle", 25, false, true);
 	minionAni = ANIMATIONMANAGER->findAnimation("horf");
 	vMinionHorf.push_back(MinionHorf);
 
@@ -54,6 +55,7 @@ void MinionHorf::Render(HDC hdc)
 			DeleteObject(brush);
 		}
 
+		vMinionHorf[i].enemyShadowImage->alphaRender(hdc, vMinionHorf[i].enemyRect.left - 7, vMinionHorf[i].enemyRect.top + 34, 70);
 		vMinionHorf[i].enemyImage->aniRender(hdc, vMinionHorf[i].enemyRect.left - 30, vMinionHorf[i].enemyRect.top - 40, minionAni);
 	}
 
@@ -78,24 +80,24 @@ void MinionHorf::EnemyAi()
 			if (vMinionHorf[i].enemyX >= PLAYERMANAGER->GetPlayerHitRectX())
 			{
 				// 애니메이션 좌측 공격
-				vMinionHorf[i].enemyImage = IMAGEMANAGER->addFrameImage("horfAttack", "images/monster/horf/horfAttack.bmp", 890 / 2, 1376 / 2, 5, 8, true, RGB(255, 0, 255));
-				ANIMATIONMANAGER->addAnimation("horfAtkLeft", "horfAttack", 20, 39, 16, false, true);
+				vMinionHorf[i].enemyImage = IMAGEMANAGER->addFrameImage("HorfAttack", "images/monster/horf/horfAttack.bmp", 890 / 2, 1376 / 2, 5, 8, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addAnimation("horfAtkLeft", "HorfAttack", 20, 39, 16, false, true);
 				minionAni = ANIMATIONMANAGER->findAnimation("horfAtkLeft");
 				ANIMATIONMANAGER->resume("horfAtkLeft");
 			}
 			else
 			{
 				// 애니메이션 우측 공격
-				vMinionHorf[i].enemyImage = IMAGEMANAGER->addFrameImage("horfAttack", "images/monster/horf/horfAttack.bmp", 890 / 2, 1376 / 2, 5, 8, true, RGB(255, 0, 255));
-				ANIMATIONMANAGER->addAnimation("horfAtkRight", "horfAttack", 0, 19, 16, false, true);
+				vMinionHorf[i].enemyImage = IMAGEMANAGER->addFrameImage("HorfAttack", "images/monster/horf/horfAttack.bmp", 890 / 2, 1376 / 2, 5, 8, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addAnimation("horfAtkRight", "HorfAttack", 0, 19, 16, false, true);
 				minionAni = ANIMATIONMANAGER->findAnimation("horfAtkRight");
 				ANIMATIONMANAGER->resume("horfAtkRight");
 			}
 		}
 		else
 		{
-			vMinionHorf[i].enemyImage = IMAGEMANAGER->addFrameImage("horfIdle", "images/monster/horf/horfIdle.bmp", 534 / 2, 172 / 2, 3, 1, true, RGB(255, 0, 255));
-			ANIMATIONMANAGER->addDefAnimation("horf", "horfIdle", 25, false, true);
+			vMinionHorf[i].enemyImage = IMAGEMANAGER->addFrameImage("HorfIdle", "images/monster/horf/horfIdle.bmp", 534 / 2, 172 / 2, 3, 1, true, RGB(255, 0, 255));
+			ANIMATIONMANAGER->addDefAnimation("horf", "HorfIdle", 25, false, true);
 			minionAni = ANIMATIONMANAGER->findAnimation("horf");
 			ANIMATIONMANAGER->resume("horf");
 		}

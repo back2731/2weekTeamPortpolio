@@ -21,8 +21,9 @@ HRESULT MinionClotty::Init(POINT position, int EnemyNumber)
 	MinionClotty.enemyShotDelay = 150;
 	MinionClotty.enemySpeed = 2.5f;
 	// 애니메이션 Idle
-	MinionClotty.enemyImage = IMAGEMANAGER->addFrameImage("clottyIdle", "images/monster/clotty/clottyAppear.bmp", 980 / 2, 1060 / 2, 4, 5, true, RGB(255, 0, 255));
-	ANIMATIONMANAGER->addDefAnimation("clotty", "clottyIdle", 15, false, true);
+	MinionClotty.enemyShadowImage = IMAGEMANAGER->addImage("ClottyShadow", "images/monster/clotty/clottyShadow.bmp", 120 / 2, 49 / 3, true, RGB(255, 0, 255));
+	MinionClotty.enemyImage = IMAGEMANAGER->addFrameImage("ClottyIdle", "images/monster/clotty/clottyAppear.bmp", 980 / 2, 1060 / 2, 4, 5, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("clotty", "ClottyIdle", 15, false, true);
 	minionAni = ANIMATIONMANAGER->findAnimation("clotty");
 	vMinionClotty.push_back(MinionClotty);
 
@@ -60,6 +61,7 @@ void MinionClotty::Render(HDC hdc)
 			DeleteObject(brush);
 		}
 
+		vMinionClotty[i].enemyShadowImage->alphaRender(hdc, vMinionClotty[i].enemyRect.left - 11, vMinionClotty[i].enemyRect.top + 22, 70);
 		vMinionClotty[i].enemyImage->aniRender(hdc, vMinionClotty[i].enemyRect.left - 40, vMinionClotty[i].enemyRect.top - 75, minionAni);
 	}
 

@@ -1,20 +1,9 @@
 #pragma once
 
-// 몬스터 방향 enum문
-enum eDirection
-{
-	ENEMEY_IDLE,
-	ENEMEY_LEFT,
-	ENEMEY_RIGHT,
-	ENEMEY_UP,
-	ENEMEY_DOWN
-};
-
 // 몬스터 속성 구조체
 struct EnemyInfo
 {
-	image*	enemyHeadImage;		// 적 머리 이미지
-	image*	enemyBodyImage;		// 적 몸 이미지
+	image*	enemyShadowImage;	// 적 그림자 이미지
 	image*	enemyImage;			// 적 전체 이미지
 	RECT	enemyHeadRect;		// 적 머리 상자
 	RECT	enemyBodyRect;		// 적 몸 상자
@@ -33,9 +22,13 @@ struct EnemyInfo
 class EnemyBase
 {
 protected:
+	// 미니언 애니메이션
 	animation* minionAni;
+
+	// 보스 애니메이션
 	animation* bossAni;
-	eDirection direction;
+
+	// 몬스터의 정보
 	EnemyInfo enemy;
 
 	int firstEnemyAiTime;		// 첫번째 적 AI 행동시간

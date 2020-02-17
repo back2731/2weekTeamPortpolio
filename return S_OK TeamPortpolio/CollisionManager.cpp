@@ -3,6 +3,7 @@
 
 CollisionManager::CollisionManager()
 {
+	playerHitAni = false;
 	playerHit = false;
 	hitCount = 0;
 }
@@ -82,6 +83,9 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					{
 						break;
 					}
+
+					// 체력 이미지를 깎아준다.
+					ENEMYMANAGER->GetMonstro()->hitDamage(PLAYERMANAGER->GetPlayerOffensePower());
 				}
 				else
 				{
@@ -100,7 +104,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
-					
+
 					// temp의 Width와 Height 선언
 					int tempW = temp.right - temp.left;
 					int tempH = temp.bottom - temp.top;
@@ -780,6 +784,7 @@ void CollisionManager::EnemyBulletCollision(vector<BulletInfo>& enemyBulletVecto
 			if (IntersectRect(&temp, &enemyBulletIter->rect, &PLAYERMANAGER->GetPlayerHitRect()))
 			{
 				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHitAni = true;
 				playerHit = true;
 
 				// 오브젝트 풀로 총알을 돌려주는 함수
@@ -793,9 +798,14 @@ void CollisionManager::EnemyBulletCollision(vector<BulletInfo>& enemyBulletVecto
 		}
 	}
 
-	if(playerHit)
+	if (playerHit)
 	{
 		hitCount++;
+
+		if (hitCount % PLAYERHITANIMATION == 0)
+		{
+			playerHitAni = false;
+		}
 		if (hitCount % PLAYERINVINCIBILITYTIME == 0)
 		{
 			playerHit = false;
@@ -815,6 +825,7 @@ void CollisionManager::PlayerToMinionCollision()
 			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect))
 			{
 				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHitAni = true;
 				playerHit = true;
 
 				// temp의 Width와 Height 선언
@@ -856,6 +867,7 @@ void CollisionManager::PlayerToMinionCollision()
 			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect))
 			{
 				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHitAni = true;
 				playerHit = true;
 
 				// temp의 Width와 Height 선언
@@ -897,6 +909,7 @@ void CollisionManager::PlayerToMinionCollision()
 			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect))
 			{
 				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHitAni = true;
 				playerHit = true;
 
 				// temp의 Width와 Height 선언
@@ -938,6 +951,7 @@ void CollisionManager::PlayerToMinionCollision()
 			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect))
 			{
 				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHitAni = true;
 				playerHit = true;
 
 				// temp의 Width와 Height 선언
@@ -979,6 +993,7 @@ void CollisionManager::PlayerToMinionCollision()
 			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect))
 			{
 				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHitAni = true;
 				playerHit = true;
 
 				// temp의 Width와 Height 선언
@@ -1020,6 +1035,7 @@ void CollisionManager::PlayerToMinionCollision()
 			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect))
 			{
 				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHitAni = true;
 				playerHit = true;
 
 				// temp의 Width와 Height 선언
@@ -1061,6 +1077,7 @@ void CollisionManager::PlayerToMinionCollision()
 			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect))
 			{
 				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHitAni = true;
 				playerHit = true;
 
 				// temp의 Width와 Height 선언
@@ -1102,6 +1119,7 @@ void CollisionManager::PlayerToMinionCollision()
 			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect))
 			{
 				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHitAni = true;
 				playerHit = true;
 
 				// temp의 Width와 Height 선언
@@ -1143,6 +1161,7 @@ void CollisionManager::PlayerToMinionCollision()
 			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect))
 			{
 				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHitAni = true;
 				playerHit = true;
 
 				// temp의 Width와 Height 선언
@@ -1184,6 +1203,7 @@ void CollisionManager::PlayerToMinionCollision()
 			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect))
 			{
 				PLAYERMANAGER->SetPlayerHp(-0.5f);
+				playerHitAni = true;
 				playerHit = true;
 
 				// temp의 Width와 Height 선언
@@ -1222,6 +1242,11 @@ void CollisionManager::PlayerToMinionCollision()
 	else
 	{
 		hitCount++;
+
+		if (hitCount % PLAYERHITANIMATION == 0)
+		{
+			playerHitAni = false;
+		}
 		if (hitCount % PLAYERINVINCIBILITYTIME == 0)
 		{
 			playerHit = false;
@@ -1231,9 +1256,9 @@ void CollisionManager::PlayerToMinionCollision()
 }
 
 void CollisionManager::SameVectorMinionCollision(vector<EnemyInfo>& enemyVector)
-{	
+{
 	RECT temp;
-	
+
 	if (!enemyVector.empty())
 	{
 		for (int i = 0; i < enemyVector.size(); i++)
@@ -1253,14 +1278,14 @@ void CollisionManager::SameVectorMinionCollision(vector<EnemyInfo>& enemyVector)
 						// 왼쪽 충돌시 오른쪽으로 밀어줌
 						if (temp.left == enemyVector[i].enemyRect.left)
 						{
-							enemyVector[i].enemyRect.left	+= tempW;
-							enemyVector[i].enemyRect.right	+= tempW;
+							enemyVector[i].enemyRect.left += tempW;
+							enemyVector[i].enemyRect.right += tempW;
 						}
 						// 오른쪽 충돌시 왼쪽으로 밀어줌
 						else if (temp.right == enemyVector[i].enemyRect.right)
 						{
-							enemyVector[i].enemyRect.left	-= tempW;
-							enemyVector[i].enemyRect.right	-= tempW;
+							enemyVector[i].enemyRect.left -= tempW;
+							enemyVector[i].enemyRect.right -= tempW;
 						}
 					}
 					else
@@ -1268,13 +1293,13 @@ void CollisionManager::SameVectorMinionCollision(vector<EnemyInfo>& enemyVector)
 						// 위쪽 충돌시 아래쪽으로 밀어줌
 						if (temp.top == enemyVector[i].enemyRect.top)
 						{
-							enemyVector[i].enemyRect.top	+= tempH;
-							enemyVector[i].enemyRect.bottom	+= tempH;
+							enemyVector[i].enemyRect.top += tempH;
+							enemyVector[i].enemyRect.bottom += tempH;
 						}
 						// 아래쪽 충돌시 위쪽으로 밀어줌
 						else if (temp.bottom == enemyVector[i].enemyRect.bottom)
 						{
-							enemyVector[i].enemyRect.top	-= tempH;
+							enemyVector[i].enemyRect.top -= tempH;
 							enemyVector[i].enemyRect.bottom -= tempH;
 						}
 					}
@@ -1285,7 +1310,7 @@ void CollisionManager::SameVectorMinionCollision(vector<EnemyInfo>& enemyVector)
 }
 
 void CollisionManager::MinionToMinionCollision()
-{	
+{
 	RECT temp;
 
 	// MinionHorf을 기준으로 다른 에너미 충돌
@@ -3777,5 +3802,5 @@ int CollisionManager::PlayerCollisionNextDoor(RECT nextDoor)
 				return direction;
 			}
 		}
-	}	
+	}
 }
