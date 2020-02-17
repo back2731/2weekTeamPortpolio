@@ -117,24 +117,8 @@ void Player::Render(HDC hdc)
 
 	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
 
-<<<<<<< HEAD
-
 	sprintf_s((str), "Maxhp : %f", player.playerMaxHp);
 	TextOut(hdc, 0, 80, str, strlen(str));
-=======
-	if (IntersectRect(&temp, &GetPlayerHitRect(), &m_Shop->GetShopItemRect(0)))
-	{
-		Rectangle(hdc, test1.left, test1.top, test1.right, test1.bottom);
-	}
-	if (IntersectRect(&temp, &GetPlayerHitRect(), &m_Shop->GetShopItemRect(1)))
-	{
-		Rectangle(hdc, test2.left, test2.top, test2.right, test2.bottom);
-	}
-	if (IntersectRect(&temp, &GetPlayerHitRect(), &m_Shop->GetShopItemRect(2)))
-	{
-		Rectangle(hdc, test3.left, test3.top, test3.right, test3.bottom);
-	}
->>>>>>> dev
 
 	sprintf_s((str), "hp : %f", player.playerHp);
 	TextOut(hdc, 0, 100, str, strlen(str));

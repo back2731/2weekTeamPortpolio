@@ -74,14 +74,7 @@ public:
 	//bool isShop[ROOM_MAX_X][ROOM_MAX_Y];;
 	//bool isGoldRoom[ROOM_MAX_X][ROOM_MAX_Y];;
 
-<<<<<<< HEAD
-
-
 	void SetLoadData(int loadData);
-=======
-	void GetLoadData(int loadData);
->>>>>>> dev
-	
 	void SetCheckClear(bool value);
 	void SetSummonEnemy(bool value);
 	void SetBoss(bool value);
