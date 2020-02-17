@@ -102,7 +102,10 @@ void EnemyManager::Update()
 			}
 				break;
 			case 6:
-			{	
+			{					
+				m_MinionAttackFly->Init(PointMake(650, 350), 0);
+				m_MinionBlackFly->Init(PointMake(200, 200), 0);
+
 				isSummonEnemy = false; 
 			}
 				break;
@@ -120,6 +123,9 @@ void EnemyManager::Update()
 				break;
 			case 9:
 			{
+				m_MinionAttackFly->Init(PointMake(650, 350), 0);
+				m_MinionBlackFly->Init(PointMake(200, 200), 0);
+
 				isSummonEnemy = false; 
 			}
 				break;
@@ -173,22 +179,22 @@ void EnemyManager::Render(HDC hdc)
 	m_MinionClotty->Render(hdc);
 }
 
-void EnemyManager::GetLoadData(int _loadData)
+void EnemyManager::SetLoadData(int _loadData)
 {
 	loadData = _loadData;
 }
 
-void EnemyManager::GetCheckClear(bool value)
+void EnemyManager::SetCheckClear(bool value)
 {
 	isCheckClear = value;
 }
 
-void EnemyManager::GetSummonEnemy(bool value)
+void EnemyManager::SetSummonEnemy(bool value)
 {
 	isSummonEnemy = value;
 }
 
-void EnemyManager::GetBoss(bool value)
+void EnemyManager::SetBoss(bool value)
 {
 	isBoss = value;
 }

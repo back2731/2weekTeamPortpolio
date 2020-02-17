@@ -76,11 +76,11 @@ public:
 
 
 
-	void GetLoadData(int loadData);
+	void SetLoadData(int loadData);
 	
-	void GetCheckClear(bool value);
-	void GetSummonEnemy(bool value);
-	void GetBoss(bool value);
+	void SetCheckClear(bool value);
+	void SetSummonEnemy(bool value);
+	void SetBoss(bool value);
 
-	bool SetOpenDoor() { return openDoor; }
+	bool GetOpenDoor() { return openDoor; }
 };

@@ -328,7 +328,7 @@ void MapToolScene::DrawTileMap()
 					case TILEKIND_TERRAIN:
 						IMAGEMANAGER->frameRender("mapTile", getMemDC(),
 							_tileMap[i][j].left,
-							_tileMap[i][j].top - _tileMap[i][j].height*z,
+							_tileMap[i][j].top - _tileMap[i][j].height * z,
 							_tileMap[i][j].tilePos[z].x,
 							_tileMap[i][j].tilePos[z].y);
 						break;

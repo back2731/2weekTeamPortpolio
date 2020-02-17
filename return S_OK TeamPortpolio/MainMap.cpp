@@ -30,7 +30,19 @@ HRESULT MainMap::init()
 
 	savePositionX = currentX;
 	savePositionY = currentY;
-
+	currentPositionImage = IMAGEMANAGER->addImage("miniMapCurrentPosition", "images/maptool/miniMapCurrentPosition.bmp", 18*1.5, 16*1.5, true, RGB(255, 0, 255));
+	passedPositionImage = IMAGEMANAGER->addImage("miniMapPassedPosition", "images/maptool/miniMapPassedPosition.bmp", 18*1.5, 16*1.5, true, RGB(255, 0, 255));
+	
+	for (int i = 0; i < ROOM_MAX_X; i++)
+	{
+		for (int j = 0; j < ROOM_MAX_Y; j++)
+		{
+			currentPositionRect[i][j] = RectMake(WINSIZEX - 135 + j * 18 * 1.5, 0 + i * 16 * 1.5, currentPositionImage->getWidth(), currentPositionImage->getHeight());
+			passedPositionRect[i][j] = RectMake(WINSIZEX - 135 + j * 18 * 1.5, 0 + i * 16 * 1.5, currentPositionImage->getWidth(), currentPositionImage->getHeight());
+		}
+	}
+	miniMapBoardImage = IMAGEMANAGER->addImage("miniMapBoard", "images/maptool/miniMapBoard.bmp", 90*1.5, 80*1.5, true, RGB(255, 0, 255));
+	miniMapBoardRect = RectMake(WINSIZEX - 135 , 0, miniMapBoardImage->getWidth(), miniMapBoardImage->getHeight());
 	loadData = 0;
 	load(loadData);
 
@@ -82,6 +94,7 @@ HRESULT MainMap::init()
 	}
 
 	return S_OK;
+
 }
 
 void MainMap::release()
@@ -90,6 +103,7 @@ void MainMap::release()
 
 void MainMap::update()
 {
+	// 재시작
 	if (KEYMANAGER->isStayKeyDown('U'))
 	{
 		count++;
@@ -97,14 +111,14 @@ void MainMap::update()
 		{
 			resetData = RND->getInt(10);
 			loadData = resetData;
-			ENEMYMANAGER->Init();
-			PLAYERMANAGER->Init();
+		/*	ENEMYMANAGER->Init();
+			PLAYERMANAGER->Init();*/
 			load(loadData);
 			count = 0;
 		}
 	}
 
-	ENEMYMANAGER->GetLoadData(loadData);
+	ENEMYMANAGER->SetLoadData(loadData);
 
 	// 해당 방에 입장 했을 때
 	for (int i = 0; i < ROOM_MAX_X; i++)
@@ -116,11 +130,46 @@ void MainMap::update()
 				if (savePositionX == (j * -884) && savePositionY == (i * -572))
 				{
 					isCheckClear[i][j] = true;
-					ENEMYMANAGER->GetCheckClear(isCheckClear[i][j]);
+					ENEMYMANAGER->SetCheckClear(isCheckClear[i][j]);
 				}
 			}
 		}
 	}
+
+	//// 상점방 입장 했을 때
+	//switch (loadData)
+	//{
+	//case 0:
+	//{
+	//	// 상점방에 입장 했을 시의 bool값
+	//	if (isCheckClear[2][1] == true && isShop[2][1] == true && isSummonEnemy[1][2] == false)
+	//	{
+	//		isShop[2][1] = false;
+	//		// isShop의 정보값을 가져가는 함수를 만든다.
+	//		ENEMYMANAGER->SetBoss(isShop[2][1]);
+	//	}
+	//	if (isShop[2][1] == false)
+	//	{
+	//		for (int i = 0; i < ROOM_MAX_X; i++)
+	//		{
+	//			for (int j = 0; j < ROOM_MAX_Y; j++)
+	//			{
+	//				if (isShop[2][1])
+	//				{
+	//					continue;
+	//				}
+	//				if (isShop[i][j] == false)
+	//				{
+	//					// isShop의 정보값을 재설정해준다.
+	//					isShop[2][1] = true;
+	//					break;
+	//				}
+	//			}
+	//		}
+	//	}
+	//}
+	//break;
+	//}
 
 	// 보스방에 입장 했을 때
 	switch (loadData)
@@ -132,8 +181,8 @@ void MainMap::update()
 			{
 				isBoss[1][2] = false;
 				isSummonEnemy[1][2] = true;
-				ENEMYMANAGER->GetBoss(isBoss[1][2]);
-				ENEMYMANAGER->GetSummonEnemy(isSummonEnemy[1][2]);
+				ENEMYMANAGER->SetBoss(isBoss[1][2]);
+				ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[1][2]);
 			}
 		}
 			break;
@@ -153,7 +202,7 @@ void MainMap::update()
 					{
 						// 몬스터를 소환했다면 true
 						isSummonEnemy[i][j] = true;
-						ENEMYMANAGER->GetSummonEnemy(isSummonEnemy[i][j]);
+						ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[i][j]);
 					}
 				}
 			}
@@ -161,6 +210,7 @@ void MainMap::update()
 			break;
 	}
 
+	// 충돌처리
 	for (int i = 0; i < TILE_COUNT_X; i++)
 	{
 		for (int j = 0; j < TILE_COUNT_Y; j++)
@@ -176,7 +226,7 @@ void MainMap::update()
 					}
 				}
 
-				if (ENEMYMANAGER->SetOpenDoor())
+				if (ENEMYMANAGER->GetOpenDoor())
 				{
 					if (_tileMap[i][j].tileKind[z] == TILEKIND_OPEN_DOOR)
 					{
@@ -273,6 +323,7 @@ void MainMap::update()
 		}
 	}
 
+
 	if (!stopCamera)
 	{
 		if (moveUp)
@@ -347,7 +398,7 @@ void MainMap::render()
 						DeleteObject(brush);
 					}
 
-					if (ENEMYMANAGER->SetOpenDoor())
+					if (ENEMYMANAGER->GetOpenDoor())
 					{
 						if (_tileMap[i][j].tileKind[z] == TILEKIND_OPEN_DOOR)
 						{
@@ -507,11 +558,44 @@ void MainMap::render()
 			}
 		}
 	}
-	sprintf_s((str), "x : %d", savePositionX);
+
+	//miniMapBoardImage->alphaRender(getMemDC(), miniMapBoardRect.left, miniMapBoardRect.top, 170);
+
+	for (int i = 0; i < ROOM_MAX_X; i++)
+	{
+		for (int j = 0; j < ROOM_MAX_Y; j++)
+		{
+			if (isSummonEnemy[i][j] == true)
+			{
+				passedPositionImage->alphaRender(getMemDC(), passedPositionRect[i][j].left, passedPositionRect[i][j].top, 170);
+			}
+		}
+	}
+
+	for (int i = 0; i < ROOM_MAX_X; i++)
+	{
+		for (int j = 0; j < ROOM_MAX_Y; j++)
+		{
+			if (savePositionX == (j * -884) && savePositionY == (i * -572))
+			{
+				currentPositionImage->alphaRender(getMemDC(), currentPositionRect[i][j].left, currentPositionRect[i][j].top, 170);
+			}
+		}
+	}
+
+
+
+	sprintf_s((str), "savePositionX : %d", savePositionX);
 	TextOut(getMemDC(), 100, 100, str, strlen(str));
 
-	sprintf_s((str), "y : %d", savePositionY);
+	sprintf_s((str), "savePositionY : %d", savePositionY);
 	TextOut(getMemDC(), 100, 120, str, strlen(str));
+
+	sprintf_s((str), "savePositionX : %d", m_ptMouse.x);
+	TextOut(getMemDC(), 600, 100, str, strlen(str));
+
+	sprintf_s((str), "savePositionY : %d", m_ptMouse.y);
+	TextOut(getMemDC(), 600, 120, str, strlen(str));
 }
 
 void MainMap::DrawTileMap()
@@ -560,7 +644,7 @@ void MainMap::DrawTileMap()
 					case TILEKIND_OPEN_DOOR:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
-							if (ENEMYMANAGER->SetOpenDoor())
+							if (ENEMYMANAGER->GetOpenDoor())
 							{
 								if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
 								{
@@ -583,7 +667,7 @@ void MainMap::DrawTileMap()
 					case TILEKIND_CLOSE_DOOR:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
-							if (!ENEMYMANAGER->SetOpenDoor())
+							if (!ENEMYMANAGER->GetOpenDoor())
 							{
 								if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
 								{

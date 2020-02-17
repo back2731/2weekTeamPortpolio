@@ -26,6 +26,15 @@ private:
 	RECT cameraRect = { 0,0,WINSIZEX,WINSIZEY };
 	RECT temp;
 
+	image* miniMapBoardImage;
+	RECT miniMapBoardRect;
+
+	image* currentPositionImage;
+	RECT currentPositionRect[5][5];
+
+	image* passedPositionImage;
+	RECT passedPositionRect[5][5];
+
 	bool _isDebug;
 
 	bool openDoor;
@@ -38,9 +47,9 @@ private:
 
 	bool isCheckClear[ROOM_MAX_X][ROOM_MAX_Y];
 	bool isSummonEnemy[ROOM_MAX_X][ROOM_MAX_Y];
-	bool isBoss[ROOM_MAX_X][ROOM_MAX_Y];;
-	bool isShop[ROOM_MAX_X][ROOM_MAX_Y];;
-	bool isGoldRoom[ROOM_MAX_X][ROOM_MAX_Y];;
+	bool isBoss[ROOM_MAX_X][ROOM_MAX_Y];
+	bool isShop[ROOM_MAX_X][ROOM_MAX_Y];
+	bool isGoldRoom[ROOM_MAX_X][ROOM_MAX_Y];
 
 	//
 	const char* fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };
