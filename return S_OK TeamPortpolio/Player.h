@@ -34,7 +34,6 @@ struct PlayerInfo
 	int playerKey;					// 플레이어 키
 };
 
-class Shop;
 class Player
 {
 private:
@@ -77,11 +76,7 @@ private:
 	char str[128];
 
 private:
-	Shop* m_Shop;
 	RECT temp;
-	RECT test1{ 10,10,20,20 };
-	RECT test2{ 30,10,40,20 };
-	RECT test3{ 50,10,60,20 };
 
 	vector <ItemInfo> vPlayerActiveItem;				// 액티브 아이템 벡터
 	vector <ItemInfo>::iterator viPlayerActiveItem;		// 액티브 아이템 벡터
@@ -132,6 +127,7 @@ public:
 	float GetPlayerHitRectY() { return (player.playerHitRect.top + (player.playerHitRect.bottom - player.playerHitRect.top) / 2); }
 
 	void SetPlayerHp(float num);
+	int GetPlayerGold() { return player.playerGold; }
 	void SetPlayerGold(int num);
 	void SetPlayerBomb(int num);
 	void SetPlayerKey(int num);
@@ -142,5 +138,19 @@ public:
 	vector<BulletInfo> GetPlayerBulletVector() { return vPlayerBullet; }
 
 	int GetPlayerOffensePower() { return player.playerOffensePower; }
-	void SetPlayerOffensePower(int addPower) { player.playerOffensePower = addPower; }
+	void SetPlayerOffensePower(int addPower) { player.playerOffensePower += addPower; }
+
+	int GetPlayerShotSpeed() { return player.playerShotSpeed; }
+	void SetPlayerShotSpeed(int addShotSpeed) { player.playerShotSpeed += addShotSpeed; }
+
+	int GetPlayerShotRange() { return player.playerShotRange; }
+	void SetPlayerShotRange(int addShotRange) { player.playerShotRange += addShotRange; }
+
+	int GetPlayerSpeed() { return player.playerSpeed; }
+	void SetPlayerSpeed(int addSpeed) { player.playerSpeed += addSpeed; }
+
+	int GetPlayerMaxHp() { return player.playerMaxHp; }
+	void SetPlayerMaxHp(int addMaxHp) { player.playerMaxHp += addMaxHp; }
+
+	void SetPlayerAllItem(ItemInfo itemInfo) { vPlayerAllItem.push_back(itemInfo); }
 };

@@ -55,7 +55,7 @@ void GameScene::update()
 void GameScene::render()
 {
 	mainMap->render();
-	//m_shop->Render(getMemDC());
+	m_shop->Render(getMemDC());
 	ENEMYMANAGER->Render(getMemDC());
 	PLAYERMANAGER->Render(getMemDC());
 	OBJECTPOOL->Render(getMemDC());
