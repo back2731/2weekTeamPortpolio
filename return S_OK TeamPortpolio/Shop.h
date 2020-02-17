@@ -2,7 +2,7 @@
 //SHOP 초기좌표
 #define INIT_X -1768
 #define INIT_Y -1716
-//class Player;
+
 class Shop 
 {
 private:
@@ -32,12 +32,10 @@ private:
 	vector <ItemInfo> vShopAllItem;					// 모든 아이템 벡터
 	vector <ItemInfo>::iterator viShopAllItem;		// 모든 아이템 벡터
 
-	ItemInfo AllItem[10];							// 모든 아이템 배열
-	ItemInfo Temp[1];								// 셔플용 배열
-
 	int sour, dest;
 
-	RECT rc[10];
+	RECT itemRect[3];
+	RECT temp;
 
 public:
 	Shop();
@@ -47,7 +45,7 @@ public:
 	void Release();
 	void Update();
 	void Render(HDC hdc);
-	RECT GetShopItemRect(int x) { return rc[x]; }
+	RECT GetShopItemRect(int x) { return itemRect[x]; }
 
 	vector<ItemInfo> GetShopActiveItemInfo() { return vShopActiveItem; }
 	vector<ItemInfo> GetShopPassiveItemInfo() { return vShopPassiveItem; }

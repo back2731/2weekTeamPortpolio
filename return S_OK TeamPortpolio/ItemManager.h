@@ -19,6 +19,7 @@ struct ItemInfo
 	ItemKind	itemKind;				// 아이템 종류
 	image*		itemImage;				// 아이템 이미지
 	image*		itemInfoImage;			// 아이템 UI이미지
+	RECT		itemRect;				// 아이템 생성위치
 	const char* itemName;				// 아이템 이름
 	float		addPower;				// 플레이어 공격력
 	float		addSpeed;				// 플레이어 속도 증감
@@ -54,6 +55,9 @@ private:
 
 	vector <ItemInfo> vAllItem;			// 모든 아이템 벡터
 
+	vector <ItemInfo> vTemp;			// 랜덤생성용 벡터
+	int sour, dest;						// 랜덤생성용 변수
+
 	ItemInfo heart;
 	ItemInfo gold;
 	ItemInfo bomb;
@@ -79,6 +83,8 @@ public:
 	vector<ItemInfo> GetPillInfo() { return vPill; }
 	   				
 	vector<ItemInfo> GetGoldInfo() { return vGold; }
+
+	ItemInfo GetAllItemInfo(int x) { return vAllItem[x]; }
 	vector<ItemInfo> GetAllItemInfo() { return vAllItem; }
 
 };

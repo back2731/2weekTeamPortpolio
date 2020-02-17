@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Player.h"
-#include "Shop.h"
 
 Player::Player()
 {
@@ -36,7 +35,7 @@ HRESULT Player::Init(string imageName)
 
 	player.playerMaxHp = 3.0f;
 	player.playerHp = 2.0f;
-	player.playerGold = 0;
+	player.playerGold = 44;
 	player.playerBomb = 1;
 	player.playerKey = 0;
 
@@ -60,7 +59,6 @@ HRESULT Player::Init(string imageName)
 	direction = PLAYER_IDLE;
 
 	//아이템 정보
-	m_Shop = new Shop;
 	vPlayerActiveItem = ITEMMANAGER->GetActiveItemInfo();
 	vPlayerPassiveItem = ITEMMANAGER->GetPassiveItemInfo();
 	vPlayerTrinkets = ITEMMANAGER->GetTrinketsInfo();
@@ -106,18 +104,9 @@ void Player::Render(HDC hdc)
 	player.playerHeadImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
 	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
 
-	if (IntersectRect(&temp, &GetPlayerHitRect(), &m_Shop->GetShopItemRect(0)))
-	{
-		Rectangle(hdc, test1.left, test1.top, test1.right, test1.bottom );
-	}
-	if (IntersectRect(&temp, &GetPlayerHitRect(), &m_Shop->GetShopItemRect(1)))
-	{
-		Rectangle(hdc, test2.left, test2.top, test2.right, test2.bottom);
-	}
-	if (IntersectRect(&temp, &GetPlayerHitRect(), &m_Shop->GetShopItemRect(2)))
-	{
-		Rectangle(hdc, test3.left, test3.top, test3.right, test3.bottom);
-	}
+
+	sprintf_s((str), "Maxhp : %f", player.playerMaxHp);
+	TextOut(hdc, 0, 80, str, strlen(str));
 
 	sprintf_s((str), "hp : %f", player.playerHp);
 	TextOut(hdc, 0, 100, str, strlen(str));
@@ -128,8 +117,39 @@ void Player::Render(HDC hdc)
 	sprintf_s((str), "bomb : %d", player.playerBomb);
 	TextOut(hdc, 0, 140, str, strlen(str));
 
-	sprintf_s((str), "key : %d", player.playerKey);
+	sprintf_s((str), "playerKey : %d", player.playerKey);
 	TextOut(hdc, 0, 160, str, strlen(str));
+
+	sprintf_s((str), "playerOffensePower : %d", player.playerOffensePower);
+	TextOut(hdc, 0, 180, str, strlen(str));
+
+	sprintf_s((str), "playerShotSpeed : %f", player.playerShotSpeed);
+	TextOut(hdc, 0, 200, str, strlen(str));
+
+	sprintf_s((str), "playerShotRange : %f", player.playerShotRange);
+	TextOut(hdc, 0, 220, str, strlen(str));
+
+	sprintf_s((str), "playerShotDelay : %f", player.playerShotDelay);
+	TextOut(hdc, 0, 240, str, strlen(str));
+
+	sprintf_s((str), "playerSpeed : %f", player.playerSpeed);
+	TextOut(hdc, 0, 260, str, strlen(str));
+
+	sprintf_s((str), "playerSlideSpeed : %f", player.playerSlideSpeed);
+	TextOut(hdc, 0, 280, str, strlen(str));
+
+	sprintf_s((str), "Item : %d", vPlayerAllItem.size());
+	TextOut(hdc, 0, 300, str, strlen(str));
+
+	if (vPlayerAllItem.size() > 0)
+	{
+		for (int i = 0; i < vPlayerAllItem.size(); i++)
+		{
+			vPlayerAllItem[i].itemRect = RectMakeCenter(WINSIZEX / 2 + 100 * i, WINSIZEY / 2, 52, 52);
+			Rectangle(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, vPlayerAllItem[i].itemRect.right, vPlayerAllItem[i].itemRect.bottom);
+			vPlayerAllItem[i].itemImage->render(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top);
+		}
+	}
 }
 
 void Player::PlayerMove()

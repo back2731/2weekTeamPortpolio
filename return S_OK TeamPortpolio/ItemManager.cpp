@@ -19,6 +19,7 @@ HRESULT ItemManager::Init()
 	activeItem_Dice.itemImage = IMAGEMANAGER->addImage("ActiveItem_Dice", "images/item/ActiveItem_Dice.bmp", 50, 50, true, RGB(255, 0, 255));
 	//activeItem_Dice.itemInfoImage = 
 	activeItem_Dice.itemName = "ActiveItem_Dice";
+	activeItem_Dice.itemRect = { 0, };
 	activeItem_Dice.addPower = 0.0f;
 	activeItem_Dice.addSpeed = 0.0f;
 	activeItem_Dice.addShotSpeed = 0.0f;
@@ -37,6 +38,7 @@ HRESULT ItemManager::Init()
 	activeItem_GuppysPaw.itemImage = IMAGEMANAGER->addImage("ActiveItem_GuppysPaw", "images/item/ActiveItem_GuppysPaw.bmp", 50, 50, true, RGB(255, 0, 255));
 	//activeItem_GuppysPaw.itemInfoImage = 
 	activeItem_GuppysPaw.itemName = "ActiveItem_GuppysPaw";
+	activeItem_GuppysPaw.itemRect = { 0, };
 	activeItem_GuppysPaw.addPower = 0.0f;
 	activeItem_GuppysPaw.addSpeed = 0.0f;
 	activeItem_GuppysPaw.addShotSpeed = 0.0f;
@@ -56,17 +58,18 @@ HRESULT ItemManager::Init()
 	passiveItem_Dessert.itemImage = IMAGEMANAGER->addImage("PassiveItem_Dessert", "images/item/PassiveItem_Dessert.bmp", 50, 50, true, RGB(255, 0, 255));
 	//passiveItem_Dessert.itemInfoImage = 
 	passiveItem_Dessert.itemName = "PassiveItem_Dessert";
+	passiveItem_Dessert.itemRect = { 0, };
 	passiveItem_Dessert.addPower = 0.0f;
 	passiveItem_Dessert.addSpeed = 0.0f;
 	passiveItem_Dessert.addShotSpeed = 0.0f;
 	passiveItem_Dessert.addShotRange = 0.0f;
 	passiveItem_Dessert.addShotDelay = 0;
-	passiveItem_Dessert.addMaxHeart = 0.0f;
+	passiveItem_Dessert.addMaxHeart = 1.0f;
 	passiveItem_Dessert.addHeart = 0.0f;
 	passiveItem_Dessert.addGold = 0;
 	passiveItem_Dessert.addBomb = 0;
 	passiveItem_Dessert.addKey = 0;
-	passiveItem_Dessert.price = 15;
+	passiveItem_Dessert.price = 10;
 	vPassiveItem.push_back(passiveItem_Dessert);
 
 	ItemInfo passiveItem_Momslipstick;
@@ -74,17 +77,18 @@ HRESULT ItemManager::Init()
 	passiveItem_Momslipstick.itemImage = IMAGEMANAGER->addImage("PassiveItem_Momslipstick", "images/item/PassiveItem_Momslipstick.bmp", 50, 50, true, RGB(255, 0, 255));
 	//passiveItem_Momslipstick.itemInfoImage = 
 	passiveItem_Momslipstick.itemName = "PassiveItem_Momslipstick";
+	passiveItem_Momslipstick.itemRect = { 0, };
 	passiveItem_Momslipstick.addPower = 0.0f;
 	passiveItem_Momslipstick.addSpeed = 0.0f;
 	passiveItem_Momslipstick.addShotSpeed = 0.0f;
-	passiveItem_Momslipstick.addShotRange = 0.0f;
+	passiveItem_Momslipstick.addShotRange = 100.0f;
 	passiveItem_Momslipstick.addShotDelay = 0;
 	passiveItem_Momslipstick.addMaxHeart = 0.0f;
 	passiveItem_Momslipstick.addHeart = 0.0f;
 	passiveItem_Momslipstick.addGold = 0;
 	passiveItem_Momslipstick.addBomb = 0;
 	passiveItem_Momslipstick.addKey = 0;
-	passiveItem_Momslipstick.price = 15;
+	passiveItem_Momslipstick.price = 10;
 	vPassiveItem.push_back(passiveItem_Momslipstick);
 
 	ItemInfo passiveItem_Dollar;
@@ -92,6 +96,7 @@ HRESULT ItemManager::Init()
 	passiveItem_Dollar.itemImage = IMAGEMANAGER->addImage("PassiveItem_Dollar", "images/item/PassiveItem_Dollar.bmp", 50, 50, true, RGB(255, 0, 255));
 	//passiveItem_Dollar.itemInfoImage = 
 	passiveItem_Dollar.itemName = "PassiveItem_Dollar";
+	passiveItem_Dollar.itemRect = { 0, };
 	passiveItem_Dollar.addPower = 0.0f;
 	passiveItem_Dollar.addSpeed = 0.0f;
 	passiveItem_Dollar.addShotSpeed = 0.0f;
@@ -102,7 +107,7 @@ HRESULT ItemManager::Init()
 	passiveItem_Dollar.addGold = 99;
 	passiveItem_Dollar.addBomb = 0;
 	passiveItem_Dollar.addKey = 0;
-	passiveItem_Dollar.price = 15;
+	passiveItem_Dollar.price = 10;
 	vPassiveItem.push_back(passiveItem_Dollar);
 
 	ItemInfo passiveItem_Pyro;
@@ -110,6 +115,7 @@ HRESULT ItemManager::Init()
 	passiveItem_Pyro.itemImage = IMAGEMANAGER->addImage("PassiveItem_Pyro", "images/item/PassiveItem_Pyro.bmp", 50, 50, true, RGB(255, 0, 255));
 	//passiveItem_Pyro.itemInfoImage = 
 	passiveItem_Pyro.itemName = "PassiveItem_Pyro";
+	passiveItem_Pyro.itemRect = { 0, };
 	passiveItem_Pyro.addPower = 0.0f;
 	passiveItem_Pyro.addSpeed = 0.0f;
 	passiveItem_Pyro.addShotSpeed = 0.0f;
@@ -120,7 +126,7 @@ HRESULT ItemManager::Init()
 	passiveItem_Pyro.addGold = 0;
 	passiveItem_Pyro.addBomb = 99;
 	passiveItem_Pyro.addKey = 0;
-	passiveItem_Pyro.price = 15;
+	passiveItem_Pyro.price = 10;
 	vPassiveItem.push_back(passiveItem_Pyro);
 
 	// 장신구 아이템 초기화 및 벡터 푸쉬백
@@ -129,7 +135,8 @@ HRESULT ItemManager::Init()
 	trinkets_CurvedHorn.itemImage = IMAGEMANAGER->addImage("Trinkets_CurvedHorn", "images/item/Trinkets_CurvedHorn.bmp", 50, 50, true, RGB(255, 0, 255));
 	//trinkets_CurvedHorn.itemInfoImage = 
 	trinkets_CurvedHorn.itemName = "Trinkets_CurvedHorn";
-	trinkets_CurvedHorn.addPower = 0.0f;
+	trinkets_CurvedHorn.itemRect = { 0, };
+	trinkets_CurvedHorn.addPower = 10.0f;
 	trinkets_CurvedHorn.addSpeed = 0.0f;
 	trinkets_CurvedHorn.addShotSpeed = 0.0f;
 	trinkets_CurvedHorn.addShotRange = 0.0f;
@@ -137,9 +144,9 @@ HRESULT ItemManager::Init()
 	trinkets_CurvedHorn.addMaxHeart = 0.0f;
 	trinkets_CurvedHorn.addHeart = 0.0f;
 	trinkets_CurvedHorn.addGold = 0;
-	trinkets_CurvedHorn.addBomb = 99;
+	trinkets_CurvedHorn.addBomb = 0;
 	trinkets_CurvedHorn.addKey = 0;
-	trinkets_CurvedHorn.price = 15;
+	trinkets_CurvedHorn.price = 5;
 	vTrinkets.push_back(trinkets_CurvedHorn);
 
 	ItemInfo trinkets_GoatHoof;
@@ -147,35 +154,37 @@ HRESULT ItemManager::Init()
 	trinkets_GoatHoof.itemImage = IMAGEMANAGER->addImage("Trinkets_GoatHoof", "images/item/Trinkets_GoatHoof.bmp", 50, 50, true, RGB(255, 0, 255));
 	//trinkets_GoatHoof.itemInfoImage = 
 	trinkets_GoatHoof.itemName = "Trinkets_GoatHoof";
+	trinkets_GoatHoof.itemRect = { 0, };
 	trinkets_GoatHoof.addPower = 0.0f;
-	trinkets_GoatHoof.addSpeed = 0.0f;
+	trinkets_GoatHoof.addSpeed = 1.0f;
 	trinkets_GoatHoof.addShotSpeed = 0.0f;
 	trinkets_GoatHoof.addShotRange = 0.0f;
 	trinkets_GoatHoof.addShotDelay = 0;
 	trinkets_GoatHoof.addMaxHeart = 0.0f;
 	trinkets_GoatHoof.addHeart = 0.0f;
 	trinkets_GoatHoof.addGold = 0;
-	trinkets_GoatHoof.addBomb = 99;
+	trinkets_GoatHoof.addBomb = 0;
 	trinkets_GoatHoof.addKey = 0;
-	trinkets_GoatHoof.price = 15;
+	trinkets_GoatHoof.price = 5;
 	vTrinkets.push_back(trinkets_GoatHoof);
 
 	ItemInfo trinkets_IsaacsFork;
 	trinkets_IsaacsFork.itemKind = ITEM_TRINKETS;
 	trinkets_IsaacsFork.itemImage = IMAGEMANAGER->addImage("Trinkets_IsaacsFork", "images/item/Trinkets_IsaacsFork.bmp", 50, 50, true, RGB(255, 0, 255));
 	trinkets_IsaacsFork.itemName = "Trinkets_IsaacsFork";
+	trinkets_IsaacsFork.itemRect = { 0, };
 	//trinkets_IsaacsFork.itemInfoImage = 
 	trinkets_IsaacsFork.addPower = 0.0f;
 	trinkets_IsaacsFork.addSpeed = 0.0f;
-	trinkets_IsaacsFork.addShotSpeed = 0.0f;
+	trinkets_IsaacsFork.addShotSpeed = 4.0f;
 	trinkets_IsaacsFork.addShotRange = 0.0f;
 	trinkets_IsaacsFork.addShotDelay = 0;
 	trinkets_IsaacsFork.addMaxHeart = 0.0f;
 	trinkets_IsaacsFork.addHeart = 0.0f;
 	trinkets_IsaacsFork.addGold = 0;
-	trinkets_IsaacsFork.addBomb = 99;
+	trinkets_IsaacsFork.addBomb = 0;
 	trinkets_IsaacsFork.addKey = 0;
-	trinkets_IsaacsFork.price = 15;
+	trinkets_IsaacsFork.price = 5;
 	vTrinkets.push_back(trinkets_IsaacsFork);
 
 	ItemInfo trinkets_MatchStick;
@@ -183,17 +192,18 @@ HRESULT ItemManager::Init()
 	trinkets_MatchStick.itemImage = IMAGEMANAGER->addImage("Trinkets_MatchStick", "images/item/Trinkets_MatchStick.bmp", 50, 50, true, RGB(255, 0, 255));
 	//trinkets_MatchStick.itemInfoImage = 
 	trinkets_MatchStick.itemName = "Trinkets_MatchStick";
-	trinkets_MatchStick.addPower = 0.0f;
+	trinkets_MatchStick.itemRect = { 0, };
+	trinkets_MatchStick.addPower = 10.0f;
 	trinkets_MatchStick.addSpeed = 0.0f;
 	trinkets_MatchStick.addShotSpeed = 0.0f;
-	trinkets_MatchStick.addShotRange = 0.0f;
+	trinkets_MatchStick.addShotRange = -100.0f;
 	trinkets_MatchStick.addShotDelay = 0;
 	trinkets_MatchStick.addMaxHeart = 0.0f;
 	trinkets_MatchStick.addHeart = 0.0f;
 	trinkets_MatchStick.addGold = 0;
-	trinkets_MatchStick.addBomb = 99;
+	trinkets_MatchStick.addBomb = 0;
 	trinkets_MatchStick.addKey = 0;
-	trinkets_MatchStick.price = 15;
+	trinkets_MatchStick.price = 5;
 	vTrinkets.push_back(trinkets_MatchStick);
 
 	heart.itemKind = ITEM_HEART;
@@ -318,6 +328,19 @@ HRESULT ItemManager::Init()
 	//vAllItem.push_back(key);
 	//vAllItem.push_back(card);
 	//vAllItem.push_back(pill);
+
+	for (int i = 1; i < 100; i++)
+	{
+		dest = RND->getInt(10);
+		sour = RND->getInt(10);
+
+		vTemp.insert(vTemp.begin(), vAllItem[dest]);
+		vAllItem.insert(vAllItem.begin() + dest, vAllItem[sour]);
+		vAllItem.erase(vAllItem.begin() + dest + 1);
+		vAllItem.insert(vAllItem.begin() + sour, vTemp[0]);
+		vAllItem.erase(vAllItem.begin() + sour + 1);
+		vTemp.clear();
+	}
 
 	return S_OK;
 }
