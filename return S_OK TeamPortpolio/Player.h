@@ -132,6 +132,7 @@ public:
 	int GetPlayerGold() { return player.playerGold; }
 	void SetPlayerGold(int num);
 	void SetPlayerBomb(int num);
+	int GetPlayerKey() { return player.playerKey; }
 	void SetPlayerKey(int num);
 
 	void SetPlayerRectX(int num);

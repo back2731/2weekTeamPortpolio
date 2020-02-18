@@ -51,42 +51,48 @@ void Shop::Release()
 
 void Shop::Update()
 {
-	for (int i = 0; i < vShopAllItem.size(); i++)
+	if (!ITEMMANAGER->GetShop())
 	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vShopAllItem[i].itemRect))
+		for (int i = 0; i < vShopAllItem.size(); i++)
 		{
-			if (PLAYERMANAGER->GetPlayerGold() >= vShopAllItem[i].price)
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vShopAllItem[i].itemRect))
 			{
-				PLAYERMANAGER->SetPlayerAllItem(vShopAllItem[i]);
-				PLAYERMANAGER->SetPlayerOffensePower(vShopAllItem[i].addPower);
-				PLAYERMANAGER->SetPlayerShotSpeed(vShopAllItem[i].addShotSpeed);
-				PLAYERMANAGER->SetPlayerShotRange(vShopAllItem[i].addShotRange);
-				PLAYERMANAGER->SetPlayerSpeed(vShopAllItem[i].addSpeed);
-				PLAYERMANAGER->SetPlayerMaxHp(vShopAllItem[i].addMaxHeart);
-				PLAYERMANAGER->SetPlayerHp(vShopAllItem[i].addHeart);
-				PLAYERMANAGER->SetPlayerGold(-vShopAllItem[i].price);
-				PLAYERMANAGER->SetPlayerGold(vShopAllItem[i].addGold);
-				PLAYERMANAGER->SetPlayerBomb(vShopAllItem[i].addBomb);
-				PLAYERMANAGER->SetPlayerKey(vShopAllItem[i].addKey);
-				vShopAllItem.erase(vShopAllItem.begin() + i);
+				if (PLAYERMANAGER->GetPlayerGold() >= vShopAllItem[i].price)
+				{
+					PLAYERMANAGER->SetPlayerAllItem(vShopAllItem[i]);
+					PLAYERMANAGER->SetPlayerOffensePower(vShopAllItem[i].addPower);
+					PLAYERMANAGER->SetPlayerShotSpeed(vShopAllItem[i].addShotSpeed);
+					PLAYERMANAGER->SetPlayerShotRange(vShopAllItem[i].addShotRange);
+					PLAYERMANAGER->SetPlayerSpeed(vShopAllItem[i].addSpeed);
+					PLAYERMANAGER->SetPlayerMaxHp(vShopAllItem[i].addMaxHeart);
+					PLAYERMANAGER->SetPlayerHp(vShopAllItem[i].addHeart);
+					PLAYERMANAGER->SetPlayerGold(-vShopAllItem[i].price);
+					PLAYERMANAGER->SetPlayerGold(vShopAllItem[i].addGold);
+					PLAYERMANAGER->SetPlayerBomb(vShopAllItem[i].addBomb);
+					PLAYERMANAGER->SetPlayerKey(vShopAllItem[i].addKey);
+					vShopAllItem.erase(vShopAllItem.begin() + i);
+					break;
+				}
 				break;
 			}
-			break;
 		}
 	}
 }
 
 void Shop::Render(HDC hdc)
 {
-	for (int i = 0; i < vShopAllItem.size(); i++)
+	if (!ITEMMANAGER->GetShop())
 	{
-		//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
-		vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
-		//IMAGEMANAGER->render(vShopAllItem[i].itemName, hdc, itemRect[i].left, itemRect[i].top);
-
-		if (KEYMANAGER->isToggleKey(VK_TAB))
+		for (int i = 0; i < vShopAllItem.size(); i++)
 		{
-			Rectangle(hdc, itemRect[i].left, itemRect[i].top, itemRect[i].right, itemRect[i].bottom);
+			//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
+			vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
+			//IMAGEMANAGER->render(vShopAllItem[i].itemName, hdc, itemRect[i].left, itemRect[i].top);
+
+			if (KEYMANAGER->isToggleKey(VK_TAB))
+			{
+				Rectangle(hdc, itemRect[i].left, itemRect[i].top, itemRect[i].right, itemRect[i].bottom);
+			}
 		}
 	}
 }

@@ -72,7 +72,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					if (ENEMYMANAGER->GetMonstro()->GetEnemyHp(j) <= 0)
 					{
 						// 피격이 된 적의 벡터를 지우는 함수
-						ENEMYMANAGER->GetMonstro()->DeleteEnemy(j);
+						//ENEMYMANAGER->GetMonstro()->DeleteEnemy(j);
 					}
 
 					// j번째 에너미 피격 시 j를 0으로 초기화

@@ -27,7 +27,7 @@ HRESULT MainMap::init()
 	moveLeft = false;
 
 	stopCamera = true;
-
+	isUsedKey = false;
 	savePositionX = currentX;
 	savePositionY = currentY;
 	currentPositionImage = IMAGEMANAGER->addImage("miniMapCurrentPosition", "images/maptool/miniMapCurrentPosition.bmp", 18*1.5, 16*1.5, true, RGB(255, 0, 255));
@@ -136,40 +136,39 @@ void MainMap::update()
 		}
 	}
 
-	//// 상점방 입장 했을 때
-	//switch (loadData)
-	//{
-	//case 0:
-	//{
-	//	// 상점방에 입장 했을 시의 bool값
-	//	if (isCheckClear[2][1] == true && isShop[2][1] == true && isSummonEnemy[1][2] == false)
-	//	{
-	//		isShop[2][1] = false;
-	//		// isShop의 정보값을 가져가는 함수를 만든다.
-	//		ENEMYMANAGER->SetBoss(isShop[2][1]);
-	//	}
-	//	if (isShop[2][1] == false)
-	//	{
-	//		for (int i = 0; i < ROOM_MAX_X; i++)
-	//		{
-	//			for (int j = 0; j < ROOM_MAX_Y; j++)
-	//			{
-	//				if (isShop[2][1])
-	//				{
-	//					continue;
-	//				}
-	//				if (isShop[i][j] == false)
-	//				{
-	//					// isShop의 정보값을 재설정해준다.
-	//					isShop[2][1] = true;
-	//					break;
-	//				}
-	//			}
-	//		}
-	//	}
-	//}
-	//break;
-	//}
+	// 상점방 입장 했을 때
+	switch (loadData)
+	{
+		case 0:
+		{
+			// 상점방에 입장 했을 시의 bool값
+			if (isCheckClear[2][1] == true && isShop[2][1] == true)
+			{
+				isSummonEnemy[2][1] = true;
+				isShop[2][1] = false;
+				ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[1][2]);
+				ITEMMANAGER->SetShop(isShop[2][1]);
+			}
+			if (isShop[2][1] == false)
+			{			
+				if (savePositionX == (1 * -884) && savePositionY == (2 * -572))
+				{
+					isSummonEnemy[2][1] = true;
+					isShop[2][1] = false;			
+					ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[1][2]);
+					ITEMMANAGER->SetShop(isShop[2][1]);
+				}
+				else
+				{
+					isSummonEnemy[2][1] = true;
+					isShop[2][1] = true;			
+					ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[1][2]);
+					ITEMMANAGER->SetShop(isShop[2][1]);
+				}
+			}
+		}
+			break;
+	}
 
 	// 보스방에 입장 했을 때
 	switch (loadData)
@@ -217,12 +216,78 @@ void MainMap::update()
 		{
 			for (int z = 0; z < TILE_MAX; z++)
 			{
+				// 보이는 오브젝트와의 충돌처리
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_OBJECT)
 				{
 					if (stopCamera)
 					{
 						COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
 						COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
+					}
+				}
+
+				// 열쇠로 잠긴방과의 충돌처리
+				if (PLAYERMANAGER->GetPlayerKey() <= 0)
+				{
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_LOCKED_DOOR)
+					{
+						COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+						COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
+					}
+				}
+				else
+				{
+					// 열쇠가 있다면 해당 방의 문을 지우는 식으로 방을 연다
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_LOCKED_DOOR)
+					{
+						if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &_tileMap[i][j].rect))
+						{
+							isUsedKey = true;
+							PLAYERMANAGER->SetPlayerKey(-1);
+							_tileMap[i][j].tileNum[z] = 0;
+							_tileMap[i][j].tileKind[z] = TILEKIND_NONE;
+							_tileMap[i][j].tilePos[z] = PointMake(0,0);
+						}
+					}
+				}
+
+				// 열렸다면 문안으로 들어갈 수 있다.
+				if (isUsedKey)
+				{
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_USEDKEY_DOOR)
+					{
+						if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &_tileMap[i][j].rect))
+						{
+							if (stopCamera)
+							{
+								if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 3)
+								{
+									PLAYERMANAGER->SetPlayerRectY(340);
+									moveUp = true;
+									stopCamera = false;
+								}
+
+								else if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 4)
+								{
+									PLAYERMANAGER->SetPlayerRectY(-340);
+									moveDown = true;
+									stopCamera = false;
+								}
+
+								else if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 1)
+								{
+									PLAYERMANAGER->SetPlayerRectX(620);
+									moveLeft = true;
+									stopCamera = false;
+								}
+								else if (COLLISIONMANAGER->PlayerCollisionNextDoor(_tileMap[i][j].rect) == 2)
+								{
+									PLAYERMANAGER->SetPlayerRectX(-620);
+									moveRight = true;
+									stopCamera = false;
+								}
+							}
+						}
 					}
 				}
 
@@ -269,7 +334,7 @@ void MainMap::update()
 						COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
 					}
 				}
-
+							   
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
 				{
 					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
@@ -419,6 +484,23 @@ void MainMap::render()
 						}
 					}
 
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_LOCKED_DOOR)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(200, 200, 0));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_USEDKEY_DOOR)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(0, 255, 200));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+
 					if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
@@ -559,13 +641,17 @@ void MainMap::render()
 		}
 	}
 
-	//miniMapBoardImage->alphaRender(getMemDC(), miniMapBoardRect.left, miniMapBoardRect.top, 170);
+	miniMapBoardImage->alphaRender(getMemDC(), miniMapBoardRect.left, miniMapBoardRect.top, 170);
 
 	for (int i = 0; i < ROOM_MAX_X; i++)
 	{
 		for (int j = 0; j < ROOM_MAX_Y; j++)
 		{
 			if (isSummonEnemy[i][j] == true)
+			{
+				passedPositionImage->alphaRender(getMemDC(), passedPositionRect[i][j].left, passedPositionRect[i][j].top, 170);
+			}
+			if (isCheckClear[i][j] == true && isShop[i][j] == true)
 			{
 				passedPositionImage->alphaRender(getMemDC(), passedPositionRect[i][j].left, passedPositionRect[i][j].top, 170);
 			}
@@ -583,6 +669,9 @@ void MainMap::render()
 		}
 	}
 
+
+	sprintf_s((str), "isShop : %d", isShop[2][1]);
+	TextOut(getMemDC(), 400, 100, str, strlen(str));
 
 
 	sprintf_s((str), "savePositionX : %d", savePositionX);
@@ -687,6 +776,47 @@ void MainMap::DrawTileMap()
 							}
 						}
 						break;
+					case TILEKIND_LOCKED_DOOR:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+							{
+								IMAGEMANAGER->frameRender("door", getMemDC(),
+									_tileMap[i][j].left - 50,
+									_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+									_tileMap[i][j].tilePos[z].x,
+									_tileMap[i][j].tilePos[z].y);
+								break;
+							}
+							IMAGEMANAGER->frameRender("door", getMemDC(),
+								_tileMap[i][j].left - 26,
+								_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					case TILEKIND_USEDKEY_DOOR:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+							{
+								IMAGEMANAGER->frameRender("door", getMemDC(),
+									_tileMap[i][j].left - 50,
+									_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+									_tileMap[i][j].tilePos[z].x,
+									_tileMap[i][j].tilePos[z].y);
+								break;
+							}
+							IMAGEMANAGER->frameRender("door", getMemDC(),
+								_tileMap[i][j].left - 26,
+								_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+
 					case TILEKIND_ITEMPOINT:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{

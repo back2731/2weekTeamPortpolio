@@ -152,6 +152,27 @@ void MapToolScene::render()
 						}
 					}
 
+					if (!openDoor)
+					{
+						if (_tileMap[i][j].tileKind[z] == TILEKIND_LOCKED_DOOR)
+						{
+							Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+							HBRUSH brush = CreateSolidBrush(RGB(200, 200, 0));
+							FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+							DeleteObject(brush);
+						}
+					}
+					else
+					{
+						if (_tileMap[i][j].tileKind[z] == TILEKIND_USEDKEY_DOOR)
+						{
+							Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+							HBRUSH brush = CreateSolidBrush(RGB(0, 255, 200));
+							FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+							DeleteObject(brush);
+						}
+					}
+
 					if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
@@ -371,6 +392,46 @@ void MapToolScene::DrawTileMap()
 						}
 						break;
 					case TILEKIND_CLOSE_DOOR:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+							{
+								IMAGEMANAGER->frameRender("door", getMemDC(),
+									_tileMap[i][j].left - 50,
+									_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+									_tileMap[i][j].tilePos[z].x,
+									_tileMap[i][j].tilePos[z].y);
+								break;
+							}
+							IMAGEMANAGER->frameRender("door", getMemDC(),
+								_tileMap[i][j].left - 26,
+								_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;					
+					case TILEKIND_LOCKED_DOOR:
+							if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+							{
+								if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
+								{
+									IMAGEMANAGER->frameRender("door", getMemDC(),
+										_tileMap[i][j].left - 50,
+										_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+										_tileMap[i][j].tilePos[z].x,
+										_tileMap[i][j].tilePos[z].y);
+									break;
+								}
+								IMAGEMANAGER->frameRender("door", getMemDC(),
+									_tileMap[i][j].left - 26,
+									_tileMap[i][j].top - _tileMap[i][j].height * z - 26,
+									_tileMap[i][j].tilePos[z].x,
+									_tileMap[i][j].tilePos[z].y);
+								break;
+							}
+							break;
+					case TILEKIND_USEDKEY_DOOR:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
 							if (_tileMap[i][j].tilePos[z].x % 2 == 1 && _tileMap[i][j].tilePos[z].y % 2 == 0)
@@ -660,6 +721,8 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 	case TILEKIND_REDITEMBOXCLOSE:
 	case TILEKIND_CRACKEDITEMBOXOPEN:
 	case TILEKIND_CRACKEDITEMBOXCLOSE:
+	case TILEKIND_LOCKED_DOOR:
+	case TILEKIND_USEDKEY_DOOR:
 		imageFrame = SUBWIN->GetFramePoint();
 		break;
 	}
@@ -810,13 +873,24 @@ TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 	}
 	if (SUBWIN->GetFrameIndex() == CTRL_NUM3)
 	{
-		if (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 5)
+		if (frameY >= 0 && frameY <= 7 && (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 5))
 		{
 			return TILEKIND_OPEN_DOOR;
 		}
-		else if (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7)
+
+		if (frameY >= 0 && frameY <= 7 && (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7))
 		{
 			return TILEKIND_CLOSE_DOOR;
+		}
+
+		if (frameY >= 8 && frameY <= 9 && (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 5))
+		{
+			return TILEKIND_USEDKEY_DOOR;
+		}
+		
+		if (frameY >= 8 && frameY <= 9 && (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7))
+		{
+			return TILEKIND_LOCKED_DOOR;
 		}
 	}
 	return TILEKIND_NONE;

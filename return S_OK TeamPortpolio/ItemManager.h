@@ -63,6 +63,8 @@ private:
 	ItemInfo bomb;
 	ItemInfo key;
 
+	bool isShop;
+
 public:
 	ItemManager();
 	~ItemManager();
@@ -87,4 +89,7 @@ public:
 	ItemInfo GetAllItemInfo(int x) { return vAllItem[x]; }
 	vector<ItemInfo> GetAllItemInfo() { return vAllItem; }
 
+	bool GetShop() {return isShop;}
+	void SetShop(bool value) { isShop = value; }
 };
+

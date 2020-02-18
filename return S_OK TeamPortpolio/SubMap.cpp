@@ -55,7 +55,7 @@ void SubMap::render(HDC hdc)
 	switch (SUBWIN->GetFrameIndex())
 	{
 	case CTRL_NUM1:
-		for (int i = 0; i < TILE_SIZE_X - 4; i++)
+		for (int i = 0; i < TILE_SIZE_X; i++)
 		{
 			for (int j = 0; j < TILE_SIZE_Y - 6; j++)
 			{

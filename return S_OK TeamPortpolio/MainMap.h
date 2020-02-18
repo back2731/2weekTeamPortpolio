@@ -50,6 +50,7 @@ private:
 	bool isBoss[ROOM_MAX_X][ROOM_MAX_Y];
 	bool isShop[ROOM_MAX_X][ROOM_MAX_Y];
 	bool isGoldRoom[ROOM_MAX_X][ROOM_MAX_Y];
+	bool isUsedKey;
 
 	//
 	const char* fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };

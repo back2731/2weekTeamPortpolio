@@ -36,15 +36,6 @@ void BulletManager::ShootBullet(string imageName, vector<BulletInfo>& bulletVect
 	// 카운트의 인터벌 모드 0이 될때마다 값을 조정해준다.
 	if (count % interval == 0)
 	{
-		/*
-		   image* bulletImage;
-		   float angle;
-		   float speed;
-		   float bulletX, bulletY;
-		   float unitX, unitY;
-		   float range;
-		   RECT rect;
-		*/
 		BulletInfo bullet;
 		bullet = OBJECTPOOL->GetBullet();
 		bullet.bulletImage = IMAGEMANAGER->findImage(imageName);
