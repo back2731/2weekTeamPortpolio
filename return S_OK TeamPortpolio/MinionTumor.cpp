@@ -125,7 +125,8 @@ void MinionTumor::EnemyAi()
 		EnemyAnimation();
 
 		// 플레이어와 판정 범위가 충돌시
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionTumor[i].enemyFireRange))
+		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionTumor[i].enemyFireRange) &&
+			PLAYERMANAGER->GetPlayerDeath() == false)
 		{
 			enemyAreaCheck = true;
 		}

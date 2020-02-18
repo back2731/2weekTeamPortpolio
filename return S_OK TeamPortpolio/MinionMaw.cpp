@@ -18,7 +18,7 @@ HRESULT MinionMaw::Init(POINT position, int EnemyNumber)
 	MinionMaw.enemyHp = 25;
 	MinionMaw.enemyShotSpeed = 5.0f;
 	MinionMaw.enemyShotRange = 300.0f;
-	MinionMaw.enemyShotDelay = 50;
+	MinionMaw.enemyShotDelay = 80;
 	MinionMaw.enemySpeed = 1.5f;
 	// 애니메이션 Idle
 	MinionMaw.enemyShadowImage = IMAGEMANAGER->addImage("MawShadow", "images/monster/maw/mawShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
@@ -121,10 +121,17 @@ void MinionMaw::EnemyAi()
 		vMinionMaw[i].enemyY = vMinionMaw[i].enemyRect.top + (vMinionMaw[i].enemyRect.bottom - vMinionMaw[i].enemyRect.top) / 2;
 
 		// 플레이어와 판정 범위가 충돌시
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionMaw[i].enemyFireRange))
+		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionMaw[i].enemyFireRange) &&
+			PLAYERMANAGER->GetPlayerDeath() == false)
 		{
 			// 플레이어를 쫓아가라.
 			enemyAreaCheck = true;
+		}
+
+		// 플레이어가 사망하면 자율 AI로 돌아가라.
+		if (PLAYERMANAGER->GetPlayerDeath() == true)
+		{
+			enemyAreaCheck = false;
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
@@ -148,8 +155,12 @@ void MinionMaw::EnemyAi()
 			}
 
 			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
-			vMinionMaw[i].enemyX += vx;
-			vMinionMaw[i].enemyY += vy;
+			if (vMinionMaw[i].enemyRect.left >= 105 && vMinionMaw[i].enemyRect.right <= 780 &&
+				vMinionMaw[i].enemyRect.top >= 105 && vMinionMaw[i].enemyRect.bottom <= 465)
+			{
+				vMinionMaw[i].enemyX += vx;
+				vMinionMaw[i].enemyY += vy;
+			}
 			vMinionMaw[i].enemyRect = RectMakeCenter(vMinionMaw[i].enemyX, vMinionMaw[i].enemyY, 35, 35);
 		}
 		// 범위안에 플레이어가 없다면 자율행동(AI)

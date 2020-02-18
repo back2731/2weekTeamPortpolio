@@ -53,12 +53,11 @@ void mainGame::update()
 	gameNode::update();
 
 	SCENEMANAGER->update();
-//
+
 //#ifdef SUBWINOPEN
 //
 //	SUBWIN->update();
 //#endif // SUBWINOPEN
-
 }
 
 void mainGame::render(/*HDC hdc*/)

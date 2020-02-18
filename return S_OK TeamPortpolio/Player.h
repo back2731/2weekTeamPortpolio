@@ -17,6 +17,7 @@ struct PlayerInfo
 	image*	playerBodyImage;		// 플레이어 몸 이미지
 	image*	playerHitImage;			// 플레이어 피격 이미지
 	image*	playerShadowImage;		// 플레이어 그림자 이미지
+	image*	playerDeathImage;		// 플레이어 사망 이미지
 	RECT	playerHeadRect;			// 플레이어 머리 상자
 	RECT	playerBodyRect;			// 플레이어 몸 상자
 	RECT	playerHitRect;			// 플레이어 피격용 상자
@@ -28,7 +29,6 @@ struct PlayerInfo
 	float   playerSlideSpeed;		// 슬라이딩 속도
 
 	// 아이템
-
 	float playerMaxHp;				// 플레이어 최대체력
 	float playerHp;					// 플레이어 체력
 	int playerGold;					// 플레이어 골드
@@ -49,11 +49,16 @@ private:
 
 	vector<BulletInfo> vPlayerBullet;
 	vector<BulletInfo>::iterator viPlayerBullet;
+<<<<<<< HEAD
 
 	vector<BombInfo> vPlayerBomb;
 	vector<BombInfo>::iterator viPlayerBomb;
 
 	int playerBulletCount;         // 플레이어 불렛 카운트
+=======
+	int playerBulletCount;			// 플레이어 불렛 카운트
+	int playerDeathCount;			// 플레이어 사망 카운트
+>>>>>>> dev
 
 	// 애니메이션을 돌리기 위한 배열
 	int arrHeadIdle[1] = { 0 };
@@ -78,6 +83,8 @@ private:
 	bool playerRightShot;
 	bool playerUpShot;
 	bool playerDownShot;
+	// 플레이어 사망 변수
+	bool playerDeath;
 
 	char str[128];
 
@@ -118,11 +125,12 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
-	void PlayerMove();            // 플레이어 이동키 함수
-	void PlayerSilde();           // 플레이어 이동시 슬라이딩 함수
-	void PlayerShot();            // 플레이어 공격키 함수
-	void PlayerShotMove();        // 플레이어 공격시 방향 함수
-	void PlayerAnimation();       // 플레이어 애니메이션
+	void PlayerDeath();			// 플레이어 사망	
+	void PlayerMove();			// 플레이어 이동키 함수
+	void PlayerSilde();			// 플레이어 이동시 슬라이딩 함수
+	void PlayerShot();			// 플레이어 공격키 함수
+	void PlayerShotMove();		// 플레이어 공격시 방향 함수
+	void PlayerAnimation();		// 플레이어 애니메이션
 
 	RECT GetPlayerHeadRect() { return player.playerHeadRect; }
 	float GetPlayerHeadRectX() { return (player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2); }
@@ -161,4 +169,6 @@ public:
 	void SetPlayerMaxHp(int addMaxHp) { player.playerMaxHp += addMaxHp; }
 
 	void SetPlayerAllItem(ItemInfo itemInfo) { vPlayerAllItem.push_back(itemInfo); }
+
+	bool GetPlayerDeath() { return playerDeath; }
 };

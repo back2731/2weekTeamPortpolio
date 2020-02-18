@@ -15,7 +15,7 @@ HRESULT MinionClot::Init(POINT position, int EnemyNumber)
 	EnemyInfo MinionClot;
 	MinionClot.enemyNumber = EnemyNumber;
 	MinionClot.enemyRect = RectMakeCenter(position.x, position.y, 40, 25);
-	MinionClot.enemyHp = 15;
+	MinionClot.enemyHp = 20;
 	MinionClot.enemyShotSpeed = 5.0f;
 	MinionClot.enemyShotRange = 200.0f;
 	MinionClot.enemyShotDelay = 150;

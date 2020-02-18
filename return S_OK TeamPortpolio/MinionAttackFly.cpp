@@ -15,7 +15,7 @@ HRESULT MinionAttackFly::Init(POINT position, int EnemyNumber)
 	EnemyInfo MinionAttackFly;
 	MinionAttackFly.enemyNumber = EnemyNumber;
 	MinionAttackFly.enemyRect = RectMakeCenter(position.x, position.y, 20, 20);
-	MinionAttackFly.enemyHp = 5;
+	MinionAttackFly.enemyHp = 10;
 	MinionAttackFly.enemySpeed = 2.0f;
 	// 애니메이션 Idle
 	MinionAttackFly.enemyShadowImage = IMAGEMANAGER->addImage("AttackFlyShadow", "images/monster/attackfly/attackflyShadow.bmp", 120 / 4, 49 / 4, true, RGB(255, 0, 255));
@@ -110,7 +110,8 @@ void MinionAttackFly::EnemyAi()
 		vMinionAttackFly[i].enemyY = vMinionAttackFly[i].enemyRect.top + (vMinionAttackFly[i].enemyRect.bottom - vMinionAttackFly[i].enemyRect.top) / 2;
 
 		// 플레이어와 판정 범위가 충돌시
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionAttackFly[i].enemyFireRange))
+		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionAttackFly[i].enemyFireRange) &&
+			PLAYERMANAGER->GetPlayerDeath() == false)
 		{
 			// 플레이어를 쫓아가라.
 			enemyAreaCheck = true;
@@ -128,6 +129,12 @@ void MinionAttackFly::EnemyAi()
 				minionAni = ANIMATIONMANAGER->findAnimation("AttackFlyRight");
 				ANIMATIONMANAGER->start("AttackFlyRight");
 			}
+		}
+
+		// 플레이어가 사망하면 자율 AI로 돌아가라.
+		if (PLAYERMANAGER->GetPlayerDeath() == true)
+		{
+			enemyAreaCheck = false;
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
@@ -149,8 +156,12 @@ void MinionAttackFly::EnemyAi()
 			}
 
 			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
-			vMinionAttackFly[i].enemyX += vx;
-			vMinionAttackFly[i].enemyY += vy;
+			if (vMinionAttackFly[i].enemyRect.left >= 105 && vMinionAttackFly[i].enemyRect.right <= 780 &&
+				vMinionAttackFly[i].enemyRect.top >= 105 && vMinionAttackFly[i].enemyRect.bottom <= 465)
+			{
+				vMinionAttackFly[i].enemyX += vx;
+				vMinionAttackFly[i].enemyY += vy;
+			}
 			vMinionAttackFly[i].enemyRect = RectMakeCenter(vMinionAttackFly[i].enemyX, vMinionAttackFly[i].enemyY, 20, 20);
 		}
 		// 범위안에 플레이어가 없다면 자율행동(AI)

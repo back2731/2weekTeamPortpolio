@@ -37,6 +37,9 @@ HRESULT Monstro::Init(POINT position)
 
 	firstEnemyAiPattern = 0;
 
+	jumpCollision = false;
+	teleportCollision = false;
+
 	return S_OK;
 }
 
@@ -67,30 +70,43 @@ void Monstro::Render(HDC hdc)
 			DeleteObject(brush);
 		}
 
-		if (jump)
+		if (!enemyDeath)
 		{
-			vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 75, vMonstro[i].enemyRect.top - 417, bossAni);
-		}
-		else if (snowPattern)
-		{
-			vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 55, vMonstro[i].enemyRect.top - 170, bossAni);
-		}
-		else if (teleport)
-		{
-			if (!teleportImage)
+			if (jump)
 			{
-				vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 52, vMonstro[i].enemyRect.top - 218, bossAni);
+				vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 75, vMonstro[i].enemyRect.top - 417, bossAni);
 			}
+			else if (snowPattern)
+			{
+				vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 55, vMonstro[i].enemyRect.top - 170, bossAni);
+			}
+			else if (teleport)
+			{
+				if (!teleportImage)
+				{
+					vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 52, vMonstro[i].enemyRect.top - 218, bossAni);
+				}
+			}
+			else
+			{
+				vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 55, vMonstro[i].enemyRect.top - 170, bossAni);
+			}
+
+			PROGRESSMANAGER->render(hdc);
+			BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
 		}
 		else
 		{
-			vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 55, vMonstro[i].enemyRect.top - 170, bossAni);
+			if (deathAni)
+			{
+				vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 75, vMonstro[i].enemyRect.top - 420, bossAni);
+			}
+			else
+			{
+				vMonstro[i].enemyImage->aniRender(hdc, vMonstro[i].enemyRect.left - 230, vMonstro[i].enemyRect.top - 280, bossAni);
+			}
 		}
-
-		PROGRESSMANAGER->render(hdc);
 	}
-
-	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
 }
 
 void Monstro::EnemyDeath()
@@ -99,12 +115,36 @@ void Monstro::EnemyDeath()
 	{
 		if (vMonstro[i].enemyHp <= 0)
 		{
-			// 애니메이션 Idle
-			vMonstro[i].enemyImage = IMAGEMANAGER->addFrameImage("monstroDeath", "images/monster/boss/monstroDeath.bmp", 2951, 2916, 13, 12, true, RGB(255, 0, 255));
-			ANIMATIONMANAGER->addAnimation("bossDeath", "monstroDeath", 0, 77, 25, true);
-			bossAni = ANIMATIONMANAGER->findAnimation("bossDeath");
-			ANIMATIONMANAGER->resume("bossDeath");
+			deathCount++;
 			enemyDeath = true;
+			jumpCollision = true;
+			teleportCollision = true;
+
+			if (deathCount < 180)
+			{
+				deathAni = true;
+
+				// 애니메이션 Death
+				vMonstro[i].enemyImage = IMAGEMANAGER->addFrameImage("monstroDeath", "images/monster/boss/monstroDeath.bmp", 3406, 3036, 13, 6, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addDefAnimation("bossDeath", "monstroDeath", 25, false, true);
+				bossAni = ANIMATIONMANAGER->findAnimation("bossDeath");
+				ANIMATIONMANAGER->resume("bossDeath");
+
+			}
+			else if (deathCount >= 180 && deathCount < 225)
+			{
+				deathAni = false;
+
+				// 애니메이션 Blood
+				vMonstro[i].enemyImage = IMAGEMANAGER->addFrameImage("DeathBlood", "images/monster/boss/monstroDeathBlood.bmp", 1797, 1648, 3, 4, true, RGB(255, 0, 255));
+				ANIMATIONMANAGER->addDefAnimation("Blood", "DeathBlood", 15, false, true);
+				bossAni = ANIMATIONMANAGER->findAnimation("Blood");
+				ANIMATIONMANAGER->resume("Blood");
+			}
+			else
+			{
+				ANIMATIONMANAGER->pause("Blood");
+			}
 		}
 	}
 }
@@ -142,24 +182,31 @@ void Monstro::EnemyAi()
 			jump = false;
 			snowPattern = false;
 
-			// 플레이어 추적
-			// getdistance(적의 위치 x, y, 플레이어의 위치 x, y)
-			distance = getDistance(vMonstro[i].enemyX, vMonstro[i].enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY());
-			if (distance)
+			if (PLAYERMANAGER->GetPlayerDeath() == false)
 			{
-				// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
-				vx = ((PLAYERMANAGER->GetPlayerHitRectX()) - vMonstro[i].enemyX) / distance * vMonstro[i].enemySpeed;
-				vy = ((PLAYERMANAGER->GetPlayerHitRectY()) - vMonstro[i].enemyY) / distance * vMonstro[i].enemySpeed;
+				// 플레이어 추적
+				distance = getDistance(vMonstro[i].enemyX, vMonstro[i].enemyY, PLAYERMANAGER->GetPlayerHitRectX(), PLAYERMANAGER->GetPlayerHitRectY());
+				if (distance)
+				{
+					// vector = ((플레이어 위치 x / y) - (적 위치 x / y) / 거리 * 적 속도;
+					vx = ((PLAYERMANAGER->GetPlayerHitRectX()) - vMonstro[i].enemyX) / distance * vMonstro[i].enemySpeed;
+					vy = ((PLAYERMANAGER->GetPlayerHitRectY()) - vMonstro[i].enemyY) / distance * vMonstro[i].enemySpeed;
+				}
+				else
+				{
+					vx = 0;
+					vy = vMonstro[i].enemySpeed;
+				}
+
+				// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
+				if (vMonstro[i].enemyRect.left >= 105 && vMonstro[i].enemyRect.right <= 780 &&
+					vMonstro[i].enemyRect.top >= 105 && vMonstro[i].enemyRect.bottom <= 465)
+				{
+					vMonstro[i].enemyX += vx;
+					vMonstro[i].enemyY += vy;
+				}
+				vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 120, 60);
 			}
-			else
-			{
-				vx = 0;
-				vy = vMonstro[i].enemySpeed;
-			}
-			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
-			vMonstro[i].enemyX += vx;
-			vMonstro[i].enemyY += vy;
-			vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 120, 60);
 
 			// AI패턴
 			EnemyAiTime();
@@ -209,6 +256,7 @@ void Monstro::EnemyPattern()
 	// 패턴1 : 점프
 	if (jump)
 	{
+		jumpCollision = true;
 		jumpCount++;
 
 		if (jumpCount < 21)
@@ -257,6 +305,7 @@ void Monstro::EnemyPattern()
 	}
 	else
 	{
+		jumpCollision = false;
 		jumpCount = 0;
 	}
 
@@ -324,6 +373,7 @@ void Monstro::EnemyPattern()
 	{
 		// 애니메이션 텔레포트
 		vMonstro[i].enemyImage = IMAGEMANAGER->addFrameImage("monstroTeleport", "images/monster/boss/monstroMove.bmp", 2043, 1455, 9, 5, true, RGB(255, 0, 255));
+		teleportCollision = true;
 		teleportCount++;
 
 		if (teleportCount < 90)
@@ -367,6 +417,7 @@ void Monstro::EnemyPattern()
 	}
 	else
 	{
+		teleportCollision = false;
 		teleportCount = 0;
 	}
 }

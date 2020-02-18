@@ -29,7 +29,7 @@ HRESULT Player::Init(string imageName)
 	// 플레이어 정보
 	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 23 * 2);			// 머리 상자
 	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 30, 32 * 2, 11 * 2);	// 몸 상자
-	player.playerOffensePower = 2;																// 공격력
+	player.playerOffensePower = 100;																// 공격력
 	player.playerShotSpeed = 8.0f;																// 공격속도
 	player.playerShotRange = 450.0f;															// 공격사거리
 	playerBulletCount = 0;																		// 불렛 카운트
@@ -37,8 +37,8 @@ HRESULT Player::Init(string imageName)
 	player.playerSpeed = 3.0f;																	// 이동속도
 	player.playerSlideSpeed = 2.0f;																// 슬라이딩 속도
 
-	player.playerMaxHp = 3.0f;
-	player.playerHp = 2.0f;
+	player.playerMaxHp = 100.0f;
+	player.playerHp = 100.0f;
 	player.playerGold = 44;
 	player.playerBomb = 1;
 	player.playerKey = 0;
@@ -84,10 +84,15 @@ void Player::Release()
 
 void Player::Update()
 {
-	PlayerAnimation();
-	PlayerMove();
-	PlayerShot();
-	COLLISIONMANAGER->PlayerBulletCollision(vPlayerBullet, viPlayerBullet);
+	if (!playerDeath)
+	{
+		PlayerAnimation();
+		PlayerMove();
+		PlayerShot();
+		COLLISIONMANAGER->PlayerBulletCollision(vPlayerBullet, viPlayerBullet);
+	}
+
+	PlayerDeath();
 }
 
 void Player::Render(HDC hdc)
@@ -103,22 +108,27 @@ void Player::Render(HDC hdc)
 		DeleteObject(brush);
 	}
 
-	if (COLLISIONMANAGER->SetplayerHit() == true)
+	if (!playerDeath)
 	{
-		player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
-		player.playerHitImage->aniRender(hdc, player.playerBodyRect.left - 3, player.playerBodyRect.top - 63, aniHit);
-	}
-	else if (COLLISIONMANAGER->SetplayerHit() == false)
-	{
-		player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
-		player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 20, aniBody);
-		player.playerHeadImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
-	}
+		if (COLLISIONMANAGER->SetplayerHit() == true)
+		{
+			player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
+			player.playerHitImage->aniRender(hdc, player.playerBodyRect.left - 3, player.playerBodyRect.top - 63, aniHit);
+		}
+		else if (COLLISIONMANAGER->SetplayerHit() == false)
+		{
+			player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
+			player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 20, aniBody);
+			player.playerHeadImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
+		}
 
-	BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
+		BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
 
+<<<<<<< HEAD
 	if (KEYMANAGER->isToggleKey(VK_F3))
 	{
+=======
+>>>>>>> dev
 		sprintf_s((str), "Maxhp : %f", player.playerMaxHp);
 		TextOut(hdc, 0, 80, str, strlen(str));
 
@@ -154,6 +164,7 @@ void Player::Render(HDC hdc)
 
 		sprintf_s((str), "Item : %d", vPlayerAllItem.size());
 		TextOut(hdc, 0, 300, str, strlen(str));
+<<<<<<< HEAD
 	}
 
 	// 먹은 아이템 표기
@@ -172,6 +183,42 @@ void Player::Render(HDC hdc)
 			//Rectangle(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, vPlayerAllItem[i].itemRect.right, vPlayerAllItem[i].itemRect.bottom);
 			vPlayerAllItem[i].itemImage->alphaRender(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, 200);
 			k++;
+=======
+
+		if (vPlayerAllItem.size() > 0)
+		{
+			for (int i = 0; i < vPlayerAllItem.size(); i++)
+			{
+				vPlayerAllItem[i].itemRect = RectMakeCenter(WINSIZEX / 2 + 100 * i, WINSIZEY / 2, 52, 52);
+				Rectangle(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, vPlayerAllItem[i].itemRect.right, vPlayerAllItem[i].itemRect.bottom);
+				vPlayerAllItem[i].itemImage->render(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top);
+			}
+		}
+	}
+	else
+	{
+		player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left - 13, player.playerBodyRect.top - 349, aniBody);
+	}
+}
+
+void Player::PlayerDeath()
+{
+	if (player.playerHp <= 0)
+	{
+		playerDeathCount++;
+		playerDeath = true;
+
+		if (playerDeathCount < 168)
+		{
+			player.playerBodyImage = IMAGEMANAGER->addFrameImage("PlayerDeath", "images/player/playerDeath.bmp", 1935, 1568, 15, 4, true, RGB(255, 0, 255));
+			ANIMATIONMANAGER->addAnimation("playerDeath", "PlayerDeath", 0, 56, 20, false, true);
+			aniBody = ANIMATIONMANAGER->findAnimation("playerDeath");
+			ANIMATIONMANAGER->resume("playerDeath");
+		}
+		else
+		{
+			ANIMATIONMANAGER->pause("playerDeath");
+>>>>>>> dev
 		}
 	}
 }

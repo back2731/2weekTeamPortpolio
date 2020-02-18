@@ -29,7 +29,7 @@ public:
 
 	int GetPlayerOffensePower() { return m_Player->GetPlayerOffensePower(); }
 	void SetPlayerOffensePower(int addPower) { m_Player->SetPlayerOffensePower(addPower); }
-	
+
 	int GetPlayerShotSpeed() { return m_Player->GetPlayerShotSpeed(); }
 	void SetPlayerShotSpeed(int addShotSpeed) { m_Player->SetPlayerShotSpeed(addShotSpeed); }
 
@@ -49,8 +49,8 @@ public:
 	void SetPlayerBomb(int num) { m_Player->SetPlayerBomb(num); }
 	int GetPlayerKey() { return m_Player->GetPlayerKey(); }
 	void SetPlayerKey(int num) { m_Player->SetPlayerKey(num); }
-	
 
 	void SetPlayerAllItem(ItemInfo itemInfo) { m_Player->SetPlayerAllItem(itemInfo); }
 
+	bool GetPlayerDeath() { return m_Player->GetPlayerDeath(); }
 };

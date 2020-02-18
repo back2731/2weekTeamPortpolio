@@ -15,7 +15,7 @@ HRESULT MinionClotty::Init(POINT position, int EnemyNumber)
 	EnemyInfo MinionClotty;
 	MinionClotty.enemyNumber = EnemyNumber;
 	MinionClotty.enemyRect = RectMakeCenter(position.x, position.y, 40, 25);
-	MinionClotty.enemyHp = 15;
+	MinionClotty.enemyHp = 20;
 	MinionClotty.enemyShotSpeed = 5.0f;
 	MinionClotty.enemyShotRange = 200.0f;
 	MinionClotty.enemyShotDelay = 150;
@@ -31,8 +31,6 @@ HRESULT MinionClotty::Init(POINT position, int EnemyNumber)
 	firstEnemyAiPattern = 1;
 	secondEnemyAiPattern = 1;
 	thirdEnemyAiPattern = 1;
-
-	enemyAreaCheck = false;
 
 	return S_OK;
 }
