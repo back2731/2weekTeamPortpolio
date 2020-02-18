@@ -87,35 +87,34 @@ void Shop::Render(HDC hdc)
 {
 	if (!ITEMMANAGER->GetShop())
 	{
-<<<<<<< HEAD
 		for (int i = 0; i < vShopAllItem.size(); i++)
-=======
-		//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
-		vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
-		//IMAGEMANAGER->render(vShopAllItem[i].itemName, hdc, itemRect[i].left, itemRect[i].top);
-		if (vShopAllItem[i].price == 5)
-		{
-			IMAGEMANAGER->render("price5", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
-		}
-		if (vShopAllItem[i].price == 10)
-		{
-			IMAGEMANAGER->render("price10", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
-		}
-		if (vShopAllItem[i].price == 15)
-		{
-			IMAGEMANAGER->render("price15", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
-		}
-
-		if (KEYMANAGER->isToggleKey(VK_TAB))
->>>>>>> test
-		{
-			//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
+		{//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
 			vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
 			//IMAGEMANAGER->render(vShopAllItem[i].itemName, hdc, itemRect[i].left, itemRect[i].top);
+			if (vShopAllItem[i].price == 5)
+			{
+				IMAGEMANAGER->render("price5", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
+			}
+			if (vShopAllItem[i].price == 10)
+			{
+				IMAGEMANAGER->render("price10", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
+			}
+			if (vShopAllItem[i].price == 15)
+			{
+				IMAGEMANAGER->render("price15", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
+			}
+
 
 			if (KEYMANAGER->isToggleKey(VK_TAB))
 			{
-				Rectangle(hdc, itemRect[i].left, itemRect[i].top, itemRect[i].right, itemRect[i].bottom);
+				//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
+				vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
+				//IMAGEMANAGER->render(vShopAllItem[i].itemName, hdc, itemRect[i].left, itemRect[i].top);
+
+				if (KEYMANAGER->isToggleKey(VK_TAB))
+				{
+					Rectangle(hdc, itemRect[i].left, itemRect[i].top, itemRect[i].right, itemRect[i].bottom);
+				}
 			}
 		}
 	}
