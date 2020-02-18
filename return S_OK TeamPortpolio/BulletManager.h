@@ -6,6 +6,8 @@ class BulletManager : public singletonBase<BulletManager>
 private:
 
 public:
+	image* bombImage;
+	animation* bomb;
 	BulletManager();
 	~BulletManager();
 
@@ -21,6 +23,10 @@ public:
 
 	// 총알을 담은 벡터와 이터레이터를 넣어준다.
 	void MoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator& bulletIter);
+	void RemoveBomb(vector<BombInfo>& bombVector, vector<BombInfo>::iterator& bombIter);
+
 	void RenderBullet(HDC hdc, vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator& bulletIter);
+
+	void RenderBomb(HDC hdc, vector<BombInfo>& bombVector, vector<BombInfo>::iterator& bombIter);
 };
 

@@ -15,7 +15,7 @@ private:
 
 	bool _loop;
 	bool _play;
-
+	
 	float _frameUpdateSec;					//프레임 업데이트
 	float _elapsedSec;						//프레임 경과시간
 	DWORD _nowPlayIndex;					//현재 플레이 인덱스
