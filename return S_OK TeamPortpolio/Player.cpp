@@ -74,6 +74,7 @@ HRESULT Player::Init(string imageName)
 
 	vPlayerCard = ITEMMANAGER->GetCardInfo();
 	vPlayerPill = ITEMMANAGER->GetPillInfo();
+	
 	return S_OK;
 }
 
@@ -110,12 +111,12 @@ void Player::Render(HDC hdc)
 
 	if (!playerDeath)
 	{
-		if (COLLISIONMANAGER->SetplayerHit() == true)
+		if (COLLISIONMANAGER->GetplayerHit() == true)
 		{
 			player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
 			player.playerHitImage->aniRender(hdc, player.playerBodyRect.left - 3, player.playerBodyRect.top - 63, aniHit);
 		}
-		else if (COLLISIONMANAGER->SetplayerHit() == false)
+		else if (COLLISIONMANAGER->GetplayerHit() == false)
 		{
 			player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
 			player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 20, aniBody);
@@ -494,7 +495,7 @@ void Player::PlayerShotMove()
 
 void Player::PlayerAnimation()
 {
-	if (COLLISIONMANAGER->SetplayerHit() == true)
+	if (COLLISIONMANAGER->GetplayerHit() == true)
 	{
 		aniHit = ANIMATIONMANAGER->findAnimation("playerHit");
 		ANIMATIONMANAGER->resume("playerHit");
@@ -614,4 +615,9 @@ void Player::SetPlayerRectY(int num)
 
 	player.playerHitRect.top += num;
 	player.playerHitRect.bottom += num;
+}
+
+void Player::DeleteBullet(int num)
+{
+	vPlayerBullet.erase(vPlayerBullet.begin() + num);
 }

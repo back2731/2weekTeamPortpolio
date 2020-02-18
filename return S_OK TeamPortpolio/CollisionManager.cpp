@@ -6,10 +6,20 @@ CollisionManager::CollisionManager()
 	playerHitAni = false;
 	playerHit = false;
 	hitCount = 0;
+	hitSpike = 0;
 }
 
 CollisionManager::~CollisionManager()
 {
+}
+
+HRESULT CollisionManager::Init()
+{
+	playerHitAni = false;
+	playerHit = false;
+	hitCount = 0;
+	hitSpike = 0;
+	return S_OK;
 }
 
 void CollisionManager::UpdateCollision()
@@ -3433,158 +3443,6 @@ void CollisionManager::EnemyToObstacleCollision(RECT obstacleRect)
 {
 	RECT temp;
 
-	// MinionAttackFly 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.left)
-				{
-					ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectX(j, tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.right)
-				{
-					ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectX(j, -tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.top)
-				{
-					ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectY(j, tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.bottom)
-				{
-					ENEMYMANAGER->GetMinionAttackFly()->SetEnemyRectY(j, -tempH);
-				}
-			}
-		}
-	}
-
-	// MinionBlackFly 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.left)
-				{
-					ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectX(j, tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.right)
-				{
-					ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectX(j, -tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.top)
-				{
-					ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectY(j, tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.bottom)
-				{
-					ENEMYMANAGER->GetMinionBlackFly()->SetEnemyRectY(j, -tempH);
-				}
-			}
-		}
-	}
-
-	// MinionMaw 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionMaw()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.left)
-				{
-					ENEMYMANAGER->GetMinionMaw()->SetEnemyRectX(j, tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.right)
-				{
-					ENEMYMANAGER->GetMinionMaw()->SetEnemyRectX(j, -tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.top)
-				{
-					ENEMYMANAGER->GetMinionMaw()->SetEnemyRectY(j, tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.bottom)
-				{
-					ENEMYMANAGER->GetMinionMaw()->SetEnemyRectY(j, -tempH);
-				}
-			}
-		}
-	}
-
-	// MinionTumor 충돌
-	for (int j = 0; j < ENEMYMANAGER->GetMinionTumor()->GetMinionVector().size(); j++)
-	{
-		if (IntersectRect(&temp, &obstacleRect, &ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect))
-		{
-			// temp의 Width와 Height 선언
-			int tempW = temp.right - temp.left;
-			int tempH = temp.bottom - temp.top;
-
-			if (tempH > tempW)
-			{
-				// 왼쪽 충돌시 오른쪽으로 밀어줌
-				if (temp.left == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.left)
-				{
-					ENEMYMANAGER->GetMinionTumor()->SetEnemyRectX(j, tempW);
-				}
-				// 오른쪽 충돌시 왼쪽으로 밀어줌
-				else if (temp.right == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.right)
-				{
-					ENEMYMANAGER->GetMinionTumor()->SetEnemyRectX(j, -tempW);
-				}
-			}
-			else
-			{
-				// 위쪽 충돌시 아래쪽으로 밀어줌
-				if (temp.top == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.top)
-				{
-					ENEMYMANAGER->GetMinionTumor()->SetEnemyRectY(j, tempH);
-				}
-				// 아래쪽 충돌시 위쪽으로 밀어줌
-				else if (temp.bottom == ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.bottom)
-				{
-					ENEMYMANAGER->GetMinionTumor()->SetEnemyRectY(j, -tempH);
-				}
-			}
-		}
-	}
-
 	// MinionClot 충돌
 	for (int j = 0; j < ENEMYMANAGER->GetMinionClot()->GetMinionVector().size(); j++)
 	{
@@ -3860,6 +3718,50 @@ int CollisionManager::PlayerCollisionNextDoor(RECT nextDoor)
 
 				return direction;
 			}
+		}
+	}
+}
+
+bool CollisionManager::PlayerToPoopCollision(RECT obstacleRect)
+{
+	RECT temp;
+	for (int i = 0; i < PLAYERMANAGER->GetPlayerBulletVector().size() > 0; i++)
+	{
+		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerBulletVector()[i].rect, &obstacleRect))
+		{
+			OBJECTPOOL->SetBulletVector(PLAYERMANAGER->GetPlayerBulletVector()[i]);
+			PLAYERMANAGER->DeleteBullet(i);
+			return true;
+		}
+	}
+	return false;
+}
+
+void CollisionManager::PlayerToSpikesCollision(RECT obstacleRect)
+{
+	RECT temp;
+	if (!playerHit)
+	{
+		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &obstacleRect))
+		{
+			PLAYERMANAGER->SetPlayerHp(-0.5f);
+			playerHitAni = true;
+			playerHit = true;
+		}
+	}
+
+	if (playerHit)
+	{
+		hitSpike++;
+
+		if (hitSpike % PLAYERHITANIMATION == 0)
+		{
+			playerHitAni = false;
+		}
+		if (hitSpike % PLAYERINVINCIBILITYTIME == 0)
+		{
+			playerHit = false;
+			hitSpike = 0;
 		}
 	}
 }

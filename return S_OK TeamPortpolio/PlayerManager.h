@@ -16,6 +16,10 @@ public:
 	void Update();
 	void Render(HDC hdc);
 
+	vector<BulletInfo>& GetPlayerBulletVector() { return  m_Player->GetPlayerBulletVector(); }
+	void DeleteBullet(int num) { m_Player->DeleteBullet(num); }
+
+
 	RECT GetPlayerHeadRect() { return m_Player->GetPlayerHeadRect(); }
 	float GetPlayerHeadRectX() { return m_Player->GetPlayerHeadRectX(); }
 	float GetPlayerHeadRectY() { return m_Player->GetPlayerHeadRectY(); }

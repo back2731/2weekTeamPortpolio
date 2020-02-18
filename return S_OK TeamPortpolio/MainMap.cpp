@@ -113,6 +113,7 @@ void MainMap::update()
 			loadData = resetData;
 			ENEMYMANAGER->Init();
 			PLAYERMANAGER->Init();
+			COLLISIONMANAGER->Init();
 			load(loadData);
 			count = 0;
 		}
@@ -381,6 +382,23 @@ void MainMap::update()
 						_tileMap[i][j].tilePos[z] = { 0 };
 					}
 				}
+
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_POOP100)
+				{
+					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+
+					if (COLLISIONMANAGER->PlayerToPoopCollision(_tileMap[i][j].rect))
+					{
+						_tileMap[i][j].tileNum[z] = 0;
+						_tileMap[i][j].tileKind[z] = TILEKIND_NONE;
+						_tileMap[i][j].tilePos[z] = PointMake(0,0);
+					}
+				}
+
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_SPIKES)
+				{
+					COLLISIONMANAGER->PlayerToSpikesCollision(_tileMap[i][j].rect);
+				}
 			}
 		}
 	}
@@ -630,6 +648,44 @@ void MainMap::render()
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 						HBRUSH brush = CreateSolidBrush(RGB(204, 204, 204));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_POOP100)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(100, 100, 100));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_POOP50)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(130, 130, 130));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_POOP10)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(180, 180, 180));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_FIREPLACE)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(200, 200, 200));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_SPIKES)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(230, 0, 150));
 						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 						DeleteObject(brush);
 					}
@@ -990,8 +1046,66 @@ void MainMap::DrawTileMap()
 							break;
 						}
 						break;
-					}
+					case TILEKIND_POOP100:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
 
+					case TILEKIND_POOP50:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+
+					case TILEKIND_POOP10:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+
+					case TILEKIND_FIREPLACE:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+
+					case TILEKIND_SPIKES:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+					}
 				}
 			}
 

@@ -147,7 +147,8 @@ public:
 	void SetPlayerRectX(int num);
 	void SetPlayerRectY(int num);
 
-	vector<BulletInfo> GetPlayerBulletVector() { return vPlayerBullet; }
+	vector<BulletInfo>& GetPlayerBulletVector() { return vPlayerBullet; }
+	void DeleteBullet(int num);
 
 	int GetPlayerOffensePower() { return player.playerOffensePower; }
 	void SetPlayerOffensePower(int addPower) { player.playerOffensePower += addPower; }

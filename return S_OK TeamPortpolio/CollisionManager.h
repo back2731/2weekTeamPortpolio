@@ -9,6 +9,7 @@ class CollisionManager : public singletonBase<CollisionManager>
 private:
 	int direction;
 	int hitCount;
+	int hitSpike;
 
 	bool playerHit;
 	bool playerHitAni;
@@ -16,6 +17,8 @@ private:
 public:
 	CollisionManager();
 	~CollisionManager();
+
+	HRESULT Init();
 
 	// 충돌 업데이트
 	void UpdateCollision();
@@ -42,5 +45,9 @@ public:
 
 	int PlayerCollisionNextDoor(RECT nextDoor);
 
-	bool SetplayerHit() { return playerHitAni; }
+	bool GetplayerHit() { return playerHitAni; }
+
+	bool PlayerToPoopCollision(RECT obstacleRect);
+
+	void PlayerToSpikesCollision(RECT obstacleRect);
 };

@@ -301,10 +301,40 @@ void MapToolScene::render()
 						DeleteObject(brush);
 					}
 
-					if (_tileMap[i][j].tileKind[z] == TILEKIND_CRACKEDITEMBOXCLOSE)
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_POOP100)
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
-						HBRUSH brush = CreateSolidBrush(RGB(204, 204, 204));
+						HBRUSH brush = CreateSolidBrush(RGB(100, 100, 100));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_POOP50)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(130, 130, 130));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_POOP10)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(180, 180, 180));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_FIREPLACE)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(200, 200, 200));
+						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
+						DeleteObject(brush);
+					}
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_SPIKES)
+					{
+						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
+						HBRUSH brush = CreateSolidBrush(RGB(230, 0, 150));
 						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 						DeleteObject(brush);
 					}
@@ -627,6 +657,66 @@ void MapToolScene::DrawTileMap()
 							break;
 						}
 						break;
+
+					case TILEKIND_POOP100:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+
+					case TILEKIND_POOP50:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+
+					case TILEKIND_POOP10:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+
+					case TILEKIND_FIREPLACE:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
+
+					case TILEKIND_SPIKES:
+						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
+						{
+							IMAGEMANAGER->frameRender("blocks", getMemDC(),
+								_tileMap[i][j].left,
+								_tileMap[i][j].top - _tileMap[i][j].height * z,
+								_tileMap[i][j].tilePos[z].x,
+								_tileMap[i][j].tilePos[z].y);
+							break;
+						}
+						break;
 					}
 				}
 			}
@@ -723,6 +813,11 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 	case TILEKIND_CRACKEDITEMBOXCLOSE:
 	case TILEKIND_LOCKED_DOOR:
 	case TILEKIND_USEDKEY_DOOR:
+	case TILEKIND_POOP100:
+	case TILEKIND_POOP50:
+	case TILEKIND_POOP10:
+	case TILEKIND_FIREPLACE:
+	case TILEKIND_SPIKES:
 		imageFrame = SUBWIN->GetFramePoint();
 		break;
 	}
@@ -869,6 +964,26 @@ TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 		if (frameY == 5)
 		{
 			return TILEKIND_INVISIBLE_BLOCK;
+		}
+		if (frameY == 6 && frameX == 0)
+		{
+			return TILEKIND_POOP100;
+		}
+		if (frameY == 6 && frameX == 1)
+		{
+			return TILEKIND_POOP50;
+		}
+		if (frameY == 6 && frameX == 2)
+		{
+			return TILEKIND_POOP10;
+		}
+		if (frameY == 6 && frameX >= 3 && frameX <= 5)
+		{
+			return TILEKIND_FIREPLACE;
+		}
+		if (frameY == 6 && frameX >= 6)
+		{
+			return TILEKIND_SPIKES;
 		}
 	}
 	if (SUBWIN->GetFrameIndex() == CTRL_NUM3)

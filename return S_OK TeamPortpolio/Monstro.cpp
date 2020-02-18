@@ -131,7 +131,7 @@ void Monstro::EnemyDeath()
 				ANIMATIONMANAGER->resume("bossDeath");
 
 			}
-			else if (deathCount >= 180 && deathCount < 225)
+			else if (deathCount >= 180 && deathCount < 224)
 			{
 				deathAni = false;
 
