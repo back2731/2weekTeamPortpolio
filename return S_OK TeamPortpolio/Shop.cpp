@@ -30,9 +30,6 @@ HRESULT Shop::Init()
 	vShopCard = ITEMMANAGER->GetCardInfo();
 	vShopPill = ITEMMANAGER->GetPillInfo();
 
-	//   vShopAllItem = ITEMMANAGER->GetAllItemInfo();
-
-
 	for (int i = 0; i < 3; i++)
 	{
 		vShopAllItem.push_back(ITEMMANAGER->GetAllItemInfo(i));
@@ -88,7 +85,8 @@ void Shop::Render(HDC hdc)
 	if (!ITEMMANAGER->GetShop())
 	{
 		for (int i = 0; i < vShopAllItem.size(); i++)
-		{//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
+		{
+			//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
 			vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
 			//IMAGEMANAGER->render(vShopAllItem[i].itemName, hdc, itemRect[i].left, itemRect[i].top);
 			if (vShopAllItem[i].price == 5)
@@ -108,7 +106,7 @@ void Shop::Render(HDC hdc)
 			if (KEYMANAGER->isToggleKey(VK_TAB))
 			{
 				//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
-				vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
+				//vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
 				//IMAGEMANAGER->render(vShopAllItem[i].itemName, hdc, itemRect[i].left, itemRect[i].top);
 
 				if (KEYMANAGER->isToggleKey(VK_TAB))

@@ -59,7 +59,7 @@ void EnemyManager::Update()
 	else if (isCheckClear && isSummonEnemy)
 	{
 		// 일반방에 들어오면 case에 따라서 랜덤으로 몬스터를 소환해준다.
-		switch (RND->getInt(1))
+		switch (RND->getInt(10))
 		{
 			case 0:
 			{

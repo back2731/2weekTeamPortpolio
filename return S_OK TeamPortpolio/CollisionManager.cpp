@@ -86,18 +86,8 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 							break;
 						}
 
-<<<<<<< HEAD
-					// 적 에너미의 HP 정보를 받아와 플레이어의 공격력만큼 HP를 감소시킨다
-					ENEMYMANAGER->GetMonstro()->SetEnemyHp(j, ENEMYMANAGER->GetMonstro()->GetEnemyHp(j) - PLAYERMANAGER->GetPlayerOffensePower());
-
-					if (ENEMYMANAGER->GetMonstro()->GetEnemyHp(j) <= 0)
-					{
-						// 피격이 된 적의 벡터를 지우는 함수
-						//ENEMYMANAGER->GetMonstro()->DeleteEnemy(j);
-=======
 						// 체력 이미지를 깎아준다.
 						ENEMYMANAGER->GetMonstro()->hitDamage(PLAYERMANAGER->GetPlayerOffensePower());
->>>>>>> dev
 					}
 					else
 					{

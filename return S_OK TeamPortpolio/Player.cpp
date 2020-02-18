@@ -38,7 +38,7 @@ HRESULT Player::Init(string imageName)
 	player.playerSlideSpeed = 2.0f;																// 슬라이딩 속도
 
 	player.playerMaxHp = 100.0f;
-	player.playerHp = 100.0f;
+	player.playerHp = 2.0f;
 	player.playerGold = 44;
 	player.playerBomb = 1;
 	player.playerKey = 0;
@@ -122,76 +122,64 @@ void Player::Render(HDC hdc)
 			player.playerHeadImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
 		}
 
+
 		BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
 
-<<<<<<< HEAD
-	if (KEYMANAGER->isToggleKey(VK_F3))
-	{
-=======
->>>>>>> dev
-		sprintf_s((str), "Maxhp : %f", player.playerMaxHp);
-		TextOut(hdc, 0, 80, str, strlen(str));
-
-		sprintf_s((str), "hp : %f", player.playerHp);
-		TextOut(hdc, 0, 100, str, strlen(str));
-
-		sprintf_s((str), "gold : %d", player.playerGold);
-		TextOut(hdc, 0, 120, str, strlen(str));
-
-		sprintf_s((str), "bomb : %d", player.playerBomb);
-		TextOut(hdc, 0, 140, str, strlen(str));
-
-		sprintf_s((str), "playerKey : %d", player.playerKey);
-		TextOut(hdc, 0, 160, str, strlen(str));
-
-		sprintf_s((str), "playerOffensePower : %d", player.playerOffensePower);
-		TextOut(hdc, 0, 180, str, strlen(str));
-
-		sprintf_s((str), "playerShotSpeed : %f", player.playerShotSpeed);
-		TextOut(hdc, 0, 200, str, strlen(str));
-
-		sprintf_s((str), "playerShotRange : %f", player.playerShotRange);
-		TextOut(hdc, 0, 220, str, strlen(str));
-
-		sprintf_s((str), "playerShotDelay : %f", player.playerShotDelay);
-		TextOut(hdc, 0, 240, str, strlen(str));
-
-		sprintf_s((str), "playerSpeed : %f", player.playerSpeed);
-		TextOut(hdc, 0, 260, str, strlen(str));
-
-		sprintf_s((str), "playerSlideSpeed : %f", player.playerSlideSpeed);
-		TextOut(hdc, 0, 280, str, strlen(str));
-
-		sprintf_s((str), "Item : %d", vPlayerAllItem.size());
-		TextOut(hdc, 0, 300, str, strlen(str));
-<<<<<<< HEAD
-	}
-
-	// 먹은 아이템 표기
-	if (vPlayerAllItem.size() > 0)
-	{
-		int j = 0;
-		int k = 0;
-		for (int i = 0; i < vPlayerAllItem.size(); i++)
+		if (KEYMANAGER->isToggleKey(VK_F3))
 		{
-			if (i % 2 == 0 && i != 0)
-			{
-				k = 0;
-				j++;
-			}
-			vPlayerAllItem[i].itemRect = RectMakeCenter(780 + 60 * k, 180 + 60 * j, 52, 52);
-			//Rectangle(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, vPlayerAllItem[i].itemRect.right, vPlayerAllItem[i].itemRect.bottom);
-			vPlayerAllItem[i].itemImage->alphaRender(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, 200);
-			k++;
-=======
+			sprintf_s((str), "Maxhp : %f", player.playerMaxHp);
+			TextOut(hdc, 0, 80, str, strlen(str));
 
+			sprintf_s((str), "hp : %f", player.playerHp);
+			TextOut(hdc, 0, 100, str, strlen(str));
+
+			sprintf_s((str), "gold : %d", player.playerGold);
+			TextOut(hdc, 0, 120, str, strlen(str));
+
+			sprintf_s((str), "bomb : %d", player.playerBomb);
+			TextOut(hdc, 0, 140, str, strlen(str));
+
+			sprintf_s((str), "playerKey : %d", player.playerKey);
+			TextOut(hdc, 0, 160, str, strlen(str));
+
+			sprintf_s((str), "playerOffensePower : %d", player.playerOffensePower);
+			TextOut(hdc, 0, 180, str, strlen(str));
+
+			sprintf_s((str), "playerShotSpeed : %f", player.playerShotSpeed);
+			TextOut(hdc, 0, 200, str, strlen(str));
+
+			sprintf_s((str), "playerShotRange : %f", player.playerShotRange);
+			TextOut(hdc, 0, 220, str, strlen(str));
+
+			sprintf_s((str), "playerShotDelay : %f", player.playerShotDelay);
+			TextOut(hdc, 0, 240, str, strlen(str));
+
+			sprintf_s((str), "playerSpeed : %f", player.playerSpeed);
+			TextOut(hdc, 0, 260, str, strlen(str));
+
+			sprintf_s((str), "playerSlideSpeed : %f", player.playerSlideSpeed);
+			TextOut(hdc, 0, 280, str, strlen(str));
+
+			sprintf_s((str), "Item : %d", vPlayerAllItem.size());
+			TextOut(hdc, 0, 300, str, strlen(str));
+		}
+
+		// 먹은 아이템 표기
 		if (vPlayerAllItem.size() > 0)
 		{
+			int j = 0;
+			int k = 0;
 			for (int i = 0; i < vPlayerAllItem.size(); i++)
 			{
-				vPlayerAllItem[i].itemRect = RectMakeCenter(WINSIZEX / 2 + 100 * i, WINSIZEY / 2, 52, 52);
-				Rectangle(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, vPlayerAllItem[i].itemRect.right, vPlayerAllItem[i].itemRect.bottom);
-				vPlayerAllItem[i].itemImage->render(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top);
+				if (i % 2 == 0 && i != 0)
+				{
+					k = 0;
+					j++;
+				}
+				vPlayerAllItem[i].itemRect = RectMakeCenter(780 + 60 * k, 180 + 60 * j, 52, 52);
+				//Rectangle(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, vPlayerAllItem[i].itemRect.right, vPlayerAllItem[i].itemRect.bottom);
+				vPlayerAllItem[i].itemImage->alphaRender(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, 200);
+				k++;
 			}
 		}
 	}
@@ -208,7 +196,7 @@ void Player::PlayerDeath()
 		playerDeathCount++;
 		playerDeath = true;
 
-		if (playerDeathCount < 168)
+		if (playerDeathCount < 165)
 		{
 			player.playerBodyImage = IMAGEMANAGER->addFrameImage("PlayerDeath", "images/player/playerDeath.bmp", 1935, 1568, 15, 4, true, RGB(255, 0, 255));
 			ANIMATIONMANAGER->addAnimation("playerDeath", "PlayerDeath", 0, 56, 20, false, true);
@@ -218,7 +206,6 @@ void Player::PlayerDeath()
 		else
 		{
 			ANIMATIONMANAGER->pause("playerDeath");
->>>>>>> dev
 		}
 	}
 }

@@ -49,16 +49,12 @@ private:
 
 	vector<BulletInfo> vPlayerBullet;
 	vector<BulletInfo>::iterator viPlayerBullet;
-<<<<<<< HEAD
 
 	vector<BombInfo> vPlayerBomb;
 	vector<BombInfo>::iterator viPlayerBomb;
 
 	int playerBulletCount;         // 플레이어 불렛 카운트
-=======
-	int playerBulletCount;			// 플레이어 불렛 카운트
 	int playerDeathCount;			// 플레이어 사망 카운트
->>>>>>> dev
 
 	// 애니메이션을 돌리기 위한 배열
 	int arrHeadIdle[1] = { 0 };

@@ -111,8 +111,8 @@ void MainMap::update()
 		{
 			resetData = RND->getInt(10);
 			loadData = resetData;
-		/*	ENEMYMANAGER->Init();
-			PLAYERMANAGER->Init();*/
+			ENEMYMANAGER->Init();
+			PLAYERMANAGER->Init();
 			load(loadData);
 			count = 0;
 		}
@@ -146,7 +146,6 @@ void MainMap::update()
 			{
 				isSummonEnemy[2][1] = true;
 				isShop[2][1] = false;
-				ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[1][2]);
 				ITEMMANAGER->SetShop(isShop[2][1]);
 			}
 			if (isShop[2][1] == false)
@@ -155,14 +154,12 @@ void MainMap::update()
 				{
 					isSummonEnemy[2][1] = true;
 					isShop[2][1] = false;			
-					ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[1][2]);
 					ITEMMANAGER->SetShop(isShop[2][1]);
 				}
 				else
 				{
 					isSummonEnemy[2][1] = true;
 					isShop[2][1] = true;			
-					ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[1][2]);
 					ITEMMANAGER->SetShop(isShop[2][1]);
 				}
 			}
