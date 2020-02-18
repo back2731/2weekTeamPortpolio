@@ -97,6 +97,7 @@ void Player::Update()
 
 void Player::Render(HDC hdc)
 {
+	BULLETMANAGER->RenderBomb(hdc, vPlayerBomb, viPlayerBomb);
 	if (KEYMANAGER->isToggleKey(VK_F1))
 	{
 		//Rectangle(hdc, player.playerHeadRect.left, player.playerHeadRect.top, player.playerHeadRect.right, player.playerHeadRect.bottom);
@@ -124,6 +125,7 @@ void Player::Render(HDC hdc)
 
 
 		BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
+
 
 		if (KEYMANAGER->isToggleKey(VK_F3))
 		{
@@ -427,7 +429,22 @@ void Player::PlayerShot()
 		aniHead = ANIMATIONMANAGER->findAnimation("shotDown");
 		ANIMATIONMANAGER->stop("shotDown");
 	}
+	if (KEYMANAGER->isOnceKeyDown('E'))
+	{
+		//string imageName, vector<BombInfo>& bombVector, int x, int y, int damage, int range, int delayTime
+		BULLETMANAGER->ShootBomb("playerBomb", vPlayerBomb,
+			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2 + 780,
+			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2 + 385,
+			1, 500, 3);
 
+		//폭탄 애니메이션
+		ANIMATIONMANAGER->findAnimation("playerBomb");
+		ANIMATIONMANAGER->start("playerBomb");
+
+
+	}
+	//폭탄 삭제
+	BULLETMANAGER->RemoveBomb(vPlayerBomb, viPlayerBomb);
 	PlayerShotMove();	//플레이어 공격 방향
 }
 

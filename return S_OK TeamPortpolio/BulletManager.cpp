@@ -16,7 +16,13 @@ HRESULT BulletManager::Init()
 	IMAGEMANAGER->addImage("enemyBullet", "images/bullet/enemyBullet.bmp", 18 * 2, 18 * 2, true, RGB(255, 0, 255));
 
 	// 폭탄 이미지 추가
-	IMAGEMANAGER->addFrameImage("playerBomb", "image/bullet/playerbomb.bmp", 32 * 2, 32 * 2, 1, 1, true, RGB(255, 0, 255));
+	bombImage = IMAGEMANAGER->addFrameImage("playerBomb", "images/bullet/bombPulse.bmp", 1730, 1002, 10, 6, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("playerBomb", "playerBomb", 30, false, false);
+	bomb = ANIMATIONMANAGER->findAnimation("playerBomb");
+	ANIMATIONMANAGER->start("playerBomb");
+
+	IMAGEMANAGER->addFrameImage("boom", "images/bullet/boom.bmp", 3610 / 4, 2332 / 4, 5, 4, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addDefAnimation("boomAni", "boom", 30, false, false);
 
 	return S_OK;
 }
@@ -74,6 +80,7 @@ void BulletManager::ShootBomb(string imageName, vector<BombInfo>& bombVector, in
 		bomb.delayTime = delayTime;
 		bomb.rect = RectMakeCenter(bomb.bombX, bomb.bombY, bomb.bombImage->getWidth(), bomb.bombImage->getHeight());
 		bombVector.push_back(bomb);
+		//PLAYERMANAGER->SetPlayerBomb(-1);
 	}
 }
 
@@ -103,6 +110,23 @@ void BulletManager::MoveBullet(vector<BulletInfo>& bulletVector, vector<BulletIn
 	}
 }
 
+void BulletManager::RemoveBomb(vector<BombInfo>& bombVector, vector<BombInfo>::iterator & bombIter)
+{
+	for (bombIter = bombVector.begin(); bombIter != bombVector.end();)
+	{
+		bombIter->delayTime++;
+		if (bombIter->delayTime > 110)
+		{
+			OBJECTPOOL->SetBombVector(bombVector.front());
+			bombIter = bombVector.erase(bombIter);
+		}
+		else
+		{
+			++bombIter;
+		}
+	}
+}
+
 void BulletManager::RenderBullet(HDC hdc, vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator & bulletIter)
 {
 	//이터레이터를 돌면서 총알을 그려준다.
@@ -116,5 +140,17 @@ void BulletManager::RenderBullet(HDC hdc, vector<BulletInfo>& bulletVector, vect
 		}
 
 		bulletIter->bulletImage->render(hdc, bulletIter->rect.left - 6, bulletIter->rect.top - 6);
+	}
+}
+
+void BulletManager::RenderBomb(HDC hdc, vector<BombInfo>& bombVector, vector<BombInfo>::iterator & bombIter)
+{
+	//이터레이터를 돌면서 폭탄을 그려준다.
+	bombIter = bombVector.begin();
+
+	for (bombIter; bombIter != bombVector.end(); ++bombIter)
+	{
+		bombIter->bombImage->aniRender(hdc, bombIter->rect.left, bombIter->rect.top, bomb);
+		//bombIter->bombImage->render(hdc, bombIter->rect.left, bombIter->rect.top);
 	}
 }
