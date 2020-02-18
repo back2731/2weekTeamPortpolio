@@ -11,6 +11,9 @@ Monstro::~Monstro()
 
 HRESULT Monstro::Init(POINT position)
 {
+	// Hit Effect
+	EFFECTMANAGER->addEffect("blood", "images/monster/boss/bloodLarge.bmp", 2532 / 1.5, 202 / 1.5, 211 / 1.5, 202 / 1.5, 1, 0.3f, 30);
+
 	// HP ProgressBar
 	PROGRESSMANAGER->init("images/UI/ingameUI/bossHP.bmp", "images/UI/ingameUI/bossHpBar.bmp", WINSIZEX / 2 - 129, 30, 129 * 2, 18 * 2);
 	PROGRESSMANAGER->setGauge(currentHP, maxHP);
@@ -130,6 +133,12 @@ void Monstro::EnemyDeath()
 				bossAni = ANIMATIONMANAGER->findAnimation("bossDeath");
 				ANIMATIONMANAGER->resume("bossDeath");
 
+				// ÇÇ°Ý ÀÌÆåÆ®
+				if (deathCount % 10 == 0)
+				{
+					EFFECTMANAGER->play("blood", RND->getFromIntTo(vMonstro[i].enemyRect.left - 50, vMonstro[i].enemyRect.right + 50),
+						RND->getFromIntTo(vMonstro[i].enemyRect.top - 50, vMonstro[i].enemyRect.bottom));
+				}
 			}
 			else if (deathCount >= 180 && deathCount < 224)
 			{

@@ -50,4 +50,5 @@ public:
 	bool PlayerToPoopCollision(RECT obstacleRect);
 
 	void PlayerToSpikesCollision(RECT obstacleRect);
+
 };

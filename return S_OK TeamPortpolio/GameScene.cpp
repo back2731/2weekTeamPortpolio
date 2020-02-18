@@ -45,6 +45,7 @@ void GameScene::update()
 
 	COLLISIONMANAGER->UpdateCollision();
 	ANIMATIONMANAGER->update();
+	EFFECTMANAGER->update();
 
 	if (KEYMANAGER->isOnceKeyDown('P'))
 	{
@@ -57,6 +58,7 @@ void GameScene::render()
 	mainMap->render();
 	m_shop->Render(getMemDC());
 	ENEMYMANAGER->Render(getMemDC());
+	EFFECTMANAGER->render();
 	PLAYERMANAGER->Render(getMemDC());
 	OBJECTPOOL->Render(getMemDC());
 }
