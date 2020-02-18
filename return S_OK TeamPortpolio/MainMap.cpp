@@ -63,16 +63,36 @@ HRESULT MainMap::init()
 				isGoldRoom[i][j] = false;
 			}
 		}
-		isBoss[1][2] = true;
-		isShop[2][1] = true;
-		isGoldRoom[2][3] = true;
+		isBoss[4][4] = true;
+		isShop[0][0] = true;
+		isGoldRoom[2][0] = true;
 
 		// 초기시작위치에서 적이 소환되지 않게 해주는 부분
 		isSummonEnemy[2][2] = true;
 	}
 	break;
 	case 1:
-		break;
+	{
+		for (int i = 0; i < ROOM_MAX_X; i++)
+		{
+			for (int j = 0; j < ROOM_MAX_Y; j++)
+			{
+				isCheckClear[i][j] = false;
+				isSummonEnemy[i][j] = false;
+
+				isBoss[i][j] = false;
+				isShop[i][j] = false;
+				isGoldRoom[i][j] = false;
+			}
+		}
+		isBoss[1][0] = true;
+		isShop[0][2] = true;
+		isGoldRoom[4][4] = true;
+
+		// 초기시작위치에서 적이 소환되지 않게 해주는 부분
+		isSummonEnemy[2][2] = true;
+	}
+	break;
 	case 2:
 		break;
 	case 3:
@@ -107,7 +127,7 @@ void MainMap::update()
 	if (KEYMANAGER->isStayKeyDown('U'))
 	{
 		count++;
-		if (count == 60)
+		if (count == 30)
 		{
 			resetData = RND->getInt(10);
 			loadData = resetData;
@@ -143,25 +163,51 @@ void MainMap::update()
 	case 0:
 	{
 		// 상점방에 입장 했을 시의 bool값
-		if (isCheckClear[2][1] == true && isShop[2][1] == true)
+		if (isCheckClear[0][0] == true && isShop[0][0] == true)
 		{
-			isSummonEnemy[2][1] = true;
-			isShop[2][1] = false;
-			ITEMMANAGER->SetShop(isShop[2][1]);
+			isSummonEnemy[0][0] = true;
+			isShop[0][0] = false;
+			ITEMMANAGER->SetShop(isShop[0][0]);
 		}
-		if (isShop[2][1] == false)
+		if (isShop[0][0] == false)
 		{
-			if (savePositionX == (1 * -884) && savePositionY == (2 * -572))
+			if (savePositionX == (0 * -884) && savePositionY == (0 * -572))
 			{
-				isSummonEnemy[2][1] = true;
-				isShop[2][1] = false;
-				ITEMMANAGER->SetShop(isShop[2][1]);
+				isSummonEnemy[0][0] = true;
+				isShop[0][0] = false;
+				ITEMMANAGER->SetShop(isShop[0][0]);
 			}
 			else
 			{
-				isSummonEnemy[2][1] = true;
-				isShop[2][1] = true;
-				ITEMMANAGER->SetShop(isShop[2][1]);
+				isSummonEnemy[0][0] = true;
+				isShop[0][0] = true;
+				ITEMMANAGER->SetShop(isShop[0][0]);
+			}
+		}
+	}
+	break;
+	case 1:
+	{
+		// 상점방에 입장 했을 시의 bool값
+		if (isCheckClear[0][2] == true && isShop[0][2] == true)
+		{
+			isSummonEnemy[0][2] = true;
+			isShop[0][2] = false;
+			ITEMMANAGER->SetShop(isShop[0][2]);
+		}
+		if (isShop[0][2] == false)
+		{
+			if (savePositionX == (2 * -884) && savePositionY == (0 * -572))
+			{
+				isSummonEnemy[0][2] = true;
+				isShop[0][2] = false;
+				ITEMMANAGER->SetShop(isShop[0][2]);
+			}
+			else
+			{
+				isSummonEnemy[0][2] = true;
+				isShop[0][2] = true;
+				ITEMMANAGER->SetShop(isShop[0][2]);
 			}
 		}
 	}
@@ -174,24 +220,38 @@ void MainMap::update()
 	case 0:
 	{
 		// 보스방에 입장 했을 시의 bool값
-		if (isCheckClear[1][2] == true && isBoss[1][2] == true && isSummonEnemy[1][2] == false)
+		if (isCheckClear[4][4] == true && isBoss[4][4] == true && isSummonEnemy[4][4] == false)
 		{
 			SOUNDMANAGER->stop("BGM");
 			SOUNDMANAGER->play("BossBGM", 1.0f);
-			isBoss[1][2] = false;
-			isSummonEnemy[1][2] = true;
-			ENEMYMANAGER->SetBoss(isBoss[1][2]);
-			ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[1][2]);
+			isBoss[4][4] = false;
+			isSummonEnemy[4][4] = true;
+			ENEMYMANAGER->SetBoss(isBoss[4][4]);
+			ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[4][4]);
+		}
+	}
+	break;
+	case 1:
+	{
+		// 보스방에 입장 했을 시의 bool값
+		if (isCheckClear[1][0] == true && isBoss[1][0] == true && isSummonEnemy[1][0] == false)
+		{
+			SOUNDMANAGER->stop("BGM");
+			SOUNDMANAGER->play("BossBGM", 1.0f);
+			isBoss[1][0] = false;
+			isSummonEnemy[1][0] = true;
+			ENEMYMANAGER->SetBoss(isBoss[1][0]);
+			ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[1][0]);
 		}
 	}
 	break;
 	}
 
 	// 일반방에 입장 했을 때
-	switch (loadData)
-	{
-	case 0:
-	{
+	//switch (loadData)
+	//{
+	//case 0:
+	//{
 		for (int i = 0; i < ROOM_MAX_X; i++)
 		{
 			for (int j = 0; j < ROOM_MAX_Y; j++)
@@ -205,9 +265,26 @@ void MainMap::update()
 				}
 			}
 		}
-	}
-	break;
-	}
+	//}
+	//break;
+	//case 1:
+	//{
+	//	for (int i = 0; i < ROOM_MAX_X; i++)
+	//	{
+	//		for (int j = 0; j < ROOM_MAX_Y; j++)
+	//		{
+	//			// isCheckClear -> 방에 입장했다면 true / isSummonEnemy -> 몬스터를 소환한 적이 없다면 false / 보스방이아니라면 false / 상점이 아니라면 false / 황금방이 아니라면 false
+	//			if (isCheckClear[i][j] == true && isSummonEnemy[i][j] == false && isBoss[i][j] == false && isShop[i][j] == false && isGoldRoom[i][j] == false)
+	//			{
+	//				// 몬스터를 소환했다면 true
+	//				isSummonEnemy[i][j] = true;
+	//				ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[i][j]);
+	//			}
+	//		}
+	//	}
+	//}
+	//break;
+	//}
 
 	// 충돌처리
 	for (int i = 0; i < TILE_COUNT_X; i++)
@@ -393,13 +470,8 @@ void MainMap::update()
 					{
 						_tileMap[i][j].tileNum[z] = 0;
 						_tileMap[i][j].tileKind[z] = TILEKIND_NONE;
-						_tileMap[i][j].tilePos[z] = PointMake(0,0);
+						_tileMap[i][j].tilePos[z] = PointMake(0, 0);
 					}
-				}
-
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_SPIKES)
-				{
-					COLLISIONMANAGER->PlayerToSpikesCollision(_tileMap[i][j].rect);
 				}
 			}
 		}
@@ -725,7 +797,7 @@ void MainMap::render()
 	}
 
 
-	sprintf_s((str), "isShop : %d", isShop[2][1]);
+	sprintf_s((str), "isShop : %d", isShop[0][0]);
 	TextOut(getMemDC(), 400, 100, str, strlen(str));
 
 

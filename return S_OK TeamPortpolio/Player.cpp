@@ -38,11 +38,11 @@ HRESULT Player::Init(string imageName)
 	player.playerSpeed = 3.0f;																	// 이동속도
 	player.playerSlideSpeed = 2.0f;																// 슬라이딩 속도
 
-	player.playerMaxHp = 3.0f;
-	player.playerHp = 2.0f;
+	player.playerMaxHp = 5.0f;
+	player.playerHp = 5.0f;
 	player.playerGold = 44;
 	player.playerBomb = 1;
-	player.playerKey = 0;
+	player.playerKey = 1;
 
 	// 플레이어 무브 변수 초기화
 	isLeft = false;

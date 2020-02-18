@@ -37,9 +37,9 @@ HRESULT Shop::Init()
 
 	for (int i = 0; i < 3; i++)
 	{
-		itemRect[i] = { 316 + i * 100, 330, 368 + i * 100, 382 };
+		itemRect[i] = { 315 + i * 105, 270, 363 + i * 105, 318 };
 		vShopAllItem[i].itemRect = itemRect[i];
-		itemPriceRect[i] = { 316 + i * 100, 382, 368 + i * 100, 434 };
+		itemPriceRect[i] = { 315 + i * 105, 360, 363 + i * 105, 390 };
 		vShopAllItem[i].itemPriceRect = itemPriceRect[i];
 	}
 

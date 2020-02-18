@@ -48,7 +48,5 @@ public:
 	bool GetplayerHit() { return playerHitAni; }
 
 	bool PlayerToPoopCollision(RECT obstacleRect);
-
-	void PlayerToSpikesCollision(RECT obstacleRect);
-
 };
+
