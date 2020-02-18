@@ -29,15 +29,16 @@ HRESULT Player::Init(string imageName)
 	// 플레이어 정보
 	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 23 * 2);			// 머리 상자
 	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 30, 32 * 2, 11 * 2);	// 몸 상자
-	player.playerOffensePower = 100;																// 공격력
+	player.playerOffensePower = 50;																// 공격력
 	player.playerShotSpeed = 8.0f;																// 공격속도
 	player.playerShotRange = 450.0f;															// 공격사거리
 	playerBulletCount = 0;																		// 불렛 카운트
+	playerDeathCount = 0;																		// 사망 카운트
 	player.playerShotDelay = 25;																// 공격주기
 	player.playerSpeed = 3.0f;																	// 이동속도
 	player.playerSlideSpeed = 2.0f;																// 슬라이딩 속도
 
-	player.playerMaxHp = 100.0f;
+	player.playerMaxHp = 3.0f;
 	player.playerHp = 2.0f;
 	player.playerGold = 44;
 	player.playerBomb = 1;
@@ -66,14 +67,12 @@ HRESULT Player::Init(string imageName)
 	vPlayerActiveItem = ITEMMANAGER->GetActiveItemInfo();
 	vPlayerPassiveItem = ITEMMANAGER->GetPassiveItemInfo();
 	vPlayerTrinkets = ITEMMANAGER->GetTrinketsInfo();
-
 	vPlayerHeart = ITEMMANAGER->GetHeartInfo();
-
-//	vPlayerBomb = ITEMMANAGER->GetBombInfo();
+	//vPlayerBomb = ITEMMANAGER->GetBombInfo();
 	vPlayerKey = ITEMMANAGER->GetKeyInfo();
-
 	vPlayerCard = ITEMMANAGER->GetCardInfo();
 	vPlayerPill = ITEMMANAGER->GetPillInfo();
+
 	return S_OK;
 }
 
@@ -110,18 +109,17 @@ void Player::Render(HDC hdc)
 
 	if (!playerDeath)
 	{
-		if (COLLISIONMANAGER->SetplayerHit() == true)
+		if (COLLISIONMANAGER->GetplayerHit() == true)
 		{
 			player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
 			player.playerHitImage->aniRender(hdc, player.playerBodyRect.left - 3, player.playerBodyRect.top - 63, aniHit);
 		}
-		else if (COLLISIONMANAGER->SetplayerHit() == false)
+		else if (COLLISIONMANAGER->GetplayerHit() == false)
 		{
 			player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
 			player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 20, aniBody);
 			player.playerHeadImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
 		}
-
 
 		BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
 
@@ -196,7 +194,7 @@ void Player::PlayerDeath()
 		playerDeathCount++;
 		playerDeath = true;
 
-		if (playerDeathCount < 165)
+		if (playerDeathCount < 167)
 		{
 			player.playerBodyImage = IMAGEMANAGER->addFrameImage("PlayerDeath", "images/player/playerDeath.bmp", 1935, 1568, 15, 4, true, RGB(255, 0, 255));
 			ANIMATIONMANAGER->addAnimation("playerDeath", "PlayerDeath", 0, 56, 20, false, true);
@@ -494,7 +492,7 @@ void Player::PlayerShotMove()
 
 void Player::PlayerAnimation()
 {
-	if (COLLISIONMANAGER->SetplayerHit() == true)
+	if (COLLISIONMANAGER->GetplayerHit() == true)
 	{
 		aniHit = ANIMATIONMANAGER->findAnimation("playerHit");
 		ANIMATIONMANAGER->resume("playerHit");

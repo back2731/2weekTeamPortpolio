@@ -42,5 +42,5 @@ public:
 
 	int PlayerCollisionNextDoor(RECT nextDoor);
 
-	bool SetplayerHit() { return playerHitAni; }
+	bool GetplayerHit() { return playerHitAni; }
 };
