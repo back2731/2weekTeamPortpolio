@@ -6,7 +6,6 @@ CollisionManager::CollisionManager()
 	playerHitAni = false;
 	playerHit = false;
 	hitCount = 0;
-	hitSpike = 0;
 }
 
 CollisionManager::~CollisionManager()
@@ -18,7 +17,7 @@ HRESULT CollisionManager::Init()
 	playerHitAni = false;
 	playerHit = false;
 	hitCount = 0;
-	hitSpike = 0;
+
 	return S_OK;
 }
 
@@ -3780,4 +3779,3 @@ bool CollisionManager::PlayerToPoopCollision(RECT obstacleRect)
 	}
 	return false;
 }
-

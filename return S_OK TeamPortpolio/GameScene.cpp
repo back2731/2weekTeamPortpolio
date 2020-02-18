@@ -24,8 +24,8 @@ HRESULT GameScene::init()
 	m_shop->Init();
 
 	// 플레이어, 에네미 메니저 초기화.
-	PLAYERMANAGER->Init();
 	ENEMYMANAGER->Init();
+	PLAYERMANAGER->Init();
 
 	return S_OK;
 }

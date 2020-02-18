@@ -134,6 +134,8 @@ void MainMap::update()
 			ENEMYMANAGER->Init();
 			PLAYERMANAGER->Init();
 			COLLISIONMANAGER->Init();
+			currentX = INIT_X;
+			currentY = INIT_Y;
 			load(loadData);
 			count = 0;
 		}

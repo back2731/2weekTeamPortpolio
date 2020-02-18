@@ -9,7 +9,7 @@ Player::~Player()
 {
 }
 
-HRESULT Player::Init(string imageName)
+HRESULT Player::Init()
 {
 	// 플레이어 그림자
 	player.playerShadowImage = IMAGEMANAGER->addImage("shadow", "images/player/playerShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
@@ -32,11 +32,11 @@ HRESULT Player::Init(string imageName)
 	player.playerOffensePower = 50;																// 공격력
 	player.playerShotSpeed = 8.0f;																// 공격속도
 	player.playerShotRange = 450.0f;															// 공격사거리
-	playerBulletCount = 0;																		// 불렛 카운트
-	playerDeathCount = 0;																		// 사망 카운트
 	player.playerShotDelay = 25;																// 공격주기
 	player.playerSpeed = 3.0f;																	// 이동속도
 	player.playerSlideSpeed = 2.0f;																// 슬라이딩 속도
+	playerBulletCount = 0;																		// 불렛 카운트
+	playerDeathCount = 0;																		// 사망 카운트
 
 	player.playerMaxHp = 5.0f;
 	player.playerHp = 5.0f;
@@ -59,6 +59,8 @@ HRESULT Player::Init(string imageName)
 	playerRightShot = false;
 	playerUpShot = false;
 	playerDownShot = false;
+	// 플레이어 사망 변수 초기화
+	playerDeath = false;
 
 	// 플레이어 프레임
 	direction = PLAYER_IDLE;
@@ -83,15 +85,22 @@ void Player::Release()
 
 void Player::Update()
 {
-	if (!playerDeath)
+	if (player.playerHp <= 0)
+	{
+		playerDeath = true;
+	}
+
+	if (playerDeath)
+	{
+		PlayerDeath();
+	}
+	else
 	{
 		PlayerAnimation();
 		PlayerMove();
 		PlayerShot();
 		COLLISIONMANAGER->PlayerBulletCollision(vPlayerBullet, viPlayerBullet);
 	}
-
-	PlayerDeath();
 }
 
 void Player::Render(HDC hdc)
@@ -109,12 +118,12 @@ void Player::Render(HDC hdc)
 
 	if (!playerDeath)
 	{
-		if (COLLISIONMANAGER->GetplayerHit() == true)
+		if (COLLISIONMANAGER->GetplayerHitAni() == true)
 		{
 			player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
 			player.playerHitImage->aniRender(hdc, player.playerBodyRect.left - 3, player.playerBodyRect.top - 63, aniHit);
 		}
-		else if (COLLISIONMANAGER->GetplayerHit() == false)
+		else if (COLLISIONMANAGER->GetplayerHitAni() == false)
 		{
 			player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
 			player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 20, aniBody);
@@ -189,22 +198,18 @@ void Player::Render(HDC hdc)
 
 void Player::PlayerDeath()
 {
-	if (player.playerHp <= 0)
-	{
-		playerDeathCount++;
-		playerDeath = true;
+	playerDeathCount++;
 
-		if (playerDeathCount < 167)
-		{
-			player.playerBodyImage = IMAGEMANAGER->addFrameImage("PlayerDeath", "images/player/playerDeath.bmp", 1935, 1568, 15, 4, true, RGB(255, 0, 255));
-			ANIMATIONMANAGER->addAnimation("playerDeath", "PlayerDeath", 0, 56, 20, false, true);
-			aniBody = ANIMATIONMANAGER->findAnimation("playerDeath");
-			ANIMATIONMANAGER->resume("playerDeath");
-		}
-		else
-		{
-			ANIMATIONMANAGER->pause("playerDeath");
-		}
+	if (playerDeathCount < 167)
+	{
+		player.playerBodyImage = IMAGEMANAGER->addFrameImage("PlayerDeath", "images/player/playerDeath.bmp", 1935, 1568, 15, 4, true, RGB(255, 0, 255));
+		ANIMATIONMANAGER->addAnimation("playerDeath", "PlayerDeath", 0, 56, 20, false, true);
+		aniBody = ANIMATIONMANAGER->findAnimation("playerDeath");
+		ANIMATIONMANAGER->resume("playerDeath");
+	}
+	else
+	{
+		ANIMATIONMANAGER->pause("playerDeath");
 	}
 }
 
@@ -492,7 +497,7 @@ void Player::PlayerShotMove()
 
 void Player::PlayerAnimation()
 {
-	if (COLLISIONMANAGER->GetplayerHit() == true)
+	if (COLLISIONMANAGER->GetplayerHitAni() == true)
 	{
 		aniHit = ANIMATIONMANAGER->findAnimation("playerHit");
 		ANIMATIONMANAGER->resume("playerHit");

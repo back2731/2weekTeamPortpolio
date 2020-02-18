@@ -38,6 +38,10 @@ HRESULT Monstro::Init(POINT position)
 	rndX = RND->getFromIntTo(-100, 100);
 	rndY = RND->getFromIntTo(-100, 100);
 
+	shotCount = 0;				
+	jumpCount = 0;				
+	teleportCount = 0;			
+	deathCount = 0;				
 	firstEnemyAiPattern = 0;
 
 	jumpCollision = false;
