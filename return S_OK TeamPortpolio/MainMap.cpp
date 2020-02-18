@@ -396,11 +396,6 @@ void MainMap::update()
 						_tileMap[i][j].tilePos[z] = PointMake(0,0);
 					}
 				}
-
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_SPIKES)
-				{
-					COLLISIONMANAGER->PlayerToSpikesCollision(_tileMap[i][j].rect);
-				}
 			}
 		}
 	}

@@ -55,7 +55,7 @@ void MainMenu::CursorMove()
 	{
 		if (KEYMANAGER->isOnceKeyDown(VK_DOWN))
 		{
-			cursorRect = RectMake(WINSIZEX / 2 - 135, WINSIZEY / 2 - 5, 24, 30);
+			cursorRect = RectMake(WINSIZEX / 2 - 130, WINSIZEY / 2 - 5, 24, 30);
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || KEYMANAGER->isOnceKeyDown(VK_SPACE))
 		{

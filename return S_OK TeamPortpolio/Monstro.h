@@ -12,9 +12,9 @@ private:
 	int currentHP;				// 보스의 현재 HP
 	int maxHP;					// 보스의 전체 HP
 	int damage;					// 보스가 받은 데미지
-	int teleportCount;			// 텔레포트 카운트
 	int shotCount;				// 공격 카운트
 	int jumpCount;				// 점프 카운트
+	int teleportCount;			// 텔레포트 카운트
 	int deathCount;				// 사망 카운트
 	float rndX;					// 텔레포트 될 랜덤 x좌표
 	float rndY;					// 텔레포트 될 랜덤 y좌표

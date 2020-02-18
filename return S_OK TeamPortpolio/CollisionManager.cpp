@@ -6,7 +6,6 @@ CollisionManager::CollisionManager()
 	playerHitAni = false;
 	playerHit = false;
 	hitCount = 0;
-	hitSpike = 0;
 }
 
 CollisionManager::~CollisionManager()
@@ -18,7 +17,7 @@ HRESULT CollisionManager::Init()
 	playerHitAni = false;
 	playerHit = false;
 	hitCount = 0;
-	hitSpike = 0;
+
 	return S_OK;
 }
 
@@ -3779,33 +3778,4 @@ bool CollisionManager::PlayerToPoopCollision(RECT obstacleRect)
 		}
 	}
 	return false;
-}
-
-void CollisionManager::PlayerToSpikesCollision(RECT obstacleRect)
-{
-	RECT temp;
-	if (!playerHit)
-	{
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &obstacleRect))
-		{
-			PLAYERMANAGER->SetPlayerHp(-0.5f);
-			playerHitAni = true;
-			playerHit = true;
-		}
-	}
-
-	if (playerHit)
-	{
-		hitSpike++;
-
-		if (hitSpike % PLAYERHITANIMATION == 0)
-		{
-			playerHitAni = false;
-		}
-		if (hitSpike % PLAYERINVINCIBILITYTIME == 0)
-		{
-			playerHit = false;
-			hitSpike = 0;
-		}
-	}
 }

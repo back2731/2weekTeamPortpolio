@@ -12,7 +12,7 @@ PlayerManager::~PlayerManager()
 HRESULT PlayerManager::Init()
 {
 	m_Player = new Player;
-	m_Player->Init("");
+	m_Player->Init();
 	return S_OK;
 }
 

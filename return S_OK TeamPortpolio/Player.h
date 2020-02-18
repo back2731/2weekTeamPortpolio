@@ -29,11 +29,11 @@ struct PlayerInfo
 	float   playerSlideSpeed;		// 슬라이딩 속도
 
 	// 아이템
-	float playerMaxHp;				// 플레이어 최대체력
-	float playerHp;					// 플레이어 체력
-	int playerGold;					// 플레이어 골드
-	int playerBomb;					// 플레이어 폭탄
-	int playerKey;					// 플레이어 키
+	int		playerGold;				// 플레이어 골드
+	int		playerBomb;				// 플레이어 폭탄
+	int		playerKey;				// 플레이어 키
+	float	playerHp;				// 플레이어 체력
+	float	playerMaxHp;			// 플레이어 최대 체력
 };
 
 class Player
@@ -53,7 +53,7 @@ private:
 	vector<BombInfo> vPlayerBomb;
 	vector<BombInfo>::iterator viPlayerBomb;
 
-	int playerBulletCount;         // 플레이어 불렛 카운트
+	int playerBulletCount;			// 플레이어 불렛 카운트
 	int playerDeathCount;			// 플레이어 사망 카운트
 
 	// 애니메이션을 돌리기 위한 배열
@@ -116,7 +116,7 @@ public:
 	Player();
 	~Player();
 
-	HRESULT Init(string imageName);
+	HRESULT Init();
 	void Release();
 	void Update();
 	void Render(HDC hdc);
