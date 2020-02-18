@@ -331,7 +331,7 @@ void MapToolScene::render()
 						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 						DeleteObject(brush);
 					}
-					if (_tileMap[i][j].tileKind[z] == TILEKIND_SPIKES)
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_SHOP_HOST)
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 						HBRUSH brush = CreateSolidBrush(RGB(230, 0, 150));
@@ -706,7 +706,7 @@ void MapToolScene::DrawTileMap()
 						}
 						break;
 
-					case TILEKIND_SPIKES:
+					case TILEKIND_SHOP_HOST:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
 							IMAGEMANAGER->frameRender("blocks", getMemDC(),
@@ -817,7 +817,7 @@ void MapToolScene::setMap(int locationX, int locationY, bool isAdd)
 	case TILEKIND_POOP50:
 	case TILEKIND_POOP10:
 	case TILEKIND_FIREPLACE:
-	case TILEKIND_SPIKES:
+	case TILEKIND_SHOP_HOST:
 		imageFrame = SUBWIN->GetFramePoint();
 		break;
 	}
@@ -983,27 +983,27 @@ TILEKIND MapToolScene::kindSelect(int frameX, int frameY)
 		}
 		if (frameY == 6 && frameX >= 6)
 		{
-			return TILEKIND_SPIKES;
+			return TILEKIND_SHOP_HOST;
 		}
 	}
 	if (SUBWIN->GetFrameIndex() == CTRL_NUM3)
 	{
-		if (frameY >= 0 && frameY <= 7 && (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 5))
+		if (frameY >= 0 && frameY <= 5 && (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 5))
 		{
 			return TILEKIND_OPEN_DOOR;
 		}
 
-		if (frameY >= 0 && frameY <= 7 && (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7))
+		if (frameY >= 0 && frameY <= 5 && (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7))
 		{
 			return TILEKIND_CLOSE_DOOR;
 		}
 
-		if (frameY >= 8 && frameY <= 9 && (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 5))
+		if (frameY >= 6 && frameY <= 9 && (frameX == 0 || frameX == 1 || frameX == 4 || frameX == 5))
 		{
 			return TILEKIND_USEDKEY_DOOR;
 		}
 		
-		if (frameY >= 8 && frameY <= 9 && (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7))
+		if (frameY >= 6 && frameY <= 9 && (frameX == 2 || frameX == 3 || frameX == 6 || frameX == 7))
 		{
 			return TILEKIND_LOCKED_DOOR;
 		}

@@ -43,7 +43,7 @@ HRESULT MainMap::init()
 	}
 	miniMapBoardImage = IMAGEMANAGER->addImage("miniMapBoard", "images/maptool/miniMapBoard.bmp", 90 * 1.5, 80 * 1.5, true, RGB(255, 0, 255));
 	miniMapBoardRect = RectMake(WINSIZEX - 135, 0, miniMapBoardImage->getWidth(), miniMapBoardImage->getHeight());
-	loadData = 0;
+	loadData = RND->getInt(4);
 	load(loadData);
 
 	// 맵 데이터에 따라서 각 방의 위치의 bool 값을 지정해준다.
@@ -94,8 +94,49 @@ HRESULT MainMap::init()
 	}
 	break;
 	case 2:
+	{
+		for (int i = 0; i < ROOM_MAX_X; i++)
+		{
+			for (int j = 0; j < ROOM_MAX_Y; j++)
+			{
+				isCheckClear[i][j] = false;
+				isSummonEnemy[i][j] = false;
+
+				isBoss[i][j] = false;
+				isShop[i][j] = false;
+				isGoldRoom[i][j] = false;
+			}
+		}
+		isBoss[0][1] = true;
+		isShop[3][0] = true;
+		isGoldRoom[1][4] = true;
+
+		// 초기시작위치에서 적이 소환되지 않게 해주는 부분
+		isSummonEnemy[2][2] = true;
+	}
 		break;
 	case 3:
+	{
+		for (int i = 0; i < ROOM_MAX_X; i++)
+		{
+			for (int j = 0; j < ROOM_MAX_Y; j++)
+			{
+				isCheckClear[i][j] = false;
+				isSummonEnemy[i][j] = false;
+
+				isBoss[i][j] = false;
+				isShop[i][j] = false;
+				isGoldRoom[i][j] = false;
+			}
+		}
+		isBoss[0][4] = true;
+		isShop[0][1] = true;
+		isGoldRoom[4][1] = true;
+
+		// 초기시작위치에서 적이 소환되지 않게 해주는 부분
+		isSummonEnemy[2][2] = true;
+	}
+	break;
 		break;
 	case 4:
 		break;
@@ -129,11 +170,12 @@ void MainMap::update()
 		count++;
 		if (count == 30)
 		{
-			resetData = RND->getInt(10);
+			resetData = RND->getInt(4);
 			loadData = resetData;
 			ENEMYMANAGER->Init();
 			PLAYERMANAGER->Init();
 			COLLISIONMANAGER->Init();
+			this->init();
 			currentX = INIT_X;
 			currentY = INIT_Y;
 			load(loadData);
@@ -214,6 +256,58 @@ void MainMap::update()
 		}
 	}
 	break;
+	case 2:
+	{
+		// 상점방에 입장 했을 시의 bool값
+		if (isCheckClear[3][0] == true && isShop[3][0] == true)
+		{
+			isSummonEnemy[3][0] = true;
+			isShop[3][0] = false;
+			ITEMMANAGER->SetShop(isShop[3][0]);
+		}
+		if (isShop[3][0] == false)
+		{
+			if (savePositionX == (0 * -884) && savePositionY == (3 * -572))
+			{
+				isSummonEnemy[3][0] = true;
+				isShop[3][0] = false;
+				ITEMMANAGER->SetShop(isShop[3][0]);
+			}
+			else
+			{
+				isSummonEnemy[3][0] = true;
+				isShop[3][0] = true;
+				ITEMMANAGER->SetShop(isShop[3][0]);
+			}
+		}
+	}
+	break;
+	case 3:
+	{
+		// 상점방에 입장 했을 시의 bool값
+		if (isCheckClear[0][1] == true && isShop[0][1] == true)
+		{
+			isSummonEnemy[0][1] = true;
+			isShop[0][1] = false;
+			ITEMMANAGER->SetShop(isShop[3][0]);
+		}
+		if (isShop[0][1] == false)
+		{
+			if (savePositionX == (1 * -884) && savePositionY == (0 * -572))
+			{
+				isSummonEnemy[0][1] = true;
+				isShop[0][1] = false;
+				ITEMMANAGER->SetShop(isShop[0][1]);
+			}
+			else
+			{
+				isSummonEnemy[0][1] = true;
+				isShop[0][1] = true;
+				ITEMMANAGER->SetShop(isShop[0][1]);
+			}
+		}
+	}
+	break;
 	}
 
 	// 보스방에 입장 했을 때
@@ -247,46 +341,51 @@ void MainMap::update()
 		}
 	}
 	break;
+	case 2:
+	{
+		// 보스방에 입장 했을 시의 bool값
+		if (isCheckClear[0][1] == true && isBoss[0][1] == true && isSummonEnemy[0][1] == false)
+		{
+			SOUNDMANAGER->stop("BGM");
+			SOUNDMANAGER->play("BossBGM", 1.0f);
+			isBoss[0][1] = false;
+			isSummonEnemy[0][1] = true;
+			ENEMYMANAGER->SetBoss(isBoss[0][1]);
+			ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[0][1]);
+		}
+	}
+	break;
+	case 3:
+	{
+		// 보스방에 입장 했을 시의 bool값
+		if (isCheckClear[0][4] == true && isBoss[0][4] == true && isSummonEnemy[0][4] == false)
+		{
+			SOUNDMANAGER->stop("BGM");
+			SOUNDMANAGER->play("BossBGM", 1.0f);
+			isBoss[0][4] = false;
+			isSummonEnemy[0][4] = true;
+			ENEMYMANAGER->SetBoss(isBoss[0][4]);
+			ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[0][4]);
+		}
+	}
+	break;
 	}
 
 	// 일반방에 입장 했을 때
-	//switch (loadData)
-	//{
-	//case 0:
-	//{
 		for (int i = 0; i < ROOM_MAX_X; i++)
+	{
+		for (int j = 0; j < ROOM_MAX_Y; j++)
 		{
-			for (int j = 0; j < ROOM_MAX_Y; j++)
+			// isCheckClear -> 방에 입장했다면 true / isSummonEnemy -> 몬스터를 소환한 적이 없다면 false / 보스방이아니라면 false / 상점이 아니라면 false / 황금방이 아니라면 false
+			if (isCheckClear[i][j] == true && isSummonEnemy[i][j] == false && isBoss[i][j] == false && isShop[i][j] == false && isGoldRoom[i][j] == false)
 			{
-				// isCheckClear -> 방에 입장했다면 true / isSummonEnemy -> 몬스터를 소환한 적이 없다면 false / 보스방이아니라면 false / 상점이 아니라면 false / 황금방이 아니라면 false
-				if (isCheckClear[i][j] == true && isSummonEnemy[i][j] == false && isBoss[i][j] == false && isShop[i][j] == false && isGoldRoom[i][j] == false)
-				{
-					// 몬스터를 소환했다면 true
-					isSummonEnemy[i][j] = true;
-					ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[i][j]);
-				}
+				// 몬스터를 소환했다면 true
+				isSummonEnemy[i][j] = true;
+				ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[i][j]);
 			}
 		}
-	//}
-	//break;
-	//case 1:
-	//{
-	//	for (int i = 0; i < ROOM_MAX_X; i++)
-	//	{
-	//		for (int j = 0; j < ROOM_MAX_Y; j++)
-	//		{
-	//			// isCheckClear -> 방에 입장했다면 true / isSummonEnemy -> 몬스터를 소환한 적이 없다면 false / 보스방이아니라면 false / 상점이 아니라면 false / 황금방이 아니라면 false
-	//			if (isCheckClear[i][j] == true && isSummonEnemy[i][j] == false && isBoss[i][j] == false && isShop[i][j] == false && isGoldRoom[i][j] == false)
-	//			{
-	//				// 몬스터를 소환했다면 true
-	//				isSummonEnemy[i][j] = true;
-	//				ENEMYMANAGER->SetSummonEnemy(isSummonEnemy[i][j]);
-	//			}
-	//		}
-	//	}
-	//}
-	//break;
-	//}
+	}
+
 
 	// 충돌처리
 	for (int i = 0; i < TILE_COUNT_X; i++)
@@ -474,6 +573,12 @@ void MainMap::update()
 						_tileMap[i][j].tileKind[z] = TILEKIND_NONE;
 						_tileMap[i][j].tilePos[z] = PointMake(0, 0);
 					}
+				}
+
+				if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
+				{
+					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
+					//COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
 				}
 			}
 		}
@@ -758,7 +863,7 @@ void MainMap::render()
 						FillRect(getMemDC(), &_tileMap[i][j].rect, brush);
 						DeleteObject(brush);
 					}
-					if (_tileMap[i][j].tileKind[z] == TILEKIND_SPIKES)
+					if (_tileMap[i][j].tileKind[z] == TILEKIND_SHOP_HOST)
 					{
 						Rectangle(getMemDC(), _tileMap[i][j].rect.left, _tileMap[i][j].rect.top, _tileMap[i][j].rect.right, _tileMap[i][j].rect.bottom);
 						HBRUSH brush = CreateSolidBrush(RGB(230, 0, 150));
@@ -1173,7 +1278,7 @@ void MainMap::DrawTileMap()
 						}
 						break;
 
-					case TILEKIND_SPIKES:
+					case TILEKIND_SHOP_HOST:
 						if (IntersectRect(&temp, &cameraRect, &_tileMap[i][j].rect))
 						{
 							IMAGEMANAGER->frameRender("blocks", getMemDC(),
