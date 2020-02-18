@@ -15,10 +15,10 @@ HRESULT MinionMulligan::Init(POINT position, int EnemyNumber)
 	EnemyInfo MinionMulligan;
 	MinionMulligan.enemyNumber = EnemyNumber;
 	MinionMulligan.enemyRect = RectMakeCenter(position.x, position.y, 35, 40);
-	MinionMulligan.enemyHp = 13;
+	MinionMulligan.enemyHp = 20;
 	MinionMulligan.enemyShotSpeed = 5.0f;
-	MinionMulligan.enemyShotRange = 500.0f;
-	MinionMulligan.enemyShotDelay = 50;
+	MinionMulligan.enemyShotRange = 300.0f;
+	MinionMulligan.enemyShotDelay = 80;
 	MinionMulligan.enemySpeed = 2.0f;
 	// 애니메이션 Idle
 	MinionMulligan.enemyShadowImage = IMAGEMANAGER->addImage("MulliganShadow", "images/monster/mulligan/mulliganShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
@@ -44,8 +44,8 @@ void MinionMulligan::Release()
 void MinionMulligan::Update()
 {
 	EnemyAi();
-	COLLISIONMANAGER->SameVectorMinionCollision(vMinionMulligan);
 	DeleteEnemy();
+	COLLISIONMANAGER->SameVectorMinionCollision(vMinionMulligan);
 }
 
 void MinionMulligan::Render(HDC hdc)
@@ -54,7 +54,7 @@ void MinionMulligan::Render(HDC hdc)
 	{
 		if (KEYMANAGER->isToggleKey(VK_F1))
 		{
-			//Rectangle(hdc, vMinionMulligan[i].enemyFireRange.left, vMinionMulligan[i].enemyFireRange.top, vMinionMulligan[i].enemyFireRange.right, vMinionMulligan[i].enemyFireRange.bottom);
+			Rectangle(hdc, vMinionMulligan[i].enemyFireRange.left, vMinionMulligan[i].enemyFireRange.top, vMinionMulligan[i].enemyFireRange.right, vMinionMulligan[i].enemyFireRange.bottom);
 			Rectangle(hdc, vMinionMulligan[i].enemyRect.left, vMinionMulligan[i].enemyRect.top, vMinionMulligan[i].enemyRect.right, vMinionMulligan[i].enemyRect.bottom);
 
 			HBRUSH brush = CreateSolidBrush(RGB(0, 102, 153));
@@ -122,11 +122,17 @@ void MinionMulligan::EnemyAi()
 		vMinionMulligan[i].enemyY = vMinionMulligan[i].enemyRect.top + (vMinionMulligan[i].enemyRect.bottom - vMinionMulligan[i].enemyRect.top) / 2;
 
 		// 플레이어와 판정 범위가 충돌시
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionMulligan[i].enemyFireRange))
+		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionMulligan[i].enemyFireRange) &&
+			PLAYERMANAGER->GetPlayerDeath() == false)
 		{
 			// 플레이어를 쫓아가라.
 			enemyAreaCheck = true;
-			EnemyShot();
+		}
+
+		// 플레이어가 사망하면 자율 AI로 돌아가라.
+		if (PLAYERMANAGER->GetPlayerDeath() == true)
+		{
+			enemyAreaCheck = false;
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
@@ -148,8 +154,8 @@ void MinionMulligan::EnemyAi()
 			}
 
 			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
-			if (vMinionMulligan[i].enemyRect.left >= 10 && vMinionMulligan[i].enemyRect.right <= 830 &&
-				vMinionMulligan[i].enemyRect.top >= 10 && vMinionMulligan[i].enemyRect.bottom <= 530)
+			if (vMinionMulligan[i].enemyRect.left >= 105 && vMinionMulligan[i].enemyRect.right <= 780 &&
+				vMinionMulligan[i].enemyRect.top >= 105 && vMinionMulligan[i].enemyRect.bottom <= 465)
 			{
 				collisionCheck = true;
 				vMinionMulligan[i].enemyX -= vx;
@@ -423,7 +429,7 @@ void MinionMulligan::EnemyAi()
 		}
 
 		// 판정 범위가 항상 적의 좌표를 쫓아다님
-		vMinionMulligan[i].enemyFireRange = RectMakeCenter(vMinionMulligan[i].enemyX, vMinionMulligan[i].enemyY, 100, 100);
+		vMinionMulligan[i].enemyFireRange = RectMakeCenter(vMinionMulligan[i].enemyX, vMinionMulligan[i].enemyY, 200, 200);
 	}
 
 	// 적이 쏘는 불렛의 움직임
@@ -498,14 +504,14 @@ void MinionMulligan::SetEnemyRectY(int enemyNum, int move)
 
 void MinionMulligan::DeleteEnemy()
 {
-	for (i = 0; i < vMinionMulligan.size(); i++)
+	if (collisionCheck)
 	{
-		if (vMinionMulligan[i].enemyRect.left <= 10 || vMinionMulligan[i].enemyRect.right >= 830 ||
-			vMinionMulligan[i].enemyRect.top <= 10 || vMinionMulligan[i].enemyRect.bottom >= 530)
+		for (i = 0; i < vMinionMulligan.size(); i++)
 		{
-			if (collisionCheck)
+			if (vMinionMulligan[i].enemyRect.left <= 110 || vMinionMulligan[i].enemyRect.right >= 780 ||
+				vMinionMulligan[i].enemyRect.top <= 60 || vMinionMulligan[i].enemyRect.bottom >= 460)
 			{
-				vMinionMulligan.erase(vMinionMulligan.begin() + i);
+				EnemyShot();
 			}
 		}
 	}

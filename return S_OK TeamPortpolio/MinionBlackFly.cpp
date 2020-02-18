@@ -15,7 +15,7 @@ HRESULT MinionBlackFly::Init(POINT position, int EnemyNumber)
 	EnemyInfo MinionBlackFly;
 	MinionBlackFly.enemyNumber = EnemyNumber;
 	MinionBlackFly.enemyRect = RectMakeCenter(position.x, position.y, 15, 15);
-	MinionBlackFly.enemyHp = 3;
+	MinionBlackFly.enemyHp = 5;
 	MinionBlackFly.enemySpeed = 1.5f;
 	// 애니메이션 Idle
 	MinionBlackFly.enemyShadowImage = IMAGEMANAGER->addImage("BlackFlyShadow", "images/monster/blackfly/blackflyShadow.bmp", 120 / 4, 49 / 4, true, RGB(255, 0, 255));
@@ -109,7 +109,8 @@ void MinionBlackFly::EnemyAi()
 		vMinionBlackFly[i].enemyY = vMinionBlackFly[i].enemyRect.top + (vMinionBlackFly[i].enemyRect.bottom - vMinionBlackFly[i].enemyRect.top) / 2;
 
 		// 플레이어와 판정 범위가 충돌시
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionBlackFly[i].enemyFireRange))
+		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionBlackFly[i].enemyFireRange) &&
+			PLAYERMANAGER->GetPlayerDeath() == false)
 		{
 			enemyAreaCheck = true;
 		}

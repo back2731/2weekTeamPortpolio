@@ -17,7 +17,7 @@ HRESULT MinionGaper::Init(POINT position, int EnemyNumber)
 	EnemyInfo MinionGaper;
 	MinionGaper.enemyNumber = EnemyNumber;
 	MinionGaper.enemyRect = RectMakeCenter(position.x, position.y, 30, 50);
-	MinionGaper.enemyHp = 10;
+	MinionGaper.enemyHp = 15;
 	MinionGaper.enemySpeed = 2.0f;
 	// 애니메이션 Idle
 	MinionGaper.enemyShadowImage = IMAGEMANAGER->addImage("GaperShadow", "images/monster/gaper/gaperShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
@@ -114,7 +114,8 @@ void MinionGaper::EnemyAi()
 		vMinionGaper[i].enemyY = vMinionGaper[i].enemyRect.top + (vMinionGaper[i].enemyRect.bottom - vMinionGaper[i].enemyRect.top) / 2;
 
 		// 플레이어와 판정 범위가 충돌시
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionGaper[i].enemyFireRange))
+		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionGaper[i].enemyFireRange) &&
+			PLAYERMANAGER->GetPlayerDeath() == false)
 		{
 			// 플레이어를 쫓아가라.
 			enemyAreaCheck = true;
@@ -133,6 +134,12 @@ void MinionGaper::EnemyAi()
 				minionAni = ANIMATIONMANAGER->findAnimation("gaperRight");
 				ANIMATIONMANAGER->resume("gaperRight");
 			}
+		}
+
+		// 플레이어가 사망하면 자율 AI로 돌아가라.
+		if (PLAYERMANAGER->GetPlayerDeath() == true)
+		{
+			enemyAreaCheck = false;
 		}
 
 		// 만약에 플레이어가 적의 판정 범위안에 들어왔다면 플레이어를 쫓아간다.
@@ -154,8 +161,12 @@ void MinionGaper::EnemyAi()
 			}
 
 			// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
-			vMinionGaper[i].enemyX += vx;
-			vMinionGaper[i].enemyY += vy;
+			if (vMinionGaper[i].enemyRect.left >= 105 && vMinionGaper[i].enemyRect.right <= 780 &&
+				vMinionGaper[i].enemyRect.top >= 105 && vMinionGaper[i].enemyRect.bottom <= 465)
+			{
+				vMinionGaper[i].enemyX += vx;
+				vMinionGaper[i].enemyY += vy;
+			}
 			vMinionGaper[i].enemyRect = RectMakeCenter(vMinionGaper[i].enemyX, vMinionGaper[i].enemyY, 30, 50);
 		}
 		// 범위안에 플레이어가 없다면 자율행동(AI)

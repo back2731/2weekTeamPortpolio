@@ -44,7 +44,7 @@ private:
 
 	// 문자 테스트용 변수
 	char str[128];
-public:	
+public:
 	EnemyManager();
 	~EnemyManager();
 
@@ -54,19 +54,19 @@ public:
 	void Render(HDC hdc);
 
 	// 총알 충돌용 함수
-	Monstro*			GetMonstro()			{ return m_Monstro; }
+	Monstro*			GetMonstro() { return m_Monstro; }
 
-	MinionAttackFly*	GetMinionAttackFly()	{ return m_MinionAttackFly; }
-	MinionBlackFly*		GetMinionBlackFly()		{ return m_MinionBlackFly; }
-	MinionMaw*			GetMinionMaw()			{ return m_MinionMaw; }
-	MinionTumor*		GetMinionTumor()		{ return m_MinionTumor; }
+	MinionAttackFly*	GetMinionAttackFly() { return m_MinionAttackFly; }
+	MinionBlackFly*		GetMinionBlackFly() { return m_MinionBlackFly; }
+	MinionMaw*			GetMinionMaw() { return m_MinionMaw; }
+	MinionTumor*		GetMinionTumor() { return m_MinionTumor; }
 
-	MinionClot*			GetMinionClot()			{ return  m_MinionClot;	}
-	MinionClotty*		GetMinionClotty()		{ return m_MinionClotty; }
-	MinionGaper*		GetMinionGaper()		{ return m_MinionGaper; }
-	MinionHorf*			GetMinionHorf()			{ return m_MinionHorf; }
-	MinionMulligan*		GetMinionMulligan()		{ return  m_MinionMulligan; }
-	MinionPacer*		GetMinionPacer()		{ return  m_MinionPacer; }
+	MinionClot*			GetMinionClot() { return  m_MinionClot; }
+	MinionClotty*		GetMinionClotty() { return m_MinionClotty; }
+	MinionGaper*		GetMinionGaper() { return m_MinionGaper; }
+	MinionHorf*			GetMinionHorf() { return m_MinionHorf; }
+	MinionMulligan*		GetMinionMulligan() { return  m_MinionMulligan; }
+	MinionPacer*		GetMinionPacer() { return  m_MinionPacer; }
 
 	//bool isCheckClear[ROOM_MAX_X][ROOM_MAX_Y];
 	//bool isSummonEnemy[ROOM_MAX_X][ROOM_MAX_Y];

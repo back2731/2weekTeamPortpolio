@@ -15,7 +15,7 @@ HRESULT MinionHorf::Init(POINT position, int EnemyNumber)
 	EnemyInfo MinionHorf;
 	MinionHorf.enemyNumber = EnemyNumber;
 	MinionHorf.enemyRect = RectMakeCenter(position.x, position.y, 30, 30);
-	MinionHorf.enemyHp = 10;
+	MinionHorf.enemyHp = 15;
 	MinionHorf.enemyShotSpeed = 6.0f;
 	MinionHorf.enemyShotRange = 600.0f;
 	MinionHorf.enemyShotDelay = 65;
@@ -25,8 +25,6 @@ HRESULT MinionHorf::Init(POINT position, int EnemyNumber)
 	ANIMATIONMANAGER->addDefAnimation("horf", "HorfIdle", 25, false, true);
 	minionAni = ANIMATIONMANAGER->findAnimation("horf");
 	vMinionHorf.push_back(MinionHorf);
-
-	enemyAreaCheck = false;
 
 	return S_OK;
 }
@@ -73,7 +71,8 @@ void MinionHorf::EnemyAi()
 		vMinionHorf[i].enemyY = vMinionHorf[i].enemyRect.top + (vMinionHorf[i].enemyRect.bottom - vMinionHorf[i].enemyRect.top) / 2;
 
 		// 플레이어와 판정 범위가 충돌시
-		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionHorf[i].enemyFireRange))
+		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &vMinionHorf[i].enemyFireRange) &&
+			PLAYERMANAGER->GetPlayerDeath() == false)
 		{
 			EnemyShot();
 

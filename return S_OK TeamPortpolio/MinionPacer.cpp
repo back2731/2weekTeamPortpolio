@@ -15,13 +15,12 @@ HRESULT MinionPacer::Init(POINT position, int EnemyNumber)
 	EnemyInfo MinionPacer;
 	MinionPacer.enemyNumber = EnemyNumber;
 	MinionPacer.enemyRect = RectMakeCenter(position.x, position.y, 30, 22);
-	MinionPacer.enemyHp = 10;
+	MinionPacer.enemyHp = 15;
 	MinionPacer.enemySpeed = 2.5f;
 	// 애니메이션 Idle
 	MinionPacer.enemyShadowImage = IMAGEMANAGER->addImage("PacerShadow", "images/monster/pacer/pacerShadow.bmp", 120 / 3, 49 / 3, true, RGB(255, 0, 255));
-	MinionPacer.enemyImage = IMAGEMANAGER->addFrameImage("PacerMove", "images/monster/pacer/pacerMove.bmp", 1419 / 2, 828 / 2, 11, 6, true, RGB(255, 0, 255));
-	int arrPacerIdle[] = { 54 };
-	ANIMATIONMANAGER->addAnimation("pacer", "PacerMove", arrPacerIdle, 1, 1, true);
+	MinionPacer.enemyImage = IMAGEMANAGER->addFrameImage("PacerMove", "images/monster/pacer/pacerMove.bmp", 1806 / 2, 690 / 2, 14, 5, true, RGB(255, 0, 255));
+	ANIMATIONMANAGER->addAnimation("pacer", "PacerMove", 0, 21, 15, false, true);
 	minionAni = ANIMATIONMANAGER->findAnimation("pacer");
 	vMinionPacer.push_back(MinionPacer);
 
@@ -53,7 +52,7 @@ void MinionPacer::Render(HDC hdc)
 		}
 
 		vMinionPacer[i].enemyShadowImage->alphaRender(hdc, vMinionPacer[i].enemyRect.left - 5, vMinionPacer[i].enemyRect.top + 13, 70);
-		vMinionPacer[i].enemyImage->aniRender(hdc, vMinionPacer[i].enemyRect.left - 23, vMinionPacer[i].enemyRect.top - 25, minionAni);
+		vMinionPacer[i].enemyImage->aniRender(hdc, vMinionPacer[i].enemyRect.left - 18, vMinionPacer[i].enemyRect.top - 25, minionAni);
 	}
 
 	BULLETMANAGER->RenderBullet(hdc, vEnemyBullet, viEnemyBullet);
@@ -106,11 +105,11 @@ void MinionPacer::EnemyAi()
 			{
 			case 1:		// IDLE
 				// 애니메이션 Idle
-				ANIMATIONMANAGER->resume("pacer");
+				ANIMATIONMANAGER->stop("pacer");
 				break;
 			case 2:		// LEFT
 				// 애니메이션 Left
-				ANIMATIONMANAGER->addAnimation("pacerLeft", "PacerMove", 0, 21, 15, false, true);
+				ANIMATIONMANAGER->addAnimation("pacerLeft", "PacerMove", 44, 65, 15, false, true);
 				minionAni = ANIMATIONMANAGER->findAnimation("pacerLeft");
 				ANIMATIONMANAGER->resume("pacerLeft");
 
@@ -142,7 +141,7 @@ void MinionPacer::EnemyAi()
 				break;
 			case 4:		// UP
 				// 애니메이션 Up
-				ANIMATIONMANAGER->addAnimation("pacerUp", "PacerMove", 44, 65, 15, false, true);
+				ANIMATIONMANAGER->addAnimation("pacerUp", "PacerMove", 0, 21, 15, false, true);
 				minionAni = ANIMATIONMANAGER->findAnimation("pacerUp");
 				ANIMATIONMANAGER->resume("pacerUp");
 
@@ -158,7 +157,7 @@ void MinionPacer::EnemyAi()
 				break;
 			case 5:		// DOWN
 				// 애니메이션 Down
-				ANIMATIONMANAGER->addAnimation("pacerDown", "PacerMove", 44, 65, 15, false, true);
+				ANIMATIONMANAGER->addAnimation("pacerDown", "PacerMove", 0, 21, 15, false, true);
 				minionAni = ANIMATIONMANAGER->findAnimation("pacerDown");
 				ANIMATIONMANAGER->resume("pacerDown");
 
@@ -178,8 +177,15 @@ void MinionPacer::EnemyAi()
 			switch (secondEnemyAiPattern)
 			{
 			case 1:		// IDLE
+				// 애니메이션 Idle
+				ANIMATIONMANAGER->stop("pacer");
 				break;
 			case 2:		// LEFT
+				// 애니메이션 Left
+				ANIMATIONMANAGER->addAnimation("pacerLeft", "PacerMove", 44, 65, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("pacerLeft");
+				ANIMATIONMANAGER->resume("pacerLeft");
+
 				if (vMinionPacer[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionPacer[i].enemyRect.left -= vMinionPacer[i].enemySpeed;
@@ -187,10 +193,15 @@ void MinionPacer::EnemyAi()
 				}
 				if (vMinionPacer[i].enemyRect.left <= 120)
 				{
-					secondEnemyAiPattern = 3;
+					firstEnemyAiPattern = 3;
 				}
 				break;
 			case 3:		// RIGHT
+				// 애니메이션 RIGHT
+				ANIMATIONMANAGER->addAnimation("pacerRight", "PacerMove", 22, 43, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("pacerRight");
+				ANIMATIONMANAGER->resume("pacerRight");
+
 				if (vMinionPacer[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 				{
 					vMinionPacer[i].enemyRect.left += vMinionPacer[i].enemySpeed;
@@ -198,10 +209,15 @@ void MinionPacer::EnemyAi()
 				}
 				if (vMinionPacer[i].enemyRect.right >= 760)
 				{
-					secondEnemyAiPattern = 2;
+					firstEnemyAiPattern = 2;
 				}
 				break;
 			case 4:		// UP
+				// 애니메이션 Up
+				ANIMATIONMANAGER->addAnimation("pacerUp", "PacerMove", 0, 21, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("pacerUp");
+				ANIMATIONMANAGER->resume("pacerUp");
+
 				if (vMinionPacer[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionPacer[i].enemyRect.top -= vMinionPacer[i].enemySpeed;
@@ -209,10 +225,15 @@ void MinionPacer::EnemyAi()
 				}
 				if (vMinionPacer[i].enemyRect.top <= 120)
 				{
-					secondEnemyAiPattern = 5;
+					firstEnemyAiPattern = 5;
 				}
 				break;
 			case 5:		// DOWN
+				// 애니메이션 Down
+				ANIMATIONMANAGER->addAnimation("pacerDown", "PacerMove", 0, 21, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("pacerDown");
+				ANIMATIONMANAGER->resume("pacerDown");
+
 				if (vMinionPacer[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 				{
 					vMinionPacer[i].enemyRect.top += vMinionPacer[i].enemySpeed;
@@ -220,7 +241,7 @@ void MinionPacer::EnemyAi()
 				}
 				if (vMinionPacer[i].enemyRect.bottom >= 450)
 				{
-					secondEnemyAiPattern = 4;
+					firstEnemyAiPattern = 4;
 				}
 				break;
 			}
@@ -229,8 +250,15 @@ void MinionPacer::EnemyAi()
 			switch (thirdEnemyAiPattern)
 			{
 			case 1:		// IDLE
+				// 애니메이션 Idle
+				ANIMATIONMANAGER->stop("pacer");
 				break;
 			case 2:		// LEFT
+				// 애니메이션 Left
+				ANIMATIONMANAGER->addAnimation("pacerLeft", "PacerMove", 44, 65, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("pacerLeft");
+				ANIMATIONMANAGER->resume("pacerLeft");
+
 				if (vMinionPacer[i].enemyRect.left > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionPacer[i].enemyRect.left -= vMinionPacer[i].enemySpeed;
@@ -238,10 +266,15 @@ void MinionPacer::EnemyAi()
 				}
 				if (vMinionPacer[i].enemyRect.left <= 120)
 				{
-					thirdEnemyAiPattern = 3;
+					firstEnemyAiPattern = 3;
 				}
 				break;
 			case 3:		// RIGHT
+				// 애니메이션 RIGHT
+				ANIMATIONMANAGER->addAnimation("pacerRight", "PacerMove", 22, 43, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("pacerRight");
+				ANIMATIONMANAGER->resume("pacerRight");
+
 				if (vMinionPacer[i].enemyRect.right < 780) // 몬스터 이동 범위 제한
 				{
 					vMinionPacer[i].enemyRect.left += vMinionPacer[i].enemySpeed;
@@ -249,10 +282,15 @@ void MinionPacer::EnemyAi()
 				}
 				if (vMinionPacer[i].enemyRect.right >= 760)
 				{
-					thirdEnemyAiPattern = 2;
+					firstEnemyAiPattern = 2;
 				}
 				break;
 			case 4:		// UP
+				// 애니메이션 Up
+				ANIMATIONMANAGER->addAnimation("pacerUp", "PacerMove", 0, 21, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("pacerUp");
+				ANIMATIONMANAGER->resume("pacerUp");
+
 				if (vMinionPacer[i].enemyRect.top > 105) // 몬스터 이동 범위 제한
 				{
 					vMinionPacer[i].enemyRect.top -= vMinionPacer[i].enemySpeed;
@@ -260,10 +298,15 @@ void MinionPacer::EnemyAi()
 				}
 				if (vMinionPacer[i].enemyRect.top <= 120)
 				{
-					thirdEnemyAiPattern = 5;
+					firstEnemyAiPattern = 5;
 				}
 				break;
 			case 5:		// DOWN
+				// 애니메이션 Down
+				ANIMATIONMANAGER->addAnimation("pacerDown", "PacerMove", 0, 21, 15, false, true);
+				minionAni = ANIMATIONMANAGER->findAnimation("pacerDown");
+				ANIMATIONMANAGER->resume("pacerDown");
+
 				if (vMinionPacer[i].enemyRect.bottom < 465) // 몬스터 이동 범위 제한
 				{
 					vMinionPacer[i].enemyRect.top += vMinionPacer[i].enemySpeed;
@@ -271,7 +314,7 @@ void MinionPacer::EnemyAi()
 				}
 				if (vMinionPacer[i].enemyRect.bottom >= 450)
 				{
-					thirdEnemyAiPattern = 4;
+					firstEnemyAiPattern = 4;
 				}
 				break;
 			}

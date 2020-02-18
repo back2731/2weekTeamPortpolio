@@ -59,22 +59,19 @@ void EnemyManager::Update()
 	else if (isCheckClear && isSummonEnemy)
 	{
 		// 일반방에 들어오면 case에 따라서 랜덤으로 몬스터를 소환해준다.
-		switch (RND->getInt(10))
+		switch (RND->getInt(1))
 		{
 			case 0:
 			{
 				m_MinionAttackFly->Init(PointMake(150, 150), 0);
 				m_MinionBlackFly->Init(PointMake(300, 150), 0);
-				//m_MinionMulligan->Init(PointMake(150, 150), 0);
-				//m_MinionPacer->Init(PointMake(300, 150), 0);
 				isSummonEnemy = false;
 			}
 			break;
 			case 1:
 			{
 				m_MinionBlackFly->Init(PointMake(300, 150), 0);
-				//m_MinionMulligan->Init(PointMake(150, 150), 0);
-				//m_MinionPacer->Init(PointMake(300, 150), 0);
+				m_MinionMulligan->Init(PointMake(300, 300), 0);
 				isSummonEnemy = false;
 			}
 			break;
@@ -141,23 +138,24 @@ void EnemyManager::Update()
 	m_MinionBlackFly->Update();
 	m_MinionMaw->Update();
 	m_MinionTumor->Update();
+	m_MinionClot->Update();
+	m_MinionClotty->Update();
 	m_MinionGaper->Update();
 	m_MinionHorf->Update();
 	m_MinionMulligan->Update();
 	m_MinionPacer->Update();
-	m_MinionClot->Update();
-	m_MinionClotty->Update();
 
 	// 해당 방에 몬스터의 벡터값이 존재하면 문을 닫고 없으면 문을 연다
 	if (m_MinionAttackFly->GetMinionVector().size() > 0 ||
 		m_MinionBlackFly->GetMinionVector().size() > 0 ||
 		m_MinionMaw->GetMinionVector().size() > 0 ||
 		m_MinionTumor->GetMinionVector().size() > 0 ||
-		m_MinionGaper->GetMinionVector().size() > 0 ||
-		m_MinionHorf->GetMinionVector().size() > 0 ||
-		m_MinionPacer->GetMinionVector().size() > 0 ||
 		m_MinionClot->GetMinionVector().size() > 0 ||
 		m_MinionClotty->GetMinionVector().size() > 0 ||
+		m_MinionGaper->GetMinionVector().size() > 0 ||
+		m_MinionHorf->GetMinionVector().size() > 0 ||
+		m_MinionMulligan->GetMinionVector().size() > 0 ||
+		m_MinionPacer->GetMinionVector().size() > 0 ||
 		m_Monstro->GetMinionVector().size() > 0)
 	{
 		openDoor = false;
