@@ -15,6 +15,9 @@ HRESULT BulletManager::Init()
 	IMAGEMANAGER->addImage("playerBullet", "images/bullet/playerBullet.bmp", 18 * 2, 18 * 2, true, RGB(255, 0, 255));
 	IMAGEMANAGER->addImage("enemyBullet", "images/bullet/enemyBullet.bmp", 18 * 2, 18 * 2, true, RGB(255, 0, 255));
 
+	// ÆøÅº ÀÌ¹ÌÁö Ãß°¡
+	IMAGEMANAGER->addFrameImage("playerBomb", "image/bullet/playerbomb.bmp", 32 * 2, 32 * 2, 1, 1, true, RGB(255, 0, 255));
+
 	return S_OK;
 }
 
@@ -55,6 +58,31 @@ void BulletManager::ShootBullet(string imageName, vector<BulletInfo>& bulletVect
 		bullet.range = range;
 		bullet.rect = RectMakeCenter(bullet.bulletX, bullet.bulletY, bullet.bulletImage->getWidth(), bullet.bulletImage->getHeight());
 		bulletVector.push_back(bullet);
+	}
+}
+
+void BulletManager::ShootBomb(string imageName, vector<BombInfo>& bombVector, int x, int y, int damage, int range, int delayTime)
+{
+	if (PLAYERMANAGER->GetPlayerBomb() > 0)
+	{
+		/*
+			image* bombImage;
+			int bombX, bombY;
+			int damage;
+			int range;
+			int delayTime;
+			RECT rect;
+		*/
+		BombInfo bomb;
+		bomb = OBJECTPOOL->GetBomb();
+		bomb.bombImage = IMAGEMANAGER->findImage(imageName);
+		bomb.bombX = x;
+		bomb.bombY = y;
+		bomb.damage = damage;
+		bomb.range = range;
+		bomb.delayTime = delayTime;
+		bomb.rect = RectMakeCenter(bomb.bombX, bomb.bombY, bomb.bombImage->getWidth(), bomb.bombImage->getHeight());
+		bombVector.push_back(bomb);
 	}
 }
 

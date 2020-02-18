@@ -45,6 +45,7 @@ public:
 	void SetPlayerHp(float num) { m_Player->SetPlayerHp(num); }
 	int GetPlayerGold() { return m_Player->GetPlayerGold(); }
 	void SetPlayerGold(int num) { m_Player->SetPlayerGold(num); }
+	int GetPlayerBomb() { return m_Player->GetPlayerBomb(); }
 	void SetPlayerBomb(int num) { m_Player->SetPlayerBomb(num); }
 	void SetPlayerKey(int num) { m_Player->SetPlayerKey(num); }
 	

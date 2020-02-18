@@ -35,12 +35,13 @@ private:
 	int sour, dest;
 
 	RECT itemRect[3];
+	RECT itemPriceRect[3];
 	RECT temp;
 
 public:
 	Shop();
 	~Shop();
-
+	
 	HRESULT Init();
 	void Release();
 	void Update();

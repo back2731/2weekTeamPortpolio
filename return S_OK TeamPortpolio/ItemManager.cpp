@@ -20,6 +20,7 @@ HRESULT ItemManager::Init()
 	//activeItem_Dice.itemInfoImage = 
 	activeItem_Dice.itemName = "ActiveItem_Dice";
 	activeItem_Dice.itemRect = { 0, };
+	activeItem_Dice.itemPriceRect = { 0, };
 	activeItem_Dice.addPower = 0.0f;
 	activeItem_Dice.addSpeed = 0.0f;
 	activeItem_Dice.addShotSpeed = 0.0f;
@@ -39,6 +40,7 @@ HRESULT ItemManager::Init()
 	//activeItem_GuppysPaw.itemInfoImage = 
 	activeItem_GuppysPaw.itemName = "ActiveItem_GuppysPaw";
 	activeItem_GuppysPaw.itemRect = { 0, };
+	activeItem_GuppysPaw.itemPriceRect = { 0, };
 	activeItem_GuppysPaw.addPower = 0.0f;
 	activeItem_GuppysPaw.addSpeed = 0.0f;
 	activeItem_GuppysPaw.addShotSpeed = 0.0f;
@@ -59,6 +61,7 @@ HRESULT ItemManager::Init()
 	//passiveItem_Dessert.itemInfoImage = 
 	passiveItem_Dessert.itemName = "PassiveItem_Dessert";
 	passiveItem_Dessert.itemRect = { 0, };
+	passiveItem_Dessert.itemPriceRect = { 0, };
 	passiveItem_Dessert.addPower = 0.0f;
 	passiveItem_Dessert.addSpeed = 0.0f;
 	passiveItem_Dessert.addShotSpeed = 0.0f;
@@ -78,6 +81,7 @@ HRESULT ItemManager::Init()
 	//passiveItem_Momslipstick.itemInfoImage = 
 	passiveItem_Momslipstick.itemName = "PassiveItem_Momslipstick";
 	passiveItem_Momslipstick.itemRect = { 0, };
+	passiveItem_Momslipstick.itemPriceRect = { 0, };
 	passiveItem_Momslipstick.addPower = 0.0f;
 	passiveItem_Momslipstick.addSpeed = 0.0f;
 	passiveItem_Momslipstick.addShotSpeed = 0.0f;
@@ -97,6 +101,7 @@ HRESULT ItemManager::Init()
 	//passiveItem_Dollar.itemInfoImage = 
 	passiveItem_Dollar.itemName = "PassiveItem_Dollar";
 	passiveItem_Dollar.itemRect = { 0, };
+	passiveItem_Dollar.itemPriceRect = { 0, };
 	passiveItem_Dollar.addPower = 0.0f;
 	passiveItem_Dollar.addSpeed = 0.0f;
 	passiveItem_Dollar.addShotSpeed = 0.0f;
@@ -116,6 +121,7 @@ HRESULT ItemManager::Init()
 	//passiveItem_Pyro.itemInfoImage = 
 	passiveItem_Pyro.itemName = "PassiveItem_Pyro";
 	passiveItem_Pyro.itemRect = { 0, };
+	passiveItem_Pyro.itemPriceRect = { 0, };
 	passiveItem_Pyro.addPower = 0.0f;
 	passiveItem_Pyro.addSpeed = 0.0f;
 	passiveItem_Pyro.addShotSpeed = 0.0f;
@@ -136,6 +142,7 @@ HRESULT ItemManager::Init()
 	//trinkets_CurvedHorn.itemInfoImage = 
 	trinkets_CurvedHorn.itemName = "Trinkets_CurvedHorn";
 	trinkets_CurvedHorn.itemRect = { 0, };
+	trinkets_CurvedHorn.itemPriceRect = { 0, };
 	trinkets_CurvedHorn.addPower = 10.0f;
 	trinkets_CurvedHorn.addSpeed = 0.0f;
 	trinkets_CurvedHorn.addShotSpeed = 0.0f;
@@ -155,6 +162,7 @@ HRESULT ItemManager::Init()
 	//trinkets_GoatHoof.itemInfoImage = 
 	trinkets_GoatHoof.itemName = "Trinkets_GoatHoof";
 	trinkets_GoatHoof.itemRect = { 0, };
+	trinkets_GoatHoof.itemPriceRect = { 0, };
 	trinkets_GoatHoof.addPower = 0.0f;
 	trinkets_GoatHoof.addSpeed = 1.0f;
 	trinkets_GoatHoof.addShotSpeed = 0.0f;
@@ -173,6 +181,7 @@ HRESULT ItemManager::Init()
 	trinkets_IsaacsFork.itemImage = IMAGEMANAGER->addImage("Trinkets_IsaacsFork", "images/item/Trinkets_IsaacsFork.bmp", 50, 50, true, RGB(255, 0, 255));
 	trinkets_IsaacsFork.itemName = "Trinkets_IsaacsFork";
 	trinkets_IsaacsFork.itemRect = { 0, };
+	trinkets_IsaacsFork.itemPriceRect = { 0, };
 	//trinkets_IsaacsFork.itemInfoImage = 
 	trinkets_IsaacsFork.addPower = 0.0f;
 	trinkets_IsaacsFork.addSpeed = 0.0f;
@@ -193,6 +202,7 @@ HRESULT ItemManager::Init()
 	//trinkets_MatchStick.itemInfoImage = 
 	trinkets_MatchStick.itemName = "Trinkets_MatchStick";
 	trinkets_MatchStick.itemRect = { 0, };
+	trinkets_MatchStick.itemPriceRect = { 0, };
 	trinkets_MatchStick.addPower = 10.0f;
 	trinkets_MatchStick.addSpeed = 0.0f;
 	trinkets_MatchStick.addShotSpeed = 0.0f;

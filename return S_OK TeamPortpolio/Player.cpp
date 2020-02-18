@@ -69,7 +69,7 @@ HRESULT Player::Init(string imageName)
 
 	vPlayerHeart = ITEMMANAGER->GetHeartInfo();
 
-	vPlayerBomb = ITEMMANAGER->GetBombInfo();
+//	vPlayerBomb = ITEMMANAGER->GetBombInfo();
 	vPlayerKey = ITEMMANAGER->GetKeyInfo();
 
 	vPlayerCard = ITEMMANAGER->GetCardInfo();
