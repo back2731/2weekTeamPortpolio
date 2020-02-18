@@ -14,7 +14,9 @@ Shop::~Shop()
 HRESULT Shop::Init()
 {
 
-	IMAGEMANAGER->addImage("TestMap", "images/item/TestMap.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("price5", "images/item/price5.bmp", 50, 32, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("price10", "images/item/price10.bmp", 50, 32, true, RGB(255, 0, 255));
+	IMAGEMANAGER->addImage("price15", "images/item/price15.bmp", 50, 32, true, RGB(255, 0, 255));
 	vShopActiveItem = ITEMMANAGER->GetActiveItemInfo();
 	vShopPassiveItem = ITEMMANAGER->GetPassiveItemInfo();
 	vShopTrinkets = ITEMMANAGER->GetTrinketsInfo();
@@ -38,8 +40,10 @@ HRESULT Shop::Init()
 
 	for (int i = 0; i < 3; i++)
 	{
-		itemRect[i] = { 316 + i * 100, 380, 368 + i * 100, 432 };
+		itemRect[i] = { 316 + i * 100, 330, 368 + i * 100, 382 };
 		vShopAllItem[i].itemRect = itemRect[i];
+		itemPriceRect[i] = { 316 + i * 100, 382, 368 + i * 100, 434 };
+		vShopAllItem[i].itemPriceRect = itemPriceRect[i];
 	}
 
 	return S_OK;
@@ -83,7 +87,27 @@ void Shop::Render(HDC hdc)
 {
 	if (!ITEMMANAGER->GetShop())
 	{
+<<<<<<< HEAD
 		for (int i = 0; i < vShopAllItem.size(); i++)
+=======
+		//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
+		vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
+		//IMAGEMANAGER->render(vShopAllItem[i].itemName, hdc, itemRect[i].left, itemRect[i].top);
+		if (vShopAllItem[i].price == 5)
+		{
+			IMAGEMANAGER->render("price5", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
+		}
+		if (vShopAllItem[i].price == 10)
+		{
+			IMAGEMANAGER->render("price10", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
+		}
+		if (vShopAllItem[i].price == 15)
+		{
+			IMAGEMANAGER->render("price15", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
+		}
+
+		if (KEYMANAGER->isToggleKey(VK_TAB))
+>>>>>>> test
 		{
 			//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
 			vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);

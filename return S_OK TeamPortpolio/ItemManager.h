@@ -20,6 +20,7 @@ struct ItemInfo
 	image*		itemImage;				// 아이템 이미지
 	image*		itemInfoImage;			// 아이템 UI이미지
 	RECT		itemRect;				// 아이템 생성위치
+	RECT		itemPriceRect;			// 아이템 가격위치
 	const char* itemName;				// 아이템 이름
 	float		addPower;				// 플레이어 공격력
 	float		addSpeed;				// 플레이어 속도 증감

@@ -13,10 +13,16 @@ ObjectPool::~ObjectPool()
 
 void ObjectPool::Init()
 {
+	
 	for (int i = 0; i < BULLETMAX; i++)
 	{
 		BulletInfo bullet;
 		vBulletRepository.push_back(bullet);
+	}
+	for (int i = 0; i < BUMBMAX; i++)
+	{
+		BombInfo bomb;
+		vBombRepository.push_back(bomb);
 	}
 }
 
@@ -34,10 +40,23 @@ void ObjectPool::SetBulletVector(BulletInfo vSpentBullet)
 	vBulletRepository.push_back(vSpentBullet);
 }
 
+void ObjectPool::SetBombVector(BombInfo vSpentBomb)
+{
+	vBombRepository.push_back(vSpentBomb);
+}
+
 BulletInfo ObjectPool::GetBullet()
 {
 	BulletInfo getBullet;
 	getBullet = vBulletRepository.back();
 	vBulletRepository.pop_back();
 	return getBullet;
+}
+
+BombInfo ObjectPool::GetBomb()
+{
+	BombInfo getBomb;
+	getBomb = vBombRepository.back();
+	vBombRepository.pop_back();
+	return getBomb;
 }

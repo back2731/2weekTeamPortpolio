@@ -49,6 +49,10 @@ private:
 
 	vector<BulletInfo> vPlayerBullet;
 	vector<BulletInfo>::iterator viPlayerBullet;
+
+	vector<BombInfo> vPlayerBomb;
+	vector<BombInfo>::iterator viPlayerBomb;
+
 	int playerBulletCount;         // «√∑π¿ÃæÓ ∫“∑ø ƒ´øÓ∆Æ
 
 	// æ÷¥œ∏ﬁ¿Ãº«¿ª µπ∏Æ±‚ ¿ß«— πËø≠
@@ -92,8 +96,8 @@ private:
 
 	vector <ItemInfo> vPlayerGold;						// ∞ÒµÂ æ∆¿Ã≈€ ∫§≈Õ
 	vector <ItemInfo>::iterator viPlayerGold;			// ∞ÒµÂ æ∆¿Ã≈€ ∫§≈Õ
-	vector <ItemInfo> vPlayerBomb;						// ∆¯≈∫ æ∆¿Ã≈€ ∫§≈Õ
-	vector <ItemInfo>::iterator viPlayerBomb;			// ∆¯≈∫ æ∆¿Ã≈€ ∫§≈Õ
+	//vector <ItemInfo> vPlayerBomb;						// ∆¯≈∫ æ∆¿Ã≈€ ∫§≈Õ
+	//vector <ItemInfo>::iterator viPlayerBomb;			// ∆¯≈∫ æ∆¿Ã≈€ ∫§≈Õ
 	vector <ItemInfo> vPlayerKey;						// ø≠ºË æ∆¿Ã≈€ ∫§≈Õ
 	vector <ItemInfo>::iterator viPlayerKey;			// ø≠ºË æ∆¿Ã≈€ ∫§≈Õ
 
@@ -131,6 +135,7 @@ public:
 	void SetPlayerHp(float num);
 	int GetPlayerGold() { return player.playerGold; }
 	void SetPlayerGold(int num);
+	int GetPlayerBomb() { return player.playerBomb; }
 	void SetPlayerBomb(int num);
 	int GetPlayerKey() { return player.playerKey; }
 	void SetPlayerKey(int num);
