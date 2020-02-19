@@ -47,6 +47,10 @@ private:
 	image*	   playerUIpicks;
 	image*	   playerUIhearts;
 
+	image* blackBg;
+	image* gameOver;
+	int deathCutSceneCount;
+
 	//UI¿ë ¹è¿­
 	int		   currentGold[2];
 	int		   currentBomb[2];

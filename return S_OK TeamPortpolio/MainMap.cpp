@@ -1017,26 +1017,6 @@ void MainMap::render()
 			}
 		}
 	}
-
-
-	sprintf_s((str), "isShop : %d", isShop[0][0]);
-	TextOut(getMemDC(), 400, 100, str, strlen(str));
-
-
-	sprintf_s((str), "savePositionX : %d", savePositionX);
-	TextOut(getMemDC(), 100, 100, str, strlen(str));
-
-	sprintf_s((str), "savePositionY : %d", savePositionY);
-	TextOut(getMemDC(), 100, 120, str, strlen(str));
-
-	sprintf_s((str), "savePositionX : %d", m_ptMouse.x);
-	TextOut(getMemDC(), 600, 100, str, strlen(str));
-
-	sprintf_s((str), "savePositionY : %d", m_ptMouse.y);
-	TextOut(getMemDC(), 600, 120, str, strlen(str));
-
-	sprintf_s((str), "playerBomb : %d", PLAYERMANAGER->GetPlayerBomb());
-	TextOut(getMemDC(), 100, 300, str, strlen(str));
 }
 
 void MainMap::DrawTileMap()

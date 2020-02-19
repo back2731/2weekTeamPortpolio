@@ -25,6 +25,9 @@ HRESULT mainGame::init()
 	// 메뉴
 	SCENEMANAGER->addScene("MainMenu", new MainMenu);
 
+	// 캐릭터 선택창 
+	SCENEMANAGER->addScene("CharacterSelect", new CharacterSelect);
+
 	// 실제 게임 Scene
 	SCENEMANAGER->addScene("GameScene", new GameScene);
 	

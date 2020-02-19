@@ -30,6 +30,10 @@ HRESULT Player::Init()
 	playerUIstats = IMAGEMANAGER->addFrameImage("playerUIStats", "images/UI/ingameUI/playerstats.bmp", 150, 30, 5, 1, true, RGB(255, 0, 255));
 	playerUIpicks = IMAGEMANAGER->addFrameImage("playerUIpicks", "images/UI/ingameUI/uipicks.bmp", 102, 36, 3, 1, true, RGB(255, 0, 255));
 	playerUIhearts = IMAGEMANAGER->addFrameImage("playerUIhearts", "images/UI/ingameUI/uiheart.bmp", 96, 32, 3, 1, true, RGB(255, 0, 255));
+	
+	// 엔딩용 이미지
+	blackBg = IMAGEMANAGER->addImage("blackBg", "images/UI/menu/blackBg.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	gameOver = IMAGEMANAGER->addImage("gameOver", "images/UI/menu/gameOver.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 
 	// 플레이어 정보
 	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 23 * 2);			// 머리 상자
@@ -70,6 +74,8 @@ HRESULT Player::Init()
 	// 플레이어 프레임
 	direction = PLAYER_IDLE;
 
+	blackBg = IMAGEMANAGER->addImage("blackBg", "images/ending/blackBg.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+
 	//아이템 정보
 	vPlayerActiveItem = ITEMMANAGER->GetActiveItemInfo();
 	vPlayerPassiveItem = ITEMMANAGER->GetPassiveItemInfo();
@@ -107,6 +113,14 @@ void Player::Update()
 		COLLISIONMANAGER->PlayerBulletCollision(vPlayerBullet, viPlayerBullet);
 	}
 	PlayerStatUpdate();
+
+	if (deathCutSceneCount >= 150)
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || KEYMANAGER->isOnceKeyDown(VK_SPACE))
+		{
+			SCENEMANAGER->changeScene("MainMenu");
+		}
+	}
 }
 
 void Player::Render(HDC hdc)
@@ -145,46 +159,6 @@ void Player::Render(HDC hdc)
 
 			BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
 
-
-			if (KEYMANAGER->isToggleKey(VK_F3))
-			{
-				sprintf_s((str), "Maxhp : %f", player.playerMaxHp);
-				TextOut(hdc, 0, 80, str, strlen(str));
-
-				sprintf_s((str), "hp : %f", player.playerHp);
-				TextOut(hdc, 0, 100, str, strlen(str));
-
-				sprintf_s((str), "gold : %d", player.playerGold);
-				TextOut(hdc, 0, 120, str, strlen(str));
-
-				sprintf_s((str), "bomb : %d", player.playerBomb);
-				TextOut(hdc, 0, 140, str, strlen(str));
-
-				sprintf_s((str), "playerKey : %d", player.playerKey);
-				TextOut(hdc, 0, 160, str, strlen(str));
-
-				sprintf_s((str), "playerOffensePower : %d", player.playerOffensePower);
-				TextOut(hdc, 0, 180, str, strlen(str));
-
-				sprintf_s((str), "playerShotSpeed : %f", player.playerShotSpeed);
-				TextOut(hdc, 0, 200, str, strlen(str));
-
-				sprintf_s((str), "playerShotRange : %f", player.playerShotRange);
-				TextOut(hdc, 0, 220, str, strlen(str));
-
-				sprintf_s((str), "playerShotDelay : %f", player.playerShotDelay);
-				TextOut(hdc, 0, 240, str, strlen(str));
-
-				sprintf_s((str), "playerSpeed : %f", player.playerSpeed);
-				TextOut(hdc, 0, 260, str, strlen(str));
-
-				sprintf_s((str), "playerSlideSpeed : %f", player.playerSlideSpeed);
-				TextOut(hdc, 0, 280, str, strlen(str));
-
-				sprintf_s((str), "Item : %d", vPlayerAllItem.size());
-				TextOut(hdc, 0, 300, str, strlen(str));
-			}
-
 			// 먹은 아이템 표기
 			if (vPlayerAllItem.size() > 0)
 			{
@@ -207,10 +181,55 @@ void Player::Render(HDC hdc)
 		else
 		{
 			player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left - 13, player.playerBodyRect.top - 349, aniBody);
+			deathCutSceneCount++;
+			if (deathCutSceneCount >= 150)
+			{
+				blackBg->alphaRender(hdc, 0, 0, 150);
+				gameOver->render(hdc, 0, 0);
+			}
 		}
 	}
 	//void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
 	
+	if (KEYMANAGER->isToggleKey(VK_F3))
+	{
+		sprintf_s((str), "Maxhp : %f", player.playerMaxHp);
+		TextOut(hdc, 200, 80, str, strlen(str));
+
+		sprintf_s((str), "hp : %f", player.playerHp);
+		TextOut(hdc, 200, 100, str, strlen(str));
+
+		sprintf_s((str), "gold : %d", player.playerGold);
+		TextOut(hdc, 200, 120, str, strlen(str));
+
+		sprintf_s((str), "bomb : %d", player.playerBomb);
+		TextOut(hdc, 200, 140, str, strlen(str));
+
+		sprintf_s((str), "playerKey : %d", player.playerKey);
+		TextOut(hdc, 200, 160, str, strlen(str));
+
+		sprintf_s((str), "playerOffensePower : %d", player.playerOffensePower);
+		TextOut(hdc, 200, 180, str, strlen(str));
+
+		sprintf_s((str), "playerShotSpeed : %f", player.playerShotSpeed);
+		TextOut(hdc, 200, 200, str, strlen(str));
+
+		sprintf_s((str), "playerShotRange : %f", player.playerShotRange);
+		TextOut(hdc, 200, 220, str, strlen(str));
+
+		sprintf_s((str), "playerShotDelay : %f", player.playerShotDelay);
+		TextOut(hdc, 200, 240, str, strlen(str));
+
+		sprintf_s((str), "playerSpeed : %f", player.playerSpeed);
+		TextOut(hdc, 200, 260, str, strlen(str));
+
+		sprintf_s((str), "playerSlideSpeed : %f", player.playerSlideSpeed);
+		TextOut(hdc, 200, 280, str, strlen(str));
+
+		sprintf_s((str), "Item : %d", vPlayerAllItem.size());
+		TextOut(hdc, 200, 300, str, strlen(str));
+	}
+
 	//UI 골드, 폭탄, 열쇠, 하트
 	if (player.playerHp <= 0 && player.playerMaxHp == 3)
 	{

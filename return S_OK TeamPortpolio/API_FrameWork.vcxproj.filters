@@ -237,6 +237,15 @@
     <ClInclude Include="TitleScene.h">
       <Filter>mainGame\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterSelect.h">
+      <Filter>mainGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameClearScene.h">
+      <Filter>mainGame\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScene.h">
+      <Filter>mainGame\Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -372,6 +381,15 @@
       <Filter>mainGame\Scene\MapTool</Filter>
     </ClCompile>
     <ClCompile Include="TitleScene.cpp">
+      <Filter>mainGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterSelect.cpp">
+      <Filter>mainGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameClearScene.cpp">
+      <Filter>mainGame\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverScene.cpp">
       <Filter>mainGame\Scene</Filter>
     </ClCompile>
   </ItemGroup>

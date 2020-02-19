@@ -44,6 +44,10 @@ private:
 	int loadData;
 	int endCount;
 
+	image* blackBg;
+	image* clearImage;
+	int badEndCount;
+
 	bool isCheckClear;
 	bool isSummonEnemy;
 	bool isBoss;

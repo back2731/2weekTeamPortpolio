@@ -33,6 +33,10 @@ HRESULT EnemyManager::Init()
 	ANIMATIONMANAGER->addAnimation("box", "goldBox", 0, 4, 10, false, false);
 	goldBoxAnimation = ANIMATIONMANAGER->findAnimation("box");
 
+	// 엔딩용 이미지
+	blackBg = IMAGEMANAGER->addImage("blackBg", "images/UI/menu/blackBg.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	clearImage = IMAGEMANAGER->addImage("clear", "images/UI/menu/clear.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+
 	return S_OK;
 }
 
@@ -225,9 +229,17 @@ void EnemyManager::Update()
 					{
 						ANIMATIONMANAGER->resume("box");
 						gameEnd = true;
+						badEndCount++;
 					}
 				}
 			}
+		}
+	}
+	if (badEndCount >= 100)
+	{
+		if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || KEYMANAGER->isOnceKeyDown(VK_SPACE))
+		{
+			SCENEMANAGER->changeScene("MainMenu");
 		}
 	}
 }
@@ -250,6 +262,11 @@ void EnemyManager::Render(HDC hdc)
 	{
 		//Rectangle(hdc, goldBoxRect.left, goldBoxRect.top, goldBoxRect.right, goldBoxRect.bottom);
 		goldBoxImage->aniRender(hdc, goldBoxRect.left - 16, goldBoxRect.top - 35, goldBoxAnimation);
+		if (badEndCount >= 100)
+		{
+			blackBg->alphaRender(hdc, 0, 0, 150);
+			clearImage->render(hdc, 0, 0);
+		}
 	}
 }
 

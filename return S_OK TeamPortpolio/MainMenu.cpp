@@ -60,7 +60,7 @@ void MainMenu::CursorMove()
 		}
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || KEYMANAGER->isOnceKeyDown(VK_SPACE))
 		{
-			SCENEMANAGER->changeScene("GameScene");
+			SCENEMANAGER->changeScene("CharacterSelect");
 		}
 	}
 	// 맵툴 선택시 맵툴 화면으로 전환한다.

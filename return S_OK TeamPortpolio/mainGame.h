@@ -1,6 +1,7 @@
 #pragma once
 #include "gameNode.h"
 #include "TitleScene.h"
+#include "CharacterSelect.h"
 #include "MainMenu.h"
 #include "GameScene.h"
 #include "MapToolScene.h"
