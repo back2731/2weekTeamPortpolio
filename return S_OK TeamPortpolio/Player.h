@@ -42,6 +42,21 @@ private:
 	animation* aniHead;
 	animation* aniBody;
 	animation* aniHit;
+	image*	   playerUINumber;
+	image*	   playerUIstats;
+	image*	   playerUIpicks;
+	image*	   playerUIhearts;
+
+	//UI용 배열
+	int		   currentGold[2];
+	int		   currentBomb[2];
+	int		   currentKey[2];
+	   
+	float	   currentSpeedFrame[4];
+	float	   currentRangeFrame[5];
+	float	   currentShotSpeedFrame[4];
+	int		   currentShotDelayFrame[4];
+	int		   currentOffenseFrame[4];
 
 private:
 	pDirection direction;
@@ -128,6 +143,7 @@ public:
 	void PlayerShot();			// 플레이어 공격키 함수
 	void PlayerShotMove();		// 플레이어 공격시 방향 함수
 	void PlayerAnimation();		// 플레이어 애니메이션
+	void PlayerStatUpdate();	// 플레이어 스탯 업데이트
 
 	RECT GetPlayerHeadRect() { return player.playerHeadRect; }
 	float GetPlayerHeadRectX() { return (player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2); }
