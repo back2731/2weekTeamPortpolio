@@ -24,10 +24,10 @@ HRESULT ItemManager::Init()
 	activeItem_Dice.itemName = "ActiveItem_Dice";
 	activeItem_Dice.itemRect = { 0, };
 	activeItem_Dice.itemPriceRect = { 0, };
-	activeItem_Dice.addPower = 0.0f;
-	activeItem_Dice.addSpeed = 0.0f;
+	activeItem_Dice.addPower = 5.0f;
+	activeItem_Dice.addSpeed = 2.0f;
 	activeItem_Dice.addShotSpeed = 0.0f;
-	activeItem_Dice.addShotRange = 0.0f;
+	activeItem_Dice.addShotRange = 50.0f;
 	activeItem_Dice.addShotDelay = 0;
 	activeItem_Dice.addMaxHeart = 0.0f;
 	activeItem_Dice.addHeart = 0.0f;
@@ -45,9 +45,9 @@ HRESULT ItemManager::Init()
 	activeItem_GuppysPaw.itemRect = { 0, };
 	activeItem_GuppysPaw.itemPriceRect = { 0, };
 	activeItem_GuppysPaw.addPower = 0.0f;
-	activeItem_GuppysPaw.addSpeed = 0.0f;
-	activeItem_GuppysPaw.addShotSpeed = 0.0f;
-	activeItem_GuppysPaw.addShotRange = 0.0f;
+	activeItem_GuppysPaw.addSpeed = 2.0f;
+	activeItem_GuppysPaw.addShotSpeed = 8.0f;
+	activeItem_GuppysPaw.addShotRange = 150.0f;
 	activeItem_GuppysPaw.addShotDelay = 0;
 	activeItem_GuppysPaw.addMaxHeart = 0.0f;
 	activeItem_GuppysPaw.addHeart = 0.0f;
@@ -71,7 +71,7 @@ HRESULT ItemManager::Init()
 	passiveItem_Dessert.addShotRange = 0.0f;
 	passiveItem_Dessert.addShotDelay = 0;
 	passiveItem_Dessert.addMaxHeart = 1.0f;
-	passiveItem_Dessert.addHeart = 0.0f;
+	passiveItem_Dessert.addHeart = 1.0f;
 	passiveItem_Dessert.addGold = 0;
 	passiveItem_Dessert.addBomb = 0;
 	passiveItem_Dessert.addKey = 0;

@@ -25,6 +25,11 @@ HRESULT Player::Init()
 	player.playerHitImage = IMAGEMANAGER->addFrameImage("PlayerHit", "images/player/PlayerHit.bmp", 944 / 1.5, 135 / 1.5, 8, 1, true, RGB(255, 0, 255));
 	ANIMATIONMANAGER->addDefAnimation("playerHit", "PlayerHit", 25, false, true);
 	aniHit = ANIMATIONMANAGER->findAnimation("playerHit");
+	// 플레이어 UI 이미지
+	playerUINumber = IMAGEMANAGER->addFrameImage("playerUINumber", "images/UI/ingameUI/numbers.bmp", 110, 12, 11, 1, true, RGB(255, 0, 255));
+	playerUIstats = IMAGEMANAGER->addFrameImage("playerUIStats", "images/UI/ingameUI/playerstats.bmp", 150, 30, 5, 1, true, RGB(255, 0, 255));
+	playerUIpicks = IMAGEMANAGER->addFrameImage("playerUIpicks", "images/UI/ingameUI/uipicks.bmp", 102, 36, 3, 1, true, RGB(255, 0, 255));
+	playerUIhearts = IMAGEMANAGER->addFrameImage("playerUIhearts", "images/UI/ingameUI/uiheart.bmp", 96, 32, 3, 1, true, RGB(255, 0, 255));
 
 	// 플레이어 정보
 	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 23 * 2);			// 머리 상자
@@ -101,6 +106,7 @@ void Player::Update()
 		PlayerShot();
 		COLLISIONMANAGER->PlayerBulletCollision(vPlayerBullet, viPlayerBullet);
 	}
+	PlayerStatUpdate();
 }
 
 void Player::Render(HDC hdc)
@@ -203,6 +209,223 @@ void Player::Render(HDC hdc)
 			player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left - 13, player.playerBodyRect.top - 349, aniBody);
 		}
 	}
+	//void alphaRender(HDC hdc, int destX, int destY, int sourX, int sourY, int sourWidth, int sourHeight, BYTE alpha);
+	
+	//UI 골드, 폭탄, 열쇠, 하트
+	if (player.playerHp <= 0 && player.playerMaxHp == 3)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 2, 0);
+	}
+	else if (player.playerHp <= 0 && player.playerMaxHp == 4)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 3, 15, 2, 0);
+	}
+	else if (player.playerHp == 3 && player.playerMaxHp == 4)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 3, 15, 2, 0);
+	}
+	if (player.playerHp == 0.5 && player.playerMaxHp == 3)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 1, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 2, 0);
+	}
+	else if (player.playerHp == 0.5 && player.playerMaxHp == 4)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 1, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 3, 15, 2, 0);
+	}
+	if (player.playerHp == 1 && player.playerMaxHp == 3)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 2, 0);
+	}
+	else if (player.playerHp == 1 && player.playerMaxHp == 4)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 3, 15, 2, 0);
+	}
+	if (player.playerHp == 1.5 && player.playerMaxHp == 3)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 1, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 2, 0);
+	}
+	else if (player.playerHp == 1.5 && player.playerMaxHp == 4)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 1, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 3, 15, 2, 0);
+	}
+	if (player.playerHp == 2 && player.playerMaxHp == 3)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 2, 0);
+	}
+	else if (player.playerHp == 2 && player.playerMaxHp == 4)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 2, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 3, 15, 2, 0);
+	}
+	if (player.playerHp == 2.5 && player.playerMaxHp == 3)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 1, 0);
+	}
+	else if (player.playerHp == 2.5 && player.playerMaxHp == 4)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 1, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 3, 15, 2, 0);
+	}
+	if (player.playerHp == 3 && player.playerMaxHp == 3)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32*2, 15, 0, 0);
+	}
+	else if (player.playerHp == 3 && player.playerMaxHp == 4)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 3, 15, 2, 0);
+	}
+	if (player.playerHp == 3.5 && player.playerMaxHp == 4)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 3, 15, 1, 0);
+	}
+	if (player.playerHp == 4 && player.playerMaxHp == 4)
+	{
+		playerUIhearts->frameRender(hdc, 105, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 2, 15, 0, 0);
+		playerUIhearts->frameRender(hdc, 105 + 32 * 3, 15, 0, 0);
+	}
+
+
+	for (int i = 0; i < 3; i++)
+	{
+		playerUIpicks->frameRender(hdc, 10, 80 + 30 * i, i, 0);
+	}
+	playerUINumber->frameRender(hdc, 42, 92, currentGold[0], 0);
+	playerUINumber->frameRender(hdc, 52, 92, currentGold[1], 0);
+
+	playerUINumber->frameRender(hdc, 42, 123, currentBomb[0], 0);
+	playerUINumber->frameRender(hdc, 52, 123, currentBomb[1], 0);
+
+	playerUINumber->frameRender(hdc, 42, 154, currentKey[0], 0);
+	playerUINumber->frameRender(hdc, 52, 154, currentKey[1], 0);
+
+	//UI 이미지 렌더
+	for (int i = 0; i < 5; i++)
+	{
+		playerUIstats->alphaRender(hdc, 10, 200 + 40 * i, 30 * i, 0, 30, 30, 125);
+	}
+	//UI 스피드
+	for (int i = 0; i < 5; i++)
+	{
+		if (i < 2)
+		{
+			playerUINumber->alphaRender(hdc, 50 + 8 * i, 210, 0 + 10 * currentSpeedFrame[i], 0, 10, 12, 125);
+		}
+		else if (i >= 2 && i < 4)
+		{
+			playerUINumber->alphaRender(hdc, 55 + 8 * i, 210, 0 + 10 * currentSpeedFrame[i], 0, 10, 12, 125);
+		}
+		else
+		{
+			playerUINumber->alphaRender(hdc, 66, 210, 0 + 10 * 10, 0, 10, 12, 125);
+		}
+	}
+	//UI Range
+	for (int i = 0; i < 6; i++)
+	{
+		if (i < 3)
+		{
+			playerUINumber->alphaRender(hdc, 50 + 8 * i, 250, 0 + 10 * currentRangeFrame[i], 0, 10, 12, 125);
+		}
+		else if (i >= 3 && i < 5)
+		{
+			playerUINumber->alphaRender(hdc, 58 + 8 * i, 250, 0 + 10 * currentRangeFrame[i], 0, 10, 12, 125);
+		}
+		else
+		{
+			playerUINumber->alphaRender(hdc, 76, 250, 0 + 10 * 10, 0, 10, 12, 125);
+		}
+	}
+	//UI shotDelay
+	for (int i = 0; i < 5; i++)
+	{
+		if (i < 2)
+		{
+			playerUINumber->alphaRender(hdc, 50 + 8 * i, 290, 0 + 10 * currentShotDelayFrame[i], 0, 10, 12, 125);
+		}
+		else if (i >= 2 && i < 4)
+		{
+			playerUINumber->alphaRender(hdc, 55 + 8 * i, 290, 0 + 10 * currentShotDelayFrame[i], 0, 10, 12, 125);
+		}
+		else
+		{
+			playerUINumber->alphaRender(hdc, 66, 290, 0 + 10 * 10, 0, 10, 12, 125);
+		}
+	}
+	//UI shotSpeed
+	for (int i = 0; i < 5; i++)
+	{
+		if (i < 2)
+		{
+			playerUINumber->alphaRender(hdc, 50 + 8 * i, 330, 0 + 10 * currentShotSpeedFrame[i], 0, 10, 12, 125);
+		}
+		else if (i >= 2 && i < 4)
+		{
+			playerUINumber->alphaRender(hdc, 55 + 8 * i, 330, 0 + 10 * currentShotSpeedFrame[i], 0, 10, 12, 125);
+		}
+		else
+		{
+			playerUINumber->alphaRender(hdc, 65, 330, 0 + 10 * 10, 0, 10, 12, 125);
+		}
+	}
+	//UI 공격력
+	for (int i = 0; i < 5; i++)
+	{
+		if (i < 2)
+		{
+			playerUINumber->alphaRender(hdc, 50 + 8 * i, 370, 0 + 10 * currentOffenseFrame[i], 0, 10, 12, 125);
+		}
+		else if (i >= 2 && i < 4)
+		{
+			playerUINumber->alphaRender(hdc, 55 + 8 * i, 370, 0 + 10 * currentOffenseFrame[i], 0, 10, 12, 125);
+		}
+		else
+		{
+			playerUINumber->alphaRender(hdc, 66, 370, 0 + 10 * 10, 0, 10, 12, 125);
+		}
+	}
+
+
 }
 
 void Player::PlayerDeath()
@@ -600,6 +823,44 @@ void Player::PlayerAnimation()
 			}
 		}
 	}
+}
+
+void Player::PlayerStatUpdate()
+{
+	currentGold[0] = (player.playerGold % 100) / 10;
+	currentGold[1] = player.playerGold % 10;
+
+	currentBomb[0] = (player.playerBomb % 100) / 10;
+	currentBomb[1] = player.playerBomb % 10;
+
+	currentKey[0] = (player.playerKey % 100) / 10;
+	currentKey[1] = player.playerKey % 10;
+
+	currentSpeedFrame[0] = ((int)player.playerSpeed % 100) / 10;
+	currentSpeedFrame[1] = (int)player.playerSpeed % 10;
+	currentSpeedFrame[2] = (float)(((int)player.playerSpeed * 10) % 10);
+	currentSpeedFrame[3] = (float)(((int)player.playerSpeed * 100) % 10);
+
+	currentRangeFrame[0] = ((int)player.playerShotRange % 1000) / 100;
+	currentRangeFrame[1] = ((int)player.playerShotRange % 100) / 10;
+	currentRangeFrame[2] = (int)player.playerShotRange % 10;
+	currentRangeFrame[3] = (float)(((int)player.playerShotRange * 10) % 10);
+	currentRangeFrame[4] = (float)(((int)player.playerShotRange * 100) % 10);
+	   
+	currentShotDelayFrame[0] = (player.playerShotDelay % 100) / 10;
+	currentShotDelayFrame[1] = player.playerShotDelay % 10;
+	currentShotDelayFrame[2] = 0;
+	currentShotDelayFrame[3] = 0;
+
+	currentShotSpeedFrame[0] = ((int)player.playerShotSpeed % 100) / 10;
+	currentShotSpeedFrame[1] = (int)player.playerShotSpeed % 10;
+	currentShotSpeedFrame[2] = (float)(((int)player.playerShotSpeed * 10) % 10);
+	currentShotSpeedFrame[3] = (float)(((int)player.playerShotSpeed * 100) % 10);
+
+	currentOffenseFrame[0] = (player.playerOffensePower % 100) / 10;
+	currentOffenseFrame[1] = player.playerOffensePower % 10;
+	currentOffenseFrame[2] = 0;
+	currentOffenseFrame[3] = 0;
 }
 
 void Player::SetPlayerHp(float num)
