@@ -150,7 +150,7 @@ void BulletManager::RemoveBomb(vector<BombInfo>& bombVector, vector<BombInfo>::i
 		if (bombIter->delayTime > 120)
 		{
 			OBJECTPOOL->SetBombVector(bombVector.front());
-			EFFECTMANAGER->play("boom", bombIter->rect.left + 80 , bombIter->rect.top + 120);
+			EFFECTMANAGER->play("boom", bombIter->rect.left + 80, bombIter->rect.top + 120);
 			bombIter = bombVector.erase(bombIter);
 		}
 		else

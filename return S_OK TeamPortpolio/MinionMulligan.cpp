@@ -512,8 +512,8 @@ void MinionMulligan::DeleteEnemy()
 	{
 		for (i = 0; i < vMinionMulligan.size(); i++)
 		{
-			if (vMinionMulligan[i].enemyRect.left <= 110 || vMinionMulligan[i].enemyRect.right >= 780 ||
-				vMinionMulligan[i].enemyRect.top <= 60 || vMinionMulligan[i].enemyRect.bottom >= 460)
+			if (vMinionMulligan[i].enemyRect.left <= 105 || vMinionMulligan[i].enemyRect.right >= 780 ||
+				vMinionMulligan[i].enemyRect.top <= 105 || vMinionMulligan[i].enemyRect.bottom >= 465)
 			{
 				EnemyShot();
 			}

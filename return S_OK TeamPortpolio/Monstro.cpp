@@ -38,10 +38,10 @@ HRESULT Monstro::Init(POINT position)
 	rndX = RND->getFromIntTo(-100, 100);
 	rndY = RND->getFromIntTo(-100, 100);
 
-	shotCount = 0;				
-	jumpCount = 0;				
-	teleportCount = 0;			
-	deathCount = 0;				
+	shotCount = 0;
+	jumpCount = 0;
+	teleportCount = 0;
+	deathCount = 0;
 	firstEnemyAiPattern = 0;
 
 	jumpCollision = false;
@@ -208,12 +208,8 @@ void Monstro::EnemyAi()
 				}
 
 				// + - 바꿔보기 이게 접근 방식이 어떻게 되는지
-				if (vMonstro[i].enemyRect.left >= 105 && vMonstro[i].enemyRect.right <= 780 &&
-					vMonstro[i].enemyRect.top >= 105 && vMonstro[i].enemyRect.bottom <= 465)
-				{
-					vMonstro[i].enemyX += vx;
-					vMonstro[i].enemyY += vy;
-				}
+				vMonstro[i].enemyX += vx;
+				vMonstro[i].enemyY += vy;
 				vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 120, 60);
 			}
 
@@ -409,6 +405,7 @@ void Monstro::EnemyPattern()
 				vx = 0;
 				vy = vMonstro[i].enemySpeed;
 			}
+
 			vMonstro[i].enemyX += vx;
 			vMonstro[i].enemyY += vy;
 			vMonstro[i].enemyRect = RectMakeCenter(vMonstro[i].enemyX, vMonstro[i].enemyY, 120, 60);

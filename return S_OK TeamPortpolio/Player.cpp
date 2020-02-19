@@ -29,7 +29,7 @@ HRESULT Player::Init()
 	// 플레이어 정보
 	player.playerHeadRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2, 32 * 2, 23 * 2);			// 머리 상자
 	player.playerBodyRect = RectMakeCenter(WINSIZEX / 2, WINSIZEY / 2 + 30, 32 * 2, 11 * 2);	// 몸 상자
-	player.playerOffensePower = 50;																// 공격력
+	player.playerOffensePower = 5;																// 공격력
 	player.playerShotSpeed = 8.0f;																// 공격속도
 	player.playerShotRange = 450.0f;															// 공격사거리
 	player.playerShotDelay = 25;																// 공격주기
@@ -38,9 +38,9 @@ HRESULT Player::Init()
 	playerBulletCount = 0;																		// 불렛 카운트
 	playerDeathCount = 0;																		// 사망 카운트
 
-	player.playerMaxHp = 5.0f;
-	player.playerHp = 5.0f;
-	player.playerGold = 44;
+	player.playerMaxHp = 3.0f;
+	player.playerHp = 3.0f;
+	player.playerGold = 40;
 	player.playerBomb = 1;
 	player.playerKey = 1;
 
@@ -432,8 +432,10 @@ void Player::PlayerShot()
 		aniHead = ANIMATIONMANAGER->findAnimation("shotDown");
 		ANIMATIONMANAGER->stop("shotDown");
 	}
+
 	//폭탄 지연시간
 	playerBombDelay++;
+
 	if (KEYMANAGER->isOnceKeyDown('Y'))
 	{
 		//string imageName, vector<BombInfo>& bombVector, int x, int y, int damage, int range, int delayTime
@@ -450,8 +452,10 @@ void Player::PlayerShot()
 		ANIMATIONMANAGER->findAnimation("playerBomb");
 		ANIMATIONMANAGER->start("playerBomb");
 	}
+
 	//폭탄 삭제
 	BULLETMANAGER->RemoveBomb(vPlayerBomb, viPlayerBomb);
+
 	PlayerShotMove();	//플레이어 공격 방향
 }
 
