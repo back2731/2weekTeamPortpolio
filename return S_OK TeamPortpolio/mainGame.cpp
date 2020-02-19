@@ -13,6 +13,12 @@ HRESULT mainGame::init()
 {
 	gameNode::init(true);
 
+	// 사운드
+	SOUNDMANAGER->addSound("title", "sound/Title Screen.mp3", true, true);
+	SOUNDMANAGER->addSound("main", "sound/ReGenesis.mp3", true, true);
+	SOUNDMANAGER->addSound("BGM", "sound/Diptera Sonata.mp3", true, true);
+	SOUNDMANAGER->addSound("BossBGM", "sound/Boss Fight.mp3", true, true);
+
 	// 타이틀 씬
 	SCENEMANAGER->addScene("TitleScene", new TitleScene);
 	

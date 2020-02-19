@@ -12,6 +12,10 @@ GameScene::~GameScene()
 
 HRESULT GameScene::init()
 {
+	// »ç¿îµå
+	SOUNDMANAGER->stop("main");
+	SOUNDMANAGER->play("BGM", 1.0f);
+
 	mainMap = new MainMap;
 	mainMap->init();
 
