@@ -44,7 +44,7 @@ HRESULT Player::Init()
 	playerDeathCount = 0;																		// »ç¸Á Ä«¿îÆ®
 
 	player.playerMaxHp = 3.0f;
-	player.playerHp = 10000.0f;
+	player.playerHp = 3.0f;
 	player.playerGold = 40;
 	player.playerBomb = 1;
 	player.playerKey = 1;
