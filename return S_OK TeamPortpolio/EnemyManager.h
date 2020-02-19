@@ -18,6 +18,12 @@
 class EnemyManager : public singletonBase<EnemyManager>
 {
 private:
+	// 황금 상자
+	animation*	goldBoxAnimation;
+	image*		goldBoxImage;
+	RECT		goldBoxRect;
+	RECT		temp;
+
 	//보스
 	Monstro*			m_Monstro;
 
@@ -36,14 +42,17 @@ private:
 	MinionPacer*		m_MinionPacer;
 
 	int loadData;
+	int endCount;
 
 	bool isCheckClear;
 	bool isSummonEnemy;
 	bool isBoss;
 	bool openDoor;
+	bool gameEnd;
 
 	// 문자 테스트용 변수
 	char str[128];
+
 public:
 	EnemyManager();
 	~EnemyManager();
@@ -80,4 +89,5 @@ public:
 	void SetBoss(bool value);
 
 	bool GetOpenDoor() { return openDoor; }
+	bool GetGameEnd() { return gameEnd; }
 };

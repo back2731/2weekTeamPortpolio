@@ -877,6 +877,7 @@ void CollisionManager::EnemyBulletCollision(vector<BulletInfo>& enemyBulletVecto
 					PLAYERMANAGER->SetPlayerHp(-0.5f);
 					playerHitAni = true;
 					playerHit = true;
+					EFFECTMANAGER->play("enemyBloodpoof", enemyBulletIter->rect.left, enemyBulletIter->rect.top + 20);
 
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(enemyBulletVector.front());

@@ -39,7 +39,7 @@ HRESULT Player::Init()
 	playerDeathCount = 0;																		// 사망 카운트
 
 	player.playerMaxHp = 3.0f;
-	player.playerHp = 3.0f;
+	player.playerHp = 10000.0f;
 	player.playerGold = 40;
 	player.playerBomb = 1;
 	player.playerKey = 1;
@@ -117,84 +117,91 @@ void Player::Render(HDC hdc)
 		DeleteObject(brush);
 	}
 
-	if (!playerDeath)
+	if (ENEMYMANAGER->GetGameEnd() == true)
 	{
-		if (COLLISIONMANAGER->GetplayerHitAni() == true)
-		{
-			player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
-			player.playerHitImage->aniRender(hdc, player.playerBodyRect.left - 3, player.playerBodyRect.top - 63, aniHit);
-		}
-		else if (COLLISIONMANAGER->GetplayerHitAni() == false)
-		{
-			player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
-			player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 20, aniBody);
-			player.playerHeadImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
-		}
-
-		BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
-
-
-		if (KEYMANAGER->isToggleKey(VK_F3))
-		{
-			sprintf_s((str), "Maxhp : %f", player.playerMaxHp);
-			TextOut(hdc, 0, 80, str, strlen(str));
-
-			sprintf_s((str), "hp : %f", player.playerHp);
-			TextOut(hdc, 0, 100, str, strlen(str));
-
-			sprintf_s((str), "gold : %d", player.playerGold);
-			TextOut(hdc, 0, 120, str, strlen(str));
-
-			sprintf_s((str), "bomb : %d", player.playerBomb);
-			TextOut(hdc, 0, 140, str, strlen(str));
-
-			sprintf_s((str), "playerKey : %d", player.playerKey);
-			TextOut(hdc, 0, 160, str, strlen(str));
-
-			sprintf_s((str), "playerOffensePower : %d", player.playerOffensePower);
-			TextOut(hdc, 0, 180, str, strlen(str));
-
-			sprintf_s((str), "playerShotSpeed : %f", player.playerShotSpeed);
-			TextOut(hdc, 0, 200, str, strlen(str));
-
-			sprintf_s((str), "playerShotRange : %f", player.playerShotRange);
-			TextOut(hdc, 0, 220, str, strlen(str));
-
-			sprintf_s((str), "playerShotDelay : %f", player.playerShotDelay);
-			TextOut(hdc, 0, 240, str, strlen(str));
-
-			sprintf_s((str), "playerSpeed : %f", player.playerSpeed);
-			TextOut(hdc, 0, 260, str, strlen(str));
-
-			sprintf_s((str), "playerSlideSpeed : %f", player.playerSlideSpeed);
-			TextOut(hdc, 0, 280, str, strlen(str));
-
-			sprintf_s((str), "Item : %d", vPlayerAllItem.size());
-			TextOut(hdc, 0, 300, str, strlen(str));
-		}
-
-		// 먹은 아이템 표기
-		if (vPlayerAllItem.size() > 0)
-		{
-			int j = 0;
-			int k = 0;
-			for (int i = 0; i < vPlayerAllItem.size(); i++)
-			{
-				if (i % 2 == 0 && i != 0)
-				{
-					k = 0;
-					j++;
-				}
-				vPlayerAllItem[i].itemRect = RectMakeCenter(780 + 60 * k, 180 + 60 * j, 52, 52);
-				//Rectangle(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, vPlayerAllItem[i].itemRect.right, vPlayerAllItem[i].itemRect.bottom);
-				vPlayerAllItem[i].itemImage->alphaRender(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, 200);
-				k++;
-			}
-		}
+		player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left - 10, player.playerBodyRect.top - 120, aniBody);
 	}
 	else
 	{
-		player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left - 13, player.playerBodyRect.top - 349, aniBody);
+		if (!playerDeath)
+		{
+			if (COLLISIONMANAGER->GetplayerHitAni() == true)
+			{
+				player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
+				player.playerHitImage->aniRender(hdc, player.playerBodyRect.left - 3, player.playerBodyRect.top - 63, aniHit);
+			}
+			else if (COLLISIONMANAGER->GetplayerHitAni() == false)
+			{
+				player.playerShadowImage->alphaRender(hdc, player.playerBodyRect.left + 12, player.playerBodyRect.top + 12, 70);
+				player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left, player.playerBodyRect.top - 20, aniBody);
+				player.playerHeadImage->aniRender(hdc, player.playerHeadRect.left, player.playerHeadRect.top - 5, aniHead);
+			}
+
+			BULLETMANAGER->RenderBullet(hdc, vPlayerBullet, viPlayerBullet);
+
+
+			if (KEYMANAGER->isToggleKey(VK_F3))
+			{
+				sprintf_s((str), "Maxhp : %f", player.playerMaxHp);
+				TextOut(hdc, 0, 80, str, strlen(str));
+
+				sprintf_s((str), "hp : %f", player.playerHp);
+				TextOut(hdc, 0, 100, str, strlen(str));
+
+				sprintf_s((str), "gold : %d", player.playerGold);
+				TextOut(hdc, 0, 120, str, strlen(str));
+
+				sprintf_s((str), "bomb : %d", player.playerBomb);
+				TextOut(hdc, 0, 140, str, strlen(str));
+
+				sprintf_s((str), "playerKey : %d", player.playerKey);
+				TextOut(hdc, 0, 160, str, strlen(str));
+
+				sprintf_s((str), "playerOffensePower : %d", player.playerOffensePower);
+				TextOut(hdc, 0, 180, str, strlen(str));
+
+				sprintf_s((str), "playerShotSpeed : %f", player.playerShotSpeed);
+				TextOut(hdc, 0, 200, str, strlen(str));
+
+				sprintf_s((str), "playerShotRange : %f", player.playerShotRange);
+				TextOut(hdc, 0, 220, str, strlen(str));
+
+				sprintf_s((str), "playerShotDelay : %f", player.playerShotDelay);
+				TextOut(hdc, 0, 240, str, strlen(str));
+
+				sprintf_s((str), "playerSpeed : %f", player.playerSpeed);
+				TextOut(hdc, 0, 260, str, strlen(str));
+
+				sprintf_s((str), "playerSlideSpeed : %f", player.playerSlideSpeed);
+				TextOut(hdc, 0, 280, str, strlen(str));
+
+				sprintf_s((str), "Item : %d", vPlayerAllItem.size());
+				TextOut(hdc, 0, 300, str, strlen(str));
+			}
+
+			// 먹은 아이템 표기
+			if (vPlayerAllItem.size() > 0)
+			{
+				int j = 0;
+				int k = 0;
+				for (int i = 0; i < vPlayerAllItem.size(); i++)
+				{
+					if (i % 2 == 0 && i != 0)
+					{
+						k = 0;
+						j++;
+					}
+					vPlayerAllItem[i].itemRect = RectMakeCenter(780 + 60 * k, 180 + 60 * j, 52, 52);
+					//Rectangle(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, vPlayerAllItem[i].itemRect.right, vPlayerAllItem[i].itemRect.bottom);
+					vPlayerAllItem[i].itemImage->alphaRender(hdc, vPlayerAllItem[i].itemRect.left, vPlayerAllItem[i].itemRect.top, 200);
+					k++;
+				}
+			}
+		}
+		else
+		{
+			player.playerBodyImage->aniRender(hdc, player.playerBodyRect.left - 13, player.playerBodyRect.top - 349, aniBody);
+		}
 	}
 }
 
@@ -522,64 +529,75 @@ void Player::PlayerShotMove()
 
 void Player::PlayerAnimation()
 {
-	if (COLLISIONMANAGER->GetplayerHitAni() == true)
+	if (ENEMYMANAGER->GetGameEnd() == true)
 	{
-		aniHit = ANIMATIONMANAGER->findAnimation("playerHit");
-		ANIMATIONMANAGER->resume("playerHit");
+		// END
+		player.playerBodyImage = IMAGEMANAGER->addFrameImage("GameEnd", "images/player/playerTrapdoor.bmp", 504, 387, 6, 3, true, RGB(255, 0, 255));
+		ANIMATIONMANAGER->addAnimation("end", "GameEnd", 0, 15, 15, false, false);
+		aniBody = ANIMATIONMANAGER->findAnimation("end");
+		ANIMATIONMANAGER->resume("end");
 	}
 	else
 	{
-		switch (direction)
+		if (COLLISIONMANAGER->GetplayerHitAni() == true)
 		{
-		case PLAYER_IDLE:
-			// 플레이어 HeadIdle
-			aniHead = ANIMATIONMANAGER->findAnimation("headIdle");
-			ANIMATIONMANAGER->stop("headIdle");
-			// 플레이어 BodyIdle
-			ANIMATIONMANAGER->addAnimation("bodyIdle", "playerBody", arrBodyIdle, 1, 1, true);
-			aniBody = ANIMATIONMANAGER->findAnimation("bodyIdle");
-			ANIMATIONMANAGER->stop("bodyIdle");
-			break;
-		case PLAYER_LEFT:
-			// 플레이어 HeadLeft
-			ANIMATIONMANAGER->addAnimation("headLeft", "playerHead", arrHeadLeft, 1, 1, true);
-			aniHead = ANIMATIONMANAGER->findAnimation("headLeft");
-			ANIMATIONMANAGER->stop("headLeft");
-			// 플레이어 BodyLeft
-			ANIMATIONMANAGER->addAnimation("bodyLeft", "playerBody", 10, 19, 12, false, true);
-			aniBody = ANIMATIONMANAGER->findAnimation("bodyLeft");
-			ANIMATIONMANAGER->resume("bodyLeft");
-			break;
-		case PLAYER_RIGHT:
-			// 플레이어 HeadRight
-			ANIMATIONMANAGER->addAnimation("headRight", "playerHead", arrHeadRight, 1, 1, true);
-			aniHead = ANIMATIONMANAGER->findAnimation("headRight");
-			ANIMATIONMANAGER->stop("headRight");
-			// 플레이어 BodyRight
-			ANIMATIONMANAGER->addAnimation("bodyRight", "playerBody", 30, 39, 12, false, true);
-			aniBody = ANIMATIONMANAGER->findAnimation("bodyRight");
-			ANIMATIONMANAGER->resume("bodyRight");
-			break;
-		case PLAYER_UP:
-			// 플레이어 HeadUp
-			ANIMATIONMANAGER->addAnimation("headUp", "playerHead", arrHeadUp, 1, 1, true);
-			aniHead = ANIMATIONMANAGER->findAnimation("headUp");
-			ANIMATIONMANAGER->stop("headUp");
-			// 플레이어 BodyUp
-			ANIMATIONMANAGER->addAnimation("bodyUp", "playerBody", 20, 29, 12, false, true);
-			aniBody = ANIMATIONMANAGER->findAnimation("bodyUp");
-			ANIMATIONMANAGER->resume("bodyUp");
-			break;
-		case PLAYER_DOWN:
-			// 플레이어 HeadDown
-			ANIMATIONMANAGER->addAnimation("headIdle", "playerHead", arrHeadIdle, 1, 1, true);
-			aniHead = ANIMATIONMANAGER->findAnimation("headIdle");
-			ANIMATIONMANAGER->stop("headIdle");
-			// 플레이어 BodyDown
-			ANIMATIONMANAGER->addAnimation("bodyDown", "playerBody", 20, 29, 12, false, true);
-			aniBody = ANIMATIONMANAGER->findAnimation("bodyDown");
-			ANIMATIONMANAGER->resume("bodyDown");
-			break;
+			aniHit = ANIMATIONMANAGER->findAnimation("playerHit");
+			ANIMATIONMANAGER->resume("playerHit");
+		}
+		else
+		{
+			switch (direction)
+			{
+			case PLAYER_IDLE:
+				// 플레이어 HeadIdle
+				aniHead = ANIMATIONMANAGER->findAnimation("headIdle");
+				ANIMATIONMANAGER->stop("headIdle");
+				// 플레이어 BodyIdle
+				ANIMATIONMANAGER->addAnimation("bodyIdle", "playerBody", arrBodyIdle, 1, 1, true);
+				aniBody = ANIMATIONMANAGER->findAnimation("bodyIdle");
+				ANIMATIONMANAGER->stop("bodyIdle");
+				break;
+			case PLAYER_LEFT:
+				// 플레이어 HeadLeft
+				ANIMATIONMANAGER->addAnimation("headLeft", "playerHead", arrHeadLeft, 1, 1, true);
+				aniHead = ANIMATIONMANAGER->findAnimation("headLeft");
+				ANIMATIONMANAGER->stop("headLeft");
+				// 플레이어 BodyLeft
+				ANIMATIONMANAGER->addAnimation("bodyLeft", "playerBody", 10, 19, 12, false, true);
+				aniBody = ANIMATIONMANAGER->findAnimation("bodyLeft");
+				ANIMATIONMANAGER->resume("bodyLeft");
+				break;
+			case PLAYER_RIGHT:
+				// 플레이어 HeadRight
+				ANIMATIONMANAGER->addAnimation("headRight", "playerHead", arrHeadRight, 1, 1, true);
+				aniHead = ANIMATIONMANAGER->findAnimation("headRight");
+				ANIMATIONMANAGER->stop("headRight");
+				// 플레이어 BodyRight
+				ANIMATIONMANAGER->addAnimation("bodyRight", "playerBody", 30, 39, 12, false, true);
+				aniBody = ANIMATIONMANAGER->findAnimation("bodyRight");
+				ANIMATIONMANAGER->resume("bodyRight");
+				break;
+			case PLAYER_UP:
+				// 플레이어 HeadUp
+				ANIMATIONMANAGER->addAnimation("headUp", "playerHead", arrHeadUp, 1, 1, true);
+				aniHead = ANIMATIONMANAGER->findAnimation("headUp");
+				ANIMATIONMANAGER->stop("headUp");
+				// 플레이어 BodyUp
+				ANIMATIONMANAGER->addAnimation("bodyUp", "playerBody", 20, 29, 12, false, true);
+				aniBody = ANIMATIONMANAGER->findAnimation("bodyUp");
+				ANIMATIONMANAGER->resume("bodyUp");
+				break;
+			case PLAYER_DOWN:
+				// 플레이어 HeadDown
+				ANIMATIONMANAGER->addAnimation("headIdle", "playerHead", arrHeadIdle, 1, 1, true);
+				aniHead = ANIMATIONMANAGER->findAnimation("headIdle");
+				ANIMATIONMANAGER->stop("headIdle");
+				// 플레이어 BodyDown
+				ANIMATIONMANAGER->addAnimation("bodyDown", "playerBody", 20, 29, 12, false, true);
+				aniBody = ANIMATIONMANAGER->findAnimation("bodyDown");
+				ANIMATIONMANAGER->resume("bodyDown");
+				break;
+			}
 		}
 	}
 }

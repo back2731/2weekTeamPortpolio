@@ -75,7 +75,7 @@ void MinionBlackFly::EnemyAiTime()
 	case 0:
 		// AI 패턴 시간
 		firstEnemyAiTime++;
-		if (firstEnemyAiTime / 60 == 3)
+		if (firstEnemyAiTime / 60 == 2)
 		{
 			firstEnemyAiPattern = RND->getFromIntTo(2, 5);
 			firstEnemyAiTime = 0;
@@ -84,7 +84,7 @@ void MinionBlackFly::EnemyAiTime()
 	case 1:
 		// AI 패턴 시간
 		secondEnemyAiTime++;
-		if (secondEnemyAiTime / 60 == 3)
+		if (secondEnemyAiTime / 60 == 2)
 		{
 			secondEnemyAiPattern = RND->getFromIntTo(2, 5);
 			secondEnemyAiTime = 0;
@@ -93,7 +93,7 @@ void MinionBlackFly::EnemyAiTime()
 	case 2:
 		// AI 패턴 시간
 		thirdEnemyAiTime++;
-		if (thirdEnemyAiTime / 60 == 3)
+		if (thirdEnemyAiTime / 60 == 2)
 		{
 			thirdEnemyAiPattern = RND->getFromIntTo(2, 5);
 			thirdEnemyAiTime = 0;
@@ -188,8 +188,8 @@ void MinionBlackFly::EnemyAi()
 		// 왼쪽이면 빠르게 움직여라
 		if (enemyLeftBoost)
 		{
-			vMinionBlackFly[i].enemyRect.left -= vMinionBlackFly[i].enemySpeed * 3;
-			vMinionBlackFly[i].enemyRect.right -= vMinionBlackFly[i].enemySpeed * 3;
+			vMinionBlackFly[i].enemyRect.left -= vMinionBlackFly[i].enemySpeed * 2.5;
+			vMinionBlackFly[i].enemyRect.right -= vMinionBlackFly[i].enemySpeed * 2.5;
 
 			if (vMinionBlackFly[i].enemyRect.left <= 140)
 			{
@@ -201,8 +201,8 @@ void MinionBlackFly::EnemyAi()
 		// 오른쪽이면 빠르게 움직여라
 		else if (enemyRightBoost)
 		{
-			vMinionBlackFly[i].enemyRect.left += vMinionBlackFly[i].enemySpeed * 3;
-			vMinionBlackFly[i].enemyRect.right += vMinionBlackFly[i].enemySpeed * 3;
+			vMinionBlackFly[i].enemyRect.left += vMinionBlackFly[i].enemySpeed * 2.5;
+			vMinionBlackFly[i].enemyRect.right += vMinionBlackFly[i].enemySpeed * 2.5;
 
 			if (vMinionBlackFly[i].enemyRect.right >= 740)
 			{
@@ -214,8 +214,8 @@ void MinionBlackFly::EnemyAi()
 		// 위면 빠르게 움직여라
 		else if (enemyUpBoost)
 		{
-			vMinionBlackFly[i].enemyRect.top -= vMinionBlackFly[i].enemySpeed * 3;
-			vMinionBlackFly[i].enemyRect.bottom -= vMinionBlackFly[i].enemySpeed * 3;
+			vMinionBlackFly[i].enemyRect.top -= vMinionBlackFly[i].enemySpeed * 2.5;
+			vMinionBlackFly[i].enemyRect.bottom -= vMinionBlackFly[i].enemySpeed * 2.5;
 
 			if (vMinionBlackFly[i].enemyRect.top <= 140)
 			{
@@ -227,8 +227,8 @@ void MinionBlackFly::EnemyAi()
 		// 아래면 빠르게 움직여라
 		else if (enemyDownBoost)
 		{
-			vMinionBlackFly[i].enemyRect.top += vMinionBlackFly[i].enemySpeed * 3;
-			vMinionBlackFly[i].enemyRect.bottom += vMinionBlackFly[i].enemySpeed * 3;
+			vMinionBlackFly[i].enemyRect.top += vMinionBlackFly[i].enemySpeed * 2.5;
+			vMinionBlackFly[i].enemyRect.bottom += vMinionBlackFly[i].enemySpeed * 2.5;
 
 			if (vMinionBlackFly[i].enemyRect.bottom >= 430)
 			{
@@ -435,7 +435,7 @@ void MinionBlackFly::EnemyAi()
 		}
 
 		// 판정 범위가 항상 적의 좌표를 쫓아다님
-		vMinionBlackFly[i].enemyFireRange = RectMakeCenter(vMinionBlackFly[i].enemyX, vMinionBlackFly[i].enemyY, 250, 250);
+		vMinionBlackFly[i].enemyFireRange = RectMakeCenter(vMinionBlackFly[i].enemyX, vMinionBlackFly[i].enemyY, 300, 300);
 	}
 }
 
