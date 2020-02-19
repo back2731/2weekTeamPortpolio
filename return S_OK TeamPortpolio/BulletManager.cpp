@@ -82,7 +82,7 @@ void BulletManager::ShootBomb(string imageName, vector<BombInfo>& bombVector, in
 		bomb.delayTime = delayTime;
 		bomb.rect = RectMakeCenter(bomb.bombX, bomb.bombY, bomb.bombImage->getWidth(), bomb.bombImage->getHeight());
 		bombVector.push_back(bomb);
-		//PLAYERMANAGER->SetPlayerBomb(-1);
+		PLAYERMANAGER->SetPlayerBomb(-1);
 	}
 }
 
@@ -121,7 +121,6 @@ void BulletManager::RemoveBomb(vector<BombInfo>& bombVector, vector<BombInfo>::i
 		{
 			OBJECTPOOL->SetBombVector(bombVector.front());
 			EFFECTMANAGER->play("boom", bombIter->rect.left + 80 , bombIter->rect.top + 120);
-			EFFECTMANAGER->play("blood", bombIter->rect.left + 80, bombIter->rect.top + 120);
 			bombIter = bombVector.erase(bombIter);
 		}
 		else
