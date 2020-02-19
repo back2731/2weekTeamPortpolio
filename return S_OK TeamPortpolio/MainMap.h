@@ -45,12 +45,12 @@ private:
 	bool moveRight;
 	bool moveLeft;
 
-	bool isCheckClear[ROOM_MAX_X][ROOM_MAX_Y];
-	bool isSummonEnemy[ROOM_MAX_X][ROOM_MAX_Y];
-	bool isBoss[ROOM_MAX_X][ROOM_MAX_Y];
-	bool isShop[ROOM_MAX_X][ROOM_MAX_Y];
-	bool isGoldRoom[ROOM_MAX_X][ROOM_MAX_Y];
-	bool isUsedKey;
+	bool isCheckClear[ROOM_MAX_X][ROOM_MAX_Y];		// 방 클리어 유무
+	bool isSummonEnemy[ROOM_MAX_X][ROOM_MAX_Y];		// 몬스터가 소환 됐는가?
+	bool isBoss[ROOM_MAX_X][ROOM_MAX_Y];			// 보스방인가?
+	bool isShop[ROOM_MAX_X][ROOM_MAX_Y];			// 상점인가?
+	bool isGoldRoom[ROOM_MAX_X][ROOM_MAX_Y];		// 황금방인가?
+	bool isUsedKey;									// 열쇠를 사용하는 곳인가.
 
 	//
 	const char* fileName[10] = { "map1.map","map2.map","map3.map","map4.map","map5.map","map6.map","map7.map","map8.map","map9.map","map10.map" };
