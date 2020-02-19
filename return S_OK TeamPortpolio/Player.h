@@ -55,6 +55,7 @@ private:
 
 	int playerBulletCount;			// 플레이어 불렛 카운트
 	int playerDeathCount;			// 플레이어 사망 카운트
+	int playerBombDelay = 125;		// 폭탄 카운트
 
 	// 애니메이션을 돌리기 위한 배열
 	int arrHeadIdle[1] = { 0 };

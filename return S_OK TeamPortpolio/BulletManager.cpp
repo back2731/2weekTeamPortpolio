@@ -21,8 +21,10 @@ HRESULT BulletManager::Init()
 	bomb = ANIMATIONMANAGER->findAnimation("playerBomb");
 	ANIMATIONMANAGER->start("playerBomb");
 
-	IMAGEMANAGER->addFrameImage("boom", "images/bullet/boom.bmp", 3610 / 4, 2332 / 4, 5, 4, true, RGB(255, 0, 255));
-	ANIMATIONMANAGER->addDefAnimation("boomAni", "boom", 30, false, false);
+	//IMAGEMANAGER->addFrameImage("boom", "images/bullet/boom.bmp", 3610 / 4, 2332 / 4, 5, 4, true, RGB(255, 0, 255));
+	//ANIMATIONMANAGER->addDefAnimation("boomAni", "boom", 30, false, false);
+
+	EFFECTMANAGER->addEffect("boom", "images/bullet/boom.bmp", 3610 / 2, 2332 / 2, 722 / 2, 583 / 2, 30, 1.0f, 10);
 
 	return S_OK;
 }
@@ -115,9 +117,11 @@ void BulletManager::RemoveBomb(vector<BombInfo>& bombVector, vector<BombInfo>::i
 	for (bombIter = bombVector.begin(); bombIter != bombVector.end();)
 	{
 		bombIter->delayTime++;
-		if (bombIter->delayTime > 110)
+		if (bombIter->delayTime > 120)
 		{
 			OBJECTPOOL->SetBombVector(bombVector.front());
+			EFFECTMANAGER->play("boom", bombIter->rect.left + 80 , bombIter->rect.top + 120);
+			EFFECTMANAGER->play("blood", bombIter->rect.left + 80, bombIter->rect.top + 120);
 			bombIter = bombVector.erase(bombIter);
 		}
 		else

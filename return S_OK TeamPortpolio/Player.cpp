@@ -432,19 +432,23 @@ void Player::PlayerShot()
 		aniHead = ANIMATIONMANAGER->findAnimation("shotDown");
 		ANIMATIONMANAGER->stop("shotDown");
 	}
-	if (KEYMANAGER->isOnceKeyDown('E'))
+	//ÆøÅº Áö¿¬½Ã°£
+	playerBombDelay++;
+	if (KEYMANAGER->isOnceKeyDown('Y'))
 	{
 		//string imageName, vector<BombInfo>& bombVector, int x, int y, int damage, int range, int delayTime
-		BULLETMANAGER->ShootBomb("playerBomb", vPlayerBomb,
-			player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2 + 780,
-			player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2 + 385,
-			1, 500, 3);
+		if (playerBombDelay > 125)
+		{
+			BULLETMANAGER->ShootBomb("playerBomb", vPlayerBomb,
+				player.playerHeadRect.left + (player.playerHeadRect.right - player.playerHeadRect.left) / 2 + 780,
+				player.playerHeadRect.top + (player.playerHeadRect.bottom - player.playerHeadRect.top) / 2 + 385,
+				1, 500, 3);
+			playerBombDelay = 0;
+		}
 
 		//ÆøÅº ¾Ö´Ï¸ÞÀÌ¼Ç
 		ANIMATIONMANAGER->findAnimation("playerBomb");
 		ANIMATIONMANAGER->start("playerBomb");
-
-
 	}
 	//ÆøÅº »èÁ¦
 	BULLETMANAGER->RemoveBomb(vPlayerBomb, viPlayerBomb);
