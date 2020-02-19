@@ -32,6 +32,10 @@ HRESULT MinionTumor::Init(POINT position, int EnemyNumber)
 	secondEnemyAiPattern = 1;
 	thirdEnemyAiPattern = 1;
 
+	// ÀÌÆåÆ®
+	EFFECTMANAGER->addEffect("effectPoof", "images/bullet/effectPoof.bmp", 256 * 2, 256 * 2, 64 * 2, 64 * 2, 30, 1.0f, 10);
+	EFFECTMANAGER->play("effectPoof", MinionTumor.enemyRect.left, MinionTumor.enemyRect.top + 20);
+
 	enemyMove = true;
 	enemyAreaCheck = false;
 
@@ -409,7 +413,7 @@ void MinionTumor::EnemyAi()
 	}
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ÀÇ ¿òÁ÷ÀÓ
-	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
+	BULLETMANAGER->MoveEnemyBullet(vEnemyBullet, viEnemyBullet);
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ Ãæµ¹
 	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);

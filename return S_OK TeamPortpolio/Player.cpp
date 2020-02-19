@@ -513,7 +513,7 @@ void Player::PlayerShotMove()
 	}
 
 	//ºÒ·¿ ¹«ºê
-	BULLETMANAGER->MoveBullet(vPlayerBullet, viPlayerBullet);
+	BULLETMANAGER->MovePlayerBullet(vPlayerBullet, viPlayerBullet);
 }
 
 void Player::PlayerAnimation()

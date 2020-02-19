@@ -29,6 +29,10 @@ HRESULT MinionBlackFly::Init(POINT position, int EnemyNumber)
 	secondEnemyAiPattern = 1;
 	thirdEnemyAiPattern = 1;
 
+	// ÀÌÆåÆ®
+	EFFECTMANAGER->addEffect("effectPoof", "images/bullet/effectPoof.bmp", 256 * 2, 256 * 2, 64 * 2, 64 * 2, 30, 1.0f, 10);
+	EFFECTMANAGER->play("effectPoof", MinionBlackFly.enemyRect.left, MinionBlackFly.enemyRect.top + 20);
+
 	enemyMove = true;
 	enemyAreaCheck = false;
 

@@ -24,6 +24,10 @@ HRESULT MinionPacer::Init(POINT position, int EnemyNumber)
 	minionAni = ANIMATIONMANAGER->findAnimation("pacer");
 	vMinionPacer.push_back(MinionPacer);
 
+	// ÀÌÆåÆ®
+	EFFECTMANAGER->addEffect("effectPoof", "images/bullet/effectPoof.bmp", 256 * 2, 256 * 2, 64 * 2, 64 * 2, 30, 1.0f, 10);
+	EFFECTMANAGER->play("effectPoof", MinionPacer.enemyRect.left, MinionPacer.enemyRect.top + 20);
+
 	return S_OK;
 }
 

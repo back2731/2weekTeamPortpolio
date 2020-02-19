@@ -32,10 +32,15 @@ private:
 	vector <ItemInfo> vShopAllItem;					// 모든 아이템 벡터
 	vector <ItemInfo>::iterator viShopAllItem;		// 모든 아이템 벡터
 
+	vector <ItemInfo> vGoldRoomAllItem;					// 모든 아이템 벡터
+	vector <ItemInfo>::iterator viGoldRoomAllItem;		// 모든 아이템 벡터
+
 	int sour, dest;
 
 	RECT itemRect[3];
 	RECT itemPriceRect[3];
+	RECT goldRoomItemRect;
+
 	RECT temp;
 
 public:

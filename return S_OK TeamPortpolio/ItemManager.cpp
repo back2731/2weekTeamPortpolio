@@ -14,6 +14,7 @@ ItemManager::~ItemManager()
 HRESULT ItemManager::Init()
 {
 	isShop = true;
+	isGoldRoom = true;
 
 	// 액티브 아이템 초기화 및 벡터 푸쉬백
 	ItemInfo activeItem_Dice;

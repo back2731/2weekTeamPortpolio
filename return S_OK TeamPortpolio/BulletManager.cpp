@@ -25,6 +25,8 @@ HRESULT BulletManager::Init()
 	//ANIMATIONMANAGER->addDefAnimation("boomAni", "boom", 30, false, false);
 
 	EFFECTMANAGER->addEffect("boom", "images/bullet/boom.bmp", 3610 / 2, 2332 / 2, 722 / 2, 583 / 2, 30, 1.0f, 10);
+	EFFECTMANAGER->addEffect("tearpoof", "images/bullet/tearpoof.bmp", 256 * 2, 256 * 2, 64 * 2, 64 * 2, 30, 1.0f, 10);
+	EFFECTMANAGER->addEffect("enemyBloodpoof", "images/bullet/enemyBloodpoof2.bmp", 256 * 2, 256 * 2, 64 * 2, 64 * 2, 30, 1.0f, 10);
 
 	return S_OK;
 }
@@ -86,7 +88,7 @@ void BulletManager::ShootBomb(string imageName, vector<BombInfo>& bombVector, in
 	}
 }
 
-void BulletManager::MoveBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator & bulletIter)
+void BulletManager::MovePlayerBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator & bulletIter)
 {
 	// 넣어둔 벡터의 이터레이터를 돌면서 값을 증가시켜 총알을 움직여준다.
 	for (bulletIter = bulletVector.begin(); bulletIter != bulletVector.end();)
@@ -103,6 +105,34 @@ void BulletManager::MoveBullet(vector<BulletInfo>& bulletVector, vector<BulletIn
 		if (bulletIter->range < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY))
 		{
 			OBJECTPOOL->SetBulletVector(bulletVector.front());
+			EFFECTMANAGER->play("tearpoof", bulletIter->rect.left, bulletIter->rect.top + 20);
+			bulletIter = bulletVector.erase(bulletIter);
+		}
+		else
+		{
+			++bulletIter;
+		}
+	}
+}
+
+void BulletManager::MoveEnemyBullet(vector<BulletInfo>& bulletVector, vector<BulletInfo>::iterator & bulletIter)
+{
+	// 넣어둔 벡터의 이터레이터를 돌면서 값을 증가시켜 총알을 움직여준다.
+	for (bulletIter = bulletVector.begin(); bulletIter != bulletVector.end();)
+	{
+		bulletIter->bulletX += cosf(bulletIter->angle) * bulletIter->speed;
+		bulletIter->bulletY += -sinf(bulletIter->angle) * bulletIter->speed;
+
+		bulletIter->rect = RectMakeCenter(bulletIter->bulletX, bulletIter->bulletY, bulletIter->bulletImage->getWidth() - 13, bulletIter->bulletImage->getHeight() - 13);
+		//if (400 < getDistance(bulletIter->x, bulletIter->y, bulletIter->fireX, bulletIter->fireY))
+		//{
+		//   bulletIter->y += 1;
+		//}
+		RECT temp;
+		if (bulletIter->range < getDistance(bulletIter->bulletX, bulletIter->bulletY, bulletIter->unitX, bulletIter->unitY))
+		{
+			OBJECTPOOL->SetBulletVector(bulletVector.front());
+			EFFECTMANAGER->play("enemyBloodpoof", bulletIter->rect.left, bulletIter->rect.top + 20);
 			bulletIter = bulletVector.erase(bulletIter);
 		}
 		else

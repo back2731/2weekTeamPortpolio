@@ -32,6 +32,10 @@ HRESULT MinionMaw::Init(POINT position, int EnemyNumber)
 	secondEnemyAiPattern = 1;
 	thirdEnemyAiPattern = 1;
 
+	// ÀÌÆåÆ®
+	EFFECTMANAGER->addEffect("effectPoof", "images/bullet/effectPoof.bmp", 256 * 2, 256 * 2, 64 * 2, 64 * 2, 30, 1.0f, 10);
+	EFFECTMANAGER->play("effectPoof", MinionMaw.enemyRect.left, MinionMaw.enemyRect.top + 20);
+
 	enemyAreaCheck = false;
 
 	return S_OK;
@@ -338,7 +342,7 @@ void MinionMaw::EnemyAi()
 	}
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ÀÇ ¿òÁ÷ÀÓ
-	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
+	BULLETMANAGER->MoveEnemyBullet(vEnemyBullet, viEnemyBullet);
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ Ãæµ¹
 	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);

@@ -43,6 +43,9 @@ HRESULT Shop::Init()
 		vShopAllItem[i].itemPriceRect = itemPriceRect[i];
 	}
 
+	vGoldRoomAllItem.push_back(ITEMMANAGER->GetAllItemInfo(4));
+	goldRoomItemRect = { 415, 215, 463, 263 };
+
 	return S_OK;
 }
 
@@ -78,42 +81,69 @@ void Shop::Update()
 			}
 		}
 	}
+
+	if (!ITEMMANAGER->GetGoldRoom())
+	{
+		if (vGoldRoomAllItem.size() > 0)
+		{
+			if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerHitRect(), &goldRoomItemRect))
+			{
+				PLAYERMANAGER->SetPlayerAllItem(vGoldRoomAllItem[0]);
+				PLAYERMANAGER->SetPlayerOffensePower(vGoldRoomAllItem[0].addPower);
+				PLAYERMANAGER->SetPlayerShotSpeed(vGoldRoomAllItem[0].addShotSpeed);
+				PLAYERMANAGER->SetPlayerShotRange(vGoldRoomAllItem[0].addShotRange);
+				PLAYERMANAGER->SetPlayerSpeed(vGoldRoomAllItem[0].addSpeed);
+				PLAYERMANAGER->SetPlayerMaxHp(vGoldRoomAllItem[0].addMaxHeart);
+				PLAYERMANAGER->SetPlayerHp(vGoldRoomAllItem[0].addHeart);
+				PLAYERMANAGER->SetPlayerGold(vGoldRoomAllItem[0].addGold);
+				PLAYERMANAGER->SetPlayerBomb(vGoldRoomAllItem[0].addBomb);
+				PLAYERMANAGER->SetPlayerKey(vGoldRoomAllItem[0].addKey);
+				vGoldRoomAllItem.erase(vGoldRoomAllItem.begin());
+			}
+		}
+	}
 }
 
 void Shop::Render(HDC hdc)
 {
 	if (!ITEMMANAGER->GetShop())
 	{
-		for (int i = 0; i < vShopAllItem.size(); i++)
+		if (vShopAllItem.size() > 0)
 		{
-			//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
-			vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
-			//IMAGEMANAGER->render(vShopAllItem[i].itemName, hdc, itemRect[i].left, itemRect[i].top);
-			if (vShopAllItem[i].price == 5)
+			for (int i = 0; i < vShopAllItem.size(); i++)
 			{
-				IMAGEMANAGER->render("price5", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
-			}
-			if (vShopAllItem[i].price == 10)
-			{
-				IMAGEMANAGER->render("price10", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
-			}
-			if (vShopAllItem[i].price == 15)
-			{
-				IMAGEMANAGER->render("price15", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
-			}
+				vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
 
-
-			if (KEYMANAGER->isToggleKey(VK_TAB))
-			{
-				//IMAGEMANAGER->render(ITEMMANAGER->GetAllItemInfo(i).itemName, hdc, itemRect[i].left, itemRect[i].top);
-				//vShopAllItem[i].itemImage->render(hdc, vShopAllItem[i].itemRect.left, vShopAllItem[i].itemRect.top);
-				//IMAGEMANAGER->render(vShopAllItem[i].itemName, hdc, itemRect[i].left, itemRect[i].top);
+				if (vShopAllItem[i].price == 5)
+				{
+					IMAGEMANAGER->render("price5", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
+				}
+				if (vShopAllItem[i].price == 10)
+				{
+					IMAGEMANAGER->render("price10", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
+				}
+				if (vShopAllItem[i].price == 15)
+				{
+					IMAGEMANAGER->render("price15", hdc, vShopAllItem[i].itemPriceRect.left, vShopAllItem[i].itemPriceRect.top);
+				}
 
 				if (KEYMANAGER->isToggleKey(VK_TAB))
 				{
-					Rectangle(hdc, itemRect[i].left, itemRect[i].top, itemRect[i].right, itemRect[i].bottom);
+					if (KEYMANAGER->isToggleKey(VK_TAB))
+					{
+						Rectangle(hdc, itemRect[i].left, itemRect[i].top, itemRect[i].right, itemRect[i].bottom);
+					}
 				}
 			}
+		}
+
+	}
+
+	if (!ITEMMANAGER->GetGoldRoom())
+	{
+		if (vGoldRoomAllItem.size() > 0)
+		{
+			vGoldRoomAllItem[0].itemImage->render(hdc, goldRoomItemRect.left, goldRoomItemRect.top);
 		}
 	}
 }

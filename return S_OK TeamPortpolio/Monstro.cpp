@@ -150,13 +150,9 @@ void Monstro::EnemyDeath()
 
 				// 애니메이션 Blood
 				vMonstro[i].enemyImage = IMAGEMANAGER->addFrameImage("DeathBlood", "images/monster/boss/monstroDeathBlood.bmp", 1797, 1648, 3, 4, true, RGB(255, 0, 255));
-				ANIMATIONMANAGER->addDefAnimation("Blood", "DeathBlood", 15, false, true);
+				ANIMATIONMANAGER->addDefAnimation("Blood", "DeathBlood", 15, false, false);
 				bossAni = ANIMATIONMANAGER->findAnimation("Blood");
 				ANIMATIONMANAGER->resume("Blood");
-			}
-			else
-			{
-				ANIMATIONMANAGER->pause("Blood");
 			}
 		}
 	}
@@ -258,7 +254,7 @@ void Monstro::EnemyAi()
 	}
 
 	// 적이 쏘는 불렛의 움직임
-	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
+	BULLETMANAGER->MoveEnemyBullet(vEnemyBullet, viEnemyBullet);
 
 	// 적이 쏘는 불렛 충돌
 	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);

@@ -48,6 +48,6 @@ public:
 	
 	bool GetplayerHitAni() { return playerHitAni; }
 
-	bool PlayerToPoopCollision(RECT obstacleRect);
+	bool PlayerBulletToObjectCollision(RECT obstacleRect);
 };
 

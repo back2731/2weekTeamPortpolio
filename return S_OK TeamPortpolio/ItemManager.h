@@ -65,6 +65,7 @@ private:
 	ItemInfo key;
 
 	bool isShop;
+	bool isGoldRoom;
 
 public:
 	ItemManager();
@@ -92,5 +93,8 @@ public:
 
 	bool GetShop() {return isShop;}
 	void SetShop(bool value) { isShop = value; }
+
+	bool GetGoldRoom() { return isGoldRoom; }
+	void SetGoldRoom(bool value) { isGoldRoom = value; }
 };
 

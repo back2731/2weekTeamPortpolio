@@ -310,6 +310,116 @@ void MainMap::update()
 	break;
 	}
 
+	// 황금방 입장 했을 때
+	switch (loadData)
+	{
+	case 0:
+	{
+		// 황금방 입장 했을 시의 bool값
+		if (isCheckClear[2][0] == true && isGoldRoom[2][0] == true)
+		{
+			isSummonEnemy[2][0] = true;
+			isGoldRoom[2][0] = false;
+			ITEMMANAGER->SetGoldRoom(isGoldRoom[2][0]);
+		}
+		if (isGoldRoom[2][0] == false)
+		{
+			if (savePositionX == (0 * -884) && savePositionY == (2 * -572))
+			{
+				isSummonEnemy[2][0] = true;
+				isGoldRoom[2][0] = false;
+				ITEMMANAGER->SetGoldRoom(isGoldRoom[2][0]);
+			}
+			else
+			{
+				isSummonEnemy[2][0] = true;
+				isGoldRoom[2][0] = true;
+				ITEMMANAGER->SetGoldRoom(isGoldRoom[2][0]);
+			}
+		}
+	}
+	break;
+	case 1:
+	{
+		// 황금방 입장 했을 시의 bool값
+		if (isCheckClear[4][4] == true && isGoldRoom[4][4] == true)
+		{
+			isSummonEnemy[4][4] = true;
+			isGoldRoom[4][4] = false;
+			ITEMMANAGER->SetGoldRoom(isGoldRoom[4][4]);
+		}
+		if (isGoldRoom[4][4] == false)
+		{
+			if (savePositionX == (4 * -884) && savePositionY == (4 * -572))
+			{
+				isSummonEnemy[4][4] = true;
+				isGoldRoom[4][4] = false;
+				ITEMMANAGER->SetGoldRoom(isGoldRoom[4][4]);
+			}
+			else
+			{
+				isSummonEnemy[4][4] = true;
+				isGoldRoom[4][4] = true;
+				ITEMMANAGER->SetGoldRoom(isGoldRoom[4][4]);
+			}
+		}
+	}
+	break;
+	case 2:
+	{
+		// 황금방 입장 했을 시의 bool값
+		if (isCheckClear[1][4] == true && isGoldRoom[1][4] == true)
+		{
+			isSummonEnemy[1][4] = true;
+			isGoldRoom[1][4] = false;
+			ITEMMANAGER->SetGoldRoom(isGoldRoom[1][4]);
+		}
+		if (isGoldRoom[1][4] == false)
+		{
+			if (savePositionX == (4 * -884) && savePositionY == (1 * -572))
+			{
+				isSummonEnemy[1][4] = true;
+				isGoldRoom[1][4] = false;
+				ITEMMANAGER->SetGoldRoom(isGoldRoom[1][4]);
+			}
+			else
+			{
+				isSummonEnemy[1][4] = true;
+				isGoldRoom[1][4] = true;
+				ITEMMANAGER->SetGoldRoom(isGoldRoom[1][4]);
+			}
+		}
+	}
+	break;
+	case 3:
+	{
+		// 황금방 입장 했을 시의 bool값
+		if (isCheckClear[4][1] == true && isGoldRoom[4][1] == true)
+		{
+			isSummonEnemy[4][1] = true;
+			isGoldRoom[4][1] = false;
+			ITEMMANAGER->SetGoldRoom(isGoldRoom[4][1]);
+		}
+		if (isGoldRoom[4][1] == false)
+		{
+			if (savePositionX == (1 * -884) && savePositionY == (4 * -572))
+			{
+				isSummonEnemy[4][1] = true;
+				isGoldRoom[4][1] = false;
+				ITEMMANAGER->SetGoldRoom(isGoldRoom[4][1]);
+			}
+			else
+			{
+				isSummonEnemy[4][1] = true;
+				isGoldRoom[4][1] = true;
+				ITEMMANAGER->SetGoldRoom(isGoldRoom[4][1]);
+			}
+		}
+	}
+	break;
+	}
+
+
 	// 보스방에 입장 했을 때
 	switch (loadData)
 	{
@@ -401,6 +511,7 @@ void MainMap::update()
 					{
 						COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
 						COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
+						COLLISIONMANAGER->PlayerBulletToObjectCollision(_tileMap[i][j].rect);
 					}
 				}
 
@@ -411,6 +522,7 @@ void MainMap::update()
 					{
 						COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
 						COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
+						COLLISIONMANAGER->PlayerBulletToObjectCollision(_tileMap[i][j].rect);
 					}
 				}
 				else
@@ -426,6 +538,7 @@ void MainMap::update()
 							_tileMap[i][j].tileKind[z] = TILEKIND_NONE;
 							_tileMap[i][j].tilePos[z] = PointMake(0, 0);
 						}
+						COLLISIONMANAGER->PlayerBulletToObjectCollision(_tileMap[i][j].rect);
 					}
 				}
 
@@ -465,6 +578,7 @@ void MainMap::update()
 									stopCamera = false;
 								}
 							}
+							COLLISIONMANAGER->PlayerBulletToObjectCollision(_tileMap[i][j].rect);
 						}
 					}
 				}
@@ -502,6 +616,7 @@ void MainMap::update()
 								stopCamera = false;
 							}
 						}
+						COLLISIONMANAGER->PlayerBulletToObjectCollision(_tileMap[i][j].rect);
 					}
 				}
 				else
@@ -510,13 +625,14 @@ void MainMap::update()
 					{
 						COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
 						COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
+						COLLISIONMANAGER->PlayerBulletToObjectCollision(_tileMap[i][j].rect);
 					}
 				}
 
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
 				{
 					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
-					//COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
+					COLLISIONMANAGER->PlayerBulletToObjectCollision(_tileMap[i][j].rect);
 				}
 
 				if (_tileMap[i][j].tileKind[z] == TILEKIND_ITEMHEART)
@@ -567,18 +683,12 @@ void MainMap::update()
 				{
 					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
 
-					if (COLLISIONMANAGER->PlayerToPoopCollision(_tileMap[i][j].rect))
+					if (COLLISIONMANAGER->PlayerBulletToObjectCollision(_tileMap[i][j].rect))
 					{
 						_tileMap[i][j].tileNum[z] = 0;
 						_tileMap[i][j].tileKind[z] = TILEKIND_NONE;
 						_tileMap[i][j].tilePos[z] = PointMake(0, 0);
 					}
-				}
-
-				if (_tileMap[i][j].tileKind[z] == TILEKIND_INVISIBLE_BLOCK)
-				{
-					COLLISIONMANAGER->PlayerToObstacleCollision(_tileMap[i][j].rect);
-					//COLLISIONMANAGER->EnemyToObstacleCollision(_tileMap[i][j].rect);
 				}
 			}
 		}
@@ -889,6 +999,11 @@ void MainMap::render()
 			{
 				passedPositionImage->alphaRender(getMemDC(), passedPositionRect[i][j].left, passedPositionRect[i][j].top, 170);
 			}
+			if (isCheckClear[i][j] == true && isGoldRoom[i][j] == true)
+			{
+				passedPositionImage->alphaRender(getMemDC(), passedPositionRect[i][j].left, passedPositionRect[i][j].top, 170);
+			}
+
 		}
 	}
 

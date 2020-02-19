@@ -17,6 +17,7 @@ HRESULT CollisionManager::Init()
 	playerHitAni = false;
 	playerHit = false;
 	hitCount = 0;
+	EFFECTMANAGER->addEffect("deathEffect", "images/bullet/deathEffect.bmp", 320 * 3, 320 * 3, 80 * 3, 80 * 3, 30, 1.0f, 10);
 
 	return S_OK;
 }
@@ -44,6 +45,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 					{
 						// 오브젝트 풀로 총알을 돌려주는 함수
 						OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+						EFFECTMANAGER->play("tearpoof", playerBulletIter->rect.left, playerBulletIter->rect.top + 20);
 						playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
 						// temp의 Width와 Height 선언
@@ -119,6 +121,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 				{
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+					EFFECTMANAGER->play("tearpoof", playerBulletIter->rect.left, playerBulletIter->rect.top + 20);
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
 					// temp의 Width와 Height 선언
@@ -161,6 +164,8 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 
 					if (ENEMYMANAGER->GetMinionAttackFly()->GetEnemyHp(j) <= 0)
 					{
+						EFFECTMANAGER->play("deathEffect", ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.left, ENEMYMANAGER->GetMinionAttackFly()->GetMinionVector()[j].enemyRect.top);
+
 						// 피격이 된 적의 벡터를 지우는 함수
 						ENEMYMANAGER->GetMinionAttackFly()->DeleteEnemy(j);
 					}
@@ -191,6 +196,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 				{
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+					EFFECTMANAGER->play("tearpoof", playerBulletIter->rect.left, playerBulletIter->rect.top + 20);
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
 					// temp의 Width와 Height 선언
@@ -233,6 +239,8 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 
 					if (ENEMYMANAGER->GetMinionBlackFly()->GetEnemyHp(j) <= 0)
 					{
+						EFFECTMANAGER->play("deathEffect", ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.left, ENEMYMANAGER->GetMinionBlackFly()->GetMinionVector()[j].enemyRect.top);
+
 						// 피격이 된 적의 벡터를 지우는 함수
 						ENEMYMANAGER->GetMinionBlackFly()->DeleteEnemy(j);
 					}
@@ -263,6 +271,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 				{
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+					EFFECTMANAGER->play("tearpoof", playerBulletIter->rect.left, playerBulletIter->rect.top + 20);
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
 					// temp의 Width와 Height 선언
@@ -305,6 +314,8 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 
 					if (ENEMYMANAGER->GetMinionMaw()->GetEnemyHp(j) <= 0)
 					{
+						EFFECTMANAGER->play("deathEffect", ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.left, ENEMYMANAGER->GetMinionMaw()->GetMinionVector()[j].enemyRect.top);
+
 						// 피격이 된 적의 벡터를 지우는 함수
 						ENEMYMANAGER->GetMinionMaw()->DeleteEnemy(j);
 					}
@@ -334,6 +345,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 				{
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+					EFFECTMANAGER->play("tearpoof", playerBulletIter->rect.left, playerBulletIter->rect.top + 20);
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
 					// temp의 Width와 Height 선언
@@ -376,6 +388,8 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 
 					if (ENEMYMANAGER->GetMinionTumor()->GetEnemyHp(j) <= 0)
 					{
+						EFFECTMANAGER->play("deathEffect", ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.left, ENEMYMANAGER->GetMinionTumor()->GetMinionVector()[j].enemyRect.top);
+						
 						// 피격이 된 적의 벡터를 지우는 함수
 						ENEMYMANAGER->GetMinionTumor()->DeleteEnemy(j);
 					}
@@ -406,6 +420,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 				{
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+					EFFECTMANAGER->play("tearpoof", playerBulletIter->rect.left, playerBulletIter->rect.top + 20);
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
 					// temp의 Width와 Height 선언
@@ -448,6 +463,8 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 
 					if (ENEMYMANAGER->GetMinionClot()->GetEnemyHp(j) <= 0)
 					{
+						EFFECTMANAGER->play("deathEffect", ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect.left, ENEMYMANAGER->GetMinionClot()->GetMinionVector()[j].enemyRect.top);
+
 						// 피격이 된 적의 벡터를 지우는 함수
 						ENEMYMANAGER->GetMinionClot()->DeleteEnemy(j);
 					}
@@ -478,6 +495,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 				{
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+					EFFECTMANAGER->play("tearpoof", playerBulletIter->rect.left, playerBulletIter->rect.top + 20);
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
 					// temp의 Width와 Height 선언
@@ -520,6 +538,8 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 
 					if (ENEMYMANAGER->GetMinionClotty()->GetEnemyHp(j) <= 0)
 					{
+						EFFECTMANAGER->play("deathEffect", ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect.left, ENEMYMANAGER->GetMinionClotty()->GetMinionVector()[j].enemyRect.top);
+
 						// 피격이 된 적의 벡터를 지우는 함수
 						ENEMYMANAGER->GetMinionClotty()->DeleteEnemy(j);
 					}
@@ -550,6 +570,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 				{
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+					EFFECTMANAGER->play("tearpoof", playerBulletIter->rect.left, playerBulletIter->rect.top + 20);
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
 					// temp의 Width와 Height 선언
@@ -592,6 +613,8 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 
 					if (ENEMYMANAGER->GetMinionGaper()->GetEnemyHp(j) <= 0)
 					{
+						EFFECTMANAGER->play("deathEffect", ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect.left, ENEMYMANAGER->GetMinionGaper()->GetMinionVector()[j].enemyRect.top);
+
 						// 피격이 된 적의 벡터를 지우는 함수
 						ENEMYMANAGER->GetMinionGaper()->DeleteEnemy(j);
 					}
@@ -622,6 +645,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 				{
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+					EFFECTMANAGER->play("tearpoof", playerBulletIter->rect.left, playerBulletIter->rect.top + 20);
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
 					// temp의 Width와 Height 선언
@@ -664,6 +688,8 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 
 					if (ENEMYMANAGER->GetMinionHorf()->GetEnemyHp(j) <= 0)
 					{
+						EFFECTMANAGER->play("deathEffect", ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect.left, ENEMYMANAGER->GetMinionHorf()->GetMinionVector()[j].enemyRect.top);
+
 						// 피격이 된 적의 벡터를 지우는 함수
 						ENEMYMANAGER->GetMinionHorf()->DeleteEnemy(j);
 					}
@@ -694,6 +720,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 				{
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+					EFFECTMANAGER->play("tearpoof", playerBulletIter->rect.left, playerBulletIter->rect.top + 20);
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
 					// temp의 Width와 Height 선언
@@ -736,6 +763,8 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 
 					if (ENEMYMANAGER->GetMinionMulligan()->GetEnemyHp(j) <= 0)
 					{
+						EFFECTMANAGER->play("deathEffect", ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect.left, ENEMYMANAGER->GetMinionMulligan()->GetMinionVector()[j].enemyRect.top);
+
 						// 피격이 된 적의 벡터를 지우는 함수
 						ENEMYMANAGER->GetMinionMulligan()->DeleteEnemy(j);
 					}
@@ -766,6 +795,7 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 				{
 					// 오브젝트 풀로 총알을 돌려주는 함수
 					OBJECTPOOL->SetBulletVector(playerBulletVector.front());
+					EFFECTMANAGER->play("tearpoof", playerBulletIter->rect.left, playerBulletIter->rect.top + 20);
 					playerBulletIter = playerBulletVector.erase(playerBulletIter);
 
 					// temp의 Width와 Height 선언
@@ -808,6 +838,8 @@ void CollisionManager::PlayerBulletCollision(vector<BulletInfo>& playerBulletVec
 
 					if (ENEMYMANAGER->GetMinionPacer()->GetEnemyHp(j) <= 0)
 					{
+						EFFECTMANAGER->play("deathEffect", ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect.left, ENEMYMANAGER->GetMinionPacer()->GetMinionVector()[j].enemyRect.top);
+
 						// 피격이 된 적의 벡터를 지우는 함수
 						ENEMYMANAGER->GetMinionPacer()->DeleteEnemy(j);
 					}
@@ -3765,7 +3797,7 @@ int CollisionManager::PlayerCollisionNextDoor(RECT nextDoor)
 	}
 }
 
-bool CollisionManager::PlayerToPoopCollision(RECT obstacleRect)
+bool CollisionManager::PlayerBulletToObjectCollision(RECT obstacleRect)
 {
 	RECT temp;
 	for (int i = 0; i < PLAYERMANAGER->GetPlayerBulletVector().size() > 0; i++)
@@ -3773,6 +3805,7 @@ bool CollisionManager::PlayerToPoopCollision(RECT obstacleRect)
 		if (IntersectRect(&temp, &PLAYERMANAGER->GetPlayerBulletVector()[i].rect, &obstacleRect))
 		{
 			OBJECTPOOL->SetBulletVector(PLAYERMANAGER->GetPlayerBulletVector()[i]);
+			EFFECTMANAGER->play("tearpoof", PLAYERMANAGER->GetPlayerBulletVector()[i].rect.left, PLAYERMANAGER->GetPlayerBulletVector()[i].rect.top + 20);
 			PLAYERMANAGER->DeleteBullet(i);
 			return true;
 		}

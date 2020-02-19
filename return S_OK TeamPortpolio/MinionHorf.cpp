@@ -26,6 +26,10 @@ HRESULT MinionHorf::Init(POINT position, int EnemyNumber)
 	minionAni = ANIMATIONMANAGER->findAnimation("horf");
 	vMinionHorf.push_back(MinionHorf);
 
+	// ÀÌÆåÆ®
+	EFFECTMANAGER->addEffect("effectPoof", "images/bullet/effectPoof.bmp", 256 * 2, 256 * 2, 64 * 2, 64 * 2, 30, 1.0f, 10);
+	EFFECTMANAGER->play("effectPoof", MinionHorf.enemyRect.left, MinionHorf.enemyRect.top + 20);
+
 	return S_OK;
 }
 
@@ -106,7 +110,7 @@ void MinionHorf::EnemyAi()
 	}
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ÀÇ ¿òÁ÷ÀÓ
-	BULLETMANAGER->MoveBullet(vEnemyBullet, viEnemyBullet);
+	BULLETMANAGER->MoveEnemyBullet(vEnemyBullet, viEnemyBullet);
 
 	// ÀûÀÌ ½î´Â ºÒ·¿ Ãæµ¹
 	COLLISIONMANAGER->EnemyBulletCollision(vEnemyBullet, viEnemyBullet);

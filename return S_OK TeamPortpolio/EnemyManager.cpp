@@ -65,19 +65,23 @@ void EnemyManager::Update()
 			{
 				m_MinionAttackFly->Init(PointMake(150, 150), 0);
 				m_MinionBlackFly->Init(PointMake(300, 150), 0);
+				m_MinionGaper->Init(PointMake(400, 200), 0);
 				isSummonEnemy = false;
 			}
 			break;
 			case 1:
 			{
 				m_MinionBlackFly->Init(PointMake(300, 150), 0);
-				m_MinionMulligan->Init(PointMake(300, 300), 0);
+				m_MinionClotty->Init(PointMake(300, 300), 0);
+				m_MinionGaper->Init(PointMake(500, 100), 0);
 				isSummonEnemy = false;
 			}
 			break;
 			case 2:
 			{
 				m_MinionMaw->Init(PointMake(150, 400), 0);
+				m_MinionPacer->Init(PointMake(200, 400), 0);
+				m_MinionClot->Init(PointMake(300, 300), 0);
 				isSummonEnemy = false;
 			}
 			break;
@@ -118,7 +122,9 @@ void EnemyManager::Update()
 				break;
 			case 8:
 			{
-				m_MinionMaw->Init(PointMake(600, 350), 0);
+				m_MinionHorf->Init(PointMake(600, 350), 0);
+				m_MinionHorf->Init(PointMake(500, 350), 0);
+				m_MinionHorf->Init(PointMake(400, 350), 0);
 				isSummonEnemy = false; 
 			}
 				break;
