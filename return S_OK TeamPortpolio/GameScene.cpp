@@ -63,7 +63,7 @@ void GameScene::render()
 	mainMap->render();
 	m_shop->Render(getMemDC());
 	ENEMYMANAGER->Render(getMemDC());
-	EFFECTMANAGER->render();
 	PLAYERMANAGER->Render(getMemDC());
+	EFFECTMANAGER->render();
 	OBJECTPOOL->Render(getMemDC());
 }

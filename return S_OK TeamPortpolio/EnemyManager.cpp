@@ -36,6 +36,7 @@ HRESULT EnemyManager::Init()
 	// 엔딩용 이미지
 	blackBg = IMAGEMANAGER->addImage("blackBg", "images/UI/menu/blackBg.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
 	clearImage = IMAGEMANAGER->addImage("clear", "images/UI/menu/clear.bmp", WINSIZEX, WINSIZEY, true, RGB(255, 0, 255));
+	EFFECTMANAGER->addEffect("ending", "images/ending/endingCutScene.bmp", 1708 * 2.1, 4320 * 2.4, 427 * 2.1, 240 * 2.4, 1, 0.07f, 1);
 
 	return S_OK;
 }
@@ -112,7 +113,7 @@ void EnemyManager::Update()
 			m_MinionTumor->Init(PointMake(540, 400), 0);
 			m_MinionAttackFly->Init(PointMake(650, 350), 0);
 			m_MinionHorf->Init(PointMake(300, 150), 0);
-			m_MinionHorf->Init(PointMake(500, 400), 1);
+			m_MinionHorf->Init(PointMake(200, 300), 1);
 			isSummonEnemy = false;
 		}
 		break;
@@ -143,9 +144,9 @@ void EnemyManager::Update()
 		break;
 		case 8:
 		{
-			m_MinionHorf->Init(PointMake(WINSIZEX / 2 + 200, 200), 0);
-			m_MinionHorf->Init(PointMake(WINSIZEX / 2 + 100, 300), 1);
-			m_MinionHorf->Init(PointMake(WINSIZEX / 2 + 300, 450), 2);
+			m_MinionHorf->Init(PointMake(WINSIZEX / 2 + 50, 150), 0);
+			m_MinionHorf->Init(PointMake(WINSIZEX / 2 + 100, 250), 1);
+			m_MinionHorf->Init(PointMake(WINSIZEX / 2 + 150, 350), 2);
 			m_MinionBlackFly->Init(PointMake(200, 200), 0);
 			isSummonEnemy = false;
 		}
@@ -235,8 +236,14 @@ void EnemyManager::Update()
 			}
 		}
 	}
+
 	if (badEndCount >= 100)
 	{
+		if (badEndCount < 110)
+		{
+			EFFECTMANAGER->play("ending", WINSIZEX / 2, WINSIZEY / 2);
+		}
+
 		if (KEYMANAGER->isOnceKeyDown(VK_RETURN) || KEYMANAGER->isOnceKeyDown(VK_SPACE))
 		{
 			SCENEMANAGER->changeScene("MainMenu");
@@ -262,6 +269,7 @@ void EnemyManager::Render(HDC hdc)
 	{
 		//Rectangle(hdc, goldBoxRect.left, goldBoxRect.top, goldBoxRect.right, goldBoxRect.bottom);
 		goldBoxImage->aniRender(hdc, goldBoxRect.left - 16, goldBoxRect.top - 35, goldBoxAnimation);
+
 		if (badEndCount >= 100)
 		{
 			blackBg->alphaRender(hdc, 0, 0, 150);
